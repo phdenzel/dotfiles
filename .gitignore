@@ -1,0 +1,15 @@
+####################################################### gitignore
+# Thumbnail cache files
+._*
+Thumbs.db
+
+# Folder view configuration files
+.DS_Store
+Desktop.ini
+
+# Volume indexing files
+.Spotlight-V100
+.Trashes
+
+# Compiled Python files
+*.pyc

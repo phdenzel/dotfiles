@@ -1,0 +1,387 @@
+#!/bin/bash
+####################################################### .macOS
+#   My personal settings for macOS (10.12.2)
+#      - mainly uses `defaults` and `PlistBuddy` commands
+#   Usage: ./.macOS
+#   Warning: First check the settings before executing.
+### settings configuration
+# close any application preventing settings' changes
+osascript -e 'tell application "System Preferences" to quit'
+# ask for sudo password once and keep alive during configuration process
+sudo -v
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+# get permissions for some root directories
+sudo chown -R $(whoami) /usr/local
+
+####################################################### GENERAL SETTINGS
+# Hostname - for every computer different of course
+sudo scutil --set ComputerName "MBPro"
+sudo scutil --set LocalHostName "MBPro"
+sudo scutil --set HostName "MBPro"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server \
+    NetBIOSName -string "MBPro"
+# Language - english in CH
+defaults write NSGlobalDomain AppleLocale -string "en_CH"
+defaults write NSGlobalDomain AppleLanguages -array "en-CH" "de-CH"
+defaults write NSGlobalDomain NSLinguisticDataAssetsRequested -array \
+    "en" "en_CH" "en_GB" \
+    "de" "de_CH" "en_US"
+# use the only unit system that makes sense
+defaults write NSGlobalDomain AppleMetricUnits -bool true
+defaults write NSGlobalDomain AppleTemperatureUnit -string "Celsius"
+# Timezone
+sudo systemsetup -settimezone "Europe/Zurich" > /dev/null
+# Style
+defaults write NSGlobalDomain AppleAquaColorVariant -int 1
+defaults write NSGlobalDomain AppleAntiAliasingThreshold -int 4
+defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+# Menubar
+defaults write com.apple.systemuiserver menuExtras -array \
+    "/System/Library/CoreServices/Menu Extras/Clock.menu" \
+    "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
+    "/System/Library/CoreServices/Menu Extras/User.menu" \
+    "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+    "/System/Library/CoreServices/Menu Extras/Displays.menu" \
+    "/System/Library/CoreServices/Menu Extras/Battery.menu" \
+    "/System/Library/CoreServices/Menu Extras/TextInput.menu" \
+    "/System/Library/CoreServices/Menu Extras/Volume.menu"
+### Keyboard - disable caps lock (if not working, add Terminal.app to the list in System Preferences/Security & Privacy/Privacy/Accessibility)
+osascript etc/caps_lock_remap.applescript 
+### Keyboard shortcuts
+# FIX: not yet working; try it and use xcode editor to delete the changes again
+# create Launch Terminal shortcut
+# Copy done during bootstrapping
+#cp -r ./etc/Launch\ Terminal.workflow/ ~/Library/Services/
+#/usr/libexec/PlistBuddy -c "Add :NSServices:CFVendedServices:0 dict" \
+#    ~/Library/Preferences/com.apple.ServicesMenu.Services.plist
+#/usr/libexec/PlistBuddy -c "Add :NSServices:CFVendedServices:0:NSBundlePath string '${HOME}/Library/Services/Launch Terminal.workflow'" \
+#    ~/Library/Preferences/com.apple.ServicesMenu.Services.plist
+#/usr/libexec/PlistBuddy -c "Add :NSServices:CFVendedServices:0:NSKeyEquivalent dict" \
+#    ~/Library/Preferences/com.apple.ServicesMenu.Services.plist
+#/usr/libexec/PlistBuddy -c "Add :NSServices:CFVendedServices:0:NSMessage dict"\
+#    ~/Library/Preferences/com.apple.ServicesMenu.Services.plist
+#/usr/libexec/PlistBuddy -c "Add :NSServices:CFVendedServices:0:NSMessage:default string 'Launch Terminal'" \
+#    ~/Library/Preferences/com.apple.ServicesMenu.Services.plist
+#/usr/libexec/PlistBuddy	-c "Add :NSServices:CFVendedServices:0:NSMenuItem string 'runWorkflowAsService'" \
+#    ~/Library/Preferences/com.apple.ServicesMenu.Services.plist
+#/usr/libexec/PlistBuddy	-c "Add :NSServices:CFVendedServices:0:NSUUID data '0xdbff644f 0x82442693 0x125bd9a7 0x0e849aea'" \
+#    ~/Library/Preferences/com.apple.ServicesMenu.Services.plist
+# TODO: add data correctly s.t. it matches <dbff644f 82442693 125bd9a7 0e849aea>
+# define shortcuts globally
+defaults write NSGlobalDomain NSUserKeyEquivalents -dict-add \
+    "Enter Full Screen" "@^m" \
+    "Exit Full Screen" "@^m" \
+    "Launch Terminal" "@^t"
+# Sidebar icon size - small
+defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1
+# Scrollbar visibility
+defaults write NSGlobalDomain AppleShowScrollBars -string "WhenScrolling"
+# Zoom when double clicking on window frame
+defaults write NSGlobalDomain AppleActionOnDoubleClick -string  "Maximize"
+defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool false
+# Expand dialog windows by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+# Always quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+# Disable the “Are you sure you want to open this application?” dialog
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+# Always close windows when quitting applications
+defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+# Remove duplicates in the “Open With” option menu
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
+# Avoid creating .DS_Store files on network or USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# Note: highly personal preference - might need change for most user's
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool true
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool true
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool true
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool true
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool true
+defaults write NSGlobalDomain NSAutomaticTextCompletionEnabled -bool true
+
+####################################################### TRACKPAD SETTINGS
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+defaults write NSGlobalDomain com.apple.trackpad.forceClick -int 1
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 1.5
+# Zoom by scrolling while holding ctrl
+defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+# Follow the keyboard focus while zoomed in
+defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+
+####################################################### DOCK AND DASHBOARD
+# Dock on the left
+defaults write com.apple.dock orientation -string "left"
+# Shorten delay when auto-hiding Dock
+defaults write com.apple.dock autohide-delay -float 0.1
+# Speed up animation when auto-hiding Dock
+defaults write com.apple.dock autohide-time-modifier -float 0
+# No auto-hiding the Dock (personal preference)
+defaults write com.apple.dock autohide -bool false
+# Minimization effect
+defaults write com.apple.dock mineffect -string "scale"
+# Minimize into icon
+defaults write com.apple.dock minimize-to-application -bool true
+# Show indicator lights
+defaults write com.apple.dock show-process-indicators -bool true
+# Enable spring-loading for Dock
+defaults write com.apple.dock enable-spring-load-actions-on-all-items \
+    -bool true
+# No rearrangement of spaces by most recent
+defaults write com.apple.dock mru-spaces -bool false
+# Speed up Mission control animations
+defaults write com.apple.dock expose-animation-duration -float 0.1
+# Disable Dashboard
+defaults write com.apple.dashboard mcx-disabled -bool true
+defaults write com.apple.dock dashboard-in-overlay -bool true
+# Activate Dashboard
+#defaults write com.apple.dashboard devmode -bool true
+
+####################################################### AUDIO RESPONSES
+defaults write NSGlobalDomain com.apple.sound.beep.flash -bool false
+defaults write NSGlobalDomain com.apple.sound.beep.sound -string \
+    "/System/Library/Sounds/Funk.aiff"
+
+####################################################### SCREEN CAPTURES
+# save location
+defaults write com.apple.screencapture location -string "${HOME}/Desktop"
+# format
+defaults write com.apple.screencapture type -string "png"
+# no shadow effect
+defaults write com.apple.screencapture disable-shadow -bool true
+
+####################################################### POWER SETTINGS
+# standby/sleep
+sudo pmset -a standbydelay 10800
+sudo pmset -a displaysleep 3
+sudo pmset -a sleep 3
+# no hibernation makes sleep entering faster
+sudo pmset -a hibernatemode 0
+# Disable the sudden motion sensor as SSDs have no moving parts
+sudo pmset -a sms 0
+# Require password immediately after sleep or screen saver begins
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+# automatic restart after freeze
+sudo systemsetup -setrestartfreeze on
+
+####################################################### FINDER
+# Set Home as default location for new Finder windows
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
+# Show/Hide icons on the desktop
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool false
+# Finder window title
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+# Finder shows folders first
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+# Show all extensions
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+# Show the ~/Library folder
+sudo chflags nohidden ~/Library
+# Show /Volumes
+sudo chflags nohidden /Volumes
+# Column view as default
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+# Sidebar settings
+defaults write com.apple.finder ShowPreviewPane -bool false
+defaults write com.apple.finder ShowRecentTags -bool false
+defaults write com.apple.finder SidebarTagsSctionDisclosedState -bool false
+defaults write com.apple.finder	ShowTabView -bool false
+defaults write com.apple.finder ShowSidebar -bool true
+defaults write com.apple.finder SidebarDevicesSectionDisclosedState -bool true
+defaults write com.apple.finder SidebarPlacesSectionDisclosedState -bool true
+defaults write com.apple.finder SidebarSharedSectionDisclosedState -bool true
+defaults write com.apple.finder SidebarShowingiCloudDesktop -bool false
+defaults write com.apple.finder SidebariCloudDriveSectionDisclosedState \
+    -bool true
+# Spring loading folders
+defaults write NSGlobalDomain com.apple.springing.delay -float 0.2
+defaults write NSGlobalDomain com.apple.springing.enabled -bool true
+# Dialogue windows when renaming/trashing
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+# File info panes expansion settings
+defaults write com.apple.finder FXInfoPanesExpanded -dict \
+    General -bool true \
+    Name -bool false \
+    MetaData -bool false \
+    Comments -bool false \
+    OpenWith -bool true \
+    Privileges -bool true
+# Finder search
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+# Automatically open external drives
+defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
+
+####################################################### TERMINAL
+# Always use UTF-8
+defaults write com.apple.terminal StringEncodings -array 4
+# Enable secure keyboard entry
+defaults write com.apple.terminal SecureKeyboardEntry -bool true
+# Disable annoying brackets marking lines
+defaults write com.apple.Terminal ShowLineMarks -int 0
+# Use a phd theme by default
+# Copy done during bootstrapping
+#cp ./etc/phdenzel.terminal $HOME/Documents/
+osascript etc/use_terminal.applescript
+
+####################################################### APP STORE
+# Show Debug menu
+defaults write com.apple.appstore ShowDebugMenu -bool true
+# Update configuration
+defaults write com.apple.commerce AutoUpdate -bool true
+#defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
+defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1 # once/day
+defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
+defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
+defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+
+####################################################### TIME MACHINE
+# Disable Time Machine backups
+hash tmutil &> /dev/null && sudo tmutil disable
+
+####################################################### DISK UTILITY
+# Activate Debug menu
+defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
+defaults write com.apple.DiskUtility advanced-image-options -bool true
+
+####################################################### ACTIVITY MONITOR
+# Show main window after launch
+defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
+# Show all processes
+defaults write com.apple.ActivityMonitor ShowCategory -int 0
+# Sorting by CPU usage
+defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
+defaults write com.apple.ActivityMonitor SortDirection -int 0
+# Show CPU usage in Dock icon
+defaults write com.apple.ActivityMonitor IconType -int 5
+
+####################################################### SPOTLIGHT
+# Order
+defaults write com.apple.spotlight orderedItems -array \
+    '{"enabled" = 1;"name" = "APPLICATIONS";}' \
+    '{"enabled" = 1;"name" = "DIRECTORIES";}' \
+    '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
+    '{"enabled" = 1;"name" = "DOCUMENTS";}' \
+    '{"enabled" = 1;"name" = "PDF";}' \
+	  '{"enabled" = 1;"name" = "MESSAGES";}' \
+    '{"enabled" = 1;"name" = "CONTACT";}' \
+    '{"enabled" = 1;"name" = "EVENT_TODO";}' \
+    '{"enabled" = 1;"name" = "IMAGES";}' \
+    '{"enabled" = 1;"name" = "BOOKMARKS";}' \
+    '{"enabled" = 1;"name" = "MUSIC";}' \
+    '{"enabled" = 1;"name" = "MOVIES";}' \
+    '{"enabled" = 1;"name" = "PRESENTATIONS";}' \
+    '{"enabled" = 1;"name" = "SPREADSHEETS";}' \
+    '{"enabled" = 1;"name" = "SOURCE";}' \
+    '{"enabled" = 1;"name" = "FONTS";}'
+# Stop indexing any newly mounted volume
+#sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions \
+#     -array "/Volumes"
+# Load new settings before rebuilding indices
+killall mds > /dev/null 2>&1
+# Check main volume index
+sudo mdutil -i on / >/dev/null
+# Rebuild indices
+sudo mdutil -E / >/dev/null
+
+####################################################### SAFARI
+# Menu bar configuration
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari WebKitDeveloperExtras -bool true
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey \
+    -bool true
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+# Option bar configuration
+defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+defaults write com.apple.Safari AlwaysShowFavoritesBarInFullScreen -bool true
+defaults write com.apple.Safari AlwaysShowTabBarInFullScreen -bool true
+defaults write com.apple.Safari AlwaysShowTabBar -bool true
+defaults write com.apple.Safari AlwaysShowFavoritesBar -bool true
+# Hide Side bar in Top Sites/New Windows
+defaults write com.apple.Safari ShowSidebarInTopSites -bool false
+defaults write com.apple.Safari ShowSidebarInNewWindows -bool false
+# URL strip
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
+# use Tab key to select links
+defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
+# No automatic opening of 'safe' downloads
+defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
+# search banners
+defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
+# Automatic updates of extensions
+defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
+# Privacy
+#defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+#defaults write com.apple.Safari UniversalSearchEnabled -bool false
+defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
+# Block pop-up windows
+defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
+# Fraudulent website warnings
+defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool true
+
+####################################################### GOOGLE CHROME
+# Expand the print dialog by default
+defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
+# Prefer system-native print preview dialog over Chrome's
+#defaults write com.google.Chrome DisablePrintPreview -bool true
+
+####################################################### MAIL
+defaults write com.apple.mail SpellCheckingBehavior \
+    -string "NoSpellCheckingEnabled"
+
+####################################################### ADDRESSBOOK
+# Activate Debug menu
+defaults write com.apple.addressbook ABShowDebugMenu -bool true
+
+####################################################### iCAL
+# Activate Debug menu
+defaults write com.apple.iCal IncludeDebugMenu -bool true
+
+####################################################### PHOTOS
+# Do not open photos automatically when devices are plugged in
+defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+
+####################################################### TEXTEDIT
+# Open/Save as UTF-8
+defaults write com.apple.TextEdit PlainTextEncoding -int 4
+defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
+
+####################################################### TRANSMISSION
+# Partial data files
+defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
+# Hide the legal notices
+defaults write org.m0k.transmission WarningLegal -bool false
+# Hide the donate message
+defaults write org.m0k.transmission WarningDonate -bool false
+# Upload limit
+defaults write org.m0k.transmission UploadLimit -int 100
+
+####################################################### uncomment if wished
+# Enable HiDPI display modes (requires restart)
+#sudo defaults write /Library/Preferences/com.apple.windowserver \
+#     DisplayResolutionEnabled -bool true
+## Enable subpixel font rendering on non-Apple LCDs
+#defaults write NSGlobalDomain AppleFontSmoothing -int 2
+## Login window
+#sudo defaults write /Library/Preferences/com.apple.loginwindow \
+#     AdminHostInfo HostName
+#
+####################################################### KILLALL in the end
+for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" "Dock" "Finder" "Google Chrome" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" "Terminal" "Transmission" "iCal"; do
+    killall "${app}" &>/dev/null
+done
+echo "Done. Note that some of these changes require a logout/restart to take effect."

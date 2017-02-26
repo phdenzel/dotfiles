@@ -1,0 +1,22 @@
+#!/bin/bash
+# Add tab completion regardless of filename case
+set completion-ignore-case off
+# List all matches in case multiple completions are possible
+set show-all-if-ambiguous on
+# Immediately add a trailing slash when autocompleting symlinks to directories
+set mark-symlinked-directories on
+# More intelligent history Up/Down behavior
+"\e[B": history-search-forward
+"\e[A": history-search-backward
+# Only autocomplete hidden files if pattern is explicitly trailing with a dot
+set match-hidden-files off
+# Show all autocomplete results at once
+set page-completions off
+# Ask first before showing more than 200 autocomplete results 
+set completion-query-items 200
+# More intelligent completion in case the cursor is not at the end of the line
+set skip-completed-text on
+# Allow UTF-8 input and output to make sense of meta data
+set input-meta on
+set output-meta on
+set convert-meta off

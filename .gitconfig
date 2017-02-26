@@ -1,0 +1,26 @@
+[user]
+  # personal info
+	name = phdenzel
+	email = phdenzel@gmail.com
+
+[merge]
+  # Include summaries of merged commits in newly created merge commit messages
+  log = true
+
+[color]
+  # Use colors in Git command outputs to the terminal where possible
+  # Default since Git ≥ 1.8.4.
+  ui = auto
+[color "branch"]
+  current = purple
+  local = blue
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = red bold # line info
+  old = magenta # deletions
+  new = green # additions
+[color "status"]
+  added = green
+  changed = red
+  untracked = cyan

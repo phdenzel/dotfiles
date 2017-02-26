@@ -1,0 +1,39 @@
+#!/bin/bash
+####################################################### functions
+# Determine size of a file or total size of a directory
+function fs() {
+	if du -b /dev/null > /dev/null 2>&1; then
+		local arg=-sbh;
+	else
+		local arg=-sh;
+	fi
+	if [[ -n "$@" ]]; then
+		du $arg -- "$@";
+	else
+		du $arg .[^.]* ./*;
+	fi;
+}
+# UTF-8 encode a unicode string
+function escape() {
+	printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u);
+	# print a new line unless there is a pipe to another program
+	if [ -t 1 ]; then
+		echo "";
+	fi;
+}
+# Decode Unicode escape sequences
+function unidecode() {
+	perl -e "binmode(STDOUT, ':utf8'); print \"$@\"";
+	# print a new line unless there is a pipe to another program
+	if [ -t 1 ]; then
+		echo "";
+	fi;
+}
+# Get a character’s Unicode code point
+function codepoint() {
+	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))";
+	# print a new line unless there is a pipe to another program
+	if [ -t 1 ]; then
+		echo "";
+	fi;
+}

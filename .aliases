@@ -1,0 +1,128 @@
+#!/bin/bash
+####################################################### aliases
+### set LSCOLORS first
+# GNU `ls` (from coreutils)
+if ls --color > /dev/null 2>&1 || \
+   gls --color > /dev/null 2>&1; then # GNU `ls` possible (w/ --color option)
+    if [ -x /usr/bin/gdircolors ] || \
+       [ -x /usr/local/bin/gdircolors ]; then # `gls` from brew-coreutils
+	      [ -r ~/.dircolors ] && eval `gdircolors -b ~/.dircolors` \
+	              || eval `gdircolors -b`
+	      LS="gls"
+    else # standard GNU `ls`
+	      [ -r ~/.dircolors ] && eval `dircolors -b ~/.dircolors` \
+                || eval `dircolors -b`
+	      LS="ls"
+    fi
+    LSCOLORFLAG="--color"
+else # for BSD `ls` (w/ -G option)
+    export CLICOLOR=1
+    LS="ls"
+    LSCOLORFLAG="-G"
+fi
+### `ls`
+# always use color
+alias ls="$LS $LSCOLORFLAG"
+# long, hidden and humanly readable
+alias ll="$LS $LSCOLORFLAG -halF"
+# hidden
+alias la="$LS $LSCOLORFLAG -A"
+# c-style ls
+alias l="$LS  $LSCOLORFLAG -CF"
+### `grep`
+#export GREP_OPTIONS='--color=auto' # deprecated
+export GREP_COLOR='1;38;5;125'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+### `cd`
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias -- -="cd -"
+### Directory shortcuts
+alias dl="cd ~/Downloads"
+alias dt="cd ~/Desktop"
+alias dropbox="cd ~/Dropbox"
+### Command shortcuts
+# emacs launches the app; for terminal-mode use 'e', for gui-mode 'emacs'
+alias e="emacsclient -nw -a '' -c"
+alias ekill="emacsclient -e '(kill-emacs)'"
+alias emacs="emacs -nw"
+alias emacsapp="/Applications/Emacs.app/Contents/MacOS/Emacs"
+alias h="history"
+alias j="jobs"
+alias sudo='sudo ' # sudoing for aliases
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+### Servers
+PERSON="phdenzel"
+SSH="ssh"
+SSHFLAG="-2Y"
+SSHREDIRECT="-2Yt"
+alias anker="$SSH $SSHFLAG ${PERSON}@anker.physik.uzh.ch"
+alias taurus="$SSH $SSHFLAG ${PERSON}@taurus.physik.uzh.ch"
+alias malin="$SSH $SSHFLAG ${PERSON}@malin1.physik.uzh.ch"
+alias malin2="$SSH $SSHFLAG ${PERSON}@malin2.physik.uzh.ch"
+alias ics="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f1"
+alias ics2="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f2"
+alias ics3="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f3"
+alias fritzbox="$SSH $SSHFLAG ${PERSON}@192.168.178.39"
+### on Server aliases
+alias mj="squeue -u ${PERSON}"
+alias aj="squeue"
+### Network
+# IP addresses
+if (dig +short myip.opendns.com @resolver1.opendns.com > /dev/null 2>&1); then
+    alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+else
+    alias ip="curl ipecho.net/plain; echo"
+fi
+alias localip="ipconfig getifaddr en0"
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+# Interfaces
+alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+# HTTP traffic
+alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+# Flush Directory Service cache
+alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+### Some Utility commands and aliases I rarely ever use, but are nice to have
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec $SHELL -l"
+# Screen lock
+alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+# Empty the Trash on mounted volumes, the main HDD, Systen Logs and download history
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
+# Launch service cleanup
+alias launchcleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
+# Show/hide hidden files in Finder
+alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+# Hide/show all desktop icons (useful when presenting)
+alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+# PlistBuddy (useful when accessing nested dictionaries)
+alias plistbuddy="/usr/libexec/PlistBuddy"
+# Volume control (see http://xkcd.com/530/)
+alias stfu="osascript -e 'set volume output muted true'"
+alias pumpitup="osascript -e 'set volume output volume 50'"
+alias gocrazy="osascript -e 'set volume output volume 100'"
+# alias for notification after long running commands; usage: `sleep 10; alert`
+alias alert='notify "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+# URL-encode strings
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+# Merge pdf files, usage: mergepdf -o output.pdf input{1,2,3}.pdf
+alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
+### some Hacking commands
+command -v hd > /dev/null || alias hd="hexdump -C"
+command -v md5sum > /dev/null || alias md5sum="md5" # macOS doesn't have md5sum
+command -v sha1sum > /dev/null || alias sha1sum="shasum" # macOS doesn't have sha1sum
+# pipeline copy/paste
+alias c="tr -d '\n' | pbcopy" # usage: `pwd | c`; pbpaste
+# Intuitive map command
+alias map="xargs -n1" # to find file in directory; usage: find . -name .gitattributes | map dirname
+# Recursively find/delete '.DS_Store' files
+alias dsstores="find . -type f -name '*.DS_Store'"
+alias dscleanup="find . -type f -name '*.DS_Store' -ls -delete"

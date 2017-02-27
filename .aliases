@@ -46,14 +46,15 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dropbox="cd ~/Dropbox"
 ### Command shortcuts
+alias h="history"
+alias j="jobs"
+alias sudo='sudo ' # sudoing for aliases
 # emacs launches the app; for terminal-mode use 'e', for gui-mode 'emacs'
 alias e="emacsclient -nw -a '' -c"
 alias ekill="emacsclient -e '(kill-emacs)'"
 alias emacs="emacs -nw"
 alias emacsapp="/Applications/Emacs.app/Contents/MacOS/Emacs"
-alias h="history"
-alias j="jobs"
-alias sudo='sudo ' # sudoing for aliases
+alias eclipse='/Applications/Eclipse.app/Contents/MacOS/Eclipse'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 ### Servers
 PERSON="phdenzel"

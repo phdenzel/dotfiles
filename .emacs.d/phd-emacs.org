@@ -1074,6 +1074,15 @@ All style settings are defined here...
 #+BEGIN_SRC emacs-lisp
 ;; Load the custom theme
 (load-theme 'phd-dark t)
+
+;; Transparent background
+;; (set-frame-parameter (selected-frame) 'alpha '(95 . 50))
+;; (add-to-list 'default-frame-alist '(alpha . (95 . 50)))
+
+;; Gamma adjustment
+;; (setq default-frame-alist '((screen-gamma . 1.0)))
+;; (setq initial-frame-alist '((screen-gamma . 1.0)))
+
 ;; Prettify symbols
 ;; (global-prettify-symbols-mode 1)
 

@@ -21,12 +21,12 @@
     ("grey"      .  (if window-system "#5B6268" "#525252"))
     ("grey-d"    .  (if window-system "#464858" "#464858"))
     ("yellow"    .  (if window-system "#FFD787" "#FFD787"))
-    ("orange"    .  (if window-system "#FFAF5F" "#FFAF5F"))
+    ("orange"    .  (if window-system "#FDB760" "#FFAF5F"))
     ("orange-d"  .  (if window-system "#FF5F00" "#FF5F00"))
     ("red"       .  (if window-system "#FF6D6B" "#FF5F5F"))
     ("red-d"     .  (if window-system "#D7005F" "#D7005F"))
     ("red-dd"    .  (if window-system "#D70000" "#D70000"))
-    ("magenta"   .  (if window-system "#FF0087" "#FF0087"))
+    ("magenta"   .  (if window-system "#E83A82" "#FF0087"))
     ("purple"    .  (if window-system "#8787FF" "#8787FF"))
     ("violet"    .  (if window-system "#A9A1E1" "#AFAFD7"))
     ("cyan"      .  (if window-system "#46D9FF" "#5FD7FF"))
@@ -34,7 +34,7 @@
     ("blue"      .  (if window-system "#5F8AF7" "#5F87FF"))
     ("blue-d"    .  (if window-system "#1F5582" "#005f87"))
     ("blue-dd"   .  (if window-system "#3723B7" "#0000FF"))
-    ("green"     .  (if window-system "#00875F" "#00875F"))
+    ("green"     .  (if window-system "#3DAA77" "#00875F"))
     ("green-b"   .  (if window-system "#00AF5F" "#00AF5F"))
     ("gui-font"      . "Hack")
     ("terminal-font" . "Fira Mono")
@@ -54,7 +54,7 @@
 (with-phd-variables
  (custom-theme-set-faces
   'phd-dark
-  
+
   ;; Global
   `(default             ((t (:background ,bg :foreground ,fg))))
   `(cursor              ((t (:background ,blue))))
@@ -84,7 +84,7 @@
   `(error               ((t (:foreground ,red-d))))
   `(warning             ((t (:foreground ,orange-d))))
   `(success             ((t (:foreground ,green-b))))
-  
+
   ;; Font-locks
   `(font-lock-builtin-face           ((t (:foreground ,cyan))))
   `(font-lock-preprocessor-face      ((t (:inherit (font-lock-builtin-face)))))
@@ -103,7 +103,7 @@
   `(font-lock-warning-face           ((t (:inherit (warning)))))
   `(font-lock-regexp-grouping-backslash ((t (:inherit (bold)))))
   `(font-lock-regexp-grouping-construct ((t (:inherit (bold)))))
-  
+
   ;; Mode-line
   `(mode-line                ((t (:background ,bg-bb :foreground ,fg-bb))))
   `(mode-line-inactive       ((t (:background ,bg-b :foreground ,fg-b))))
@@ -153,7 +153,7 @@
   `(which-key-group-description-face     ((t (:foreground ,violet))))
   `(which-key-command-description-face   ((t (:foreground ,blue))))
   `(which-key-local-map-description-face ((t (:foreground ,magenta))))
-  
+
   ;; Flycheck/-make/-spell
   `(flycheck-error     ((t nil)))
   `(flycheck-warning   ((t nil)))
@@ -197,7 +197,7 @@
 
   ;; Bash
   `(sh-quoted-exec          ((t (:foreground ,violet))))
-  
+
   ))
 (provide-theme 'phd-dark)
 ;;; phd-dark-theme.el ends here

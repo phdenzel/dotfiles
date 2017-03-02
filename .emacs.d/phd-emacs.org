@@ -318,7 +318,7 @@ Does not take effect when executed in a terminal.
       ;; (set-face-attribute 'default nil :font "Roboto Mono-14")
       ;; (set-face-attribute 'default nil :font "Hack-14")
       ;; (set-face-attribute 'default nil :font "Monaco-14")
-    (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 80))
+    (set-face-attribute 'default nil :font "DejaVu Sans Mono-14"))
   
   ;; TODO: add further settings
 
@@ -871,7 +871,7 @@ Be sure to install the necessary libraries via pip:
 # pip install flake8
 # pip install importmagic
 # pip install autopep8
-# pip instal yapf
+# pip install yapf
 #+END_SRC
 
 Now, elpy can get to work...

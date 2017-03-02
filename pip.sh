@@ -20,6 +20,7 @@ pip install flake8
 pip install importmagic
 pip install autopep8
 pip install yapf
+pip install virtualenv
 pip install epc
 
 # for more advanced graphics

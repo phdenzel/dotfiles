@@ -73,6 +73,7 @@ brew install jenv
 # Javascript
 brew install node
 # Coffee
+npm install -g http-server
 npm install -g coffee-script
 # LaTeX
 brew cask install mactex

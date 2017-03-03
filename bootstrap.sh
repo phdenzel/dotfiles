@@ -24,6 +24,7 @@ else
     rsync --exclude ".git/" \
           --exclude ".DS_Store" \
           --exclude "bootstrap.sh" \
+          --exclude "github_repo" \
           --exclude "screenshot.png" \
           --exclude "etc/" \
           --exclude "utils/" \

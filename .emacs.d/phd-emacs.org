@@ -994,6 +994,13 @@ Loading markup and -down...
              :ensure t
              :defer t)
 
+(use-package scss-mode
+             :ensure t
+             :config
+             (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+             (add-to-list 'auto-mode-alist '("\\.sass\\'" . scss-mode))
+             )
+
 ;; Markup languages
 (use-package yaml-mode
              :ensure t

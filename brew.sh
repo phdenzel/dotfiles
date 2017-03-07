@@ -35,6 +35,7 @@ brew install gcal
 
 ### Useful commands/libs
 brew install dtrx
+brew install ghostscript
 brew install ngrep
 brew install gawk
 brew install mawk

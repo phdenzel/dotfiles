@@ -1029,7 +1029,14 @@ LaTeX stuff...
              :defer t
              :ensure t
              :config
-             (require 'tex))
+             (require 'tex)
+             (TeX-global-PDF-mode t)
+             )
+
+(use-package latex-preview-pane
+             :ensure t
+             :config
+             (latex-preview-pane-enable))
 #+END_SRC
 
 

@@ -1020,6 +1020,19 @@ Loading markup and -down...
 #+END_SRC
 
 
+* Writing
+
+LaTeX stuff...
+
+#+BEGIN_SRC emacs-lisp
+(use-package auctex
+             :defer t
+             :ensure t
+             :config
+             (require 'tex))
+#+END_SRC
+
+
 * Helpers
 
 Settings for a few helping features.

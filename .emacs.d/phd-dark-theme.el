@@ -129,7 +129,7 @@
   `(yas-field-highlight-face ((t (:inherit match))))
 
   ;; Avy
-  `(avy-lead-face      ((t (:background ,violet :foreground ,fg))))
+  `(avy-lead-face      ((t (:background ,violet :foreground ,bg))))
   `(avy-lead-face-0    ((t (:background ,magenta :foreground ,fg))))
   `(avy-lead-face-1    ((t (:background ,blue :foreground ,fg))))
   `(avy-lead-face-2    ((t (:background ,orange :foreground ,fg))))

@@ -9,11 +9,6 @@
 This is an emacs settings file using a literate programming style.
 It is to be loaded in the init.el (or .emacs) file using the org-babel library.
 
-References:
-https://gitlab.com/buildfunthings/emacs-config
-https://github.com/hlissner/.emacs.d
-https://github.com/zamansky/using-emacs
-
 * Editor
 
 Although having a bit trouble, installing Emacs on macOS, I finally managed
@@ -319,9 +314,6 @@ Does not take effect when executed in a terminal.
       ;; (set-face-attribute 'default nil :font "Hack-14")
       ;; (set-face-attribute 'default nil :font "Monaco-14")
     (set-face-attribute 'default nil :font "DejaVu Sans Mono-14"))
-  
-  ;; TODO: add further settings
-
   )
 #+END_SRC
 

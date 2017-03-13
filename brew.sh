@@ -45,6 +45,7 @@ brew install hunspell
 brew install pcre
 brew install swig
 brew install cmake
+brew install autoconf
 brew install libffi
 # ansible - config automation tool
 brew install openssl@1.1

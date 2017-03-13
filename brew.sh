@@ -57,6 +57,7 @@ brew install ocaml
 brew install gdb
 # c/c++
 brew install gcc
+brew install sdl2
 #brew reinstall gcc --without-multilib
 # python
 brew install python
@@ -74,16 +75,16 @@ brew install jenv
 # or locally use 'jenv local <version>' in target directory
 # Javascript
 brew install node
-# Coffee
+# coffee
 npm install -g http-server
 npm install -g coffee-script
+# ruby
+brew install ruby
 # LaTeX
 brew cask install mactex
 # Markdown
 brew install pandoc
 brew cask install macdown
-# ruby
-brew install ruby
 
 ### Misc
 brew install imagemagick --with-webp

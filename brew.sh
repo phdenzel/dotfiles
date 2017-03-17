@@ -26,6 +26,7 @@ brew install coreutils
 # to override existing bins add `$(brew --prefix findutils)/libexec/gnubin` to `$PATH`
 brew install findutils
 # more GNU utilities
+brew install binutils
 brew install moreutils
 brew install gnutls
 # GNU sed - installed as gsed

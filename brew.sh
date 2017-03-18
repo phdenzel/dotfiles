@@ -54,6 +54,7 @@ brew install ansible
 
 ### General frameworks
 brew install ocaml
+brew install valgrind
 #brew install llvm --with-python
 brew install gdb
 # c/c++

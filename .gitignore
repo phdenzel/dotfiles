@@ -13,3 +13,9 @@ Desktop.ini
 
 # Compiled Python files
 *.pyc
+
+# C/C++ object files
+*.o
+
+# Java class files
+*.class

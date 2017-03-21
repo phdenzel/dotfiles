@@ -84,3 +84,5 @@ if which jenv >/dev/null; then eval "$(jenv init -)"; fi
 #jenv rehash
 #export CLASSPATH="$(jenv prefix)"
 export CLASSPATH=$CLASSPATH:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar
+# OpenMP
+export GOMP_STACKSIZE=16384

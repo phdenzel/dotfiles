@@ -33,3 +33,4 @@ pip install corner
 # for the astrophysicists/astronomers
 pip install astropy
 pip install wcsaxes
+pip install -U scikit-image

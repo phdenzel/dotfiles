@@ -26,6 +26,9 @@ pip install epc
 # for more advanced graphics
 pip install Pillow
 
+# Google's TensorFlow
+pip install tensorflow
+
 # for the statistics experts
 pip install emcee
 pip install corner

@@ -42,6 +42,7 @@ brew install gawk
 brew install mawk
 brew install librsvg
 brew install hunspell
+brew install cdiff
 # dev commands
 brew install pcre
 brew install swig

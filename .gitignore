@@ -19,3 +19,7 @@ Desktop.ini
 
 # Java class files
 *.class
+
+# Jekyll artifacts
+_site
+.sass_cache

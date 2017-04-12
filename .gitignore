@@ -22,4 +22,4 @@ Desktop.ini
 
 # Jekyll artifacts
 _site
-.sass_cache
+.sass-cache

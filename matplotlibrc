@@ -1,0 +1,75 @@
+#
+# @author: phdenzel
+#
+# Standard style settings for matplotlib plots
+#
+backend: macosx
+
+# Fonts
+text.color: 555555
+
+text.usetex: true
+text.latex.unicode: true
+font.family: sans-serif
+font.sans-serif: Computer Modern Sans serif, Bitstream Vera Sans, DejaVu Sans
+text.latex.preamble: \usepackage[cm]{sfmath},\usepackage{siunitx}
+  #,\usepackage[T1]{fontenc}
+  #,\usepackage{bm}
+  #,\usepackage{euler}
+mathtext.fontset: cm # stixsans
+mathtext.default: rm
+mathtext.fallback_to_cm: True
+
+# Colors
+axes.prop_cycle: cycler('color', ['4444FF', 'FF3333', '22AA66']) + cycler('linewidth', [1, 3, 1])
+
+# Faces and Edges
+figure.facecolor: white
+legend.facecolor: white
+legend.edgecolor: grey
+patch.facecolor: FF3333 # reddish
+patch.edgecolor: none
+axes.facecolor: white
+axes.edgecolor: a9b0b7 # lightgrey
+# savefig.edgecolor: none
+# savefig.facecolor: none
+
+# Axes
+axes.linewidth: 2
+
+# Figure (particularly for 1080p)
+figure.subplot.left: 0.11
+figure.subplot.right: 0.89
+figure.subplot.bottom: 0.07
+figure.subplot.top: 0.93
+figure.subplot.wspace: 0.3
+figure.subplot.hspace: 0.2
+
+# Font sizes
+axes.formatter.use_mathtext: True
+axes.titlesize: x-large
+axes.labelsize: x-large
+xtick.labelsize: xx-large
+ytick.labelsize: xx-large
+legend.fontsize: xx-large
+
+# Ticking
+xtick.major.size: 0
+ytick.major.size: 0
+xtick.major.pad: 5
+ytick.major.pad: 5
+
+# Grids
+axes.grid: False # when using with ggplot
+grid.linestyle : -
+grid.linewidth : 1.0
+grid.color : e2e2e2
+
+# Legends
+legend.loc: best
+legend.fancybox: true
+legend.framealpha: 0.6
+
+# Saving
+savefig.dpi: figure
+savefig.format: pdf

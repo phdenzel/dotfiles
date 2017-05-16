@@ -91,6 +91,7 @@ brew cask install macdown
 
 ### Misc
 brew install imagemagick --with-webp
+brew cask install inkscape
 
 ### Emacs
 # install newest version of emacs

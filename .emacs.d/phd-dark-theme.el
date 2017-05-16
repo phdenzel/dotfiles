@@ -5,7 +5,7 @@
 ;;; Code:
 
 (deftheme phd-dark
-  "phdenzel's dark Emacs theme; compatible with use in Terminal."
+  "phdenzel's dark Emacs theme; partially compatible with use in Terminal."
   )
 
 (defvar phd-dark-color-palette
@@ -104,6 +104,9 @@
   `(font-lock-regexp-grouping-backslash ((t (:inherit (bold)))))
   `(font-lock-regexp-grouping-construct ((t (:inherit (bold)))))
 
+  ;; Latex
+  `(font-latex-sedate-face   ((t (:foreground ,magenta))))
+
   ;; Mode-line
   `(mode-line                ((t (:background ,bg-bb :foreground ,fg-bb))))
   `(mode-line-inactive       ((t (:background ,bg-b :foreground ,fg-b))))
@@ -178,8 +181,8 @@
                                            :bold t))))
 
   ;; Hl-paren
-  '(hl-paren-colors '(,yellow ,orange ,orange-d ,red
-                      ,red-d ,red-dd ,purple ,violet))
+  '(hl-paren-colors '(,blue ,magenta ,green ,orange
+                            ,violet ,purple ,red ,red-d ,red-dd))
 
   ;; Highlight-indentation
   `(highlight-indentation-face                ((t (:background ,bg-b))))

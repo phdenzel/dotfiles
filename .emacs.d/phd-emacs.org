@@ -7,7 +7,7 @@
 #+CATEGORIES: editing
 
 This is an emacs settings file using a literate programming style.
-It is to be loaded in the init.el (or .emacs) file using the org-babel library.
+It is to be loaded in the init.el (or .emacs) file using the org-babel library. 
 
 * Editor
 
@@ -307,13 +307,14 @@ Does not take effect when executed in a terminal.
   ;; prefer utf-8 (already defined in general-behavior.el)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-  ;; Fonts - http://sourcefoundry.org/hack/
+  ;; Fonts - http://sourcefoundry.org/hack/ or google fonts
   (if (eq system-type 'darwin)
       (set-face-attribute 'default nil :font "Fira Mono-14")
       ;; (set-face-attribute 'default nil :font "Roboto Mono-14")
       ;; (set-face-attribute 'default nil :font "Hack-14")
       ;; (set-face-attribute 'default nil :font "Monaco-14")
-    (set-face-attribute 'default nil :font "DejaVu Sans Mono-14"))
+    (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 80))
+
   )
 #+END_SRC
 
@@ -364,6 +365,8 @@ Does not take effect when executed in a separate window.
     (define-key input-decode-map "\e[1;5B" [C-down])
     (define-key input-decode-map "\e\e[1;5A" [C-M-up])
     (define-key input-decode-map "\e\e[1;5B" [C-M-down])
+    (define-key input-decode-map "\e\e[1;5C" [C-M-right])
+    (define-key input-decode-map "\e\e[1;5D" [C-M-left])
     (define-key input-decode-map "\e\e[_" [?\C-\M- ])
     (define-key input-decode-map "\e[\177" [C-backspace]))
 
@@ -748,19 +751,22 @@ Adding support for some programming languages or global coding behaviour...
 #+BEGIN_SRC emacs-lisp
 ;; Global
 ;; - Paredit
-(use-package paredit
-             :ensure t
-             :diminish paredit-mode
-             :bind
-             (("C-c d" . paredit-forward-down)
-              ("C-c s" . paredit-forward-up)))
+;; (use-package paredit
+;;              :ensure t
+;;              :diminish paredit-mode
+;;              :bind
+;;              (("C-c d" . paredit-forward-down)
+;;               ("C-c s" . paredit-forward-up))
+;;              :config
+;;              (define-key paredit-mode-map ())
+;; )
 
 ;; - ensure global hook to all modes
-(use-package paredit-everywhere
-             :ensure t
-             :diminish paredit-everywhere-mode
-             :config
-             (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
+;; (use-package paredit-everywhere
+;;              :ensure t
+;;              :diminish paredit-everywhere-mode
+;;              :config
+;;              (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
 
 ;; - Error checking; might have to turn that one off again :S
 (use-package flycheck
@@ -804,6 +810,8 @@ Adding support for some programming languages or global coding behaviour...
                        (lambda()
                          (rainbow-delimiters-mode))))
 (global-highlight-parentheses-mode)
+;; (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+;; (add-hook 'global-hightlight-parentheses-mode-hook 'rainbow-delimiters-mode)
 
 ;; - String manipulation
 (use-package s
@@ -859,22 +867,22 @@ Adding support for some programming languages or global coding behaviour...
 Be sure to install the necessary libraries via pip:
 
 #+BEGIN_SRC shell :exports none
-# pip install jedi 
+# pip install jedi
 # pip install flake8
 # pip install importmagic
 # pip install autopep8
-# pip install yapf
+# pip instal yapf
 #+END_SRC
 
 Now, elpy can get to work...
 
-#+BEGIN_SRC emacs-lisp
-;; - for an awesome python dev-env
-(use-package elpy
-             :ensure t
-             :config
-             (elpy-enable))
-#+END_SRC
+# #+BEGIN_SRC emacs-lisp
+# ;; - for an awesome python dev-env
+# (use-package elpy
+#              :ensure t
+#              :config
+#              (elpy-enable))
+# #+END_SRC
 
 
 #+BEGIN_SRC emacs-lisp
@@ -1017,19 +1025,20 @@ Loading markup and -down...
 LaTeX stuff...
 
 #+BEGIN_SRC emacs-lisp
-(use-package auctex
-             :defer t
-             :ensure t
-             :config
-             (require 'tex)
-             (TeX-global-PDF-mode t)
-             )
+;; (use-package auctex
+;;              :defer t
+;;              :ensure t
+;;              :config
+;;              (require 'tex)
+;;              (TeX-global-PDF-mode t)
+;;              )
 
 (use-package latex-preview-pane
              :ensure t
              :config
              (latex-preview-pane-enable))
 #+END_SRC
+
 
 
 * Helpers
@@ -1062,6 +1071,24 @@ Settings for a few helping features.
 
 
 * External features
+
+Terminal emulator
+
+#+BEGIN_SRC emacs-lisp
+
+(use-package xterm-color
+             :ensure t)
+
+(require 'comint)
+
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;; (setq insert-directory-program (executable-find "gls"))
+
+;; (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+;;        (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions)))
+#+END_SRC
 
 Some elips experiments...
 

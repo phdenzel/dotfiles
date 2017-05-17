@@ -52,7 +52,7 @@
      ,@body))
 
 (with-phd-variables
- (custom-theme-set-faces
+  (custom-theme-set-faces
   'phd-dark
 
   ;; Global
@@ -181,7 +181,7 @@
                                            :bold t))))
 
   ;; Hl-paren
-  '(hl-paren-colors '(,blue ,magenta ,green ,orange
+  `(hl-paren-colors '(,blue ,magenta ,green ,orange
                             ,violet ,purple ,red ,red-d ,red-dd))
 
   ;; Highlight-indentation
@@ -202,5 +202,35 @@
   `(sh-quoted-exec          ((t (:foreground ,violet))))
 
   ))
+
+(if window-system
+    (setq hl-paren-colors '(
+                            "#E83A82" ;; magenta
+                            "#FDB760" ;; orange
+                            "#3DAA77" ;; green
+                            "#5F8AF7" ;; blue
+                            "#D70000" ;; red-dd
+                            "#8787FF" ;; purple
+                            "#D7005F" ;; red-d
+                            "#A9A1E1" ;; violet
+                            "#FF6D6B" ;; red
+                            )
+          )
+  (setq hl-paren-colors '(
+                          "#FF0087" ;; magenta
+                          "#FFAF5F" ;; orange
+                          "#00875F" ;; green
+                          "#5F87FF" ;; blue
+                          "#D70000" ;; red-dd
+                          "#8787FF" ;; purple
+                          "#D7005F" ;; red-d
+                          "#AFAFD7" ;; violet
+                          "#FF5F5F" ;; red
+                          )
+  )
+
+(global-highlight-parentheses-mode)
+)
+
 (provide-theme 'phd-dark)
 ;;; phd-dark-theme.el ends here

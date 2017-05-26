@@ -105,7 +105,8 @@
   `(font-lock-regexp-grouping-construct ((t (:inherit (bold)))))
 
   ;; Latex
-  `(font-latex-sedate-face   ((t (:foreground ,magenta))))
+  `(font-latex-sedate-face       ((t (:foreground ,magenta))))
+  `(font-latex-sectioning-2-face ((t (:foreground ,orange))))
 
   ;; Mode-line
   `(mode-line                ((t (:background ,bg-bb :foreground ,fg-bb))))

@@ -23,3 +23,10 @@ Desktop.ini
 # Jekyll artifacts
 _site
 .sass-cache
+
+# Latex stuff
+*.dvi
+*.aux
+*.bbl
+*.blg
+*.log

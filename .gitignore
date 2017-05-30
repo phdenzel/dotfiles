@@ -13,6 +13,8 @@ Desktop.ini
 
 # Compiled Python files
 *.pyc
+  # pickle file extension
+*.pkl
 
 # C/C++ object files
 *.o

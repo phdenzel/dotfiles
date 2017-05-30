@@ -24,3 +24,5 @@
   added = green
   changed = red
   untracked = cyan
+[core]
+	excludesfile = /Users/phdenzel/.gitignore

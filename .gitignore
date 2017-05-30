@@ -30,3 +30,4 @@ _site
 *.bbl
 *.blg
 *.log
+*.out

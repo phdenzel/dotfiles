@@ -55,6 +55,7 @@ brew install openssl@1.1
 brew install ansible
 
 ### General frameworks
+brew install boot2docker
 brew install ocaml
 brew install valgrind
 #brew install llvm --with-python

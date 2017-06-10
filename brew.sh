@@ -58,11 +58,13 @@ brew install ansible
 brew install boot2docker
 brew install ocaml
 brew install valgrind
+brew install mono
 #brew install llvm --with-python
 brew install gdb
 # c/c++
 brew install gcc
 brew install sdl2
+brew install libmpc
 #brew reinstall gcc --without-multilib
 # python
 brew install python

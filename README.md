@@ -50,6 +50,8 @@ Moreover, the repository holds several bash scripts, although they aren't strict
 * `bash pip.sh` - installs essential python libraries
 * `bash gem.sh` - installs a couple of ruby gems
 * `bash git-clone.sh` - creates a `~/git-clones` directory and clones useful git repositories into it.
+* `bash db2Documents.sh` - creates symlinks from `~/Dropbox` to `~/Documents` (fill the lists in the loops with your own directories or files)
+* `bash db2Home.sh` - creates symlinks from `~/Dropbox` to `~/` (fill the lists in the loops with your own directories or files)
 
 ### More
 [Mathias Bynens](https://github.com/mathiasbynens/dotfiles) has another great dotfile setup which was highly influencial to mine.

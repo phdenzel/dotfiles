@@ -54,8 +54,8 @@ echo
 echo "HOME sync"
 echo
 if [ -d "$MNT/$EXTD/Home" ] && [ $DO_HOME -eq 1 ]; then
-    rsync --exclude ".*" \[ 
-          --exclude "matplotlibrc -eq 1 ]" \
+    rsync --exclude ".*" \
+          --exclude "matplotlibrc" \
           --exclude "Applications/" \
           --exclude "Desktop/" \
           --exclude "Documents/" \

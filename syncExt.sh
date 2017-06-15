@@ -116,7 +116,7 @@ fi;
 # synch ~/Dropbox
 printf '#%.0s' {1..79}
 echo
-echo "Dropbox sync"
+echo "DROPBOX sync"
 echo
 if [ -d "$MNT/$EXTD/Dropbox" ] && [ $DO_DBOX -eq 1 ]; then
     rsync --exclude ".DS_Store" \

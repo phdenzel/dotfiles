@@ -5,9 +5,9 @@ echo "Directory links"
 for folder in ~/Dropbox/{cheat-sheets,conferences,configs,cv,finances,icons,lectures,manuals,master-thesis,papers,personal,presentations,research,scores,software,teaching,tolino,travel-docs}; do
     dname=${folder##*/}
     if [ -e "$HOME/Documents/$dname" ]; then
-        echo "    Link ~Documents/$dname does already exist"
+        echo "    Link ~/Documents/$dname does already exist"
     else
-        echo "    Linking ~Dropbox/$dname to ~Documents/"
+        echo "    Linking ~/Dropbox/$dname to ~/Documents/"
         ln -s $folder ~/Documents/$dname
     fi;
 done;
@@ -27,9 +27,9 @@ for folder in ~/Dropbox/family; do
     for content in $folder/*; do
         cname=${content##*/}
         if [ -e "$HOME/Documents/$dname/$cname" ]; then
-            echo "    Link ~Documents/$dname/$cname does already exist"
+            echo "    Link ~/Documents/$dname/$cname does already exist"
         else
-            echo "    Linking ~Dropbox/$dname/$cname to ~Documents/$dname/"
+            echo "    Linking ~/Dropbox/$dname/$cname to ~/Documents/$dname/"
             ln -s $HOME/Dropbox/$dname/$cname $HOME/Documents/$dname/$cname
         fi;
     done;

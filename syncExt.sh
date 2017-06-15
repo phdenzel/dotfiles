@@ -4,12 +4,13 @@
 EXTD=LaCieSHARE
 
 # settings
-FLAGS=ahPn
+FLAGS=ahP
+
 DO_DOCS=1
-DO_HOME=0
+DO_HOME=1
 DO_MOVS=0
-DO_MUSC=0
-DO_PICS=0
+DO_MUSC=1
+DO_PICS=1
 DO_DBOX=0
 
 # look for places external drives are mounted

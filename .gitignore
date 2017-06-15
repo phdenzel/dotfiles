@@ -33,3 +33,16 @@ _site
 *.blg
 *.log
 *.out
+*.bcf
+*.fls
+*.lof
+*.lot
+*.toc
+*.nav
+*.snm
+*.run.xml
+*.fdb_latexmk
+*.synctex.gz
+*.tex.backup
+*.bib.backup
+  

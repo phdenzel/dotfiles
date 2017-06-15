@@ -244,3 +244,4 @@ EXEC 01;38;5;125    		            # magenta - executables
 .c 00;38;5;222        # yellow
 .py 00;38;5;029       # green
 .pyc 02;38;5;029      # dimmed green
+.org 00;38;5;105      # purple

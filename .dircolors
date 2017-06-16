@@ -26,52 +26,51 @@ TERM xterm*
 TERM xterm-256color # just in case the * doesn't work
 #
 ### ANSI ESCAPE CODE
-# 00 - normal;	01 - bold;	02 - dimmed;
-# 03 - italic;	04 - underlined;	05 - blinking;
-# 06 - ?;	07 - reversed;	08 - hidden
+# 00 - normal;  01 - bold;       02 - dimmed;
+# 03 - italic;  04 - underlined; 05 - blinking;
+# 06 - ?;       07 - reversed;   08 - hidden
 ### CUSTOM COLOR PALETTE
 # foreground  - #cacfde
 # background  - #292c33 (opacity 90%)
 # selection   - #4564b3
 # cursor      - #5f8af7
 #
-# black	    - 38;5;232
-# white	    - 38;5;255
-# red	      - 38;5;160		br red		- 38;5;161
-# green	    - 38;5;029		br green	- 38;5;035
-# yellow    - 38;5;222		br yellow	- 38;5;220
-# blue	    - 38;5;027		dr blue		- 38;5;019
-# magenta   - 38;5;125		br magenta- 38;5;198
-# cyan	    - 38;5;044		br cyan		- 38;5;051
-# orange    - 38;5;215		br orange	- 38;5;202
-# purple    - 38;5;105		dr purple	- 38;5;057 or ;061
-# grey	    - 38;5;239		br grey		- 38;5;236
+# black     - 38;5;232
+# white     - 38;5;255
+# red       - 38;5;160    br red    - 38;5;161
+# green     - 38;5;029    br green  - 38;5;035
+# yellow    - 38;5;222    br yellow - 38;5;220
+# blue      - 38;5;027    dr blue   - 38;5;019
+# magenta   - 38;5;125    br magenta- 38;5;198
+# cyan      - 38;5;044    br cyan   - 38;5;051
+# orange    - 38;5;215    br orange - 38;5;202
+# purple    - 38;5;105    dr purple - 38;5;057 or ;061
+# grey      - 38;5;239    br grey   - 38;5;236
 #
 ### GENERAL COLORING
-#NORMAL 00		                   # no color code at all (in Terminal profile)
-#FILE 00     		                 # normal - regular file (in Terminal profile)
-RESET 0		    		              # reset to 'NORMAL' color, i.e. fg
-DIR 01;38;5;019		    	        # dr blue - directory
-LINK 04;38;5;035    		        # underlined green - symbolic link
+#NORMAL 00                        # no color code at all (in Terminal profile)
+#FILE 00                          # normal - regular file (in Terminal profile)
+RESET 0                         # reset to 'NORMAL' color, i.e. fg
+DIR 01;38;5;019                 # dr blue - directory
+LINK 04;38;5;035                # underlined br green - symbolic link
                                 # use 'target' to color symlink
                                 # according to target file
-MULTIHARDLINK 00    		        # regular file with more than one link
-FIFO 01;38;5;222    		        # yellow - pipe
-SOCK 01;04;38;5;222 		        # underlined yellow - socket
-DOOR 01;04;38;5;222 		        # underlined yellow - door
-BLK 01;07;38;5;045;48;5;239  	  # fg grey/ bg cyan - block dev driver
-CHR 01;07;38;5;045  	     	    # reversed cyan - character dev driver
-ORPHAN 04;38;5;239  		        # underlined grey - symlink to Nirvana
-MISSING 00 	      		          # → Nirvana
+MULTIHARDLINK 00                # regular file with more than one link
+FIFO 01;04;38;5;029             # underlined bold green - pipe
+SOCK 01;04;38;5;019             # underlined dr blue - socket
+DOOR 01;02;04;38;5;019          # underlined dimmed dr blue - door
+BLK 01;38;5;044                 # cyan - block dev driver
+CHR 01;38;5;051      	     	    # cyan - character dev driver
+ORPHAN 04;38;5;239              # underlined grey - symlink to Nirvana
+MISSING 00                      # → Nirvana
 SETUID 07;38;5;027;48;5;255	    # fg white/ bg blue - setuid file
 SETGID 07;38;5;045;48;5;255  	  # fg white/ bg cyan - setgid file
 CAPABILITY 07;38;5;255;48;5;232 # fg white/ bg black - capability file
-STICKY_OTHER_WRITABLE 01;38;5;027;48;5;239
-                                # fg blue/bg grey - (+t,o+w) dir
-OTHER_WRITABLE 01;38;5;019;48;5;239
-                                # fg purple/bg grey - (-t,o+w) dir
-STICKY 01;38;5;027		          # fg blue - (+t,o-w) dir
-EXEC 01;38;5;125    		            # magenta - executables
+STICKY_OTHER_WRITABLE 01;38;5;160
+                                # red - (+t,o+w) dir
+OTHER_WRITABLE 01;38;5;222      # yellow - (-t,o+w) dir
+STICKY 01;38;5;202              # orange - (+t,o-w) dir
+EXEC 01;38;5;125                # magenta - executables
 #
 ### EXTENSIONS
 # DOS-specific (bright cyan)

@@ -20,6 +20,11 @@ elif [ "$1" == "--terminal" ]; then
         cp etc/*.terminal ${HOME}/Documents/
     [ -d "${HOME}/Library/Services" ] && \
         cp -r etc/Launch\ Terminal.workflow/ ${HOME}/Library/Services/
+elif [ "$1" == "--bin" ]; then
+    # Copy the binaries to ~/local/bin/
+    mdkir -p ${HOME}/local/bin
+    cp github_repo ${HOME}/local/bin/
+    cp github_private_repo ${HOME}/local/bin/
 else
     rsync --exclude ".git/" \
           --exclude ".DS_Store" \
@@ -34,3 +39,4 @@ else
           --exclude "README.md" \
           -avh . ~;
 fi;
+

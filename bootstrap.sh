@@ -21,10 +21,12 @@ elif [ "$1" == "--terminal" ]; then
     [ -d "${HOME}/Library/Services" ] && \
         cp -r etc/Launch\ Terminal.workflow/ ${HOME}/Library/Services/
 elif [ "$1" == "--bin" ]; then
-    # Copy the binaries to ~/local/bin/
-    mdkir -p ${HOME}/local/bin
-    cp github_repo ${HOME}/local/bin/
-    cp github_private_repo ${HOME}/local/bin/
+    # Copy the binaries to ~/ and link to ~/local/bin/
+    cp github_repo ${HOME}/
+    cp github_private_repo ${HOME}/
+    mkdir -p ${HOME}/local/bin/  # don't forget to add to path
+    ln -s ${HOME}/github_repo ${HOME}/local/bin/github_repo
+    ln -s ${HOME}/github_private_repo ${HOME}/local/bin/github_private_repo
 else
     rsync --exclude ".git/" \
           --exclude ".DS_Store" \

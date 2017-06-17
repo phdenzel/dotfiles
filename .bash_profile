@@ -35,6 +35,11 @@ complete -W "NSGlobalDomain" defaults;
 # Add tab completion for killall with common apps
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal" killall;
 
+# configure git
+source ~/.USERINFO
+git config --global user.name "$GITUSER"
+git config --global user.email "$GITMAIL"
+
 ####################################################### Welcome helpers
 # Get the mounted drives and free space
 _mounted () {

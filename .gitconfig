@@ -1,14 +1,18 @@
-[user]
-  # personal info
-	name = phdenzel
-	email = phdenzel@gmail.com
+[core]
+  excludesfile = ~/.gitignore  # global gitignores
+  attributesfile = ~/.gitattributes  # global gitattributes
+  trustctime = false  # make git rebase safer
+
 [alias]
   aliases = config --get-regexp alias
-	s = status -s  # a brief status summary
+  s = status -s  # a brief status summary
   d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"  # diff between last commit and current state
   b = branch -a
   r = remote -v
+  c = commit -avm
   ac = !git add -A && git commit -avm
+  undo = reset HEAD~
+
 [color]
   # Use colors in Git command outputs to the terminal where possible
   ui = auto
@@ -27,29 +31,27 @@
 [color "status"]
   added = 35  # green
   changed = 161  # red
-  untracked = 44  # cyan
-  
+  untracked = 44  # cyan  
 [color "grep"]
-	match = normal
+  match = normal
 [color "interactive"]
-	prompt = normal
-	header = normal
-	help = normal
-	error = normal
-[core]
-	excludesfile = ~/.gitignore  # global gitignores
-  attributesfile = ~/.gitattributes  # global gitattributes
-  trustctime = false  # make git rebase safer
+  prompt = normal
+  header = normal
+  help = normal
+  error = normal
+
 [help]
   autocorrect = 1  # automatically correct misspelled commands
+
 [diff]
   renames = copies  # detect copies and renames
 [diff "pdf"]
   textconv = pdfinfo  # use pdfinfo to do pdf git diff
 [diff "zip"]
-    textconv = unzip -v
+  textconv = unzip -v
 [diff "bin"]
-	textconv = hexdump -v -C  # use hexdump to do binary git diff
+  textconv = hexdump -v -C  # use hexdump to do binary git diff
+
 [merge]
-	# Include summaries of merged commits in newly created merge commit messages
-	log = true
+  # Include summaries of merged commits in newly created merge commit messages
+  log = true

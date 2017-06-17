@@ -25,6 +25,7 @@ else
           --exclude ".DS_Store" \
           --exclude "bootstrap.sh" \
           --exclude "github_repo" \
+          --exclude "github_private_repo " \
           --exclude "screenshot.png" \
           --exclude "etc/" \
           --exclude "utils/" \

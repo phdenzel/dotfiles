@@ -1,6 +1,7 @@
 #!/bin/bash
 
-PERSON="phdenzel"
+source ~/.USERINFO
+PERSON="$GITHUBUSER"
 GITHUB="git@github.com"
 
 if [ $# -eq 0 ]; then
@@ -14,11 +15,6 @@ elif [ ${1: -1} == "/" ]; then
 else
     REPO=$1
 fi
-# use Github API to create repo remotely
-echo "Using Github API to create repository remotely"
-curl -u $PERSON https://api.github.com/user/repos -d "{\"name\":\"$REPO\"}"
-# remote add local repository
-echo "Remote add local repository $REPO"
 if [ ! -d $REPO ]; then
     echo "$REPO not found..."
     echo "Create a git repository to add git-remote..."
@@ -30,6 +26,11 @@ if [ ! -d $REPO"/.git" ]; then
    echo "Exiting..."
    exit 1
 fi
+# use Github API to create repo remotely
+echo "Using Github API to create repository remotely"
+curl -u $PERSON https://api.github.com/user/repos -d "{\"name\":\"$REPO\"}"
+# remote add local repository
+echo "Remote add local repository $REPO"
 cd $REPO
 git remote add origin $GITHUB:$PERSON/$REPO.git
 git remote -v

@@ -2,27 +2,54 @@
   # personal info
 	name = phdenzel
 	email = phdenzel@gmail.com
-
-[merge]
-  # Include summaries of merged commits in newly created merge commit messages
-  log = true
-
+[alias]
+  aliases = config --get-regexp alias
+	s = status -s  # a brief status summary
+  d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"  # diff between last commit and current state
+  b = branch -a
+  r = remote -v
+  ac = !git add -A && git commit -avm
 [color]
   # Use colors in Git command outputs to the terminal where possible
-  # Default since Git ≥ 1.8.4.
   ui = auto
 [color "branch"]
-  current = cyan
-  local = blue
-  remote = green
+  current = 44  # cyan
+  local = 27  # blue
+  remote = 35  # green
 [color "diff"]
-  meta = yellow bold
-  frag = red bold # line info
-  old = magenta # deletions
-  new = green # additions
+  plain = normal
+  meta = 215 bold  # orange bold
+  frag = 161 bold  # magenta red bold for line info
+  old = 125 # magenta for deletions
+  new = 35  # green for additions
+  commit = 215  # orange commit hashes
+  whitespace = normal white  # magenta red for whitespaces
 [color "status"]
-  added = green
-  changed = red
-  untracked = cyan
+  added = 35  # green
+  changed = 161  # red
+  untracked = 44  # cyan
+  
+[color "grep"]
+	match = normal
+[color "interactive"]
+	prompt = normal
+	header = normal
+	help = normal
+	error = normal
 [core]
-	excludesfile = /Users/phdenzel/.gitignore
+	excludesfile = ~/.gitignore  # global gitignores
+  attributesfile = ~/.gitattributes  # global gitattributes
+  trustctime = false  # make git rebase safer
+[help]
+  autocorrect = 1  # automatically correct misspelled commands
+[diff]
+  renames = copies  # detect copies and renames
+[diff "pdf"]
+  textconv = pdfinfo  # use pdfinfo to do pdf git diff
+[diff "zip"]
+    textconv = unzip -v
+[diff "bin"]
+	textconv = hexdump -v -C  # use hexdump to do binary git diff
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true

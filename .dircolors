@@ -60,11 +60,11 @@ FIFO 01;04;38;5;029             # underlined bold green - pipe
 SOCK 01;04;38;5;019             # underlined dr blue - socket
 DOOR 01;02;04;38;5;019          # underlined dimmed dr blue - door
 BLK 01;38;5;044                 # cyan - block dev driver
-CHR 01;38;5;051      	     	    # cyan - character dev driver
+CHR 01;38;5;051                 # cyan - character dev driver
 ORPHAN 04;38;5;239              # underlined grey - symlink to Nirvana
 MISSING 00                      # → Nirvana
-SETUID 07;38;5;027;48;5;255	    # fg white/ bg blue - setuid file
-SETGID 07;38;5;045;48;5;255  	  # fg white/ bg cyan - setgid file
+SETUID 07;38;5;027;48;5;255     # fg white/ bg blue - setuid file
+SETGID 07;38;5;045;48;5;255     # fg white/ bg cyan - setgid file
 CAPABILITY 07;38;5;255;48;5;232 # fg white/ bg black - capability file
 STICKY_OTHER_WRITABLE 01;38;5;160
                                 # red - (+t,o+w) dir

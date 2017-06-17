@@ -68,7 +68,7 @@ alias malin2="$SSH $SSHFLAG ${PERSON}@malin2.physik.uzh.ch"
 alias ics="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f1"
 alias ics2="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f2"
 alias ics3="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f3"
-alias fritzbox="$SSH $SSHFLAG ${PERSON}@192.168.178.39"
+alias diskstation="$SSH $SSHFLAG ${PERSON}@192.168.178.39:5000"
 ### on Server aliases
 alias mj="squeue -u ${PERSON}"
 alias aj="squeue"

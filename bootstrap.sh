@@ -42,3 +42,4 @@ else
           -avh . ~;
 fi;
 
+source ~/.bashrc

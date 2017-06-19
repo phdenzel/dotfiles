@@ -34,6 +34,9 @@ pip install tensorflow
 pip install emcee
 pip install corner
 
+# for the Arduino user
+pip install pyserial
+
 # for the astrophysicists/astronomers
 pip install astropy
 pip install wcsaxes

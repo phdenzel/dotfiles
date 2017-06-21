@@ -6,6 +6,7 @@ pip install numpy
 pip install matplotlib
 pip install scipy
 pip install sympy
+pip install virtualenv
 
 # general utils
 pip install dtrx
@@ -21,7 +22,6 @@ pip install flake8
 pip install importmagic
 pip install autopep8
 pip install yapf
-pip install virtualenv
 pip install epc
 
 # for more advanced graphics
@@ -36,6 +36,11 @@ pip install corner
 
 # for the Arduino user
 pip install pyserial
+
+# for tinkering
+pip install pyowm
+pip install wikipedia
+pip install wolframalpha
 
 # for the astrophysicists/astronomers
 pip install astropy

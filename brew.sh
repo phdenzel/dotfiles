@@ -63,6 +63,7 @@ brew install mono
 brew install gdb
 # c/c++
 brew install gcc
+brew install gcc@6
 brew install sdl2
 brew install libmpc
 #brew reinstall gcc --without-multilib
@@ -97,6 +98,7 @@ brew cask install macdown
 brew install imagemagick --with-webp
 brew cask install inkscape
 brew install wakeonlan
+brew install ical-buddy
 
 ### Emacs
 # install newest version of emacs

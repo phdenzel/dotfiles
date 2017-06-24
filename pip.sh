@@ -24,11 +24,15 @@ pip install autopep8
 pip install yapf
 pip install epc
 
+# for web servings
+pip install flask
+
 # for more advanced graphics
 pip install Pillow
 
-# Google's TensorFlow
+# Google's TensorFlow and other machine learning libs
 pip install tensorflow
+pip install keras
 
 # for the statistics experts
 pip install emcee

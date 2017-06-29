@@ -38,6 +38,7 @@ else
           --exclude "utils/" \
           --exclude "private/" \
 	        --exclude ".emacs.d" \
+          --exclude "LICENSE" \
           --exclude "README.md" \
           -avh . ~;
 fi;

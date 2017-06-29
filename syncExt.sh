@@ -2,6 +2,7 @@
 
 # external drives
 EXTD=LaCieSHARE
+# EXTD=WDMedia
 
 # settings
 FLAGS=ahP

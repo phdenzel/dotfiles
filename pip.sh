@@ -16,6 +16,8 @@ export C_INCLUDE_PATH=/usr/local/include/hunspell
 # be careful if there's more than a single lib
 sudo ln -sf /usr/local/lib/libhunspell-*.a /usr/local/lib/libhunspell.a
 pip install hunspell
+pip install line_profiler
+pip install memory_profiler
 # for emacs-elpy
 pip install jedi
 pip install flake8

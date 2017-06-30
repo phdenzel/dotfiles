@@ -49,8 +49,8 @@ _mounted () {
 # Check free memory
 _meminfo () {
     echo "------------------------------ Memory Information ------------------------------"
-    # free -tm # linux version
-    vm_stat | perl -ne '/page size of (\d+)/ and $size=$1; /Pages\s+([^:]+)[^\d]+(\d+)/ and printf("%-24s % 16.2f Mi\n", "$1:", $2 * $size / 1048576);'
+    # free -tm  # linux version
+    free --megabyte  # macos version
 }
 # Look at uptime
 _upinfo () {

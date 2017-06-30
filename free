@@ -1,0 +1,252 @@
+#!/bin/bash
+
+### --help/-h
+help() {
+	echo -e "\tUsage:\tfree [-sv] [-kmg] [-q]"
+	echo -e "\t\tfree [-h|--help]"
+	echo -e "\t\tfree [-V|--version]\n"
+
+	echo -e "\tDisplay raw information about physical and virtual memory on"
+  echo -e "\tMacOS."
+	echo -e "\tIn bytes by default.\n"
+
+	echo -e "\tThe calculation for the physical memory is extracted from the"
+	echo -e "\tresults of the command vm_stat (which returns the results in"
+	echo -e "\tblocksize). The imprecision resulting from the transformation in"
+	echo -e "\tbytes (number_of_blocks * block_size, the default value of the"
+	echo -e "\tcalculations) will be between 0 and the size of the block."
+	echo -e "\tThe calculation for virtual memory is taken from the \"top\""
+	echo -e "\tcommand. The imprecision here is linked to the unit of reference"
+	echo -e "\tof the \"top\" command: kilo, mega, giga."
+	echo -e "\tCalculations are made using \"awk\" that respects rounded (as"
+	echo -e "\topposed to \"bc\"). \"awk\" is also quicker than \"bc\".\n"
+
+	echo -e "\tThis command is suitable for use oriented developper, system"
+	echo -e "\tadministrator, etc. For a command with friendly and highly"
+	echo -e "\tconfigurable display, more precise, but with more calculations.\n"
+
+	echo -e "\t-s --swap\tDisplay only the swap. By default, the script displays"
+	echo -e "\t\t\tonly the physical memory. (The call to \"top\" command to"
+	echo -e "\t\t\tevaluate virtual memory is more time intensive than the call"
+	echo -e "\t\t\tto \"vm_stat\".)"
+
+	echo -e "\t-v --verbose\tDisplay results for virtual AND physical memory."
+
+	echo -e "\t-k --kilo\tDisplay in kilobytes. Integer."
+
+	echo -e "\t-m --mega\tDisplay in megabytes. Integer."
+
+	echo -e "\t-g --giga\tDisplay in gigabyte. Integer."
+
+	echo -e "\t-q --quiet\tPrevents display on stdout.\n"
+
+	echo -e "\t-h --help\tThis help and exit."
+	echo -e "\t-V --version\tPrint version and exit.\n"
+
+	exit
+}
+
+### Conversion of chain type 255M or 2G, etc. in byte
+# Example: The parameter 2048K passed to the function, will return
+# CHAIN_BYTE=2097152 # (2048*1024)
+# CHAIN_UNIT=K
+conversion_chain_byte () {
+
+	CHAIN_TO_CONVERT=$1
+	CHAIN_UNIT=$(echo "$CHAIN_TO_CONVERT" | sed -E 's/^[0-9]+//')
+	CHAIN_NO_UNIT=$(echo "$CHAIN_TO_CONVERT" | sed -E 's/[kKmMgG]//')
+
+	case "$CHAIN_UNIT" in
+		"k" | "K" )
+			CHAIN_BYTE=$(($CHAIN_NO_UNIT*1024))
+		;;
+
+		"m" | "M" )
+			CHAIN_BYTE=$(($CHAIN_NO_UNIT*1024*1024))
+		;;
+
+		"g" | "G" )
+			CHAIN_BYTE=$(($CHAIN_NO_UNIT*1024*1024*1024))
+		;;
+
+		* )
+			CHAIN_BYTE=$(($CHAIN_NO_UNIT))
+		;;
+
+	esac
+	
+}
+
+### Default values
+# version
+VERSION="0.1"
+
+VM_DIR="/var/vm/"
+SWAP_FILE="swapfile*"
+SLEEPIMAGE_FILE="sleepimage*"
+UNIT="B"
+SIZE_VIEW=$((1))
+SCALE_AWK="%.0f"
+
+# Default physical memory for page size calculation
+VMSTAT=$(vm_stat)
+
+# Block size (page size)
+BLOCK_SIZE=$(echo "$VMSTAT" | awk '/page size of / {print $8}')
+
+# Display and calcs
+DISPLAY="true"
+PHYSICAL_CALC="true"
+VIRTUAL_CALC="false"
+
+### Collect input parameters
+until [ -z "$1" ]  # until no parameters are left...
+do
+
+	CURRENT_ARG="$1"
+
+	# help
+	if [ "$CURRENT_ARG" = "-h" -o "$CURRENT_ARG" = "--help" ]
+	then
+        help
+        exit 0
+	fi
+
+	# version
+	if [ "$CURRENT_ARG" = "-V" -o "$CURRENT_ARG" = "--version" ]
+	then
+        echo -e "Free command for MacOS. Version: $VERSION"
+        exit 0
+	fi
+
+	# in kilobytes
+	if [ "$CURRENT_ARG" = "-k" -o "$CURRENT_ARG" = "--kilobyte" ]
+	then
+		SIZE_VIEW=$((1024))
+		UNIT="K"
+	fi
+
+	# in megabytes
+	if [ "$CURRENT_ARG" = "-m" -o "$CURRENT_ARG" = "--megabyte" ]
+	then
+		SIZE_VIEW=$((1024*1024))
+		UNIT="M"
+	fi      
+
+	# in gigabytes
+	if [ "$CURRENT_ARG" = "-g" -o "$CURRENT_ARG" = "--gigabyte" ]
+	then
+		SIZE_VIEW=$((1024*1024*1024))
+		UNIT="G"
+	fi      
+
+	# supress display
+	if [ "$CURRENT_ARG" = "-q" -o "$CURRENT_ARG" = "--quiet" ]
+	then
+		DISPLAY="false"
+	fi
+
+	# only calculate the swap memory
+	# (by default, only physical memory is used)
+	if [ "$CURRENT_ARG" = "-s" -o "$CURRENT_ARG" = "--swap" ]
+	then
+		VIRTUAL_CALC="true"
+		PHYSICAL_CALC="false"
+	fi
+
+	# calculate both physical and swap memory
+  # (by default, only physical memory is used)
+	if [ "$CURRENT_ARG" = "-v" -o "$CURRENT_ARG" = "--verbose" ]
+	then
+		VIRTUAL_CALC="true"
+		PHYSICAL_CALC="true"
+	fi
+
+	shift
+done
+
+### Calculations
+# Physical memory
+if [ "$PHYSICAL_CALC" = "true" ]
+then
+	# Calculate blocks via vm_stat
+	FREE_BLOCKS=$(echo "$VMSTAT" | awk '/^Pages free:/ {sub("\\\\.", "", $3); print $3}')
+	INACTIVE_BLOCKS=$(echo "$VMSTAT" | awk '/^Pages inactive:/ {sub("\\\\.", "", $3); print $3}')
+	SPECULATIVE_BLOCKS=$(echo "$VMSTAT" | awk '/^Pages speculative:/ {sub("\\\\.", "", $3); print $3}')
+	ACTIVE_BLOCKS=$(echo "$VMSTAT" | awk '/^Pages active:/ {sub("\\\\.", "", $3); print $3}')
+	WIRED_BLOCKS=$(echo "$VMSTAT" | awk '/^Pages wired down:/ {sub("\\\\.", "", $4); print $4}')
+
+	# Caculate the various RAM memories and totals. Convert to bytes
+	ACTIVE=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${ACTIVE_BLOCKS}'"*"'${BLOCK_SIZE}'"/"'${SIZE_VIEW}'") }')
+	INACTIVE=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${INACTIVE_BLOCKS}'"*"'${BLOCK_SIZE}'"/"'${SIZE_VIEW}'") }')
+	WIRED=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${WIRED_BLOCKS}'"*"'${BLOCK_SIZE}'"/"'${SIZE_VIEW}'") }')
+	TOTAL_USED=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${ACTIVE}'"+"'${WIRED}'"+"'${INACTIVE}'") }')
+	FREE=$(awk 'BEGIN { printf("'${SCALE_AWK}'", ("'${FREE_BLOCKS}'"+"'${SPECULATIVE_BLOCKS}'")*"'${BLOCK_SIZE}'"/"'${SIZE_VIEW}'") }')
+	TOTAL=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${TOTAL_USED}'"+"'${FREE}'") }')
+
+fi
+
+# Virtual swap memory
+if [ "$VIRTUAL_CALC" = "true" ]
+then
+
+	# Search for swap memory info in 'top'
+	TOP=$(top -S -l 1 -n 0 -R)
+
+	PAGESIN_BLOCKS=$( echo "$TOP" | awk '/^VM:.*\.$/ { print $7 }' | sed 's/(0)//')
+	PAGESOUT_BLOCKS=$( echo "$TOP" | awk '/^VM:.*\.$/ { print $9 }' | sed 's/(0)//')
+	PAGESIN=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${PAGESIN_BLOCKS}'"*"'${BLOCK_SIZE}'"/"'${SIZE_VIEW}'") }')
+	PAGESOUT=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${PAGESOUT_BLOCKS}'"*"'${BLOCK_SIZE}'"/"'${SIZE_VIEW}'") }')
+
+	# swap
+	SWAP_USED_RAW=$(echo "$TOP" | awk '/^Swap:/ { print $2 }')
+	SWAP_FREE_RAW=$(echo "$TOP" | awk '/^Swap:/ { print $4 }')
+
+	# convert swap to bytes
+	conversion_chain_byte $SWAP_USED_RAW
+	SWAP_USED=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${CHAIN_BYTE}'"/"'${SIZE_VIEW}'") }')
+	conversion_chain_byte $SWAP_FREE_RAW
+	SWAP_FREE=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${CHAIN_BYTE}'"/"'${SIZE_VIEW}'") }')
+
+	# swap file number
+	SWAPFILE_NUMBER=$(ls -l $VM_DIR$SWAP_FILE | wc -l)
+	SWAPFILE_NUMBER=$(echo $SWAPFILE_NUMBER | sed 's/ //')
+
+	SWAPFILE_SIZE_RAW=$(du -sh -I $SLEEPIMAGE_FILE $VM_DIR)
+	conversion_chain_byte $SWAPFILE_SIZE_RAW
+	SWAPFILE_SIZE=$(awk 'BEGIN { printf("'${SCALE_AWK}'", "'${CHAIN_BYTE}'"/"'${SIZE_VIEW}'") }')
+
+fi
+
+### Display
+# Physical memory
+if [ $DISPLAY = "true" -a $PHYSICAL_CALC = "true" ]
+then
+	# echo -e "PHYSICAL MEMORY:"
+	  echo -e "Active:       \t\t$ACTIVE $UNIT"
+	  echo -e "Inactive:     \t\t$INACTIVE $UNIT"
+	  echo -e "Wired:        \t\t$WIRED $UNIT"
+	  echo -e "Total used:   \t\t$TOTAL_USED $UNIT"
+	  echo -e "Free:         \t\t$FREE $UNIT"
+	  echo -e "Total memory: \t\t$TOTAL $UNIT"
+fi
+
+# Swap
+if [ $DISPLAY = "true" -a $VIRTUAL_CALC = "true" ]
+then
+	# echo -e "VIRTUAL MEMORY:"
+	  echo -e "PagesIN:            \t$PAGESIN $UNIT"
+	  echo -e "PagesOUT:           \t$PAGESOUT $UNIT"
+	  echo -e "Swap used:          \t$SWAP_USED $UNIT"
+	  echo -e "Swap free:          \t$SWAP_FREE $UNIT"
+	  echo -e "$SWAP_FILE file(s): \t$SWAPFILE_NUMBER"
+	  echo -e "$SWAP_FILE size:    \t$SWAPFILE_SIZE $UNIT"
+fi
+
+# General
+if [ $DISPLAY = "true" ]
+then
+	echo -e "Block size: \t\t$BLOCK_SIZE B"
+fi
+
+exit 0

@@ -59,6 +59,7 @@ brew install boot2docker
 brew install ocaml
 brew install valgrind
 brew install mono
+brew install tesseract
 #brew install llvm --with-python
 brew install gdb
 # c/c++

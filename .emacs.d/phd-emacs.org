@@ -348,7 +348,7 @@ Does not take effect when executed in a separate window.
   ;; macOS keyboard configuration
   (setq mac-option-modifier 'meta)
   (setq mac-control-modifier 'control)
-  (setq mac-command-modifier 'super)
+  (setq mac-right-command-modifier 'super)
 
   ;; though COMMAND is not very useful due to global OS keybindings
   (setq mac-function-modifier 'none)

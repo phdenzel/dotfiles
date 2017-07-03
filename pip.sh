@@ -31,6 +31,7 @@ pip install flask
 
 # for more advanced graphics
 pip install Pillow
+pip install opencv-python
 
 # Google's TensorFlow and other machine learning libs
 pip install tensorflow

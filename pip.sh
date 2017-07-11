@@ -10,6 +10,7 @@ pip install virtualenv
 
 # general utils
 pip install dtrx
+pip install pyyaml
 pip install requests
 pip install --user certifi
 export C_INCLUDE_PATH=/usr/local/include/hunspell

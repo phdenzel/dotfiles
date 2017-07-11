@@ -44,6 +44,7 @@ brew install librsvg
 brew install hunspell
 brew install cdiff
 brew install xpdf
+brew install exiftool
 # dev commands
 brew install pcre
 brew install swig
@@ -59,7 +60,7 @@ brew install boot2docker
 brew install ocaml
 brew install valgrind
 brew install mono
-brew install tesseract
+brew install tesseract --with-all-languages
 #brew install llvm --with-python
 brew install gdb
 # c/c++
@@ -97,6 +98,7 @@ brew cask install macdown
 
 ### Misc
 brew install imagemagick --with-webp
+brew cask install gimp
 brew cask install inkscape
 brew install wakeonlan
 brew install ical-buddy

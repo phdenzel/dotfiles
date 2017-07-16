@@ -7,6 +7,7 @@ pip install matplotlib
 pip install scipy
 pip install sympy
 pip install virtualenv
+pip install sphinx
 
 # general utils
 pip install dtrx

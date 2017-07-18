@@ -94,7 +94,6 @@ if [ -d "$MNT/$EXTD/Documents" ] && [ $DO_DOCS -eq 1 ]; then
     rsync --exclude ".DS_Store" \
           --exclude ".localized" \
           --exclude "phd.terminal" \
-          --exclude "syncExtD.sh" \
           --exclude "workspace/" \
           -$FLAGS -L "$HOME/Documents/" "$MNT/$EXTD/Documents/";
 else
@@ -115,6 +114,7 @@ if [ -d "$MNT/$EXTD/Home" ] && [ $DO_HOME -eq 1 ]; then
           --exclude "Downloads/" \
           --exclude "Dropbox/" \
           --exclude "Google\ Drive/" \
+          --exclude "Box\ Sync" \
           --exclude "Library/" \
           --exclude "Movies/" \
           --exclude "Music/" \

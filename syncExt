@@ -1,12 +1,18 @@
 #!/bin/bash
+#
+# syncEXT
+#
+# Usage: syncExt [-p|--path EXTDPATH] [-d|--drive-name EXTD]
+#
 
-# external drives
+# default external drive
 EXTD=LaCieSHARE
 # EXTD=WDMedia
 
-# settings
+# rsync settings
 FLAGS=ahP
 
+# default rsync targets
 DO_DOCS=1
 DO_HOME=1
 DO_MOVS=0
@@ -14,13 +20,58 @@ DO_MUSC=1
 DO_PICS=1
 DO_DBOX=0
 
+# parse options
+while [[ $# -gt 1 ]]; do
+    key="$1"
+    
+    case $key in
+        # -p|--path)
+        #     EXTDPATH="$2"
+        #     shift # past argument
+        #     ;;
+        -d|--drive-name)
+            EXTD="$2"
+            shift # past argument
+            ;;
+        --lacie-share)
+            EXTD=LaCieSHARE
+            ;;
+        --wd-media)
+            EXTD=WDMedia
+            ;;
+        --docs)
+            DO_DOCS=1
+            ;;
+        --home)
+            DO_HOME=1
+            ;;
+        --movies)
+            DO_MOVS=1
+            ;;
+        --music)
+            DO_MUSC=1
+            ;;
+        --pictures)
+            DO_PICS=1
+            ;;
+        --dropbox)
+            DO_DBOX=1
+            ;;
+        *)
+            # unknown option
+            ;;
+    esac
+    shift # past argument or value
+done
+
+
 # look for places external drives are mounted
 if [ -d "/Volumes" ]; then
     MNT=/Volumes
 elif [ -d "/mnt" ]; then
     MNT=/mnt
 else
-    echo "/Volumes not found..."
+    echo "/Volumes or /mnt not found..."
     exit 1
 fi;
 echo "Looking in $MNT for external drives..."

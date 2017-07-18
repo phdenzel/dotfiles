@@ -26,6 +26,7 @@ elif [ "$1" == "--bin" ]; then
     ln -s $(pwd)/github_repo ${HOME}/local/bin/
     ln -s $(pwd)/github_private_repo ${HOME}/local/bin/
     ln -s $(pwd)/free ${HOME}/local/bin/
+    ln -s $(pwd)/syncExt ${HOME}/local/bin/
     
 else
     rsync --exclude ".git/" \
@@ -34,6 +35,7 @@ else
           --exclude "github_repo" \
           --exclude "github_private_repo" \
           --exclude "free" \
+          --exclude "syncExt" \
           --exclude "screenshot.png" \
           --exclude "etc/" \
           --exclude "utils/" \

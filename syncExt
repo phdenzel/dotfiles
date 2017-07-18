@@ -112,14 +112,18 @@ if [ -d "$MNT/$EXTD/Home" ] && [ $DO_HOME -eq 1 ]; then
           --exclude "Desktop/" \
           --exclude "Documents/" \
           --exclude "Downloads/" \
-          --exclude "Dropbox/" \
-          --exclude "Google\ Drive/" \
-          --exclude "Box\ Sync" \
-          --exclude "Library/" \
           --exclude "Movies/" \
           --exclude "Music/" \
           --exclude "Pictures/" \
           --exclude "Public/" \
+          --exclude "Library/" \
+          --exclude "Dropbox/" \
+          --exclude "Google\ Drive/" \
+          --exclude "OneDrive/" \
+          --exclude "Box\ Sync/" \
+          --exclude "MEGA/" \
+          --exclude "pCloud\ Sync/" \
+          --exclude "pCloud\ Drive/" \
           -$FLAGS "$HOME/" "$MNT/$EXTD/Home/";
 else
     echo "Skipping $MNT/$EXTD/Home..."

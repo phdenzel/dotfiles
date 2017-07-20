@@ -21,14 +21,8 @@ DO_PICS=1
 DO_DBOX=0
 
 # parse options
-while [[ $# -gt 1 ]]; do
-    key="$1"
-    
-    case $key in
-        # -p|--path)
-        #     EXTDPATH="$2"
-        #     shift # past argument
-        #     ;;
+while [ $# -ge 1 ]; do
+    case "$1" in
         -d|--drive-name)
             EXTD="$2"
             shift # past argument
@@ -41,21 +35,60 @@ while [[ $# -gt 1 ]]; do
             ;;
         --docs)
             DO_DOCS=1
+            DO_HOME=0
+            DO_MOVS=0
+            DO_MUSC=0
+            DO_PICS=0
+            DO_DBOX=0
             ;;
         --home)
             DO_HOME=1
+            DO_DOCS=0
+            DO_MOVS=0
+            DO_MUSC=0
+            DO_PICS=0
+            DO_DBOX=0
             ;;
         --movies)
             DO_MOVS=1
+            DO_HOME=0
+            DO_DOCS=0
+            DO_MUSC=0
+            DO_PICS=0
+            DO_DBOX=0
             ;;
         --music)
             DO_MUSC=1
+            DO_DOCS=0
+            DO_HOME=0
+            DO_MOVS=0
+            DO_PICS=0
+            DO_DBOX=0
             ;;
         --pictures)
             DO_PICS=1
+            DO_DOCS=0
+            DO_HOME=0
+            DO_MOVS=0
+            DO_MUSC=0
+            DO_DBOX=0
             ;;
         --dropbox)
             DO_DBOX=1
+            DO_DOCS=0
+            DO_HOME=0
+            DO_MOVS=0
+            DO_MUSC=0
+            DO_PICS=0
+            ;;
+        --test-run)
+            FLAGS=ahP
+            ;;
+        -h|--help)
+            echo "Usage: syncExt [--lacie-share|--wd-media]"
+            echo "               [--docs|--home|--movies|--music|--pictures|--dropbox]"
+            echo "               [--test-run] [--help]"
+            exit 1
             ;;
         *)
             # unknown option
@@ -63,8 +96,6 @@ while [[ $# -gt 1 ]]; do
     esac
     shift # past argument or value
 done
-
-
 # look for places external drives are mounted
 if [ -d "/Volumes" ]; then
     MNT=/Volumes
@@ -118,12 +149,12 @@ if [ -d "$MNT/$EXTD/Home" ] && [ $DO_HOME -eq 1 ]; then
           --exclude "Public/" \
           --exclude "Library/" \
           --exclude "Dropbox/" \
-          --exclude "Google\ Drive/" \
+          --exclude "Google Drive" \
           --exclude "OneDrive/" \
-          --exclude "Box\ Sync/" \
-          --exclude "MEGA/" \
-          --exclude "pCloud\ Sync/" \
-          --exclude "pCloud\ Drive/" \
+          --exclude "Box Sync" \
+          --exclude "MEGA" \
+          --exclude "pCloud Sync" \
+          --exclude "pCloud Drive" \
           -$FLAGS "$HOME/" "$MNT/$EXTD/Home/";
 else
     echo "Skipping $MNT/$EXTD/Home..."
@@ -163,7 +194,7 @@ echo
 if [ -d "$MNT/$EXTD/Pictures" ] && [ $DO_PICS -eq 1 ]; then
     rsync --exclude ".DS_Store" \
           --exclude ".localized" \
-          --exclude "Google\ Photos\ Backup/" \
+          --exclude "Google Photos Backup/" \
           -$FLAGS "$HOME/Pictures/" "$MNT/$EXTD/Pictures/";
 else
     echo "Skipping $MNT/$EXTD/Pictures..."

@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+# Push an existing git repository to a new Overleaf project
+# and add it as a git remote
+#
+# Usage: overleaf_push (git-id | -l git-link | --link git-link)
+#    git-id:   e.g. 4551529zqsdhy from https://git.overleaf.com/4551529zqsdhy
+#    git-link: e.g. https://git.overleaf.com/4551529zqsdhy
+
+GITREP=`pwd`
+if [ ! -d "$GITREP/.git" ]; then
+    echo "Not a git repository..."
+    echo "'cd' into a git repository..."
+    echo
+    echo "Usage: overleaf_push (git-id | -l git-link | --link git-link)              "
+    echo "   git-id:   e.g. 4551529zqsdhy from https://git.overleaf.com/4551529zqsdhy"
+    echo "   git-link: e.g. https://git.overleaf.com/4551529zqsdhy                   "
+    exit 1
+fi
+
+# parse options
+while [[ $# -ge 1 ]]; do
+    if [[ $# -eq 1 ]]; then
+        GITLINK="https://git.overleaf.com/$1"
+    fi
+    case "$1" in
+        -l|--link)
+            if [[ "$2" == https://git.overleaf.com/* ]]; then
+                GITLINK="$2"
+            else
+                echo "Cannot resolve overleaf git-link..."
+                exit 1
+            fi
+            shift
+            ;;
+        --test)
+            
+        -h|--help)
+            echo "Usage: overleaf_push (git-id | -l git-link | --link git-link)              "
+            echo "   git-id:   e.g. 4551529zqsdhy from https://git.overleaf.com/4551529zqsdhy"
+            echo "   git-link: e.g. https://git.overleaf.com/4551529zqsdhy                   "
+            exit 1
+            ;;
+        *)
+            # Unknown option
+            ;;
+    esac
+    shift
+done
+if [[ -n $GITLINK ]]; then
+    echo "Remote adding $GITLINK"
+    echo "to repository $GITREP"
+else
+    echo "Usage: overleaf_push (git-id | -l git-link | --link git-link)              "
+    echo "   git-id:   e.g. 4551529zqsdhy from https://git.overleaf.com/4551529zqsdhy"
+    echo "   git-link: e.g. https://git.overleaf.com/4551529zqsdhy                   "
+    exit 1
+fi
+
+# Add git link as a remote
+git remote add overleaf $GITLINK
+
+# Pull contents of Overleaf project to master and merge
+git checkout master
+git pull overleaf master --allow-unrelated-histories
+
+# Revert the merge, i.e. erase content from Overleaf project
+git revert --mainline 1 HEAD
+
+# Push the repo to Overleaf
+git push overleaf master

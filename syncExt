@@ -2,8 +2,9 @@
 #
 # syncEXT
 #
-# Usage: syncExt [-p|--path EXTDPATH] [-d|--drive-name EXTD]
-#
+# Usage: syncExt [--lacie-share|--wd-media]
+#                [--docs|--home|--movies|--music|--pictures|--dropbox]
+#                [--test-run] [--help]
 
 # default external drive
 EXTD=LaCieSHARE

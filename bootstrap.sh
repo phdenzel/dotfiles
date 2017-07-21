@@ -1,10 +1,11 @@
 #!/bin/bash
 ####################################################### Bootstrap for dotfiles
 # ATTENTION: This may overwrite some preexisting dotfiles in your home folder!
-#            Best to make a backup first...
-# To be executed in the dotfiles directory
-# OPTIONS: --emacs   : copy the emacs config files.
-#          --terminal: copy the terminal files (macOS-specific).
+#            It is advisable to make a backup first...
+# To be SOURCED in the dotfiles directory
+# OPTIONS: --emacs   : install the emacs config files.
+#          --bin     : install the binary files (as symlinks in ~/local/bin).
+#          --terminal: install the terminal files (macOS-specific).
 if [ "$1" == "--emacs" ]; then
     # Copy .emacs.d to its rightful place                                 
     if [ ! -d "${HOME}/.emacs.d/" ]; then
@@ -21,12 +22,13 @@ elif [ "$1" == "--terminal" ]; then
     [ -d "${HOME}/Library/Services" ] && \
         cp -r etc/Launch\ Terminal.workflow/ ${HOME}/Library/Services/
 elif [ "$1" == "--bin" ]; then
-    # Copy the binaries to ~/ and link to ~/local/bin/
-    mkdir -p ${HOME}/local/bin/  # don't forget to add to path
+    # Link the binaries to ~/local/bin/
+    mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
     ln -s $(pwd)/github_repo ${HOME}/local/bin/
     ln -s $(pwd)/github_private_repo ${HOME}/local/bin/
     ln -s $(pwd)/free ${HOME}/local/bin/
     ln -s $(pwd)/syncExt ${HOME}/local/bin/
+    ln -s $(pwd)/overleaf_push ${HOME}/local/bin/
     
 else
     rsync --exclude ".git/" \
@@ -36,6 +38,7 @@ else
           --exclude "github_private_repo" \
           --exclude "free" \
           --exclude "syncExt" \
+          --exclude "overleaf_push" \
           --exclude "screenshot.png" \
           --exclude "etc/" \
           --exclude "utils/" \

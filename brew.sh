@@ -97,6 +97,7 @@ brew install pandoc
 brew cask install macdown
 
 ### Misc
+brew install asciinema
 brew install ffmpeg
 brew install imagemagick --with-webp
 brew cask install gimp

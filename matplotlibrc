@@ -73,3 +73,4 @@ legend.framealpha: 0.6
 # Saving
 savefig.dpi: figure
 savefig.format: pdf
+# savefig.transparent: True

@@ -291,6 +291,9 @@ Does not take effect when executed in a terminal.
     ;; no new frames when opening with Finder/Explorer
     (setq ns-pop-up-frames nil)
 
+    ;; maximize windows
+    (global-set-key (kbd "<C-s-268632077>") 'toggle-frame-fullscreen)
+
     ;; hide bars
     (menu-bar-mode 1) ;; if inside window, might be nice to keep
     (tool-bar-mode -1)
@@ -309,9 +312,9 @@ Does not take effect when executed in a terminal.
 
     ;; Fonts - http://sourcefoundry.org/hack/ or google fonts
     (if (eq system-type 'darwin)
-        (set-face-attribute 'default nil :font "Hack-14")
+        ;; (set-face-attribute 'default nil :font "Hack-14")
         ;; (set-face-attribute 'default nil :font "Inconsolata-14")
-        ;; (set-face-attribute 'default nil :font "Roboto Mono-14")
+        (set-face-attribute 'default nil :font "Roboto Mono-14")
         ;; (set-face-attribute 'default nil :font "Fira Mono-14")
         ;; (set-face-attribute 'default nil :font "Monaco-14")
       (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 80))
@@ -936,29 +939,40 @@ e.g. magit, projectile, perspective, etc.
     (counsel-projectile-on))
 
   ;; Perspective
-  (use-package perspective
+  ;; (use-package perspective
+  ;;   :ensure t
+  ;;   :config
+  ;;   ;; Enable perspective mode
+  ;;   (persp-mode t)
+  ;;   (defmacro custom-persp (name &rest body)
+  ;;     `(let ((initialize (not (gethash ,name perspectives-hash)))
+  ;;            (current-perspective persp-curr))
+  ;;        (persp-switch ,name)
+  ;;        (when initialize ,@body)
+  ;;        (setq persp-last current-perspective)))
+  ;;   ;; Jump to last perspective
+  ;;   (defun custom-persp-last ()
+  ;;     (interactive)
+  ;;     (persp-switch (persp-name persp-last)))
+  ;;   (define-key persp-mode-map (kbd "C-x p -") 'custom-persp-last)
+  ;;   ;; Custom mapping, e.g.
+  ;;   (defun custom-persp/emacs ()
+  ;;     (interactive)
+  ;;     (custom-persp "emacs"
+  ;;                   (find-file "~/.emacs.d/init.el")))
+  ;;   (define-key persp-mode-map (kbd "C-x p e") 'custom-persp/emacs)
+  ;;   )
+
+  (use-package perspeen
     :ensure t
+    ;; :init
+    ;; (setq perspeen-use-tab t)
     :config
-    ;; Enable perspective mode
-    (persp-mode t)
-    (defmacro custom-persp (name &rest body)
-      `(let ((initialize (not (gethash ,name perspectives-hash)))
-             (current-perspective persp-curr))
-         (persp-switch ,name)
-         (when initialize ,@body)
-         (setq persp-last current-perspective)))
-    ;; Jump to last perspective
-    (defun custom-persp-last ()
-      (interactive)
-      (persp-switch (persp-name persp-last)))
-    (define-key persp-mode-map (kbd "C-x p -") 'custom-persp-last)
-    ;; Custom mapping, e.g.
-    (defun custom-persp/emacs ()
-      (interactive)
-      (custom-persp "emacs"
-                    (find-file "~/.emacs.d/init.el")))
-    (define-key persp-mode-map (kbd "C-x p e") 'custom-persp/emacs)
-    )
+    (perspeen-mode)
+    ;; :bind
+    ;; (("C-x <left>" . perspeen-tab-prev)
+    ;; ("C-x <right>" . perspeen-tab-next))
+  )
 #+END_SRC
 
 
@@ -1169,7 +1183,7 @@ All style settings are defined here...
   ;; (setq initial-frame-alist '((screen-gamma . 1.0)))
 
   ;; Prettify symbols
-  ;; (global-prettify-symbols-mode 1)
+  (global-prettify-symbols-mode 1)
 
   ;; Load a few themes...
   (use-package color-theme
@@ -1590,7 +1604,7 @@ git clone git@github.com:domtronn/all-the-icons.el.git
                          '(list (*major-mode))
                        '(list (*major-mode)
                               " "
-                              (when persp-curr persp-modestring)
+                              ;; (when perspeen-current-ws perspeen-modestring)
                               "  "
                               (*vc)
                               (*buffer-encoding)

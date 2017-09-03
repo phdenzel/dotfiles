@@ -100,15 +100,18 @@ brew cask install macdown
 brew install asciinema
 brew install ffmpeg
 brew install imagemagick --with-webp
+brew install imagemagick@6
 brew cask install gimp
 brew cask install inkscape
 brew install wakeonlan
 brew install ical-buddy
 
 ### Emacs
+# rather compile from the source, it's easier...
+# git clone git://git.savannah.gnu.org/emacs.git
 # install newest version of emacs
-brew install --with-cocoa --with-ctags --with-gnutls --with-imagemagick emacs
-brew linkapps emacs
+# brew install --with-cocoa --with-ctags --with-gnutls --with-imagemagick emacs
+# brew linkapps emacs
 
 ### Some apps
 #brew cask install yacreader

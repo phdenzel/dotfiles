@@ -51,11 +51,11 @@ alias j="jobs"
 alias sudo='sudo ' # sudoing for aliases
 # emacs launches the app; for terminal-mode use 'e'/'emacs',
 # and for gui-mode 'ea'/'emacsapp'
-alias e="emacsclient -nw -a '' -c"
-alias ea="emacsclient -a '' -c"
-alias ekill="emacsclient -e '(kill-emacs)'"
-alias emacs="emacs -nw"
-alias emacsapp="/Applications/Emacs.app/Contents/MacOS/Emacs"
+# alias e="emacsclient -nw -a '' -c"
+# alias ea="emacsclient -a '' -c"
+# alias ekill="emacsclient -e '(kill-emacs)'"
+# alias emacs="emacs -nw"
+# alias emacsapp="/Applications/Emacs.app/Contents/MacOS/Emacs"
 alias eclipse='/Applications/Eclipse.app/Contents/MacOS/Eclipse'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 ### Servers

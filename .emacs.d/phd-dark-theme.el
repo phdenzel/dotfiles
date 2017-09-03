@@ -1,6 +1,6 @@
 ;;; phd-dark.el ---  phdenzel's dark Emacs theme
 ;;; Commentary:
-;; Should also work in Terminal.
+;;; Should also work in Terminal.
 
 ;;; Code:
 
@@ -36,7 +36,7 @@
     ("blue-dd"   .  (if window-system "#3723B7" "#0000FF"))
     ("green"     .  (if window-system "#3DAA77" "#00875F"))
     ("green-b"   .  (if window-system "#00AF5F" "#00AF5F"))
-    ("gui-font"      . "Hack")
+    ("gui-font"      . "Inconsolata")
     ("terminal-font" . "Fira Mono")
     )
   "Color palette alist for the phd-dark theme."
@@ -126,6 +126,10 @@
   `(phd-modeline-highlight         ((t (:foreground ,blue))))
   `(phd-modeline-bar               ((t (:background ,blue))))
   `(phd-modeline-eldoc-bar         ((t (:background ,yellow))))
+
+  ;; Perspeen
+  `(perspeen-tab--header-line-active  ((t (:background ,blue :inherit mode-line))))
+  `(perspeen-selected-face            ((t (:background ,blue :inherit mode-line))))
 
   ;; (i)Search
   `(isearch                  ((t (:inherit region))))

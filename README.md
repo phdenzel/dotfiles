@@ -41,11 +41,18 @@ which installs:
 
 of course, these Terminal configurations are macOS-specific.
  
+```bash
+source bootstrap.sh --bin
+```
+which installs a `~/local/bin/` directory and links all the executables
+in `bin/` to it   
+ 
+ 
 ### Bash scripts:
 Moreover, the repository holds several bash scripts, although they aren't strictly speaking dotfiles. Nevertheless, it's quite useful to be able to clone a single repository onto a new machine and run only a handful of commands that install all your settings and libraries at once.
 *Again, go through the files first and make sure you know what they are doing, before installing*.
 
-* `./macOS` - changes macOS-specific settings (only for macOS users)
+* `./.macOS` - changes macOS-specific settings (only for macOS users)
 * `bash brew.sh` - downloads useful Homebrew packages (takes up quite a bit of disk space)
 * `bash pip.sh` - installs essential python libraries
 * `bash gem.sh` - installs a couple of ruby gems

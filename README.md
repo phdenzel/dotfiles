@@ -56,7 +56,7 @@ Moreover, the repository holds several bash scripts, although they aren't strict
 * `bash brew.sh` - downloads useful Homebrew packages (takes up quite a bit of disk space)
 * `bash pip.sh` - installs essential python libraries
 * `bash gem.sh` - installs a couple of ruby gems
-* `bash git-clone.sh` - creates a `~/git-clones` directory and clones useful git repositories into it.
+* `bash git-clones.sh` - creates a `~/git-clones` directory and clones useful git repositories into it.
 * `bash db2Documents.sh` - creates symlinks from `~/Dropbox` to `~/Documents` (fill the lists in the loops with your own directories or files)
 * `bash db2Home.sh` - creates symlinks from `~/Dropbox` to `~/` (fill the lists in the loops with your own directories or files)
 

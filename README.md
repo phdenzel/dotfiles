@@ -7,7 +7,7 @@ Some of the files are especially designed for macOS (tested on *macOS Sierra 10.
   
 The repository can be cloned wherever you want; a natural place would be `~/dotfiles`, i.e. the home folder, or to use a *symlink* from the clone to the home folder (that's what I do).
 
-**Warning**: Use with caution! Check the files first before installing; especially `macOS`, `brew.sh`, `pip.sh`, `gem.sh`, and `git_clone.sh`.
+**Warning**: Use with caution! Check the files first before installing; especially `.macOS`, `brew.sh`, `pip.sh`, `gem.sh`, and `git_clones.sh`.
 
 ### Example
 ![Screenshot of my shell prompt](screenshot.png)

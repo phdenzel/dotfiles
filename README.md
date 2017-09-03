@@ -45,7 +45,7 @@ of course, these Terminal configurations are macOS-specific.
 source bootstrap.sh --bin
 ```
 which installs a `~/local/bin/` directory and links all the executables
-in `bin/` to it   
+in `bin/` to it.   
  
  
 ### Bash scripts:

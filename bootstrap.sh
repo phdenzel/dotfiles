@@ -11,9 +11,9 @@ if [ "$1" == "--emacs" ]; then
     if [ ! -d "${HOME}/.emacs.d/" ]; then
 	      cp -r .emacs.d ${HOME}/
     else
-        mv ${HOME}/.emacs.d ${HOME}/emacs.d-orig
+        mv ${HOME}/.emacs.d ${HOME}/emacs.d-old
 	      cp -r .emacs.d ${HOME}/
-	      echo ".emacs.d already existed and has been backed up to ~/emacs.d-orig"
+	      echo ".emacs.d already existed and has been backed up to ~/emacs.d-old"
     fi;
 elif [ "$1" == "--terminal" ]; then
     # Copy the terminal files to Documents resp. Library/Serivices
@@ -24,22 +24,18 @@ elif [ "$1" == "--terminal" ]; then
 elif [ "$1" == "--bin" ]; then
     # Link the binaries to ~/local/bin/
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
-    ln -s $(pwd)/github_repo ${HOME}/local/bin/
-    ln -s $(pwd)/github_private_repo ${HOME}/local/bin/
-    ln -s $(pwd)/free ${HOME}/local/bin/
-    ln -s $(pwd)/syncExt ${HOME}/local/bin/
-    ln -s $(pwd)/overleaf_push ${HOME}/local/bin/
+    ln -s $(pwd)/bin/github_repo ${HOME}/local/bin/
+    ln -s $(pwd)/bin/github_private_repo ${HOME}/local/bin/
+    ln -s $(pwd)/bin/free ${HOME}/local/bin/
+    ln -s $(pwd)/bin/syncExt ${HOME}/local/bin/
+    ln -s $(pwd)/bin/overleaf_push ${HOME}/local/bin/
     
 else
     rsync --exclude ".git/" \
           --exclude ".DS_Store" \
           --exclude "bootstrap.sh" \
-          --exclude "github_repo" \
-          --exclude "github_private_repo" \
-          --exclude "free" \
-          --exclude "syncExt" \
-          --exclude "overleaf_push" \
           --exclude "screenshot.png" \
+          --exclude "bin/" \
           --exclude "etc/" \
           --exclude "utils/" \
           --exclude "private/" \

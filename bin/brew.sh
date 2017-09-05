@@ -102,7 +102,8 @@ brew install ffmpeg
 brew install imagemagick --with-webp
 brew install imagemagick@6
 brew cask install gimp
-brew cask install inkscape
+# inkscape unfortunately glitchy on my machine, which is why I uninstalled it
+# brew cask install inkscape
 brew install wakeonlan
 brew install ical-buddy
 

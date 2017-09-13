@@ -7,4 +7,5 @@ gem update
 
 # Install ruby gems
 gem install jekyll
+gem install redcarpet
 gem install haml

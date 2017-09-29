@@ -20,7 +20,7 @@ elif [ "$1" == "--terminal" ]; then
     [ -d "${HOME}/Documents" ] && \
         cp etc/*.terminal ${HOME}/Documents/
     [ -d "${HOME}/Library/Services" ] && \
-        cp -r etc/Launch\ Terminal.workflow/ ${HOME}/Library/Services/
+        cp -r etc/Launch\ Terminal.workflow ${HOME}/Library/Serives/ 
 elif [ "$1" == "--bin" ]; then
     # Link the binaries to ~/local/bin/
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH

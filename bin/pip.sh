@@ -6,6 +6,7 @@ pip install numpy
 pip install matplotlib
 pip install scipy
 pip install sympy
+pip install pandas
 pip install virtualenv
 pip install sphinx
 

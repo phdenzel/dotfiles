@@ -33,6 +33,7 @@ elif [ "$1" == "--bin" ]; then
 else
     rsync --exclude ".git/" \
           --exclude ".DS_Store" \
+	  --exclude ".macOS" \
           --exclude "bootstrap.sh" \
           --exclude "screenshot.png" \
           --exclude "bin/" \

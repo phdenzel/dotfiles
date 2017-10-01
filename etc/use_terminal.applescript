@@ -10,7 +10,7 @@ tell application "Terminal"
   set initialOpenedWindows to id of every window
 
   (* Open custom theme... the rest will be loaded automatically *)
-  do shell script "open '$HOME/Documents/" & themeName & ".terminal'"
+  do shell script "cd; open '../../Documents/" & themeName & ".terminal'; cd -"
 
   (* Wait until custom theme is loaded *)
   delay 1

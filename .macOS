@@ -16,11 +16,11 @@ sudo chown -R $(whoami) /usr/local
 
 ####################################################### GENERAL SETTINGS
 # Hostname - for every computer different of course
-sudo scutil --set ComputerName "MBPro"
-sudo scutil --set LocalHostName "MBPro"
-sudo scutil --set HostName "MBPro"
+sudo scutil --set ComputerName "Hackintosh"
+sudo scutil --set LocalHostName "Hackintosh"
+sudo scutil --set HostName "Hackintosh"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server \
-    NetBIOSName -string "MBPro"
+    NetBIOSName -string "Hackintosh"
 # Language - english in CH
 defaults write NSGlobalDomain AppleLocale -string "en_CH"
 defaults write NSGlobalDomain AppleLanguages -array "en-CH" "de-CH"
@@ -43,11 +43,15 @@ defaults write com.apple.systemuiserver menuExtras -array \
     "/System/Library/CoreServices/Menu Extras/User.menu" \
     "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
     "/System/Library/CoreServices/Menu Extras/Displays.menu" \
-    "/System/Library/CoreServices/Menu Extras/Battery.menu" \
     "/System/Library/CoreServices/Menu Extras/TextInput.menu" \
-    "/System/Library/CoreServices/Menu Extras/Volume.menu"
+    "/System/Library/CoreServices/Menu Extras/Volume.menu" \
+    "/System/Library/CoreServices/Menu Extras/TimeMachine.menu"
+# \
+#     "/System/Library/CoreServices/Menu Extras/Battery.menu"
+# Disable Other... Login
+defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHER_MANAGED -bool FALSE
 ### Keyboard - disable caps lock (if not working, add Terminal.app to the list in System Preferences/Security & Privacy/Privacy/Accessibility)
-osascript etc/caps_lock_remap.applescript 
+osascript etc/caps_lock_remap.applescript
 ### Keyboard shortcuts
 # FIX: not yet working; try it and use xcode editor to delete the changes again
 # create Launch Terminal shortcut
@@ -159,8 +163,8 @@ defaults write com.apple.screencapture disable-shadow -bool true
 ####################################################### POWER SETTINGS
 # standby/sleep
 sudo pmset -a standbydelay 10800
-sudo pmset -a displaysleep 3
-sudo pmset -a sleep 3
+sudo pmset -a displaysleep 15
+sudo pmset -a sleep 20
 # no hibernation makes sleep entering faster
 sudo pmset -a hibernatemode 0
 # Disable the sudden motion sensor as SSDs have no moving parts
@@ -233,7 +237,7 @@ defaults write com.apple.Terminal ShowLineMarks -int 0
 # Use a phd theme by default
 # Copy done during bootstrapping
 #cp ./etc/phdenzel.terminal $HOME/Documents/
-osascript etc/use_terminal.applescript
+osascript ${HOME}/dotfiles/etc/use_terminal.applescript
 
 ####################################################### APP STORE
 # Show Debug menu

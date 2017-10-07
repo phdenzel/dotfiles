@@ -45,6 +45,9 @@ alias -- -="cd -"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dropbox="cd ~/Dropbox"
+### Python
+#alias python="python2"
+#alias pip="pip2"
 ### Command shortcuts
 alias h="history"
 alias j="jobs"

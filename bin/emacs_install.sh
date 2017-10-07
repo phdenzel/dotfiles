@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ~/git-clones/
+cd ~/local/
 git clone git://git.savannah.gnu.org/emacs.git
 cd emacs/
 ./autogen.sh

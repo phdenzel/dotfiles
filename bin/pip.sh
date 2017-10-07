@@ -15,10 +15,10 @@ pip install dtrx
 pip install pyyaml
 pip install requests
 pip install --user certifi
-export C_INCLUDE_PATH=/usr/local/include/hunspell
+# export C_INCLUDE_PATH=/usr/local/include/hunspell
 # be careful if there's more than a single lib
-sudo ln -sf /usr/local/lib/libhunspell-*.a /usr/local/lib/libhunspell.a
-pip install hunspell
+# sudo ln -sf /usr/local/lib/libhunspell-*.a /usr/local/lib/libhunspell.a
+# pip install hunspell
 pip install line_profiler
 pip install memory_profiler
 # for emacs-elpy
@@ -54,5 +54,6 @@ pip install wolframalpha
 
 # for the astrophysicists/astronomers
 pip install astropy
-pip install wcsaxes
+# unknown error
+# pip install wcsaxes
 pip install -U scikit-image

@@ -1,5 +1,7 @@
 #!/bin/bash
 ####################################################### Homebrew installs
+# Install homebrew
+# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 # Make sure we’re using the latest Homebrew
 brew update
 # Upgrade any already-installed formulae
@@ -18,7 +20,7 @@ brew install bash-completion
 
 ### GNU
 # wget with iri support (alternatively use .wgetrc to turn on iri manually)
-brew install wget --with-iri
+brew install wget
 # GNU core utilities - prefixed with g(command)
 # to override existing bins add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`
 brew install coreutils
@@ -32,7 +34,53 @@ brew install gnutls
 # GNU sed - installed as gsed
 brew install gnu-sed
 # GNU cal equivalent
-brew install gcal
+#brew install gcal
+
+### General framework
+brew install autoconf
+brew install automake
+brew install cmake
+# C/C++
+brew install gcc
+brew install gcc@6
+brew install sdl2
+#brew reinstall gcc --without-multilib
+# Python
+brew install python
+brew install python3
+# Java
+brew tap caskroom/cask
+brew cask install java
+brew install ant
+brew install jenv
+# init jEnv in bashrc with 'if which jenv > /dev/null; then eval "$(jenv init -)"; fi'
+# add jdks with 'jenv add /Library/Java/JavaVirtualMachines/jdk1.x.x_xx.jdk/Contents/Home'
+# and set a global version with 'jenv global <version>' from 'jenv versions'
+# or locally use 'jenv local <version>' in target directory
+# Web serving
+brew install node
+# Coffee
+#npm install -g http-server
+#npm install -g coffee-script
+# Ruby
+brew install ruby
+# Go
+brew install go
+# Misc
+#brew install docker
+#brew install boot2docker
+brew install ocaml
+#brew install valgrind
+brew install mono
+brew install tesseract --with-all-languages
+#brew install llvm --with-python
+brew install gdb
+# LaTeX
+brew cask install mactex
+# Markdown
+brew install pandoc
+brew cask install macdown
+
 
 ### Useful commands/libs
 brew install dtrx
@@ -40,6 +88,7 @@ brew install ghostscript
 brew install ngrep
 brew install gawk
 brew install mawk
+brew install cairo
 brew install librsvg
 brew install hunspell
 brew install cdiff
@@ -48,53 +97,10 @@ brew install exiftool
 # dev commands
 brew install pcre
 brew install swig
-brew install cmake
-brew install autoconf
 brew install libffi
 # ansible - config automation tool
 brew install openssl@1.1
 brew install ansible
-
-### General frameworks
-brew install boot2docker
-brew install ocaml
-brew install valgrind
-brew install mono
-brew install tesseract --with-all-languages
-#brew install llvm --with-python
-brew install gdb
-# c/c++
-brew install gcc
-brew install gcc@6
-brew install sdl2
-brew install libmpc
-#brew reinstall gcc --without-multilib
-# python
-brew install python
-brew install python3
-# java
-# cask tap deprecated in modern versions
-#brew tap caskroom/cask
-#brew install brew-cask
-brew cask install java
-brew install ant
-brew install jenv
-# init jEnv in bashrc with 'if which jenv > /dev/null; then eval "$(jenv init -)"; fi'
-# add jdks with 'jenv add /Library/Java/JavaVirtualMachines/jdk1.x.x_xx.jdk/Contents/Home'
-# and set a global version with 'jenv global <version>' from 'jenv versions'
-# or locally use 'jenv local <version>' in target directory
-# Javascript
-brew install node
-# coffee
-npm install -g http-server
-npm install -g coffee-script
-# ruby
-brew install ruby
-# LaTeX
-brew cask install mactex
-# Markdown
-brew install pandoc
-brew cask install macdown
 
 ### Misc
 brew install asciinema
@@ -115,7 +121,7 @@ brew install ical-buddy
 # brew linkapps emacs
 
 ### Some apps
-#brew cask install yacreader
+brew cask install yacreader
 
 ### Get rid of the useless stuff
 brew cleanup

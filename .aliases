@@ -80,11 +80,11 @@ alias mj="squeue -u ${PERSON}"
 alias aj="squeue"
 ### Network
 # IP addresses
-if (dig +short myip.opendns.com @resolver1.opendns.com > /dev/null 2>&1); then
-    alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-else
-    alias ip="curl ipecho.net/plain; echo"
-fi
+#if (dig +short myip.opendns.com @resolver1.opendns.com > /dev/null 2>&1); then
+#    alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+#else
+alias ip="curl ipecho.net/plain; echo"
+#fi
 alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 # Interfaces

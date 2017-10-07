@@ -1,7 +1,7 @@
-#!/bin/bash
 #
 # syncEXT
 #
+#!/bin/bash
 # Usage: syncExt [--lacie-share|--wd-media]
 #                [--docs|--home|--movies|--music|--pictures|--dropbox]
 #                [--test-run] [--help]
@@ -83,12 +83,14 @@ while [ $# -ge 1 ]; do
             DO_PICS=0
             ;;
         --test-run)
-            FLAGS=ahP
+            FLAGS=ahPn
             ;;
         -h|--help)
             echo "Usage: syncExt [--lacie-share|--wd-media]"
             echo "               [--docs|--home|--movies|--music|--pictures|--dropbox]"
             echo "               [--test-run] [--help]"
+            echo ""
+            echo "A program to sync files to or from the Home directories to an external hard disk"
             exit 1
             ;;
         *)

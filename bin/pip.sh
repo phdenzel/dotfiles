@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # the essentials
-pip install ipython
 pip install numpy
 pip install matplotlib
 pip install scipy
@@ -9,6 +8,8 @@ pip install sympy
 pip install pandas
 pip install virtualenv
 pip install sphinx
+pip install ipython
+pip install jupyter
 
 # general utils
 pip install dtrx

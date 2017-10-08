@@ -2,7 +2,7 @@
 
 # link directories to ~/
 echo "Directory links"
-for folder in ~/Dropbox/{papers,teaching}; do
+for folder in ~/Dropbox/{papers,teaching,org}; do
     dname=${folder##*/}
     if [ -e "$HOME/$dname" ]; then
         echo "    Link ~/$dname does already exist"

@@ -20,3 +20,5 @@ set skip-completed-text on
 set input-meta on
 set output-meta on
 set convert-meta off
+# Remove annoying bell
+set bell-style none

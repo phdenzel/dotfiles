@@ -30,6 +30,7 @@ if which brew &> /dev/null && [ -f /usr/local/etc/bash_completion ]; then
 elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
+echo "DEBUG"
 # Add tab completion for defaults read/write NSGlobalDomain
 complete -W "NSGlobalDomain" defaults;
 # Add tab completion for killall with common apps
@@ -49,8 +50,14 @@ _mounted () {
 # Check free memory
 _meminfo () {
     echo "------------------------------ Memory Information ------------------------------"
-    # free -tm  # linux version
-    free --megabyte  # macos version
+    case $( uname -s ) in
+	Linux)
+	    /usr/bin/free -tm
+	;;
+	*)
+	    free --megabyte
+	;;
+    esac
 }
 # Look at uptime
 _upinfo () {
@@ -58,6 +65,7 @@ _upinfo () {
     echo ""
     echo -ne "Uptime for: ${HOSTNAME} is "; uptime | awk /'up/ {print $3,$4,$5,$6,$7,$8,$9,$10}'
 }
+
 
 ####################################################### Welcome Screen
 clear
@@ -68,9 +76,9 @@ if type sw_vers >/dev/null 2>&1; then
          $(sw_vers | awk -F ':' '{print $2}');
 else
     echo -e  "${yellow}Operating System: \t\t${blue}" \
-         #`cat /etc/issue | cut -c 1-19`;
-    cat /etc/issue | awk 'BEGIN { ORS=" " } \
-    FNR==1 {print $0}'; # FNR==2 {print $1}';
+    `cat /etc/issue | cut -c 1-19`;
+    # cat /etc/issue | awk 'BEGIN { ORS=" " } \
+    # FNR==1 {print $0}'; # FNR==2 {print $1}';
     echo "";    
 fi;
 echo -e  "${orange}Kernel Information: \t\t${blue}" `uname -smr`

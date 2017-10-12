@@ -24,7 +24,9 @@ shopt -s cdspell
 # Case-insensitive globbing
 #shopt -s nocaseglob
 # Shut up the annoying bell
-setterm -blength 0
+if [ -f /usr/bin/setterm ]; then
+    setterm -blength 0
+fi;
 
 # Add tab completion for many Bash commands
 if which brew &> /dev/null && [ -f /usr/local/etc/bash_completion ]; then
@@ -32,7 +34,6 @@ if which brew &> /dev/null && [ -f /usr/local/etc/bash_completion ]; then
 elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
-echo "DEBUG"
 # Add tab completion for defaults read/write NSGlobalDomain
 complete -W "NSGlobalDomain" defaults;
 # Add tab completion for killall with common apps

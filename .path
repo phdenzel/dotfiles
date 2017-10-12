@@ -9,6 +9,8 @@ export PATH="$HOME/local/bin:$PATH"
 
 # python
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+# pip
+export PATH=$PATH:$HOME/.local/bin
 
 # ruby
 export PATH="$(brew --prefix ruby)/bin:$PATH"

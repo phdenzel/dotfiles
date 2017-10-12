@@ -1,7 +1,7 @@
 #!/bin/bash
 ####################################################### Ruby gem installs
 # Update first before installing gems
-gem update
+sudo gem update
 # if not working (due to permissions error or something)
 # use 'brew install ruby' first
 

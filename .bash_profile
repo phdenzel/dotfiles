@@ -23,6 +23,8 @@ shopt -s autocd
 shopt -s cdspell
 # Case-insensitive globbing
 #shopt -s nocaseglob
+# Shut up the annoying bell
+setterm -blength 0
 
 # Add tab completion for many Bash commands
 if which brew &> /dev/null && [ -f /usr/local/etc/bash_completion ]; then

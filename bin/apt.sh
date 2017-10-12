@@ -30,6 +30,8 @@ sudo apt-get install libgtk-3-dev
 sudo apt-get install libwebkitgtk-3.0-dev
 sudo apt-get install libxpm-dev
 sudo apt-get install libxaw7-dev
+sudo apt-get install ruby
+sudo apt-get install ruby-dev
 # Misc
 sudo apt-get install imagemagick
 

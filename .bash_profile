@@ -48,7 +48,14 @@ git config --global user.email "$GITMAIL"
 # Get the mounted drives and free space
 _mounted () {
     echo "-------------------------------- Mounted Drives --------------------------------"
-    df -H
+    case $( uname -s ) in
+	Linux)
+	    df -H
+	;;
+	*)
+	    gdf -H
+	;;
+    esac
 }
 # Check free memory
 _meminfo () {

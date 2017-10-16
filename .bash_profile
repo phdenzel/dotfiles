@@ -15,7 +15,7 @@ ssh-add -K	~/.ssh/id_rsa &>/dev/null
 # Reference the DISPLAY on linux on windows
 case $( uname -s ) in
 	Linux)
-	    DISPLAY=localhost:0.0
+	    export DISPLAY=localhost:0.0
 	;;
 	*)
 	;;

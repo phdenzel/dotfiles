@@ -12,6 +12,14 @@ unset file;
 # use -K option if using OSX Keychain and passphrase
 ssh-add -K	~/.ssh/id_rsa &>/dev/null
 #ssh-add ~/.ssh/id_rsa
+# Reference the DISPLAY on linux on windows
+case $( uname -s ) in
+	Linux)
+	    DISPLAY=localhost:0.0
+	;;
+	*)
+	;;
+esac
 # Append to the history file, don't overwrite it
 shopt -s histappend;
 # Check window size constantly

@@ -4,6 +4,8 @@
 # Essentials
 sudo apt-get install linuxbrew-wrapper
 sudo apt-get install ssh
+sudo apt-get install x11-apps
+sudo apt-get install gnome-calculator  # for gtk
 sudo apt-get install wget
 # System utilities
 sudo apt-get install sysstat
@@ -34,4 +36,4 @@ sudo apt-get install ruby
 sudo apt-get install ruby-dev
 # Misc
 sudo apt-get install imagemagick
-
+sudo apt-get install python-tk

@@ -784,7 +784,9 @@ Adding support for some programming languages or global coding behaviour...
   (use-package flycheck
     :ensure t
     :init
-    (global-flycheck-mode 1))
+    (global-flycheck-mode 1)
+    :config
+    (setq-default flycheck-flake8-maximum-line-length 99))
 
   ;; - Code folding
   (use-package hideshow

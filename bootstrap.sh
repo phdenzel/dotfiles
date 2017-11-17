@@ -33,7 +33,7 @@ elif [ "$1" == "--bin" ]; then
 else
     rsync --exclude ".git/" \
           --exclude ".DS_Store" \
-	  --exclude ".macOS" \
+	        --exclude ".macOS" \
           --exclude "bootstrap.sh" \
           --exclude "screenshot.png" \
           --exclude "bin/" \
@@ -41,9 +41,13 @@ else
           --exclude "utils/" \
           --exclude "private/" \
 	        --exclude ".emacs.d" \
+          --exclude "matplotlibrc" \
           --exclude "LICENSE" \
           --exclude "README.md" \
           -avh . ~;
+
+    mkdir -p ~/.matplotlib
+    rsync -avh matplotlibrc ~/.matplotlib/
 fi;
 
 source ~/.bashrc

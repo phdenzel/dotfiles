@@ -47,17 +47,26 @@ figure.subplot.hspace: 0.2
 
 # Font sizes
 axes.formatter.use_mathtext: True
-axes.titlesize: x-large
-axes.labelsize: x-large
-xtick.labelsize: xx-large
-ytick.labelsize: xx-large
-legend.fontsize: xx-large
+axes.titlesize: 22
+axes.labelsize: 20
+xtick.labelsize: 20
+ytick.labelsize: 20
+legend.fontsize: 20
+
 
 # Ticking
-xtick.major.size: 0
-ytick.major.size: 0
+xtick.major.size: 5
+ytick.major.size: 5
 xtick.major.pad: 5
 ytick.major.pad: 5
+xtick.major.width : 0.5
+ytick.major.width : 0.5
+# xtick.minor.size: 5
+# ytick.minor.size: 5
+# xtick.minor.pad: 2
+# ytick.minor.pad: 2
+# xtick.minor.width : 0.5
+# ytick.minor.width : 0.5
 
 # Grids
 axes.grid: False # when using with ggplot

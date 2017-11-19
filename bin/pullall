@@ -1,0 +1,30 @@
+#!/bin/bash
+# Usage: pullall [--help]
+#
+# All files in ~/.pulls are pulled from their git repo
+
+while [ $# -ge 1 ]; do
+    case "$1" in
+        -h|--help)
+            echo "Usage: pullall [--help]"
+            echo ""
+            echo "All files in ~/.pulls are pulled from their git repo"
+            exit 1
+            ;;
+        *)
+            # unknown option
+            ;;
+    esac
+    shift # past argument or value
+done
+
+while read rep; do
+    if [[ $rep == "#"* ]]; then
+        continue
+    else
+        reppath=`eval echo $rep`
+        echo "cd $rep && git pull"
+        cd $reppath && git pull
+        echo ""
+    fi
+done < ~/.pulls

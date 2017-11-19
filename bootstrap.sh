@@ -29,6 +29,7 @@ elif [ "$1" == "--bin" ]; then
     ln -s $(pwd)/bin/free ${HOME}/local/bin/
     ln -s $(pwd)/bin/syncExt ${HOME}/local/bin/
     ln -s $(pwd)/bin/overleaf_push ${HOME}/local/bin/
+    ln -s $(pwd)/bin/pullall ${HOME}/local/bin/
     
 else
     rsync --exclude ".git/" \

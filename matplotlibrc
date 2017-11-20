@@ -47,20 +47,20 @@ figure.subplot.hspace: 0.2
 
 # Font sizes
 axes.formatter.use_mathtext: True
-axes.titlesize: 22
-axes.labelsize: 20
-xtick.labelsize: 20
-ytick.labelsize: 20
-legend.fontsize: 20
+axes.titlesize: xx-large
+axes.labelsize: xx-large
+xtick.labelsize: xx-large
+ytick.labelsize: xx-large
+legend.fontsize: xx-large
 
 
 # Ticking
 xtick.major.size: 5
 ytick.major.size: 5
-xtick.major.pad: 5
-ytick.major.pad: 5
-xtick.major.width : 0.5
-ytick.major.width : 0.5
+xtick.major.pad: 1
+ytick.major.pad: 1
+xtick.major.width : 1
+ytick.major.width : 1
 # xtick.minor.size: 5
 # ytick.minor.size: 5
 # xtick.minor.pad: 2

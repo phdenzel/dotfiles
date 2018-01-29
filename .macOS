@@ -16,11 +16,11 @@ sudo chown -R $(whoami) /usr/local
 
 ####################################################### GENERAL SETTINGS
 # Hostname - for every computer different of course
-sudo scutil --set ComputerName "Hackintosh"
-sudo scutil --set LocalHostName "Hackintosh"
-sudo scutil --set HostName "Hackintosh"
+sudo scutil --set ComputerName "Mac"
+sudo scutil --set LocalHostName "Mac"
+sudo scutil --set HostName "Mac"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server \
-    NetBIOSName -string "Hackintosh"
+    NetBIOSName -string "Mac"
 # Language - english in CH
 defaults write NSGlobalDomain AppleLocale -string "en_CH"
 defaults write NSGlobalDomain AppleLanguages -array "en-CH" "de-CH"

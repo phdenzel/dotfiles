@@ -1,60 +1,63 @@
 #!/bin/bash
 
+PIP='pip'
+# PIP='pip3'
+
 # the essentials
-pip install numpy
-pip install matplotlib
-pip install scipy
-pip install sympy
-pip install pandas
-pip install virtualenv
-pip install sphinx
-pip install ipython
-pip install jupyter
+$PIP install numpy
+$PIP install matplotlib
+$PIP install scipy
+$PIP install sympy
+$PIP install pandas
+$PIP install virtualenv
+$PIP install sphinx
+$PIP install ipython
+$PIP install jupyter
 
 # general utils
-pip install dtrx
-pip install pyyaml
-pip install requests
-pip install --user certifi
+$PIP install dtrx
+$PIP install pyyaml
+$PIP install requests
+$PIP install --user certifi
 # export C_INCLUDE_PATH=/usr/local/include/hunspell
 # be careful if there's more than a single lib
 # sudo ln -sf /usr/local/lib/libhunspell-*.a /usr/local/lib/libhunspell.a
-# pip install hunspell
-pip install line_profiler
-pip install memory_profiler
+# $PIP install hunspell
+$PIP install line_profiler
+$PIP install memory_profiler
 # for emacs-elpy
-pip install jedi
-pip install flake8
-pip install importmagic
-pip install autopep8
-pip install yapf
-pip install epc
+$PIP install jedi
+$PIP install flake8
+$PIP install importmagic
+$PIP install autopep8
+$PIP install yapf
+$PIP install epc
 
 # for web servings
-pip install flask
+$PIP install flask
 
 # for more advanced graphics
-pip install Pillow
-pip install opencv-python
+$PIP install Pillow
+$PIP install opencv-python
 
 # Google's TensorFlow and other machine learning libs
-pip install tensorflow
-pip install keras
+$PIP install tensorflow
+$PIP install keras
 
 # for the statistics experts
-pip install emcee
-pip install corner
+$PIP install emcee
+$PIP install corner
 
 # for the Arduino user
-pip install pyserial
+$PIP install pyserial
 
 # for tinkering
-pip install pyowm
-pip install wikipedia
-pip install wolframalpha
+$PIP install pyowm
+$PIP install wikipedia
+$PIP install wolframalpha
 
 # for the astrophysicists/astronomers
-pip install astropy
+$PIP install astropy
 # unknown error
-# pip install wcsaxes
-pip install -U scikit-image
+# $PIP install wcsaxes
+$PIP install -U scikit-image

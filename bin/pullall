@@ -23,8 +23,10 @@ while read rep; do
         continue
     else
         reppath=`eval echo $rep`
-        echo "cd $rep && git pull"
-        cd $reppath && git pull
+        echo "cd $rep && git fetch --all && git pull --all"
+        cd $reppath \
+            && git fetch --all \
+            && git pull --all
         echo ""
     fi
 done < ~/.pulls

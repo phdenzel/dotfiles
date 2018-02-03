@@ -22,6 +22,8 @@ git clone git@github.com:phdenzel/tophil.git
 git clone git@github.com:phdenzel/pentaplex.git
 git clone git@github.com:phdenzel/twilio-sms-bot.git
 
+mkdir -p $HOME/stds
+cd $HOME/stds
 git clone git@github.com:phdenzel/c-info.git
 git clone git@github.com:phdenzel/c-std.git
 git clone git@github.com:phdenzel/dev-std.git
@@ -30,6 +32,7 @@ cd $HOME/Documents
 git clone git@github.com:phdenzel/master-thesis.git
 git clone git@github.com:psaha/magicenv.git
 
+mkdir -p $HOME/Documents/how-tos
 cd $HOME/Documents/how-tos
 git clone git@github.com:phdenzel/local-python-install.git
 git clone git@github.com:phdenzel/hello-world.git
@@ -42,7 +45,7 @@ git clone git@github.com:phdenzel/heat-spike.git
 ### Misc
 cd $HOME
 git clone git@github.com:RafiKueng/SpaghettiLens.git
-
+git clone git@github.com:pynbody/pynbody.git
 
 #### Other git(hub) clones
 #mkdir -p $HOME/git-clones;
@@ -56,4 +59,3 @@ git clone git@github.com:RafiKueng/SpaghettiLens.git
 #
 ## Org mode themes
 #git clone git@github.com:fniessen/org-html-themes.git
-

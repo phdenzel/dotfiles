@@ -18,6 +18,9 @@ fi;
 # add bash completion
 brew install bash-completion
 
+# git
+brew install git
+
 ### GNU
 # wget with iri support (alternatively use .wgetrc to turn on iri manually)
 brew install wget

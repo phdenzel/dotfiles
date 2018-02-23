@@ -13,6 +13,7 @@ Desktop.ini
 
 # Compiled Python files
 *.pyc
+*__pycache__
   # pickle file extension
 *.pkl
 

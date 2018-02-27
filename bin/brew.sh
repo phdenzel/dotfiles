@@ -60,6 +60,8 @@ brew install jenv
 # add jdks with 'jenv add /Library/Java/JavaVirtualMachines/jdk1.x.x_xx.jdk/Contents/Home'
 # and set a global version with 'jenv global <version>' from 'jenv versions'
 # or locally use 'jenv local <version>' in target directory
+# Scala
+brew install scala
 # Web serving
 brew install node
 # Coffee

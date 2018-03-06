@@ -54,25 +54,39 @@ alias j="jobs"
 alias sudo='sudo ' # sudoing for aliases
 # emacs launches the app; for terminal-mode use 'e'/'et',
 # and for gui-mode 'emacsapp'/'ea'
-case $( uname -s ) in
-	Linux)
-		alias emacsapp='/usr/local/bin/emacs'
-		alias emacs='/usr/local/bin/emacs'
-		alias ea='/usr/local/bin/emacs'
-		alias e='/usr/local/bin/emacs'
-		alias et='/usr/local/bin/emacs'
-		alias chrome='/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe'
-	;;
-  	*)
-		alias emacsapp='/Applications/Emacs.app/Contents/MacOS/Emacs'
-		alias emacs='emacsapp -nw'
-		alias ea='emacsapp'
-		alias e='emacsapp -nw'
-		alias et='emacs -nw'
-		alias eclipse='/Applications/Eclipse.app/Contents/MacOS/Eclipse'
-		alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-       ;;
-esac
+case $OS in
+	  Microsoft)  # Ubuntu built ontop of Windows
+		    alias emacsapp='/usr/local/bin/emacs'
+		    alias emacs='/usr/local/bin/emacs -nw'
+		    alias ea='/usr/local/bin/emacs'
+		    alias e='/usr/local/bin/emacs -nw'
+		    alias et='/usr/local/bin/emacs -nw'
+		    alias chrome='/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe'
+	      ;;
+    Darwin)
+		    alias emacsapp='/Applications/Emacs.app/Contents/MacOS/Emacs'
+		    alias emacs='emacsapp -nw'
+		    alias ea='emacsapp'
+		    alias e='emacsapp -nw'
+		    alias et='emacs -nw'
+		    alias eclipse='/Applications/Eclipse.app/Contents/MacOS/Eclipse'
+		    alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+        ;;
+    Linux)
+        alias emacsapp='/usr/bin/emacs'
+		    alias emacs='/usr/bin/emacs -nw'
+		    alias ea='/usr/bin/emacs'
+		    alias e='/usr//bin/emacs -nw'
+		    alias et='/usr/bin/emacs'
+        ;;
+    *)
+        alias emacsapp='/usr/bin/emacs'
+		    alias emacs='/usr/bin/emacs -nw'
+		    alias ea='/usr/bin/emacs'
+		    alias e='/usr//bin/emacs -nw'
+		    alias et='/usr/bin/emacs'
+        ;;
+esac;
 ### Servers
 source ~/.USERINFO
 PERSON=$SSHUSER

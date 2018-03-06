@@ -72,12 +72,12 @@ case $OS in
 		    alias eclipse='/Applications/Eclipse.app/Contents/MacOS/Eclipse'
 		    alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
         ;;
-    Linux)
-        alias emacsapp='/usr/bin/emacs'
-		    alias emacs='/usr/bin/emacs -nw'
-		    alias ea='/usr/bin/emacs'
-		    alias e='/usr//bin/emacs -nw'
-		    alias et='/usr/bin/emacs'
+    Linux)  # use self-compiled emacs in ~/local/bin
+        alias emacsapp='$HOME/local/bin/emacs'
+		    alias emacs='$HOME/local/bin/emacs -nw'
+		    alias ea='$HOME/local/bin/emacs'
+		    alias e='$HOME/local/bin/emacs -nw'
+		    alias et='$HOME/local/bin/emacs'
         ;;
     *)
         alias emacsapp='/usr/bin/emacs'

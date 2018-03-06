@@ -8,15 +8,21 @@ export PATH="$HOME/local/bin:$PATH"
 #export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
 
 # git
-export PATH="/usr/local/Cellar/git/2.16.2/bin/:$PATH"
+if which brew &> /dev/null; then
+    export PATH="/usr/local/Cellar/git/2.16.2/bin/:$PATH"
+fi;
 
 # python
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+if which brew &> /dev/null; then
+    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+fi;
 # pip
 export PATH="$PATH:$HOME/.local/bin"
 
 # ruby
-export PATH="$(brew --prefix ruby)/bin:$PATH"
+if which brew &> /dev/null; then
+    export PATH="$(brew --prefix ruby)/bin:$PATH"
+fi;
 
 # go
 export PATH="$PATH:/usr/local/opt/go/libexec/bin"

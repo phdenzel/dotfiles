@@ -79,7 +79,7 @@ export HOMEBREW_CXX=g++-6
 export CC=gcc-6
 export CXX=g++-6
 # Initialize jEnv
-if which jenv >/dev/null; then eval "$(jenv init -)"; fi
+if which jenv &> /dev/null; then eval "$(jenv init -)"; fi
 #jenv enable-plugin export
 #jenv rehash
 #export CLASSPATH="$(jenv prefix)"

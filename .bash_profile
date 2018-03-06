@@ -30,7 +30,7 @@ shopt -s cdspell
 #shopt -s nocaseglob
 # Shut up the annoying bell
 if [ -f /usr/bin/setterm ]; then
-    setterm -blength 0
+    setterm --blength 0
 fi;
 
 # Add tab completion for many Bash commands
@@ -42,20 +42,20 @@ fi
 
 # Add tab completion for defaults read/write NSGlobalDomain
 # Add tab completion for killall with common apps
-if $OS in Linux; then
+if [ "$OS" == "Linux" ]; then
     complete -W "NSGlobalDomain" defaults;
     complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal" killall;
 fi;
 
 # Add private ssh-key to the ephemeral ssh-agent
 # use -K option if using OSX Keychain and passphrase
-if $OS in Darwin; then
+if [ "$OS" == "Darwin" ]; then
     ssh-add -K	~/.ssh/id_rsa &>/dev/null
 fi;
 #ssh-add ~/.ssh/id_rsa
 
 # Reference the DISPLAY on Ubuntu on Windows
-if $OS in Microsoft; then
+if [ "$OS" == "Microsoft" ]; then
 	  export DISPLAY=localhost:0.0
 fi;
 

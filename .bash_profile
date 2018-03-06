@@ -30,7 +30,7 @@ shopt -s cdspell
 #shopt -s nocaseglob
 # Shut up the annoying bell
 if [ -f /usr/bin/setterm ]; then
-    setterm --blength 0
+    setterm blength 0
 fi;
 
 # Add tab completion for many Bash commands

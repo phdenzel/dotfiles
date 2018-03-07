@@ -946,7 +946,7 @@ e.g. magit, projectile, perspective, etc.
   (use-package counsel-projectile
     :ensure t
     :config
-    (counsel-projectile-on))
+    (counsel-projectile-mode))
 
   ;; Perspective
   ;; (use-package perspective
@@ -1196,10 +1196,10 @@ All style settings are defined here...
   (global-prettify-symbols-mode 1)
 
   ;; Load a few themes...
-  (use-package color-theme
-    :ensure t)
-  (use-package base16-theme
-    :ensure t)
+  ;; (use-package color-theme
+  ;;   :ensure t)
+  ;; (use-package base16-theme
+  ;;   :ensure t)
   ;; (use-package zenburn-theme
   ;;              :ensure t)
   ;; (use-package spacemacs-theme

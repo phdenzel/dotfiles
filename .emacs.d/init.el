@@ -17,6 +17,9 @@
 (setq gc-cons-threshold 10000000)
 (let ((file-name-handler-alist nil)) "~/.emacs.d/init.el")
 
+;; Avoid errors while verifying signatures
+(setq package-check-signature nil)
+
 (require 'org)
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/phd-emacs.org"))

@@ -10,5 +10,9 @@ cd gcc-6.4.0
 cd ..
 mkdir gcc-build
 cd gcc-build
-$PWD/../gcc-6.4.0/configure --prefix=$HOME/local/gcc --enable-languages=c,c++,fortran,go
-
+# OS is set in .bash_profile
+if [ $OS == "Linux" ]; then
+	../gcc-6.4.0/configure -v --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=$HOME/local/gcc-6 --enable-checking=release --enable-languages=c,c++,fortran --disable-multilib --program-suffix=-6
+else
+	../gcc-6.4.0/configure --prefix=$HOME/local/gcc --enable-languages=c,c++,fortran,go
+fi;

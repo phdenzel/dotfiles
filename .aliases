@@ -67,8 +67,8 @@ case $OS in
 		    alias emacsapp='/Applications/Emacs.app/Contents/MacOS/Emacs'
 		    alias emacs='emacsapp -nw'
 		    alias ea='emacsapp'
-		    alias e='emacsapp -nw'
-		    alias et='emacs -nw'
+		    alias e='emacs'
+		    alias et='emacs'
 		    alias eclipse='/Applications/Eclipse.app/Contents/MacOS/Eclipse'
 		    alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
         ;;

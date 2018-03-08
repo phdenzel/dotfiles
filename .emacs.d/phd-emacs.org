@@ -946,7 +946,7 @@ e.g. magit, projectile, perspective, etc.
   (use-package counsel-projectile
     :ensure t
     :config
-    (counsel-projectile-on))
+    (counsel-projectile-mode))
 
   ;; Perspective
   ;; (use-package perspective

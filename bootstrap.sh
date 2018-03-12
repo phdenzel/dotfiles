@@ -24,12 +24,7 @@ elif [ "$1" == "--terminal" ]; then
 elif [ "$1" == "--bin" ]; then
     # Link the binaries to ~/local/bin/
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
-    ln -s $(pwd)/bin/github_repo ${HOME}/local/bin/
-    ln -s $(pwd)/bin/github_private_repo ${HOME}/local/bin/
-    ln -s $(pwd)/bin/free ${HOME}/local/bin/
-    ln -s $(pwd)/bin/syncExt ${HOME}/local/bin/
-    ln -s $(pwd)/bin/overleaf_push ${HOME}/local/bin/
-    ln -s $(pwd)/bin/pullall ${HOME}/local/bin/
+    ln -s $(pwd)/bin/* ${HOME}/local/bin/
     
 else
     rsync --exclude ".git/" \
@@ -38,6 +33,8 @@ else
           --exclude "bootstrap.sh" \
           --exclude "screenshot.png" \
           --exclude "bin/" \
+          --exclude "installers/" \
+          --exclude "custom/" \
           --exclude "etc/" \
           --exclude "utils/" \
           --exclude "private/" \

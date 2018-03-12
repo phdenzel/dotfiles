@@ -4,6 +4,7 @@
 ### phdenzel repos
 cd $HOME
 git clone git@github.com:phdenzel/dotfiles.git
+git clone git@github.com:phdenzel/powerline.git
 git clone git@github.com:phdenzel/glfits.git
 git clone git@github.com:phdenzel/glass.git
 git clone git@github.com:phdenzel/tdlmc.git
@@ -51,8 +52,13 @@ git clone git@github.com:pynbody/pynbody.git
 #mkdir -p $HOME/git-clones;
 #cd $HOME/git-clones;
 #
-## Google fonts (for Fira Mono and Roboto Mono)
+## Google fonts (for Fira, Roboto, and Ubuntu Mono)
 #git clone git@github.com:google/fonts.git
+#mv fonts google-fonts
+#
+## Powerline fonts (for Fira, Roboto, and Ubuntu Mono)
+# git clone git@github.com:powerline/fonts.git
+# mv fonts powerline-fonts
 #
 ## Emacs icons
 #git clone git@github.com:domtronn/all-the-icons.el.git

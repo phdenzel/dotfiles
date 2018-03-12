@@ -162,6 +162,10 @@
 	<false/>
 	<key>VisualBellOnlyWhenMuted</key>
 	<false/>
+	<key>WindowTitle</key>
+	<string>Terminal</string>
+	<key>columnCount</key>
+	<integer>80</integer>
 	<key>keyMapBoundKeys</key>
 	<dict>
 		<key>#F739</key>

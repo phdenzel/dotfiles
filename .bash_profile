@@ -40,19 +40,17 @@ elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
+# On macOS
 # Add tab completion for defaults read/write NSGlobalDomain
 # Add tab completion for killall with common apps
-if [ "$OS" == "Linux" ]; then
-    complete -W "NSGlobalDomain" defaults;
-    complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal" killall;
-fi;
-
 # Add private ssh-key to the ephemeral ssh-agent
 # use -K option if using OSX Keychain and passphrase
 if [ "$OS" == "Darwin" ]; then
+    complete -W "NSGlobalDomain" defaults;
+    complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal" killall;
     ssh-add -K	~/.ssh/id_rsa &>/dev/null
+    # ssh-add ~/.ssh/id_rsa
 fi;
-#ssh-add ~/.ssh/id_rsa
 
 # Reference the DISPLAY on Ubuntu on Windows
 if [ "$OS" == "Microsoft" ]; then
@@ -69,9 +67,6 @@ git config --global user.email "$GITMAIL"
 _mounted () {
     echo "-------------------------------- Mounted Drives --------------------------------"
     case $OS in
-	      Linux)
-	          df -H
-	          ;;
         Microsoft)
             df -H
             ;;
@@ -87,9 +82,6 @@ _mounted () {
 _meminfo () {
     echo "------------------------------ Memory Information ------------------------------"
     case $OS in
-	      Linux)
-	          /usr/bin/free -tm
-	          ;;
         Microsoft)
             /usr/bin/free -tm
             ;;

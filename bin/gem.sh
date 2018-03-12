@@ -9,3 +9,4 @@ sudo gem update
 gem install jekyll
 gem install redcarpet
 gem install haml
+gem install iStats

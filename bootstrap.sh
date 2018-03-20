@@ -25,6 +25,28 @@ elif [ "$1" == "--bin" ]; then
     # Link the binaries to ~/local/bin/
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
     ln -s $(pwd)/bin/* ${HOME}/local/bin/
+
+elif [ "$1" == "--dry-run" ]; then
+    rsync --exclude ".git/" \
+          --exclude ".DS_Store" \
+	        --exclude ".macOS" \
+          --exclude "bootstrap.sh" \
+          --exclude "screenshot.png" \
+          --exclude "bin/" \
+          --exclude "installers/" \
+          --exclude "custom/" \
+          --exclude "etc/" \
+          --exclude "utils/" \
+          --exclude "private/" \
+	        --exclude ".emacs.d" \
+          --exclude "matplotlibrc" \
+          --exclude "LICENSE" \
+          --exclude "README.md" \
+          --dry-run -avh . ~;
+
+    # mkdir -p ~/.matplotlib
+    rsync --dry-run -avh matplotlibrc ~/.matplotlib/
+    exit 1
     
 else
     rsync --exclude ".git/" \

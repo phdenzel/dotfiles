@@ -13,11 +13,19 @@ if which brew &> /dev/null; then
 fi;
 
 # python
+export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
 if which brew &> /dev/null; then
     export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 fi;
 # pip
 export PATH="$PATH:$HOME/.local/bin"
+
+# java
+if which jenv &> /dev/null; then eval "$(jenv init -)"; fi
+#jenv enable-plugin export
+#jenv rehash
+#export CLASSPATH="$(jenv prefix)"
+export CLASSPATH=$CLASSPATH:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar
 
 # ruby
 if which brew &> /dev/null; then

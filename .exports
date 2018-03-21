@@ -78,12 +78,6 @@ export HOMEBREW_CC=gcc-6
 export HOMEBREW_CXX=g++-6
 export CC=gcc-6
 export CXX=g++-6
-# Initialize jEnv
-if which jenv &> /dev/null; then eval "$(jenv init -)"; fi
-#jenv enable-plugin export
-#jenv rehash
-#export CLASSPATH="$(jenv prefix)"
-export CLASSPATH=$CLASSPATH:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar
 # OpenMP
 export GOMP_STACKSIZE=16384
 # Mono

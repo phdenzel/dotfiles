@@ -96,7 +96,7 @@
   `(font-lock-string-face            ((t (:foreground ,green))))
   `(font-lock-doc-face               ((t (:inherit font-lock-string-face))))
   `(font-lock-doc-string-face        ((t (:inherit font-lock-string-face))))
-  `(font-lock-comment-face           ((t (:foreground ,grey))))
+  `(font-lock-comment-face           ((t (:foreground ,grey-b))))
   `(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
   `(font-lock-negation-char-face     ((t nil)))
   `(font-lock-preprocessor-char-face ((t nil)))

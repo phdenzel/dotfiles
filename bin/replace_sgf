@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Gather arguments
+TOREPLACE=$1
+REPLACEMENT=$2
+FILES=$3
+
+# Validate arguments
+
+
+# Execute replacement
+perl -pi -e 's/$TOREPLACE/$REPLACEMENT/g' $FILES

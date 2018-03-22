@@ -11,6 +11,7 @@
   r = remote -v
   c = commit -avm
   ac = !git add -A && git commit -avm
+  aml = !git add -A && git commit --amend --no-edit
   undo = reset HEAD~
 
 [color]

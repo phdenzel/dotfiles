@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# @author: phdenzel
+#
+# Homematic regadom loader
+#
+
+homematic_ip="192.168.178.41"
+
+# ssh root@$homematic_ip
+homematic
+# manually put in password
+
+# create backup in default location /var/tmp/
+/usr/local/addons/cuxd/extra/ccu_backup
+# logout from ssh
+exit
+
+# copy to Documents/backups/
+scp root@$homematic_ip:/var/tmp/*.sbk ~/Documents/backups/

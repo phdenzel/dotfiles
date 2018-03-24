@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# @author: phdenzel
+#
+# Homematic regadom loader
+#
+
+homematic_ip="192.168.178.41"
+
+# ssh root@$homematic_ip
+homematic
+# manually put in password
+
+cd /tmp
+nohup /bin/ReGaHss -f /etc/rega.conf -l 2 &

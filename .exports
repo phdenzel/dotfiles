@@ -76,8 +76,8 @@ export PYTHONIOENCODING='UTF-8'
 # Homebrew gcc
 export HOMEBREW_CC=gcc-6
 export HOMEBREW_CXX=g++-6
-export CC=gcc-6
-export CXX=g++-6
+#export CC=gcc-6
+#export CXX=g++-6
 # OpenMP
 export GOMP_STACKSIZE=16384
 # Mono

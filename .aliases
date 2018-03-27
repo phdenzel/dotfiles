@@ -102,6 +102,7 @@ alias dimholt="$SSH $SSHFLAG ${PERSON}@dimholt.physik.uzh.ch"
 alias ics="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f1"
 alias ics2="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f2"
 alias ics3="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f3"
+alias hydra="$SSH $SSHFLAG pdenze@cluster.s3it.uzh.ch"
 alias diskstation="$SSH $SSHFLAG admin@192.168.178.39"
 alias homematic="$SSH root@192.168.178.41"
 ### on Server aliases

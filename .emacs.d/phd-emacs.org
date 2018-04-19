@@ -946,7 +946,7 @@ e.g. magit, projectile, perspective, etc.
   (use-package counsel-projectile
     :ensure t
     :config
-    (counsel-projectile-mode))
+    (counsel-projectile-on))
 
   ;; Perspective
   ;; (use-package perspective
@@ -1059,6 +1059,7 @@ Loading markup and -down...
 ** Orgmode
 #+BEGIN_SRC emacs-lisp
   (eval-after-load "org-indent" '(diminish 'org-indent-mode))
+  (eval-after-load "org" '(require 'ox-md nil t))
 #+END_SRC
 
 Orgmode

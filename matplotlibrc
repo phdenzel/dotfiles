@@ -3,7 +3,7 @@
 #
 # Standard style settings for matplotlib plots
 #
-backend: macosx
+backend: TkAgg
 
 # Fonts
 text.color: 555555

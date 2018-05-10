@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PIP='pip'
+PIP='pip2'
 # PIP='pip3'
 
 # the essentials
@@ -15,7 +15,6 @@ $PIP install ipython
 $PIP install jupyter
 
 # general utils
-$PIP install dtrx
 $PIP install pyyaml
 $PIP install requests
 $PIP install --user certifi

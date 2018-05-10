@@ -1,3 +1,4 @@
+
 (setq user-full-name "Philipp Denzel")
 (setq user-mail-address "phdenzel@gmail.com")
 
@@ -262,7 +263,7 @@
   (global-set-key [mouse-5] '(lambda ()
                                (interactive)
                                (next-line 1)))
-
+  
   ;; macOS keyboard configuration
   (setq mac-option-modifier 'meta)
   (setq mac-control-modifier 'control)
@@ -650,7 +651,9 @@
 (use-package flycheck
   :ensure t
   :init
-  (global-flycheck-mode 1))
+  (global-flycheck-mode 1)
+  :config
+  (setq-default flycheck-flake8-maximum-line-length 99))
 
 ;; - Code folding
 (use-package hideshow
@@ -751,6 +754,12 @@
 (use-package cython-mode
   :ensure t)
 
+;; - Scala
+(use-package scala-mode
+  :ensure t
+  :interpreter
+  ("scala" . scala-mode))
+
 ;; Extensive file system package
 (use-package f
   :ensure t)
@@ -777,7 +786,7 @@
 (use-package counsel-projectile
   :ensure t
   :config
-  (counsel-projectile-on))
+  (counsel-projectile-mode))
 
 ;; Perspective
 ;; (use-package perspective
@@ -878,19 +887,105 @@
   )
 
 (eval-after-load "org-indent" '(diminish 'org-indent-mode))
+(eval-after-load "org" '(require 'ox-md nil t))
 
 (use-package org
   :ensure t
   :config
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)))
 )
 
 (use-package org-bullets
   :ensure t
   :commands (org-bullets-mode)
   :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-)
+  )
+
+(defvar yt-iframe-format
+  ;; You may want to change your width and height.
+  (concat "<iframe"
+          " src=\"https://www.youtube.com/embed/%s?rel=0&amp;showinfo=0&amp;loop=1\""
+          " width=\"%s\""
+          " height=\"%s\""
+          " allow=\"autoplay; encrypted-media\""
+          " frameborder=\"0\""
+          " allowfullscreen>%s</iframe>"))
+
+
+(org-add-link-type
+ "yt"
+ (lambda (handle)
+   (browse-url
+    (concat "https://www.youtube.com/embed/"
+            handle)))
+ (lambda (path desc backend)
+   (let* ((f (split-string path ","))
+          (path (nth 0 f))
+          (yt-width (or (nth 1 f) "440"))
+          (yt-height (or (nth 2 f) "335"))
+          )
+     (cl-case backend
+       (html (format yt-iframe-format
+                     path yt-width yt-height (or desc "")))
+       (latex (format "\href{%s}{%s}"
+                      path (or desc "video")))
+       )
+     )
+   ))
+
+(defvar giphy-iframe-format
+  ;; You may want to change your width and height.
+  (concat "<iframe"
+          " src=\"https://giphy.com/embed/%s\""
+          " width=\"%s\""
+          " height=\"%s\""
+          " frameborder=\"0\""
+          " allowfullscreen>%s</iframe>"))
+
+
+(org-add-link-type
+ "giphy"
+ (lambda (handle)
+   (browse-url
+    (concat "https://giphy.com/embed/"
+            handle)))
+ (lambda (path desc backend)
+   (let* ((f (split-string path ","))
+          (path (nth 0 f))
+          (giphy-width (or (nth 1 f) "440"))
+          (giphy-height (or (nth 2 f) "335"))
+          )
+     (cl-case backend
+       (html (format giphy-iframe-format
+                     path giphy-width giphy-height (or desc "")))
+       (latex (format "\href{%s}{%s}"
+                      path (or desc "video")))
+       )
+     )
+   ))
+
+;; (setq org-reveal-root (concat "file://" (expand-file-name "local/reveal.js")))
+;; ;; (setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+;; (setq org-reveal-mathjax t)
+;; (use-package ox-reveal
+;;   :ensure t 
+;;   :config (require 'ox-reveal)
+;;   )
+
+(defun org-export-canvas (backend)
+  "Replace @canvas{descr|id} to <canvas> html text in current buffer"
+  (when (or (equal backend 'html) (equal backend 'reveal))
+    (save-excursion
+      (beginning-of-buffer)
+      (replace-regexp "\@canvas{{{\\(.*?\\)|\\(.*?\\)}}}"
+      "@@html:<canvas id=\"\\2\" width=\"100%\" height=\"100%\">\\1</canvas>@@"
+      ))))
+  
+(add-hook 'org-export-before-parsing-hook 'org-export-canvas)
 
 (use-package auctex
   :defer t
@@ -965,10 +1060,10 @@
 (global-prettify-symbols-mode 1)
 
 ;; Load a few themes...
-(use-package color-theme
-  :ensure t)
-(use-package base16-theme
-  :ensure t)
+;; (use-package color-theme
+;;   :ensure t)
+;; (use-package base16-theme
+;;   :ensure t)
 ;; (use-package zenburn-theme
 ;;              :ensure t)
 ;; (use-package spacemacs-theme

@@ -1,5 +1,15 @@
 #!/bin/bash
 ####################################################### Bash path
+# SSL/TSL
+if which brew &> /dev/null; then
+   export PATH="/usr/local/opt/openssl/bin:$PATH"
+   export CFLAGS="$CFLAGS -I$(brew --prefix openssl)/include"
+   export LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib"
+   # export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+   # export CFLAGS="-I$(brew --prefix openssl@1.1)/include"
+   # export LDFLAGS="-L$(brew --prefix openssl@1.1)/lib"
+fi;
+
 # ~/local/bin
 export PATH="$HOME/local/bin:$PATH"
 
@@ -13,10 +23,14 @@ if which brew &> /dev/null; then
 fi;
 
 # python
-export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
-if which brew &> /dev/null; then
+if [ -d "$HOME/local/python" ]; then
+    for f in $(ls -d $HOME/local/python/[0-9]*/bin); do
+	export PATH="$f:$PATH"
+    done;
+elif which brew &> /dev/null; then
     export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 fi;
+export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
 # pip
 export PATH="$PATH:$HOME/.local/bin"
 

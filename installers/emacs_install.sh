@@ -13,4 +13,6 @@ elif [ $OS == "Linux" ]; then
     ./configure --prefix=$HOME/local/emacs --with-gif=no --with-gnutls=no
     make && make install
     ln -s $HOME/local/emacs/bin/emacs $HOME/local/bin/emacs
-else
+elif [ $OS == "Windows" ]; then
+    echo "In Windows better use the .exe installer"
+fi;

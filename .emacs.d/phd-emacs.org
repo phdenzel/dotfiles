@@ -11,12 +11,16 @@ It is to be loaded in the init.el (or .emacs) file using the org-babel library.
 
 * Editor
 
+
 Although having a bit trouble, installing Emacs on macOS, I finally managed
 with Homebrew using the following command:
 
 #+BEGIN_SRC shell :exports none
   brew install --with-cocoa --with-ctags --with-gnutls --with-imagemagick emacs
 #+END_SRC
+
+However, installing Emacs with Homebrew can lead to instabilities later on, which is why installing
+Emacs from source code is ultimately the best solution on any OS. For details, go to [[https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh][https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh]].
 
 
 * User specifics
@@ -196,11 +200,11 @@ like we want it to.
          (eq system-type 'berkeley-unix))
         (setq system-name (car (split-string system-name "\\.")))))
 
-  ;; Load PATH
+  ;; Load PATH (and append ~/usr/local/bin~)
   (when (eq system-type 'darwin)
     (setenv "PATH"
             (concat "/usr/local/bin:" (getenv "PATH")))
-    (push "/usr/local/bin" exec-path))
+    (push "/usr/local/bin" (cdr (last exec-path))))
 
   ;; Prefer UTF-8
   (set-language-environment "UTF-8")
@@ -804,7 +808,7 @@ Adding support for some programming languages or global coding behaviour...
     :ensure t
     :defer t
     :config
-    (yas-global-mode 1))
+    (yas-global-mode 0))
 
   ;; Elisp
   ;; - Highlight parentheses for emacs-lisp
@@ -866,6 +870,7 @@ Adding support for some programming languages or global coding behaviour...
     ("C-c '" . hydra-cljr-help-menu/body))
 
   ;; Python
+  (setq python-shell-completion-native-enable nil)
   (setq py-python-command "python") ;; "python3")
   (setq python-shell-interpreter "python") ;; "python3")
 
@@ -1058,7 +1063,7 @@ Loading markup and -down...
 
 ** Orgmode
 #+BEGIN_SRC emacs-lisp
-  (eval-after-load "org-indent" '(diminish 'org-indent-mode))
+  ;; (eval-after-load "org-indent" '(diminish 'org-indent-mode))
   (eval-after-load "org" '(require 'ox-md nil t))
 #+END_SRC
 
@@ -1181,7 +1186,6 @@ Custom org extensions
   
 (add-hook 'org-export-before-parsing-hook 'org-export-canvas)
 #+END_SRC
-
 
 ** LaTeX
 

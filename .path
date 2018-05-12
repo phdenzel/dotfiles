@@ -10,44 +10,45 @@ if which brew &> /dev/null; then
    # export LDFLAGS="-L$(brew --prefix openssl@1.1)/lib"
 fi;
 
-# ~/local/bin
-export PATH="$HOME/local/bin:$PATH"
+# GO
+export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 
-# GNU coreutils/findutils commands override existing bins
-#export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-#export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
+# node/npm: DEPRECATED
+#export PATH="$PATH:/usr/local/share/npm/bin"
 
-# git
+# RUBY
 if which brew &> /dev/null; then
-    export PATH="/usr/local/Cellar/git/2.16.2/bin/:$PATH"
+    export PATH="$(brew --prefix ruby)/bin:$PATH"
 fi;
 
-# python
-if [ -d "$HOME/local/python" ]; then
-    for f in $(ls -d $HOME/local/python/[0-9]*/bin); do
-	export PATH="$f:$PATH"
-    done;
-elif which brew &> /dev/null; then
-    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-fi;
-export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
-# pip
-export PATH="$PATH:$HOME/.local/bin"
-
-# java
+# JAVA
 if which jenv &> /dev/null; then eval "$(jenv init -)"; fi
 #jenv enable-plugin export
 #jenv rehash
 #export CLASSPATH="$(jenv prefix)"
 export CLASSPATH=$CLASSPATH:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar
 
-# ruby
+# GNU coreutils/findutils commands override existing bins
+#export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+#export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
+
+# GIT
 if which brew &> /dev/null; then
-    export PATH="$(brew --prefix ruby)/bin:$PATH"
+    export PATH="/usr/local/Cellar/git/2.16.2/bin/:$PATH"
 fi;
 
-# go
-export PATH="$PATH:/usr/local/opt/go/libexec/bin"
+# PYTHON
+if [ -d "$HOME/local/python" ]; then
+    for f in $(ls -dr $HOME/local/python/[0-9]*/bin); do
+	export PATH="$f:$PATH"
+    done;
+elif which brew &> /dev/null; then
+    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+fi;
+export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
 
-# node/npm: DEPRECATED
-#export PATH="$PATH:/usr/local/share/npm/bin"
+# PIP
+export PATH="$HOME/.local/bin:$PATH"
+
+# LOCAL BINARIES
+export PATH="$HOME/local/bin:$PATH"

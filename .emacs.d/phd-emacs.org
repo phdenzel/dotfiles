@@ -200,11 +200,17 @@ like we want it to.
          (eq system-type 'berkeley-unix))
         (setq system-name (car (split-string system-name "\\.")))))
 
-  ;; Load PATH (and append ~/usr/local/bin~)
+  ;; Load PATH (and append ~~/local/bin~)
   (when (eq system-type 'darwin)
-    (setenv "PATH"
-            (concat "/usr/local/bin:" (getenv "PATH")))
-    (push "/usr/local/bin" (cdr (last exec-path))))
+    ;; (setenv "PATH"
+    ;;         (concat "/usr/local/bin:" (getenv "PATH")))
+    ;; (setenv "PATH"
+    ;;         (concat (expand-file-name "~/local/bin") ":" (getenv "PATH")))
+    ;; (push "/usr/local/bin" (cdr (last exec-path)))
+    (push (expand-file-name "~/local/bin") exec-path)
+    (push (expand-file-name "~/local/python/3.6/bin") exec-path)
+    (push (expand-file-name "~/local/python/2.7/bin") exec-path)
+    )
 
   ;; Prefer UTF-8
   (set-language-environment "UTF-8")
@@ -871,8 +877,8 @@ Adding support for some programming languages or global coding behaviour...
 
   ;; Python
   (setq python-shell-completion-native-enable nil)
-  (setq py-python-command "python") ;; "python3")
-  (setq python-shell-interpreter "python") ;; "python3")
+  (setq py-python-command "python") ;; "python")
+  (setq python-shell-interpreter "python") ;; "python")
 
   ;; - company auto-complete
   (use-package company-jedi

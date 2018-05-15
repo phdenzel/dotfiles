@@ -73,12 +73,32 @@ export PYTHONIOENCODING='UTF-8'
 # to use bundled libc++:
 #   LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
 #export PATH="/usr/local/opt/llvm/bin:$PATH"
+
 # Homebrew gcc
 export HOMEBREW_CC=gcc-6
 export HOMEBREW_CXX=g++-6
 #export CC=gcc-6
 #export CXX=g++-6
+
 # OpenMP
 export GOMP_STACKSIZE=16384
+
 # Mono
 export MONO_GAC_PREFIX="/usr/local"
+
+# BOOST
+export BOOST_ROOT="/$HOME/local/boost/boost"
+
+# XERCES-C
+export XERCES_LIBS="-L$HOME/local/xerces-c-3.2.1/build/lib"
+export XERCES_CFLAGS="-I$HOME/local/xerces-c-3.2.1/build/include"
+
+# UDUNITS
+export UDUNITS_LIBS="-L$HOME/local/udunits-2.2.26/build/lib"
+export UDUNITS_CFLAGS="-I$HOME/local/udunits-2.2.26/build/include"
+
+# CFITSIO
+export CFITSIO_LIBS="-L$HOME/local/cfitsio/build/lib"
+export CFITSIO_CFLAGS="-I$HOME/local/cfitsio/build/include"
+
+

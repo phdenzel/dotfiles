@@ -12,10 +12,10 @@ if tput setaf 1 &> /dev/null; then
     green=$(tput setaf 29);
     yellow=$(tput setaf 222);
     blue=$(tput setaf 27);
-    magenta=$(tput setaf 125);
+    magenta=$(tput setaf 125); # on some screens ~ dark red, if so take 198
     cyan=$(tput setaf 44);
     orange=$(tput setaf 215);
-    purple=$(tput setaf 19); # on some screens ~ dark blue, if so take 105
+    purple=$(tput setaf 19); # on some screens ~ dark blue, if so take 063
     grey=$(tput setaf 239);
     br_red=$(tput setaf 161);
     br_green=$(tput setaf 35);
@@ -25,6 +25,15 @@ if tput setaf 1 &> /dev/null; then
     br_cyan=$(tput setaf 51);
     br_orange=$(tput setaf 202);
     br_purple=$(tput setaf 57);
+
+    case $OS in
+        Linux)
+            magenta=$(tput setaf 198);
+            purple=$(tput setaf 63);
+            # br_blue=$(tput setaf 63);
+            ;;
+    esac;
+
 else
     bold='';
     reset="\e[0m";
@@ -47,7 +56,17 @@ else
     br_cyan="\e[1;38;5;051m"
     br_orange="\e[1;38;5;202m";
     br_purple="\e[1;38;5;057m";
+
+    case $OS in
+        Linux)
+            magenta="\e[1;38;5;198m";
+            purple="\e[1;38;5;063m";
+            # br_blue="\e[1;38;5;063m";
+            ;;
+    esac;
 fi;
+
+        
 ### Bash settings exports
 # Don't put duplicates or lines starting with space in the history
 export HISTCONTROL='ignoreboth'

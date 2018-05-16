@@ -6,6 +6,15 @@
 # OPTIONS: --emacs   : install the emacs config files.
 #          --bin     : install the binary files (as symlinks in ~/local/bin).
 #          --terminal: install the terminal files (macOS-specific).
+# Determine OS
+if `uname -a | grep -q "Microsoft"`; then
+    OS=Microsoft
+elif `uname -a | grep -q "Darwin"`; then
+    OS=Darwin
+else
+    OS=Linux
+fi;
+
 if [ "$1" == "--emacs" ]; then
     # Copy .emacs.d to its rightful place                                 
     if [ ! -d "${HOME}/.emacs.d/" ]; then
@@ -30,6 +39,8 @@ elif [ "$1" == "--dry-run" ]; then
     rsync --exclude ".git/" \
           --exclude ".DS_Store" \
 	        --exclude ".macOS" \
+          --exclude ".dircolors_macos" \
+          --exclude ".dircolors_linux" \
           --exclude "bootstrap.sh" \
           --exclude "screenshot.png" \
           --exclude "bin/" \
@@ -46,12 +57,25 @@ elif [ "$1" == "--dry-run" ]; then
 
     # mkdir -p ~/.matplotlib
     rsync --dry-run -avh matplotlibrc ~/.matplotlib/
+    case $OS in
+        Darwin)
+            rsync --dry-run -avh .dircolors_macos ~/.dircolors
+            ;;
+        Linux)
+            rsync --dry-run -avh .dircolors_linux ~/.dircolors
+            ;;
+        Windows)
+            rsync --dry-run -avh .dircolors_linux ~/.dircolors  # for now
+            ;;
+    esac;
     exit 1
     
 else
     rsync --exclude ".git/" \
           --exclude ".DS_Store" \
 	        --exclude ".macOS" \
+          --exclude ".dircolors_macos" \
+          --exclude ".dircolors_linux" \
           --exclude "bootstrap.sh" \
           --exclude "screenshot.png" \
           --exclude "bin/" \
@@ -68,6 +92,17 @@ else
 
     mkdir -p ~/.matplotlib
     rsync -avh matplotlibrc ~/.matplotlib/
+    case $OS in
+        Darwin)
+            rsync -avh .dircolors_macos ~/.dircolors
+            ;;
+        Linux)
+            rsync -avh .dircolors_linux ~/.dircolors
+            ;;
+        Windows)
+            rsync -avh .dircolors_linux ~/.dircolors  # for now
+            ;;
+    esac;
 fi;
 
 source ~/.bashrc

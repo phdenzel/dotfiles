@@ -111,7 +111,7 @@ case $OS in
         echo $(sw_vers | awk -F ':' '{print $2}')
         ;;
     Linux)
-        echo "$(cat /etc/issue | sed 's/Welcome to //g' | sed 's/\\r//g' | sed 's/(\\l)\.//g')"
+        echo "$(cat /etc/issue | sed 's/Welcome to //g' | sed 's/\\[a-z]//g' | sed 's/(\\l)\.//g')"
         ;;
     Microsoft)
         echo "$(cat /etc/issue | sed 's/\\n//g' | sed 's/\\l//g')"

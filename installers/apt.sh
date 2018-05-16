@@ -22,7 +22,7 @@ sudo apt-get install gnutls-bin
 sudo apt-get install python python3
 sudo apt-get install ruby ruby-dev
 # Libs
-sudo apt-get install libgnutls-dev
+sudo apt-get install libgnutls28-dev
 sudo apt-get install libx11-dev
 sudo apt-get install libjpeg-dev
 sudo apt-get install libgif-dev

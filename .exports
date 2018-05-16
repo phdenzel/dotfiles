@@ -90,12 +90,12 @@ export MONO_GAC_PREFIX="/usr/local"
 export BOOST_ROOT="/$HOME/local/boost/boost"
 
 # XERCES-C
-export XERCES_LIBS="-L$HOME/local/xerces-c-3.2.1/build/lib"
-export XERCES_CFLAGS="-I$HOME/local/xerces-c-3.2.1/build/include"
+export XERCES_LIBS="-L$HOME/local/xerces/build/lib"
+export XERCES_CFLAGS="-I$HOME/local/xerces/build/include"
 
 # UDUNITS
-export UDUNITS_LIBS="-L$HOME/local/udunits-2.2.26/build/lib"
-export UDUNITS_CFLAGS="-I$HOME/local/udunits-2.2.26/build/include"
+export UDUNITS_LIBS="-L$HOME/local/udunits/build/lib"
+export UDUNITS_CFLAGS="-I$HOME/local/udunits/build/include"
 
 # CFITSIO
 export CFITSIO_LIBS="-L$HOME/local/cfitsio/build/lib"

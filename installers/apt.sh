@@ -43,3 +43,4 @@ sudo apt-get install libxaw7-dev
 
 # Misc
 sudo apt-get install imagemagick
+sudo apt-get install emacs

@@ -40,7 +40,7 @@ TERM xterm-256color # just in case the * doesn't work
 # red       - 38;5;160    br red    - 38;5;161 or 198
 # green     - 38;5;029    br green  - 38;5;035
 # yellow    - 38;5;222    br yellow - 38;5;220
-# blue      - 38;5;027    dr blue   - 38;5;019 or 063
+# blue      - 38;5;027    dr blue   - 38;5;019 or 33 and 063
 # magenta   - 38;5;125    br magenta- 38;5;198 or 198
 # cyan      - 38;5;044    br cyan   - 38;5;051
 # orange    - 38;5;215    br orange - 38;5;202
@@ -63,7 +63,7 @@ BLK 01;38;5;044                 # cyan - block dev driver
 CHR 01;38;5;051                 # cyan - character dev driver
 ORPHAN 04;38;5;239              # underlined grey - symlink to Nirvana
 MISSING 00                      # → Nirvana
-SETUID 07;38;5;027;48;5;255     # fg white/ bg blue - setuid file
+SETUID 07;38;5;033;48;5;255     # fg white/ bg blue - setuid file
 SETGID 07;38;5;045;48;5;255     # fg white/ bg cyan - setgid file
 CAPABILITY 07;38;5;255;48;5;232 # fg white/ bg black - capability file
 STICKY_OTHER_WRITABLE 01;38;5;160
@@ -175,47 +175,47 @@ EXEC 01;38;5;198                # magenta - executables
 .sxd 00;38;5;202
 #
 # VIDEO FORMATS (blue)
-.webm 00;38;5;027
-.mkv 00;38;5;027
-.flv 00;38;5;027
-.vob 00;38;5;027
-.ogg 00;38;5;027
-.ogv 00;38;5;027
-.ogm 00;38;5;027
-.ogx 00;38;5;027
-.drc 00;38;5;027
-.mng 00;38;5;027
-.avi 00;38;5;027
-.mov 00;38;5;027
-.MOV 00;38;5;027
-.qt 00;38;5;027
-.wmv 00;38;5;027
-.yuv 00;38;5;027
-.rm 00;38;5;027
-.rmvb 00;38;5;027
-.asf 00;38;5;027
-.amv 00;38;5;027
-.mp4 00;38;5;027
-.m4p 00;38;5;027
-.m4v 00;38;5;027
-.mp4v 00;38;5;027
-.mpg 00;38;5;027
-.mpeg 00;38;5;027
-.mpe 00;38;5;027
-.mpv 00;38;5;027
-.mp2 00;38;5;027
-.m2v 00;38;5;027
-.svi 00;38;5;027
-.3gp 00;38;5;027
-.3g2 00;38;5;027
-.mxf 00;38;5;027
-.roq 00;38;5;027
-.nsv 00;38;5;027
-.nuv 00;38;5;027
-.f4v 00;38;5;027
-.f4p 00;38;5;027
-.f4a 00;38;5;027
-.f4b 00;38;5;027
+.webm 00;38;5;033
+.mkv 00;38;5;033
+.flv 00;38;5;033
+.vob 00;38;5;033
+.ogg 00;38;5;033
+.ogv 00;38;5;033
+.ogm 00;38;5;033
+.ogx 00;38;5;033
+.drc 00;38;5;033
+.mng 00;38;5;033
+.avi 00;38;5;033
+.mov 00;38;5;033
+.MOV 00;38;5;033
+.qt 00;38;5;033
+.wmv 00;38;5;033
+.yuv 00;38;5;033
+.rm 00;38;5;033
+.rmvb 00;38;5;033
+.asf 00;38;5;033
+.amv 00;38;5;033
+.mp4 00;38;5;033
+.m4p 00;38;5;033
+.m4v 00;38;5;033
+.mp4v 00;38;5;033
+.mpg 00;38;5;033
+.mpeg 00;38;5;033
+.mpe 00;38;5;033
+.mpv 00;38;5;033
+.mp2 00;38;5;033
+.m2v 00;38;5;033
+.svi 00;38;5;033
+.3gp 00;38;5;033
+.3g2 00;38;5;033
+.mxf 00;38;5;033
+.roq 00;38;5;033
+.nsv 00;38;5;033
+.nuv 00;38;5;033
+.f4v 00;38;5;033
+.f4p 00;38;5;033
+.f4a 00;38;5;033
+.f4b 00;38;5;033
 #
 ### AUDIO FORMATS (cyan)
 .aac 00;38;5;044

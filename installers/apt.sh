@@ -21,6 +21,8 @@ sudo apt-get install checkinstall
 sudo apt-get install gnutls-bin
 sudo apt-get install python python3
 sudo apt-get install ruby ruby-dev
+sudo apt-get install tcl8.6 tcl8.6-dev
+sudo apt-get install tk8.6 tk8.6-dev
 # Libs
 sudo apt-get install libgnutls28-dev
 sudo apt-get install libx11-dev
@@ -40,7 +42,8 @@ sudo apt-get install libgtk-3-dev
 sudo apt-get install libwebkitgtk-3.0-dev
 sudo apt-get install libxpm-dev
 sudo apt-get install libxaw7-dev
+sudo apt-get install libtcl8.6
+sudo apt-get install libtk8.6
 
 # Misc
 sudo apt-get install imagemagick
-sudo apt-get install emacs

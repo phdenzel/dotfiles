@@ -118,7 +118,7 @@ Thus all packages should be loaded with 'use-package'.
     (add-to-list 'package-archives melpa-stable t)
     (add-to-list 'package-archives melpa t)
     (add-to-list 'package-archives gnu t))
-  (package-initialize)
+  (unless package--initialized (package-initialize t))
 
   ;; Refresh archives if not in cache
   (unless (and (file-exists-p "~/.emacs.d/elpa/archives/gnu")
@@ -138,10 +138,11 @@ Thus all packages should be loaded with 'use-package'.
                   (repo (cdr package)))
               (when (not (package-installed-p name))
                 (let ((package-archives (list repo)))
-                  (package-initialize)
+                  ;; (package-initialize)
+                  (unless package--initialized (package-initialize t))
                   (package-install name)))))
           packages)
-    (package-initialize)
+    (unless package--initialized (package-initialize t))
     (delete-other-windows))
 
   ;; Install use-package

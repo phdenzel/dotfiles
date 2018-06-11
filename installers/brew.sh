@@ -95,6 +95,7 @@ brew install gawk
 brew install mawk
 brew install cairo
 brew install librsvg
+brew install ispell
 brew install hunspell
 brew install cdiff
 brew install xpdf

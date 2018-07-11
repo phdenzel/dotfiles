@@ -158,6 +158,7 @@ if [ -d "$MNT/$EXTD/Home" ] && [ $DO_HOME -eq 1 ]; then
           --exclude "MEGA" \
           --exclude "pCloud Sync" \
           --exclude "pCloud Drive" \
+          --exclude "VirtualBox VMs/" \
           -$FLAGS "$HOME/" "$MNT/$EXTD/Home/";
 else
     echo "Skipping $MNT/$EXTD/Home..."

@@ -4,31 +4,46 @@
 ~/dotfiles
 ~/glfits
 ~/glass
+~/local/pylib
 #
 # Collaborative repos
 ~/tdlmc
 ~/fire-halos
+~/papers/heat-spike
 ~/papers/sw-05-42
 ~/papers/sw05
 #
-# Teaching repos 
+# Teaching repos
 ~/teaching/PHY125
 #
 # Fun project repos
-~/Documents/how-tos/local-python-install
 ~/euler-project
 ~/ollam
 ~/pentaplex
 ~/twilio-sms-bot
 #
 # Science/Creativity repos
-~/zurich_lens
+~/lensing.js
+~/camengine.js
+~/zurich-lens
+~/streaming-lens
 ~/dm-sheets
-#~/dydama
-#~/fibonacci-flower
-#~/ising
-#~/julia
-#~/kdtree-p
+~/l-brain
+~/dydama
+~/fibonacci-flower
+~/ising
+~/julia
+~/kdtree-p
+#
+# Tutorials
+~/Documents/how-tos/local-python-install
+~/Documents/how-tos/about-git
+#
+# Misc
+~/Documents/master-thesis
+~/stds/dev-std
+~/stds/c-std
+~/stds/c-info
 #
 # External repos
 ~/magicenv

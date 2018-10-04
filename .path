@@ -4,6 +4,7 @@
 if which brew &> /dev/null; then
    export PATH="/usr/local/opt/openssl/bin:$PATH"
    export CFLAGS="$CFLAGS -I$(brew --prefix openssl)/include"
+   export CPPFLAGS="$CPPLAGS -I$(brew --prefix openssl)/include"
    export LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib"
    # export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
    # export CFLAGS="-I$(brew --prefix openssl@1.1)/include"
@@ -49,6 +50,10 @@ export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
 
 # PIP
 export PATH="$HOME/.local/bin:$PATH"
+export PYTHONPATH="$HOME/.local/lib/python3.6/site-packages"
+export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages"
 
 # LOCAL BINARIES
 export PATH="$HOME/local/bin:$PATH"
+export PATH="$PATH:$HOME/local/python/3.6/Python.framework/Versions/3.6/bin"
+export PATH="$PATH:$HOME/local/python/2.7/Python.framework/Versions/2.7/bin"

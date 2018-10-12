@@ -51,6 +51,7 @@ elif [ "$1" == "--dry-run" ]; then
           --exclude "private/" \
 	        --exclude ".emacs.d" \
           --exclude "matplotlibrc" \
+          --exclude "py-installs" \
           --exclude "LICENSE" \
           --exclude "README.md" \
           --dry-run -avh . ~;
@@ -86,6 +87,7 @@ else
           --exclude "private/" \
 	        --exclude ".emacs.d" \
           --exclude "matplotlibrc" \
+          --exclude "py-installs" \
           --exclude "LICENSE" \
           --exclude "README.md" \
           -avh . ~;

@@ -38,22 +38,29 @@ if which brew &> /dev/null; then
     export PATH="/usr/local/Cellar/git/2.16.2/bin/:$PATH"
 fi;
 
+
 # PYTHON
 if [ -d "$HOME/local/python" ]; then
     for f in $(ls -dr $HOME/local/python/[0-9]*/bin); do
-	export PATH="$f:$PATH"
+	      export PATH="$f:${PATH}"
+    done;
+    for f in $(ls -dr $HOME/local/python/[0-9]*/Python.framework/Versions/[0-9]*/bin); do
+        export PATH="$f:${PATH}"
     done;
 elif which brew &> /dev/null; then
-    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+    export PATH="/usr/local/opt/python/libexec/bin:${PATH}"
 fi;
 export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
 
 # PIP
-export PATH="$HOME/.local/bin:$PATH"
-export PYTHONPATH="$HOME/.local/lib/python3.6/site-packages"
-export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages"
+export PATH="$PATH:$HOME/.local/bin"
+# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.6/site-packages"
+# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages"
+
+# PYTHON AND PIP from python.org macOS-installer
+export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
 
 # LOCAL BINARIES
-export PATH="$HOME/local/bin:$PATH"
-export PATH="$PATH:$HOME/local/python/3.6/Python.framework/Versions/3.6/bin"
-export PATH="$PATH:$HOME/local/python/2.7/Python.framework/Versions/2.7/bin"
+export PATH="$HOME/local/bin:${PATH}"
+
+

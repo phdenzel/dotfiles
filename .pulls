@@ -4,7 +4,9 @@
 ~/dotfiles
 ~/glfits
 ~/glass
+~/model-zapper
 ~/local/pylib
+~/garden
 #
 # Collaborative repos
 ~/tdlmc
@@ -12,9 +14,6 @@
 ~/papers/heat-spike
 ~/papers/sw-05-42
 ~/papers/sw05
-#
-# Teaching repos
-~/teaching/PHY125
 #
 # Fun project repos
 ~/euler-project
@@ -47,3 +46,4 @@
 #
 # External repos
 ~/magicenv
+#spaghetti-lens

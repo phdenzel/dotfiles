@@ -5,6 +5,8 @@
 # macOS installer from python.org
 /Library/Frameworks/Python.framework/Versions/2.7
 /usr/local/bin/
+/Library/Frameworks/Python.framework/Versions/3.7
+/usr/local/bin/
 
 # Own compilations
 $HOME/local/python/2.7

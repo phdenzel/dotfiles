@@ -1,0 +1,48 @@
+#!/bin/bash
+
+VLC="/Applications/VLC.app/Contents/MacOS/VLC -I dummy"
+VLCQ=vlc://quit
+INPUT="$1"
+ACODEC="s16l" # codec
+AB="320"      # bitrate
+ACCESS="file" # access as file
+SOUT=":sout=#transcode{acodec=${ACODEC},ab=${AB}}"
+
+# get arguments
+if [ $# -eq 0 ]; then
+    echo "Please give a .mp3 input file as argument..."
+    echo "Exiting..."
+    exit 1
+elif [ -f "$INPUT" ]; then
+    while [ $# -ge 1 ]; do
+        if [ "${1##*.}" == "mp3" ]; then
+            MP3+=("$1")
+        fi;
+        shift
+    done;
+elif [ -d "$INPUT" ]; then
+    # echo "list input"
+    find "$INPUT" -type f -iname "*.mp3" > "/tmp/mp32wav.txt"
+    i=0
+    while read f; do
+        MP3[i++]="$f"
+    done < "/tmp/mp32wav.txt"
+    rm /tmp/mp32wav.txt
+else
+    MP3=("$INPUT")
+fi;
+
+# convert files one after another
+for i in ${!MP3[*]}; do
+    f="${MP3[i]}"
+    if [[ ! -f "$f" ]]; then
+        echo "$f not a file..."
+        continue;
+    fi;
+    if [[ "${f##*.}" == "mp3" ]]; then
+        fout="${f%.*}.wav"
+    fi
+    STD=":std{dst=${fout},access=file,mux=wav}"
+    echo "$VLC $fin $SOUT$STD $VLCQ"
+    $VLC "${f}" "${SOUT}${STD}" vlc://quit
+done;

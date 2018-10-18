@@ -1,0 +1,51 @@
+#!/bin/bash
+
+DIRNAME="MyIcon.iconset"
+PNG=$1
+shift
+
+
+while [ $# -ge 1 ]; do
+    case "$1" in
+        -o|--out)
+            DIRNAME="$2.iconset"
+            shift # past argument
+            ;;
+        -h|--help)
+            echo "Usage: png2iconset <PNG FILE> [-o|--out ICONSET-NAME]"
+            echo "                              [--help]"
+            echo ""
+            echo "A program to convert a 1024x1024 png file into an iconset"
+            exit 1
+            ;;
+        *)
+            # unknown option
+            ;;
+    esac
+    shift # past argument or value
+done
+
+
+RESOLUTION=`identify $PNG | cut -d' ' -f3`
+if [ ! "$RESOLUTION" == "1024x1024" ]; then
+    echo "PNG file needs to have a resolution of 1024x1024..."
+    echo "Usage: png2iconset <PNG FILE> [-o|--out ICONSET-NAME]"
+    echo "                              [--help]"
+    echo ""
+    echo "A program to convert a 1024x1024 png file into an iconset"
+    exit 1
+fi;
+
+mkdir $DIRNAME
+sips -z 16 16     $PNG --out $DIRNAME/icon_16x16.png
+sips -z 32 32     $PNG --out $DIRNAME/icon_16x16@2x.png
+sips -z 32 32     $PNG --out $DIRNAME/icon_32x32.png
+sips -z 64 64     $PNG --out $DIRNAME/icon_32x32@2x.png
+sips -z 128 128   $PNG --out $DIRNAME/icon_128x128.png
+sips -z 256 256   $PNG --out $DIRNAME/icon_128x128@2x.png
+sips -z 256 256   $PNG --out $DIRNAME/icon_256x256.png
+sips -z 512 512   $PNG --out $DIRNAME/icon_256x256@2x.png
+sips -z 512 512   $PNG --out $DIRNAME/icon_512x512.png
+cp $PNG $DIRNAME/icon_512x512@2x.png
+iconutil -c icns $DIRNAME
+

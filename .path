@@ -55,9 +55,11 @@ export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
 # PIP
 export PATH="$PATH:$HOME/.local/bin"
 # export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.6/site-packages"
+# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.7/site-packages"
 # export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages"
 
 # PYTHON AND PIP from python.org macOS-installer
+export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
 export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
 
 # LOCAL BINARIES

@@ -24,13 +24,12 @@ $PIP install --user certifi
 # $PIP install hunspell
 $PIP install line_profiler
 $PIP install memory_profiler
-# for emacs-elpy
+# for synax checking and formatting
 $PIP install jedi
 $PIP install flake8
 $PIP install importmagic
 $PIP install autopep8
-$PIP install yapf
-$PIP install epc
+# $PIP install yapf
 
 # for web servings
 $PIP install flask

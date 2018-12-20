@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PIP='pip2'
-# PIP='pip3'
+# PIP='pip2'
+PIP='pip3'
 
 # the essentials
 $PIP install numpy
@@ -29,7 +29,7 @@ $PIP install jedi
 $PIP install flake8
 $PIP install importmagic
 $PIP install autopep8
-# $PIP install yapf
+$PIP install yapf
 
 # for web servings
 $PIP install flask
@@ -42,7 +42,7 @@ $PIP install opencv-python
 $PIP install tensorflow
 $PIP install keras
 
-# for the statistics experts
+# for the statisticians
 $PIP install emcee
 $PIP install corner
 
@@ -56,6 +56,4 @@ $PIP install wolframalpha
 
 # for the astrophysicists/astronomers
 $PIP install astropy
-# unknown error
-# $PIP install wcsaxes
-$PIP install -U scikit-image
+$PIP install scikit-image

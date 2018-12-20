@@ -11,7 +11,6 @@ It is to be loaded in the init.el (or .emacs) file using the org-babel library.
 
 * Editor
 
-
 Although having a bit trouble, installing Emacs on macOS, I finally managed
 with Homebrew using the following command:
 
@@ -19,13 +18,13 @@ with Homebrew using the following command:
   brew install --with-cocoa --with-ctags --with-gnutls --with-imagemagick emacs
 #+END_SRC
 
-However, installing Emacs with Homebrew can lead to instabilities later on, which is why installing
-Emacs from source code is ultimately the best solution on any OS. For details, go to [[https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh][https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh]].
+However, installing Emacs with Homebrew can lead to instabilities later on, which is why I later opted for compiling
+Emacs from source code myself is ultimately the best solution on any OS. For details, go to [[https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh][https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh]].
 
 
 * User specifics
 
-User specific information is hardcoded and has to be completed if it is needed,
+User-specific information is hardcoded and has to be completed if it is needed,
 e.g. for email extensions.
 
 #+BEGIN_SRC emacs-lisp
@@ -44,9 +43,9 @@ For details see:
 https://glyph.twistedmatrix.com/2015/11/editor-malware.html
 Here, steps are taken to increase security...
 
-First install 'certifi' via pip:
+First install 'certifi' via pip...
 
-#+BEGIN_SRC shell :exports none
+#+BEGIN_SRC shell :tangle no
   python -m pip install --user certifi
 #+END_SRC
 
@@ -97,72 +96,35 @@ substantially.
 Thus all packages should be loaded with 'use-package'.
 
 #+BEGIN_SRC emacs-lisp
-  ;; Load system customizations in a separate file
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (load custom-file :noerror)
 
-  ;; Load archives - gnu, melpa, melpa-stable, marmalade
-  (require 'package)
+    ;; Package install function
+    ;; Evaluates & installs packages in list at each load, if not already installed
+    (defun phd-pkgs-install (&rest packages)
+      "Install all packages from a list PACKAGES, if not already installed."
+      (message "Running phd--pkgs-install")
+      (mapc (lambda (package)
+              (let ((name (car package))
+                    (repo (cdr package)))
+                (when (not (package-installed-p name))
+                  (let ((package-archives (list repo)))
+                    ;; (package-initialize)
+                    (unless package--initialized (package-initialize t))
+                    (package-install name)))))
+            packages)
+      (unless package--initialized (package-initialize t))
+      (delete-other-windows))
 
-  (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
-  (defvar melpa '("melpa" . "https://melpa.org/packages/"))
-  (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
-  ;; (defvar marmalade '("marmalade" . "https://marmalade-repo.org/packages/"))
-
-  ;; Problematic in earlier versions
-  (when (> emacs-major-version 23)
-    ;; remove pre-installed HTTP gnu
-    (setq package-archives nil)
-    ;; add HTTPS archives
-    ;; (add-to-list 'package-archives marmalade t)
-    (add-to-list 'package-archives melpa-stable t)
-    (add-to-list 'package-archives melpa t)
-    (add-to-list 'package-archives gnu t))
-  (unless package--initialized (package-initialize t))
-
-  ;; Refresh archives if not in cache
-  (unless (and (file-exists-p "~/.emacs.d/elpa/archives/gnu")
-               (file-exists-p "~/.emacs.d/elpa/archives/melpa")
-               (file-exists-p "~/.emacs.d/elpa/archives/melpa-stable")
-               ;; (file-exists-p "~/.emacs.d/elpa/archives/marmalade")
-               )
-    (package-refresh-contents))
-
-  ;; Package install function
-  ;; Evaluates & installs packages in list at each load, if not already installed
-  (defun all-pkgs-install (&rest packages)
-    "Install all packages from a  list PACKAGES, if not already installed."
-    (message "Running all-pkgs-install")
-    (mapc (lambda (package)
-            (let ((name (car package))
-                  (repo (cdr package)))
-              (when (not (package-installed-p name))
-                (let ((package-archives (list repo)))
-                  ;; (package-initialize)
-                  (unless package--initialized (package-initialize t))
-                  (package-install name)))))
-          packages)
-    (unless package--initialized (package-initialize t))
-    (delete-other-windows))
-
-  ;; Install use-package
-  (defun start-all-pkgs-install ()
-    "Install the package 'use-package."
-    (message "Initialize package install")
-    ;; Start all-pkgs-install with use-package...
-    (all-pkgs-install (cons 'use-package melpa))
-    ;; Now everytime "use-package <p> :ensure t" is called,
-    ;; the corresponding package is automatically installed,
-    ;; if not already there...
-    ;; This can increase the startup time of emacs substantially
-    )
-
-  (condition-case nil
-      (start-all-pkgs-install)
-    (error
-     (package-refresh-contents)
-     (start-all-pkgs-install)))
-
+    ;; Install use-package
+    (defun first-phd-pkgs-install ()
+      "Install the package 'use-package."
+      (message "Initialize package install")
+      ;; Start all-pkgs-install with use-package...
+      (phd-pkgs-install (cons 'use-package melpa))
+      ;; Now everytime "use-package <p> :ensure t" is called,
+      ;; the corresponding package is automatically installed,
+      ;; if not already there...
+      ;; This can increase the startup time of emacs substantially
+      )
 #+END_SRC
 
 
@@ -201,20 +163,12 @@ like we want it to.
          (eq system-type 'berkeley-unix))
         (setq system-name (car (split-string system-name "\\.")))))
 
-  ;; show where ispell is installed (with homebrew)
-  (setq ispell-program-name "/usr/local/opt/ispell/bin/ispell")
-
   ;; Load PATH (and append ~~/local/bin~)
-  (when (eq system-type 'darwin)
-    ;; (setenv "PATH"
-    ;;         (concat "/usr/local/bin:" (getenv "PATH")))
-    ;; (setenv "PATH"
-    ;;         (concat (expand-file-name "~/local/bin") ":" (getenv "PATH")))
-    ;; (push "/usr/local/bin" (cdr (last exec-path)))
-    (push (expand-file-name "~/local/bin") exec-path)
-    (push (expand-file-name "~/local/python/3.6/bin") exec-path)
-    (push (expand-file-name "~/local/python/2.7/bin") exec-path)
-    )
+  (use-package exec-path-from-shell
+    :ensure t)
+  (when (memq window-system '(mac ns))
+    (exec-path-from-shell-copy-env "PYTHONPATH")
+    (exec-path-from-shell-initialize))
 
   ;; Prefer UTF-8
   (set-language-environment "UTF-8")
@@ -262,6 +216,8 @@ like we want it to.
         trash-directory "~/.Trash/emacs")
 
   ;; Hunspell for ispell - bundled with emacs by default since v24
+  ;; show where ispell is installed (with homebrew)
+  (setq ispell-program-name "/usr/local/opt/ispell/bin/ispell")
   (use-package ispell
     :config
     (when (executable-find "hunspell")
@@ -283,7 +239,7 @@ like we want it to.
     (save-place-mode t))
 
   ;; In the case file names match for different buffers
-  (if (< emacs-major-version)
+  (if (< emacs-major-version 25)
       (require 'uniquify))
   (setq uniquify-buffer-name-style 'forward)
 
@@ -305,7 +261,7 @@ Does not take effect when executed in a terminal.
     ;; no new frames when opening with Finder/Explorer
     (setq ns-pop-up-frames nil)
 
-    ;; maximize windows
+    ;; maximize windows with <Ctrl-Alt-M>
     (global-set-key (kbd "<C-s-268632077>") 'toggle-frame-fullscreen)
 
     ;; hide bars
@@ -387,13 +343,11 @@ Does not take effect when executed in a separate window.
       (define-key input-decode-map "\e\e[1;5D" [C-M-left])
       (define-key input-decode-map "\e\e[_" [?\C-\M- ])
       (define-key input-decode-map "\e[\177" [C-backspace]))
-
-    (add-hook 'terminal-init-xterm-hook 'phd-terminal-keys)
     )
+    (add-hook 'terminal-init-xterm-hook 'phd-terminal-keys)
+
 
 #+END_SRC
-
-#+TODO: add key definitions for C-/
 
 
 * Functions
@@ -414,10 +368,10 @@ A few useful functions that can be activated with Meta-x.
   (defun phd-iwb ()
     "Indent whole buffer"
     (interactive)
-    (delete-trailing-whhatitespace)
+    (delete-trailing-whitespace)
     (indent-region (point-min) (point-max) nil)
     (untabify (point-min) (point-max)))
-  ;;(global-set-key (kbd "C-c n") 'iwb)
+  ;; (global-set-key (kbd "C-c n") 'iwb)
 
   ;; Kill all buffers
   (defun phd-nuke-all-buffers ()
@@ -436,6 +390,7 @@ A few useful functions that can be activated with Meta-x.
       (error (message "Invalid expression")
              (insert (current-kill 0)))))
   (global-set-key (kbd "C-c C-e") 'phd-eval-and-replace)
+
 
   ;; Don't load the same buffer when splitting frames
   (defun phd-vsplit-last-buffer ()
@@ -474,22 +429,6 @@ Here, a few of such packages are configured.
   ;; For orientation
   ;; - highlight current cursor line position
   (global-hl-line-mode nil)
-  ;; - highlight cursor line position after scroll
-  ;; (use-package beacon
-  ;;              :ensure t
-  ;;              :config
-  ;;              (beacon-mode t)
-  ;;              ;; (setq beacon-color "#")
-  ;;              )
-
-  ;; Smart forward; built on 'expand-region ...not so smart yet
-  ;; (use-package smart-forward
-  ;;              :ensure t
-  ;;              :bind
-  ;;              (("<C-up>" . smart-up)
-  ;;               ("<C-down>" . smart-down)
-  ;;               ("<C-left>" . smart-backward)
-  ;;               ("<C-right>" . smart-forward)))
 
   ;; Bookmarks; move quickly between bm's with C-c =|[|]
   (use-package bm
@@ -502,11 +441,62 @@ Here, a few of such packages are configured.
   ;; Hydra
   ;; see https://github.com/abo-abo/hydra for some cool hydras
   (use-package hydra
-    :ensure t)
+    :ensure t
+    :init
+    (global-set-key
+     (kbd "C-x h")
+     (defhydra toggle (:color blue)
+       "toggle"
+        ("a" abbrev-mode "abbrev")
+        ("s" flyspell-mode "flyspell")
+        ("d" toggle-debug-on-error "debug")
+        ("c" fci-mode "fCi")
+        ("f" auto-fill-mode "fill")
+        ("t" treemacs "treemacs")
+        ("w" whitespace-mode "whitespace")
+        ("q" nil "cancel")))
+    (global-set-key
+     (kbd "C-x j")
+     (defhydra gotoline 
+       (:pre (linum-mode 1)
+        :post (linum-mode -1))
+       "goto"
+       ("t" (lambda () (interactive)(move-to-window-line-top-bottom 0)) "top")
+       ("b" (lambda () (interactive)(move-to-window-line-top-bottom -1)) "bottom")
+       ("m" (lambda () (interactive)(move-to-window-line-top-bottom)) "middle")
+       ("e" (lambda () (interactive)(end-of-buffer)) "end")
+       ("c" recenter-top-bottom "recenter")
+       ("n" next-line "down")
+       ("p" (lambda () (interactive) (forward-line -1))  "up")
+       ("g" goto-line "goto-line")
+       ))
+    (global-set-key
+     (kbd "C-c h")
+     (defhydra hydra-global-org (:color blue)
+       "Org"
+       ("t" org-timer-start "Start Timer")
+       ("s" org-timer-stop "Stop Timer")
+       ("r" org-timer-set-timer "Set Timer") ; This one requires you be in an orgmode doc, as it sets the timer for the header
+       ("p" org-timer "Print Timer") ; output timer value to buffer
+       ("w" (org-clock-in '(4)) "Clock-In") ; used with (org-clock-persistence-insinuate) (setq org-clock-persist t)
+       ("o" org-clock-out "Clock-Out") ; you might also want (setq org-log-note-clock-out t)
+       ("j" org-clock-goto "Clock Goto") ; global visit the clocked task
+       ("c" org-capture "Capture") ; Don't forget to define the captures you want http://orgmode.org/manual/Capture.html
+       ("l" (or )rg-capture-goto-last-stored "Last Capture")
+       ))
+    )
 
   ;; Ivy - deprecated
   (use-package ivy
-    :ensure t)
+    :ensure t
+    :diminish (ivy-mode)
+    ;; :bind (("C-x b" . ivy-switch-buffer))
+    ;; :config
+    ;; (ivy-mode 1)
+    ;; (setq ivy-use-virtual-buffers t)
+    ;; (setq ivy-count-format "%d/%d ")
+    ;; (setq ivy-display-style 'fancy)
+    )
 
   ;; Counsel - common ivy-enhanced emacs commands
   (use-package counsel
@@ -515,7 +505,7 @@ Here, a few of such packages are configured.
     (("M-x" . counsel-M-x)
      ("M-y" . counsel-yank-pop)
      :map ivy-minibuffer-map
-     ("M-y" . counsel-yank-pop)))
+     ("M-y" . ivy-next-line)))
 
   ;; Swiper - ivy-enhanced alternative for isearch
   (use-package swiper
@@ -553,9 +543,10 @@ Here, a few of such packages are configured.
        ("j" ivy--switch-buffer-other-window-action
         "other window"))))
 
-  ;; Ivy-hydra (ivy almost entirely replaced my helm usage as you can see)
+  ;; Ivy-hydra (ivy almost entirely replaced my helm usage)
   (use-package ivy-hydra
-    :ensure t)
+    :ensure t
+    :defer t)
 
   ;; Ace-jump
   (use-package ace-jump-mode
@@ -580,9 +571,9 @@ Here, a few of such packages are configured.
                         :foreground "deep sky blue"
                         :weight 'bold
                         :height 2.0)
-               ;; (set-face-attribute 'aw-mode-line-face nil
-               ;;                     :inherit 'mode-line-buffer-id
-               ;;                     :foreground "lawn green")
+    (set-face-attribute 'aw-mode-line-face nil
+                        :inherit 'mode-line-buffer-id
+                        :foreground "lawn green")
     (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
           ;; aw-leading-char-style 'path
           aw-dispatch-always t
@@ -595,8 +586,6 @@ Here, a few of such packages are configured.
             (?m delete-other-windows "Ace - Maximize Window")
             (?g delete-other-windows)
             (?b balance-windows)
-            ;; (?u winner-undo)
-            ;; (?r winner-redo)
             ))
     (when (package-installed-p 'hydra)
       ;; Window
@@ -638,7 +627,6 @@ Settings to improve editing speed...
 (show-paren-mode t)
 #+END_SRC
 
-
 *** Auto close bracket insertion
 #+BEGIN_SRC emacs-lisp
 (electric-pair-mode t)
@@ -651,27 +639,9 @@ Settings to improve editing speed...
 #+BEGIN_SRC emacs-lisp
   ;; - instead of dabbrev-expand
   (global-set-key (kbd "M-.") 'hippie-expand)
-  ;; rest of the enhancements is now done with Counsel
+  ;; rest of the enhancements is done with Counsel
 
   ;; Commenting
-  ;; (defun comment-or-uncomment-region-or-line ()
-  ;;   "Comments/Uncomments a region or the current line if no region is active"
-  ;;   (interactive)
-  ;;   (let (beg end)
-  ;;     (if (region-active-p)
-  ;;         (setq beg (region-beginning) end (region-end))
-  ;;       (setq beg (line-beginning-position) end (line-end-position)))
-  ;;     (comment-or-uncomment-region beg end)
-  ;;     ;; (next-logical-line)
-  ;;     ))
-  ;; (defun comment-dwim-line (&optional arg)
-  ;;    "Replacement for the comment-dwim command. If no region is selected and  current line is not blank and we are not at the end of the line, then comment current line. Replaces default behaviour of comment-dwim, when it inserts comment at the end of the line."
-  ;;      (interactive "*P")
-  ;;      (comment-normalize-vars)
-  ;;      (if (and (not (region-active-p)) (not (looking-at "[ \t]*$")))
-  ;;          (comment-or-uncomment-region (line-beginning-position) (line-end-position))
-  ;;        (comment-dwim arg)))
-  ;; (global-set-key (kbd "M-/") 'comment-dwim-line)
   (use-package comment-dwim-2
     :ensure t
     :bind
@@ -682,8 +652,6 @@ Settings to improve editing speed...
     :ensure t
     :bind
     ("<C-backspace>" . hungry-delete-backward)
-    ;; :config
-    ;; (global-hungry-delete-mode)
     )
 
   ;; Text: spelling and wrapping
@@ -693,27 +661,14 @@ Settings to improve editing speed...
                      ;; (visual-line-mode 1) ;; in conflict with Swiper
                      )))
 
-  ;; Autocomplete - deprecated using company instead
-  ;; (use-package auto-complete
-  ;;              :ensure t
-  ;;              :init
-  ;;              ((ac-config-default)
-  ;;               (global-auto-complete-mode t)))
-
   ;; Company - Modern autocomplete [**Comp**lete-**any**thing]
   (use-package company
     :ensure t
+    :defer 5
     :bind
     ("C-c ." . company-complete)
     :config
     (add-hook 'after-init-hook 'global-company-mode))
-
-  ;; - for fuzzy-complete functionality - unfortunately a bit twitchy
-  ;; (use-package company-flx
-  ;;              :ensure t
-  ;;              :config
-  ;;              (with-eval-after-load 'company
-  ;;                (company-flx-mode t)))
 
   ;; Expand-region selection; alternatively use 'mark-sexp
   (use-package expand-region
@@ -758,8 +713,8 @@ Settings to improve editing speed...
       ("p"   mc/mark-previous-like-this)
       ("P"   mc/skip-to-previous-like-this)
       ("M-p" mc/unmark-previous-like-this)
-      ("g"   mc/mark-all-in-region-regexp :exit t)
-      ("r"   mc/mark-sgml-tag-pair :exit t)
+      ("g" mc/mark-all-in-region-regexp :exit t)
+      ("r"   mc/mark-sgml-tag-pairexit t)
       ("x"   mc/mark-more-like-this-extended)
       ("q"   nil)
       ("<mouse-1>" mc/add-cursor-on-click)
@@ -776,49 +731,25 @@ Adding support for some programming languages or global coding behaviour...
 
 #+BEGIN_SRC emacs-lisp
   ;; Global
-  ;; - Paredit
-  ;; (use-package paredit
-  ;;              :ensure t
-  ;;              :diminish paredit-mode
-  ;;              :bind
-  ;;              (("C-c d" . paredit-forward-down)
-  ;;               ("C-c s" . paredit-forward-up))
-  ;;              :config
-  ;;              (define-key paredit-mode-map ())
-  ;; )
-
-  ;; - ensure global hook to all modes
-  ;; (use-package paredit-everywhere
-  ;;              :ensure t
-  ;;              :diminish paredit-everywhere-mode
-  ;;              :config
-  ;;              (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
-
   ;; - Error checking; might have to turn that one off again :S
   (use-package flycheck
     :ensure t
     :init
-    (global-flycheck-mode 1)
-    :config
-    (setq-default flycheck-flake8-maximum-line-length 99))
-
-  ;; - Code folding
-  (use-package hideshow
-    :ensure t
-    :bind
-    ("C-;" . hs-toggle-hiding)
-    :config
-    (setq hs-hide-comments nil)
-    (setq hs-isearch-open 'x)
-    (add-hook 'prog-mode-hook (lambda ()
-                                (hs-minor-mode 1))))
+    (global-flycheck-mode t)
+    (setq-default flycheck-flake8-maximum-line-length 99)
+  )
 
   ;; - Snippets
   (use-package yasnippet
     :ensure t
     :defer t
-    :config
-    (yas-global-mode 0))
+    :init
+    (yas-global-mode 1)
+    )
+
+  (use-package yasnippet-snippets
+    :ensure t
+    :defer t)
 
   ;; Elisp
   ;; - Highlight parentheses for emacs-lisp
@@ -838,16 +769,9 @@ Adding support for some programming languages or global coding behaviour...
               (lambda()
                 (rainbow-delimiters-mode))))
   (global-highlight-parentheses-mode)
-  ;; (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-  ;; (add-hook 'global-hightlight-parentheses-mode-hook 'rainbow-delimiters-mode)
 
   ;; - String manipulation
   (use-package s
-    :ensure t)
-
-  ;; Clojure
-  ;; - Snippets
-  (use-package clojure-snippets
     :ensure t)
 
   ;; - Cider
@@ -864,25 +788,11 @@ Adding support for some programming languages or global coding behaviour...
     (setq cider-repl-use-pretty-printing t)
     (setq cider-repl-display-help-banner nil))
 
-  ;; - Cider-Hydras
-  (use-package cider-hydra
-    :ensure t)
-
-  ;; - refactoring functions
-  (use-package clj-refactor
-    :ensure t
-    :config
-    (add-hook 'clojure-mode-hook (lambda() ((clj-refactor-mode 1)
-                                            (yas-minor-mode 1))))
-    (cljr-add-keybindings-with-prefix "C-c C-m")
-    (setq cljr-warn-on-eval nil)
-    :bind
-    ("C-c '" . hydra-cljr-help-menu/body))
 
   ;; Python
   (setq python-shell-completion-native-enable nil)
-  (setq py-python-command "python") ;; "python")
-  (setq python-shell-interpreter "python") ;; "python")
+  (setq py-python-command "python") ;; "python3")
+  (setq python-shell-interpreter "python") ;; "python3")
 
   ;; - company auto-complete
   (use-package company-jedi
@@ -895,7 +805,7 @@ Adding support for some programming languages or global coding behaviour...
 
 Be sure to install the necessary libraries via pip:
 
-#+BEGIN_SRC shell :exports none
+#+BEGIN_SRC shell :tangle no
   pip install jedi
   pip install flake8
   pip install importmagic
@@ -906,11 +816,17 @@ Be sure to install the necessary libraries via pip:
 Now, elpy can get to work...
 
 #+BEGIN_SRC emacs-lisp
-  ;; - for an awesome python dev-env
-  ;; (use-package elpy
-  ;;   :ensure t
-  ;;   :config
-  ;;   (elpy-enable))
+  ;; ;; mighty python dev-env
+  (use-package elpy
+    :ensure t
+    :defer t
+    :config
+    (elpy-enable)
+    (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+    (eval-after-load "elpy"
+      '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
+         (define-key elpy-mode-map (kbd key) nil)))
+    )
 #+END_SRC
 
 
@@ -935,69 +851,101 @@ Setting up packages for project management and version control,
 e.g. magit, projectile, perspective, etc.
 
 #+BEGIN_SRC emacs-lisp
-  ;; Extensive file system package
-  (use-package f
-    :ensure t)
+    ;; Extensive file system package
+    (use-package f
+      :ensure t)
 
-  ;; Magit
-  (use-package magit
+    (use-package treemacs
     :ensure t
-    :bind ("C-c m" . magit-status))
-
-  ;; Magit-gitflow (not tried yet...)
-  ;;(use-package magit-gitflow
-  ;;           :ensure t
-  ;;           :config
-  ;;           (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
-
-  ;; Projectile
-  (use-package projectile
-    :ensure t
+    :defer t
+    :init
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
     :config
-    (projectile-global-mode)
-    (setq projectile-completion-system 'ivy))
+    (progn
+      (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
+            treemacs-deferred-git-apply-delay   0.5
+            treemacs-display-in-side-window     t
+            treemacs-file-event-delay           5000
+            treemacs-file-follow-delay          0.2
+            treemacs-follow-after-init          t
+            treemacs-follow-recenter-distance   0.1
+            treemacs-goto-tag-strategy          'refetch-index
+            treemacs-indentation                2
+            treemacs-indentation-string         " "
+            treemacs-is-never-other-window      nil
+            treemacs-max-git-entries            5000
+            treemacs-no-png-images              nil
+            treemacs-project-follow-cleanup     nil
+            treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+            treemacs-recenter-after-file-follow nil
+            treemacs-recenter-after-tag-follow  nil
+            treemacs-show-cursor                nil
+            treemacs-show-hidden-files          t
+            treemacs-silent-filewatch           nil
+            treemacs-silent-refresh             nil
+            treemacs-sorting                    'alphabetic-desc
+            treemacs-space-between-root-nodes   t
+            treemacs-tag-follow-cleanup         t
+            treemacs-tag-follow-delay           1.5
+            treemacs-width                      35)
 
-  ;; Counsel projectile - ivy-extensions to projectile
-  (use-package counsel-projectile
+      ;; The default width and height of the icons is 22 pixels. If you are
+      ;; using a Hi-DPI display, uncomment this to double the icon size.
+      ;;(treemacs-resize-icons 44)
+
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode t)
+      (pcase (cons (not (null (executable-find "git")))
+                   (not (null (executable-find "python3"))))
+        (`(t . t)
+         (treemacs-git-mode 'extended))
+        (`(t . _)
+         (treemacs-git-mode 'simple))))
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("C-x t t"   . treemacs)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag)))
+
+  (use-package treemacs-projectile
     :ensure t
-    :config
-    (counsel-projectile-mode))
+    :defer t
+    :after treemacs projectile)
 
-  ;; Perspective
-  ;; (use-package perspective
-  ;;   :ensure t
-  ;;   :config
-  ;;   ;; Enable perspective mode
-  ;;   (persp-mode t)
-  ;;   (defmacro custom-persp (name &rest body)
-  ;;     `(let ((initialize (not (gethash ,name perspectives-hash)))
-  ;;            (current-perspective persp-curr))
-  ;;        (persp-switch ,name)
-  ;;        (when initialize ,@body)
-  ;;        (setq persp-last current-perspective)))
-  ;;   ;; Jump to last perspective
-  ;;   (defun custom-persp-last ()
-  ;;     (interactive)
-  ;;     (persp-switch (persp-name persp-last)))
-  ;;   (define-key persp-mode-map (kbd "C-x p -") 'custom-persp-last)
-  ;;   ;; Custom mapping, e.g.
-  ;;   (defun custom-persp/emacs ()
-  ;;     (interactive)
-  ;;     (custom-persp "emacs"
-  ;;                   (find-file "~/.emacs.d/init.el")))
-  ;;   (define-key persp-mode-map (kbd "C-x p e") 'custom-persp/emacs)
-  ;;   )
+    ;; Magit
+    (use-package magit
+      :ensure t
+      :bind ("C-c m" . magit-status))
 
-  (use-package perspeen
-    :ensure t
-    ;; :init
-    ;; (setq perspeen-use-tab t)
-    :config
-    (perspeen-mode)
-    ;; :bind
-    ;; (("C-x <left>" . perspeen-tab-prev)
-    ;; ("C-x <right>" . perspeen-tab-next))
-  )
+    ;; Projectile
+    (use-package projectile
+      :ensure t
+      :defer t
+      :config
+      (projectile-global-mode)
+      (setq projectile-completion-system 'ivy))
+
+    ;; Counsel projectile - ivy-extensions to projectile
+    (use-package counsel-projectile
+      :ensure t
+      :config
+      (counsel-projectile-mode))
+
+    (use-package perspeen
+      :ensure t
+      ;; :init
+      ;; (setq perspeen-use-tab t)
+      :config
+      (perspeen-mode)
+      ;; :bind
+      ;; (("C-x <left>" . perspeen-tab-prev)
+      ;; ("C-x <right>" . perspeen-tab-next))
+    )
 #+END_SRC
 
 
@@ -1007,22 +955,22 @@ Loading markup and -down...
 
 ** HTML
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package web-mode
-  ;;              :ensure t
-  ;;              :config
-  ;;              (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-  ;;              (setq web-mode-engines-alist 
-  ;;                    '(("django" . "\\.html\\'")))
-  ;;              (setq web-mode-ac-sources-alist
-  ;;                  '(("css" . (ac-source-css-property))
-  ;;                    ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
-  ;;              (defun my-web-mode-hook ()
-  ;;                "Hooks for Web mode."
-  ;;                (setq web-mode-enable-auto-closing t)
-  ;;                (setq web-mode-enable-auto-quoting t)
-  ;;                (setq web-mode-markup-indent-offset 2))
-  ;;              (add-hook 'web-mode-hook  'my-web-mode-hook)
-  ;;              )
+  (use-package web-mode
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+    (setq web-mode-engines-alist 
+          '(("django" . "\\.html\\'")))
+    (setq web-mode-ac-sources-alist
+          '(("css" . (ac-source-css-property))
+            ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
+    (defun my-web-mode-hook ()
+      "Hooks for Web mode."
+      (setq web-mode-enable-auto-closing t)
+      (setq web-mode-enable-auto-quoting t)
+      (setq web-mode-markup-indent-offset 2))
+    (add-hook 'web-mode-hook  'my-web-mode-hook)
+    )
 
   ;; HTML export
   (use-package htmlize
@@ -1032,6 +980,7 @@ Loading markup and -down...
   ;; - Emmet for super fast web-dev
   (use-package emmet-mode
     :ensure t
+    :defer t
     :config
     (add-hook 'sgml-mode-hook 'emmet-mode)
     ;; (add-hook 'css-mode-hook  'emmet-mode)
@@ -1044,12 +993,14 @@ Loading markup and -down...
 
   (use-package scss-mode
     :ensure t
+    :defer t
     :config
     (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
     )
 
   (use-package sass-mode
     :ensure t
+    :defer t
     :config
     (add-to-list 'auto-mode-alist '("\\.sass\\'" . sass-mode))
     )
@@ -1059,7 +1010,7 @@ Loading markup and -down...
     :ensure t
     :defer t)
 
-  ;; Markdown (message "message" format-args)ode
+  ;; Markdown mode
   (use-package markdown-mode
     :ensure t
     :defer t
@@ -1133,9 +1084,6 @@ Youtube embedding
      ))
 #+END_SRC
 
-#+RESULTS:
-: Created yt link.
-
 Giphy embedding
 #+BEGIN_SRC emacs-lisp
   (defvar giphy-iframe-format
@@ -1172,13 +1120,14 @@ Giphy embedding
 
 Reveal presentations
 #+BEGIN_SRC emacs-lisp
-  ;; (setq org-reveal-root (concat "file://" (expand-file-name "local/reveal.js")))
-  ;; ;; (setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
-  ;; (setq org-reveal-mathjax t)
-  ;; (use-package ox-reveal
-  ;;   :ensure t 
-  ;;   :config (require 'ox-reveal)
-  ;;   )
+  (setq org-reveal-root (concat "file://" (expand-file-name "~/local/reveal.js")))
+  ;; (setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+  (setq org-reveal-mathjax t)
+  (use-package ox-reveal
+    ;; :ensure t
+    :defer t
+    :config (require 'ox-reveal)
+    )
 #+END_SRC
 
 
@@ -1196,14 +1145,15 @@ Custom org extensions
 (add-hook 'org-export-before-parsing-hook 'org-export-canvas)
 #+END_SRC
 
+
 ** LaTeX
 
 LaTeX stuff...
 
 #+BEGIN_SRC emacs-lisp
   (use-package auctex
-    :defer t
     :ensure t
+    :defer t
     :config
     (require 'tex)
     (TeX-global-PDF-mode t)
@@ -1211,6 +1161,7 @@ LaTeX stuff...
 
   (use-package latex-preview-pane
     :ensure t
+    :defer t
     :config
     (latex-preview-pane-enable))
 #+END_SRC
@@ -1242,7 +1193,8 @@ Settings for a few helping features.
 
   ;; Command log mode to see what is being typed
   (use-package command-log-mode
-               :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC 
 
 
@@ -1252,6 +1204,10 @@ Terminal emulator
 
 #+BEGIN_SRC emacs-lisp
 
+  (use-package esup
+    :ensure t
+    :defer t)
+
   (use-package xterm-color
     :ensure t)
 
@@ -1259,8 +1215,6 @@ Terminal emulator
 
   (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-  ;; (setq insert-directory-program (executable-find "gls"))
 
   ;; (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
   ;;        (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions)))
@@ -1279,14 +1233,6 @@ Some elips experiments...
     :ensure t
     :defer t)
 #+END_SRC
-
-
-
-* Requires
-
-Here, files having problems loading with 'use-package are imported
-the old way.
-Luckily, so far I was able to move everything to use-package.
 
 
 * Styling
@@ -1334,12 +1280,6 @@ git clone git@github.com:domtronn/all-the-icons.el.git
   ;; All the pretty icons
   (use-package all-the-icons
     :ensure t)
-
-  ;; ...use mode-icons instead
-  ;; (use-package mode-icons
-  ;;           :ensure t
-  ;;           :config
-  ;;           (mode-icons-mode t))
 #+END_SRC
 
 ** Modeline
@@ -1653,6 +1593,8 @@ git clone git@github.com:domtronn/all-the-icons.el.git
                                   :height 1.2
                                   :v-adjust -0.06)
            " "))))
+    ;; - Elpy (alternative to flycheck)
+    ;; TODO
     ;; - Selection
     (defun *selection-info ()
       "Information about the current selection"

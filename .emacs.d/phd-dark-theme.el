@@ -9,38 +9,42 @@
   )
 
 (defvar phd-dark-color-palette
-  '(("bg"        .  (if window-system "#2A2F38" "unspecified-bg"))
-    ("fg"        .  (if window-system "#BDC3CE" "unspecified-fg"))
-    ("bg-b"      .  (if window-system "#404850" "unspecified-bg"))
-    ("fg-b"      .  (if window-system "#BDC3CE" "unspecified-fg"))
-    ("bg-bb"     .  (if window-system "#3A3C3F" "unspecified-bg"))
-    ("fg-bb"     .  (if window-system "#BDC3CE" "unspecified-fg"))
-    ("black"     .  (if window-system "#181E26" "#000000"))
-    ("white"     .  (if window-system "#DFDFDF" "#D7D7D7"))
-    ("grey-b"    .  (if window-system "#8A8A8A" "#878787"))
-    ("grey"      .  (if window-system "#5B6268" "#525252"))
-    ("grey-d"    .  (if window-system "#464858" "#464858"))
-    ("yellow"    .  (if window-system "#FFD787" "#FFD787"))
-    ("orange"    .  (if window-system "#FDB760" "#FFAF5F"))
-    ("orange-d"  .  (if window-system "#FF5F00" "#FF5F00"))
-    ("red"       .  (if window-system "#FF6D6B" "#FF5F5F"))
-    ("red-d"     .  (if window-system "#D7005F" "#D7005F"))
-    ("red-dd"    .  (if window-system "#D70000" "#D70000"))
-    ("magenta"   .  (if window-system "#E83A82" "#FF0087"))
-    ("purple"    .  (if window-system "#8787FF" "#8787FF"))
-    ("violet"    .  (if window-system "#A9A1E1" "#AFAFD7"))
-    ("cyan"      .  (if window-system "#46D9FF" "#5FD7FF"))
-    ("teal"      .  (if window-system "#4DB5BD" "#5FAFAF"))
-    ("blue"      .  (if window-system "#5F8AF7" "#5F87FF"))
-    ("blue-d"    .  (if window-system "#1F5582" "#005f87"))
-    ("blue-dd"   .  (if window-system "#3723B7" "#0000FF"))
-    ("green"     .  (if window-system "#3DAA77" "#00875F"))
-    ("green-b"   .  (if window-system "#00AF5F" "#00AF5F"))
-    ("gui-font"      . "Inconsolata")
-    ("terminal-font" . "Fira Mono")
-    )
-  "Color palette alist for the phd-dark theme."
-  )
+  (let* ((256color  (eq (display-color-cells (selected-frame)) 256))
+         (colors `(("fg"        .  (if ,256color "#C6C6C6" "#BDC3CE"))
+                   ("fg-b"      .  (if ,256color "#D0D0D0" "#DDE3EE"))
+                   ("fg-bb"     .  (if ,256color "#DADADA" "#EDF3FE"))
+                   ("bg"        .  "#303030")
+                   ("bg-b"      .  (if ,256color "#3A3A3A" "#404850"))
+                   ("bg-bb"     .  (if ,256color "#444444" "#3A3C3F"))
+                   ("black"     .  (if ,256color "#000000" "#181E26"))
+                   ("white"     .  (if ,256color "#CCCCCC" "#DFDFDF"))
+                   ("grey"      .  (if ,256color "#666666" "#5B6268"))
+                   ("grey-b"    .  (if ,256color "#999999" "#8A8A8A"))
+                   ("grey-d"    .  (if ,256color "#444444" "#464858"))
+                   
+                   ("yellow"    .  "#FFD787")
+                   ("orange"    .  (if ,256color "#FFAF5F" "#FDB760"))
+                   ("orange-d"  .  "#FF5F00")
+                   ("red"       .  (if ,256color "#FF5F5F" "#FF6D6B"))
+                   ("red-d"     .  "#D7005F")
+                   ("red-dd"    .  "#D70000")
+                   ("magenta"   .  (if ,256color "#FF0087" "#E83A82"))
+                   ("purple"    .  "#8787FF")
+                   ("violet"    .  (if ,256color "#AFAFD7" "#A9A1E1"))
+                   ("cyan"      .  (if ,256color "#5FD7FF" "#46D9FF"))
+                   ("teal"      .  (if ,256color "#5FAFAF" "#4DB5BD"))
+                   ("blue"      .  (if ,256color "#5F87FF" "#5F8AF7"))
+                   ("blue-d"    .  (if ,256color "#005f87" "#1F5582"))
+                   ("blue-dd"   .  (if ,256color "#0000FF" "#3723B7"))
+                   ("green"     .  (if ,256color "#00AF87" "#44BC84"))
+                   ("green-d"   .  (if ,256color "#5FAF87" "#3DAA77"))
+                   ("green-b"   .  "#00AF5F")
+                   
+                   ("gui-font"      . "Inconsolata")
+                   ("terminal-font" . "Fira Mono")
+                   )))
+    colors)
+  "Color palette alist for the phd-dark theme.")
 
 (defmacro with-phd-variables (&rest body)
   "Provides color variables from phd-dark-color-palette in the BODY."
@@ -61,7 +65,7 @@
   `(fixed-pitch         ((t (:family ,terminal-font))))
   `(variable-pitch      ((t (:family ,gui-font))))
   `(escape-glyph        ((t (:foreground ,orange-d))))
-  `(minibuffer-prompt   ((t (:foreground ,blue-dd))))
+  `(minibuffer-prompt   ((t (:foreground ,teal))))
   `(highlight           ((t (:background ,grey-d)))) ;; :foreground ,fg))))
   `(hl-line             ((t (:inherit highlight))))
   `(region              ((t (:background ,magenta :foreground ,fg))))
@@ -109,7 +113,7 @@
   `(font-latex-sectioning-2-face ((t (:foreground ,orange))))
 
   ;; Mode-line
-  `(mode-line                ((t (:background ,bg-bb :foreground ,fg-bb))))
+  `(mode-line                ((t (:background ,bg-bb :foreground ,fg-b))))
   `(mode-line-inactive       ((t (:background ,bg-b :foreground ,fg-b))))
   `(mode-line-emphasis       ((t (:bold t))))
   `(mode-line-buffer-id      ((t (:bold t))))
@@ -119,7 +123,7 @@
   `(powerline-active2        ((t (:inherit mode-line))))
   `(powerline-inactive1      ((t (:inherit mode-line-inactive))))
   `(powerline-inactive2      ((t (:inherit mode-line-inactive))))
-  `(phd-modeline-buffer-path ((t (:foreground ,teal))))
+  `(phd-modeline-buffer-path       ((t (:foreground ,teal))))
   `(phd-modeline-buffer-project    ((t (:foreground ,fg))))
   `(phd-modeline-buffer-modified   ((t (:foreground ,blue))))
   `(phd-modeline-buffer-major-mode ((t (:foreground ,blue))))
@@ -152,9 +156,9 @@
   `(company-tooltip-mouse            ((t (:inherit secondary-selection))))
   `(company-scrollbar-bg             ((t (:background ,teal))))
   `(company-scrollbar-fg             ((t (:background ,blue-d))))
-  `(company-preview                 ((t (:inherit company-tooltip-selection))))
-  `(company-preview-common          ((t (:inherit company-tooltip-common))))
-  `(company-preview-search          ((t (:inherit company-tooltip-search))))
+  `(company-preview                  ((t (:inherit company-tooltip-selection))))
+  `(company-preview-common           ((t (:inherit company-tooltip-common))))
+  `(company-preview-search           ((t (:inherit company-tooltip-search))))
 
   ;; which-key
   `(which-key-key-face                   ((t (:foreground ,green))))
@@ -186,8 +190,8 @@
                                            :bold t))))
 
   ;; Hl-paren
-  `(hl-paren-colors '(,blue ,magenta ,green ,orange
-                            ,violet ,purple ,red ,red-d ,red-dd))
+  `(hl-paren-colors '(,magenta ,orange ,green ,blue ,violet ,purple
+                      ,cyan ,teal ,yellow ,red))
 
   ;; Highlight-indentation
   `(highlight-indentation-face                ((t (:background ,bg-b))))
@@ -208,34 +212,10 @@
 
   ))
 
-(if window-system
-    (setq hl-paren-colors '(
-                            "#E83A82" ;; magenta
-                            "#FDB760" ;; orange
-                            "#3DAA77" ;; green
-                            "#5F8AF7" ;; blue
-                            "#D70000" ;; red-dd
-                            "#8787FF" ;; purple
-                            "#D7005F" ;; red-d
-                            "#A9A1E1" ;; violet
-                            "#FF6D6B" ;; red
-                            )
-          )
-  (setq hl-paren-colors '(
-                          "#FF0087" ;; magenta
-                          "#FFAF5F" ;; orange
-                          "#00875F" ;; green
-                          "#5F87FF" ;; blue
-                          "#D70000" ;; red-dd
-                          "#8787FF" ;; purple
-                          "#D7005F" ;; red-d
-                          "#AFAFD7" ;; violet
-                          "#FF5F5F" ;; red
-                          )
-  )
-
 (global-highlight-parentheses-mode)
-)
 
 (provide-theme 'phd-dark)
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
 ;;; phd-dark-theme.el ends here

@@ -9,7 +9,7 @@ backend: TkAgg
 text.color: 555555
 
 # text.usetex: true
-text.latex.unicode: true
+# text.latex.unicode: true
 font.family: sans-serif
 font.sans-serif: Computer Modern Sans serif, Bitstream Vera Sans, DejaVu Sans
 text.latex.preamble: \usepackage[cm]{sfmath},\usepackage{siunitx}

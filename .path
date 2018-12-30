@@ -65,4 +65,7 @@ export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
 # LOCAL BINARIES
 export PATH="$HOME/local/bin:${PATH}"
 
-
+if [ -d '/Applications/Emacs.app' ]; then
+    export PATH="/Applications/Emacs.app/Contents/MacOS:${PATH}"
+    export PATH="/Applications/Emacs.app/Contents/MacOS/bin:${PATH}"
+fi;

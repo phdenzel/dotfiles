@@ -305,52 +305,55 @@ Settings specific to terminal mode.
 Does not take effect when executed in a separate window.
 
 #+BEGIN_SRC emacs-lisp
-  (unless (display-graphic-p)
-    ;; hide bars
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
+  (defun new-term-setup (&optional frame)
+    (unless (display-graphic-p frame)
+      ;; hide bars
+      (menu-bar-mode -1)
+      (tool-bar-mode -1)
+      (scroll-bar-mode -1)
+      
+      ;; UTF-8
+      (set-terminal-coding-system 'utf-8)
+      (set-keyboard-coding-system 'utf-8)
+      
+      ;; activate mouse mode
+      (xterm-mouse-mode t)
+      (mouse-wheel-mode t)
+      (global-set-key [mouse-4] '(lambda ()
+                                   (interactive)
+                                   (previous-line 1)))
+      (global-set-key [mouse-5] '(lambda ()
+                                   (interactive)
+                                   (next-line 1)))
+        
+      ;; macOS keyboard configuration
+      (setq mac-option-modifier 'meta)
+      (setq mac-control-modifier 'control)
+      (setq mac-right-command-modifier 'super)
 
-    ;; UTF-8
-    (set-terminal-coding-system 'utf-8)
-    (set-keyboard-coding-system 'utf-8)
-
-    ;; activate mouse mode
-    (xterm-mouse-mode t)
-    (mouse-wheel-mode t)
-    (global-set-key [mouse-4] '(lambda ()
-                                 (interactive)
-                                 (previous-line 1)))
-    (global-set-key [mouse-5] '(lambda ()
-                                 (interactive)
-                                 (next-line 1)))
-    
-    ;; macOS keyboard configuration
-    (setq mac-option-modifier 'meta)
-    (setq mac-control-modifier 'control)
-    (setq mac-right-command-modifier 'super)
-
-    ;; though COMMAND is not very useful due to global OS keybindings
-    (setq mac-function-modifier 'none)
-    (setq mac-right-command-modifier 'hyper)
-    (setq mac-right-option-modifier 'left)
-
-    ;; Keyboard craziness
-    ;; Meta has a prefix, by default ESC;
-    ;; Very specific to my own terminal... replace with own escape sequences
-    (defun phd-terminal-keys ()
-      (define-key input-decode-map "\e\eOA" [M-up])
-      (define-key input-decode-map "\e\eOB" [M-down])
-      (define-key input-decode-map "\e[1;5A" [C-up])
-      (define-key input-decode-map "\e[1;5B" [C-down])
-      (define-key input-decode-map "\e\e[1;5A" [C-M-up])
-      (define-key input-decode-map "\e\e[1;5B" [C-M-down])
-      (define-key input-decode-map "\e\e[1;5C" [C-M-right])
-      (define-key input-decode-map "\e\e[1;5D" [C-M-left])
-      (define-key input-decode-map "\e\e[_" [?\C-\M- ])
-      (define-key input-decode-map "\e[\177" [C-backspace]))
+      ;; though COMMAND is not very useful due to global OS keybindings
+      (setq mac-function-modifier 'none)
+      (setq mac-right-command-modifier 'hyper)
+      (setq mac-right-option-modifier 'left))
     )
-    (add-hook 'terminal-init-xterm-hook 'phd-terminal-keys)
+  ;; Keyboard craziness
+  ;; Meta has a prefix, by default ESC;
+  ;; Very specific to my own terminal... replace with own escape sequences
+  (defun phd-terminal-keys ()
+    (define-key input-decode-map "\e\eOA" [M-up])
+    (define-key input-decode-map "\e\eOB" [M-down])
+    (define-key input-decode-map "\e[1;5A" [C-up])
+    (define-key input-decode-map "\e[1;5B" [C-down])
+    (define-key input-decode-map "\e\e[1;5A" [C-M-up])
+    (define-key input-decode-map "\e\e[1;5B" [C-M-down])
+    (define-key input-decode-map "\e\e[1;5C" [C-M-right])
+    (define-key input-decode-map "\e\e[1;5D" [C-M-left])
+    (define-key input-decode-map "\e\e[_" [?\C-\M- ])
+    (define-key input-decode-map "\e[\177" [C-backspace]))
+
+  (add-hook 'after-init-hook 'new-term-setup)
+  ;; (add-hook 'terminal-init-xterm-hook 'new-term-setup)
+  (add-hook 'terminal-init-xterm-hook 'phd-terminal-keys)
 
 
 #+END_SRC

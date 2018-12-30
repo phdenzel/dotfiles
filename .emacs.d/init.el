@@ -40,11 +40,15 @@
 
 ;;; Configs
 ;;
+;; Start a server (server-socket-dir and EMACS_SERVER_FILE need to match)
+(setq server-socket-dir (expand-file-name "~/.emacs.d/server"))
+(server-start)
+;;
 ;;; Attempt to speed up startup by allocating RAM for the garbage collector
 (setq gc-cons-threshold (* 1000 1000 1000))
 (add-hook 'after-init-hook
           (lambda ()
-            (setq gc-cons-threshold (* 100 1000 1000))))
+            (setq gc-cons-threshold (* 8 100 1000))))
 (let ((file-name-handler-alist nil)) (expand-file-name "~/.emacs.d/init.el"))
 
 
@@ -60,6 +64,7 @@
 (unless (package-installed-p 'use-package)
 	(package-refresh-contents)
 	(package-install 'use-package))
+
 ;;; Load org configs
 (require 'org)
 (org-babel-load-file (expand-file-name "~/.emacs.d/phd-emacs.org"))

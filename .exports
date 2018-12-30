@@ -90,10 +90,16 @@ export HISTFILESIZE=$HISTSIZE
 # Language settings
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
-# Default editor
-export EDITOR='emacs'
+# Editors
+export EMACS='emacs'
+export EMACSCLIENT='emacsclient'
+export EMACS_SERVER_FILE="$HOME/.emacs.d/server/server"
+export ALTERNATE_EDITOR=""
+export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
+export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
 # Less settings
 export LESS_TERMCAP_md="${blue}"
+export GREP_COLOR="${magenta}"
 # Python IO encoding
 export PYTHONIOENCODING='UTF-8'
 ### Programming environments

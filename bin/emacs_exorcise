@@ -1,0 +1,13 @@
+#!/bin/bash
+
+pids="$(ps -A -o pid,args | grep "emacs" | grep -v 'grep\|emacs_exorcise' | awk '{print $1}')"
+
+for pid in $pids; do
+    echo "Exorcising emacs-daemon $pid"
+    kill -9 "$pid"
+done;
+
+if [ ! -z "$(ls -A $HOME/.emacs.d/server/)" ]; then
+    echo "Removing $(ls -A $HOME/.emacs.d/server/*)"
+    rm $HOME/.emacs.d/server/*
+fi;

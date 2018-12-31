@@ -8,7 +8,7 @@ Some of the files are especially designed for macOS (tested on *macOS Sierra 10.
 The repository can be cloned wherever you want; a natural place would be `~/dotfiles`, i.e. the home folder, or to use a *symlink* from the clone to the home folder (that's what I do).
 
 **Warning**: Use with caution! Check the files first before installing; especially `.macOS`, and all scripts in `installers/`.
-The files in `custom/` are probably no use to anyone except me, but I included them anyways, just in case somebody wants to change them for their use.
+The files in `custom/` are probably no use to anyone except me, but I included them anyways, just in case somebody wants to change them for their own use.
 
 ### Example
 ![Screenshot of my shell prompt](screenshot.png)
@@ -21,6 +21,14 @@ To install the dotfiles simply type:
 source bootstrap.sh
 ```
 while in `dotfiles`.
+
+Optionally, it is possible to run `bootstrap.sh` with flags, e.g. `--bin`, `--emacs`, or `--terminal`.
+
+```bash
+source bootstrap.sh --bin
+```
+installs a `~/local/bin/` directory (which will be added to the environment `$PATH`) and links all the executables
+in `bin/` to it.
 
 Alternatively, you can run:
 
@@ -40,15 +48,8 @@ which installs:
 * a terminal theme: `phd.terminal` to `~/Documents/`
 * a custom-shortcut for macOS: `Launch\ Terminal.workflow` to `~/Library/Services/`
 
-of course, these Terminal configurations are macOS-specific.
- 
-```bash
-source bootstrap.sh --bin
-```
-which installs a `~/local/bin/` directory (which will be added to the environment `$PATH`) and links all the executables
-in `bin/` to it.   
- 
- 
+of course, these Terminal configurations are macOS-specific.   
+
 ### Bash scripts:
 Moreover, the repository holds several bash scripts, although they aren't strictly speaking dotfiles. Nevertheless, it's quite useful to be able to clone a single repository onto a new machine and run only a handful of commands that install all your settings and libraries at once.
 *Again, go through the files first and make sure you know what they are doing, before installing*.
@@ -57,9 +58,9 @@ Moreover, the repository holds several bash scripts, although they aren't strict
 * `bash installers/brew.sh` - downloads useful Homebrew packages (takes up quite a bit of disk space)
 * `bash installers/pip.sh` - installs essential python libraries
 * `bash installers/gem.sh` - installs a couple of ruby gems
-* `bash installers/git-clones.sh` - creates a `~/git-clones` directory and clones useful git repositories into it and some of my own repositories to `~/` and `~/Documents`.
 * `bash installers/emacs_install.sh` - downloads the source code for emacs, compiles it, and installs a symlink to `~/local/bin/`.
 * `bash installers/gcc_install.sh` - downloads the source code for gcc, compiles it, and installs a symlink to `~/local/bin/`.
+* `bash installers/git-clones.sh` - clones useful git repositories into several locations within your home directory and its subdirectories.
 * `bash custom/db2Documents.sh` - creates symlinks from `~/Dropbox` to `~/Documents` (fill the lists in the loops with your own directories or files if you want to use it)
 * `bash custom/db2Home.sh` - creates symlinks from `~/Dropbox` to `~/` (fill the lists in the loops with your own directories or files if you want to use it)
 

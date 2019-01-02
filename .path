@@ -44,9 +44,11 @@ if [ -d "$HOME/local/python" ]; then
     for f in $(ls -dr $HOME/local/python/[0-9]*/bin); do
 	      export PATH="$f:${PATH}"
     done;
-    for f in $(ls -dr $HOME/local/python/[0-9]*/Python.framework/Versions/[0-9]*/bin); do
-        export PATH="$f:${PATH}"
-    done;
+    if ls -dr $HOME/local/python/[0-9]*/Python.framework/Versions/[0-9]*/bin &> /dev/null; then
+        for f in $(ls -dr $HOME/local/python/[0-9]*/Python.framework/Versions/[0-9]*/bin); do
+            export PATH="$f:${PATH}"
+        done;
+    fi;
 elif which brew &> /dev/null; then
     export PATH="/usr/local/opt/python/libexec/bin:${PATH}"
 fi;

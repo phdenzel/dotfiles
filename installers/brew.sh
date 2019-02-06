@@ -47,6 +47,10 @@ brew install cmake
 brew install gcc
 brew install gcc@6
 brew install sdl2
+brew install gsl
+brew install glpk
+brew install eigen
+brew install cuba
 #brew reinstall gcc --without-multilib
 # Python
 brew install python

@@ -2,13 +2,75 @@
 ####################################################### Bash path
 # SSL/TSL
 if which brew &> /dev/null; then
-   export PATH="/usr/local/opt/openssl/bin:$PATH"
-   export CFLAGS="$CFLAGS -I$(brew --prefix openssl)/include"
-   export CPPFLAGS="$CPPLAGS -I$(brew --prefix openssl)/include"
-   export LDFLAGS="$LDFLAGS -L$(brew --prefix openssl)/lib"
-   # export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
-   # export CFLAGS="-I$(brew --prefix openssl@1.1)/include"
-   # export LDFLAGS="-L$(brew --prefix openssl@1.1)/lib"
+    if [ -d "/usr/local/opt/openssl" ]; then
+        OPENSSL_PREFIX="/usr/local/opt/openssl"
+    else
+        OPENSSL_PREFIX="$(brew --prefix openssl)"
+    fi;
+    export PATH="$OPENSSL_PREFIX/bin:$PATH"
+    export CFLAGS="$CFLAGS -I$OPENSSL_PREFIX/include"
+    export CPPFLAGS="$CPPFLAGS -I$OPENSSL_PREFIX/include"
+    export LDFLAGS="$LDFLAGS -L$OPENSSL_PREFIX/lib"
+    # export PATH="$OPENSSL_PREFIX@1.1/bin:$PATH"
+    # export CFLAGS="-I$OPENSSL_PREFIX@1.1/include"
+    # export LDFLAGS="-L$OPENSSL_PREFIX@1.1/lib"
+fi;
+
+# GSL
+if which brew &> /dev/null; then
+    if [ -d "/usr/local/opt/gsl" ]; then
+        GSL_PREFIX="/usr/local/opt/gsl"
+    else
+        GSL_PREFIX="$(brew --prefix gsl)"
+    fi;
+    export PATH="$GSL_PREFIX/bin:$PATH"
+    export CFLAGS="$CFLAGS -I$GSL_PREFIX/include"
+    export CPPFLAGS="$CPPFLAGS -I$GSL_PREFIX/include"
+    export LDFLAGS="$LDFLAGS -L$GSL_PREFIX/lib"
+fi;
+
+# GLPK
+if which brew &> /dev/null; then
+    if [ -d "/usr/local/opt/glpk" ]; then
+        GLPK_PREFIX="/usr/local/opt/glpk"
+    else
+        GLPK_PREFIX="$(brew --prefix glpk)"
+    fi;
+    export PATH="$GLPK_PREFIX/bin:$PATH"
+    export CFLAGS="$CFLAGS -I$GLPK_PREFIX/include"
+    export CPPFLAGS="$CPPFLAGS -I$GLPK_PREFIX/include"
+    export LDFLAGS="$LDFLAGS -L$GLPK_PREFIX/lib"
+fi;
+
+# Eigen (header-only package)
+if which brew &> /dev/null; then
+    if [ -d "/usr/local/opt/eigen" ]; then
+        EIGEN_PREFIX="/usr/local/opt/eigen"
+    else
+        EIGEN_PREFIX="$(brew --prefix eigen)"
+    fi;
+    export CFLAGS="$CFLAGS -I$EIGEN_PREFIX/include/eigen3"
+    export CPPFLAGS="$CPPFLAGS -I$EIGEN_PREFIX/include/eigen3"
+fi;
+
+# Cuba
+if which brew &> /dev/null; then
+    if [ -d "/usr/local/opt/cuba" ]; then
+        CUBA_PREFIX="/usr/local/opt/cuba"
+    else
+        CUBA_PREFIX="$(brew --prefix cuba)"
+    fi;
+    export CFLAGS="$CFLAGS -I$CUBA_PREFIX/include"
+    export CPPFLAGS="$CPPFLAGS -I$CUBA_PREFIX/include"
+    export LDFLAGS="$LDFLAGS -L$CUBA_PREFIX/lib"
+fi;
+
+# HDF5
+if ls $HOME/local/hdf5 &> /dev/null; then
+    export PATH="$HOME/local/hdf5/bin:$PATH"
+    export CFLAGS="$CFLAGS -I$HOME/local/hdf5/include"
+    export CPPFLAGS="$CPPFLAGS -I$HOME/local/hdf5/include"
+    export LDFLAGS="$LDFLAGS -L$HOME/local/hdf5/lib"
 fi;
 
 # GO
@@ -19,7 +81,12 @@ export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 
 # RUBY
 if which brew &> /dev/null; then
-    export PATH="$(brew --prefix ruby)/bin:$PATH"
+    if [ -d "/usr/local/opt/ruby" ]; then
+        RUBY_PREFIX="/usr/local/opt/ruby"
+    else
+        RUBY_PREFIX="$(brew --prefix ruby)"
+    fi;
+    export PATH="$RUBY_PREFIX/bin:$PATH"
 fi;
 
 # JAVA
@@ -35,7 +102,12 @@ export CLASSPATH=$CLASSPATH:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.
 
 # GIT
 if which brew &> /dev/null; then
-    export PATH="/usr/local/Cellar/git/2.16.2/bin/:$PATH"
+    if [ -d "/usr/local/opt/git" ]; then
+        GIT_PREFIX="/usr/local/opt/git"
+    else
+        GIT_PREFIX="$(brew --prefix git)"
+    fi;
+    export PATH="$GIT_PREFIX/bin/:$PATH"
 fi;
 
 

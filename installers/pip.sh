@@ -14,6 +14,9 @@ $PIP install sphinx
 $PIP install ipython
 $PIP install jupyter
 
+# for compatibility
+$PIP install weave
+
 # general utils
 $PIP install pyyaml
 $PIP install requests

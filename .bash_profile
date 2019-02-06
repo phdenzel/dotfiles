@@ -1,4 +1,15 @@
 ####################################################### Bash profile
+# Diagnostics
+# if which brew &> /dev/null; then
+#     PS4='+ $(gdate "+%s.%N")\011 '
+#     exec 3>&2 2>/tmp/bashstart.$$.log
+#     set -x
+# else
+#     PS4='+ $(date "+%s.%N")\011 '
+#     exec 3>&2 2>/tmp/bashstart.$$.log
+#     set -x
+# fi
+#######################################################
 # Determine OS
 if `uname -a | grep -q "Microsoft"`; then
     export OS=Microsoft
@@ -15,6 +26,7 @@ for file in ~/.{path,exports,prompt,aliases,functions}; do
     [ -r "$file" ] && [ -f "$file" ] && . "$file"
 done;
 unset file;
+
 
 ####################################################### General settings
 # Append to the history file, don't overwrite it
@@ -132,3 +144,8 @@ echo -e  "${blue}${HOSTNAME}${reset} at your service"; echo ""
 unset _mounted;
 unset _meminfo;
 unset _upinfo;
+#######################################################
+# Turn of diagnostics
+# set +x
+# exec 2>&3 3>&-
+####################################################### END bash profile

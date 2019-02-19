@@ -1,0 +1,17 @@
+\e[1;38;5;029m
+
+                   ``                   
+             .//oyhyyhyo//.             
+           :-y+/-......-/+s`      `-+so/
+         -ss+`-+ohyssyh/+-`/////sdhs:+` 
+        /oy..sy+:`    -ys.--+/+sy+.`    
+       `oy``sy-   ./++o+ohs+`y:.        
+       .:s yo:./++o+oho+:/o+ /o/        
+ -+/+   // o++o+oos+:`   :os :sy        
+ /+/s   y`./-ys+/`      ` s- ss/        
+      .s-:o//:s+/     - os- /sy    -o/+/
+   `/yhoh+ so. :+/ohhhs+: .oyo     o/`-s
+`/shhs+``  --yo/-`    `-/oh:-       .:- 
+/-`:`        `/+shhyyhhs+/`             
+                   ``                   
+\e[0m

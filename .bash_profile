@@ -75,6 +75,28 @@ git config --global user.name "$GITUSER"
 git config --global user.email "$GITMAIL"
 
 ####################################################### Welcome helpers
+# Get some informations about the system
+_hostinfo () {
+    echo -e "${orange}Host: \t\t\t\t ${blue}${HOSTNAME}"
+    echo -e "${orange}Operating System: \t\t${blue} \c"
+    case $OS in
+        Darwin)
+            echo $(sw_vers | awk -F ':' '{print $2}')
+            ;;
+        Linux)
+            echo "$(cat /etc/issue | sed 's/Welcome to //g' | sed 's/\\[a-z]//g' | sed 's/(\\l)\.//g')"
+            ;;
+        Microsoft)
+            echo "$(cat /etc/issue | sed 's/\\n//g' | sed 's/\\l//g')"
+            ;;
+        *)
+            echo "$(cat /etc/issue)"
+            ;;
+    esac;
+    echo -e  "${orange}Kernel Information: \t\t${blue}" `uname -smr`
+    echo -ne "${orange}Hello ${magenta}$USER${orange} today is: \t${blue}" `date`;
+    echo -e "${reset}";
+}
 # Get the mounted drives and free space
 _mounted () {
     echo "-------------------------------- Mounted Drives --------------------------------"
@@ -116,31 +138,20 @@ _upinfo () {
 ####################################################### Welcome Screen
 clear
 echo -e "${magenta}+++++++++++++++++++++++++++++++++${reset}${bold} W E L C O M E ${reset}${magenta}++++++++++++++++++++++++++++++++"; echo ""
-echo -e "${orange}Host: \t\t\t\t ${blue}${HOSTNAME}"
-echo -e "${orange}Operating System: \t\t${blue} \c"
-case $OS in
-    Darwin)
-        echo $(sw_vers | awk -F ':' '{print $2}')
-        ;;
-    Linux)
-        echo "$(cat /etc/issue | sed 's/Welcome to //g' | sed 's/\\[a-z]//g' | sed 's/(\\l)\.//g')"
-        ;;
-    Microsoft)
-        echo "$(cat /etc/issue | sed 's/\\n//g' | sed 's/\\l//g')"
-        ;;
-    *)
-        echo "$(cat /etc/issue)"
-        ;;
-esac;
-echo -e  "${orange}Kernel Information: \t\t${blue}" `uname -smr`
-echo -ne "${orange}Hello ${magenta}$USER${orange} today is: \t${blue}" `date`;
-echo -e "${reset}";
-echo ""; cal -3
-echo -ne "${green}"; _mounted; echo "${reset}"
-echo -ne "${orange}"; _meminfo; echo "${reset}"
-echo -ne "${blue}"; _upinfo;  echo "${reset}"
-echo -e  "${blue}${HOSTNAME}${reset} at your service"; echo ""
 
+if [ -d ".config/neofetch" ]; then
+    neofetch
+else
+    _hostinfo
+fi;
+cal -3
+echo -ne "${green}"; _mounted; echo -ne "${reset}"
+echo -ne "${orange}"; _meminfo; echo -ne "${reset}"
+# echo -ne "${blue}"; _upinfo;  echo "${reset}"
+echo "";
+echo -e  "${blue}${HOSTNAME}${reset} at your service";
+
+unset _hostinfo;
 unset _mounted;
 unset _meminfo;
 unset _upinfo;

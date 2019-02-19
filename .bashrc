@@ -1,2 +1,2 @@
 ####################################################### bashrc
-[ -n "$PS1" ] && source ~/.bash_profile;
+[ -n "$OS" ] && source ~/.bash_profile;

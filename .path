@@ -133,8 +133,11 @@ export PATH="$PATH:$HOME/.local/bin"
 # export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages"
 
 # PYTHON AND PIP from python.org macOS-installer
-export PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
-export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+if [ -d "/Library/Frameworks/Python.framework/Versions" ]; then
+    for f in $(ls -dr /Library/Frameworks/Python.framework/Versions/[0-9]*/bin); do
+        export PATH="$f:${PATH}"
+    done;
+fi;
 
 # LOCAL BINARIES
 export PATH="$HOME/local/bin:${PATH}"

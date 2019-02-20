@@ -75,10 +75,14 @@ case $OS in
 		    alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
         ;;
     Linux)  # use self-compiled emacs in ~/local/bin
-        if [ -d '$HOME/local/emacs' ]; then
-            alias emacs='$HOME/local/emacs/bin/emacsclient -t --alternate-editor=""'
-            alias emacsapp='$HOME/local/emacs/bin/emacsclient -c --alternate-editor=""'
+        if [ -d "$HOME/local/emacs" ]; then
+            alias emacsapp='$EMACS'
+            alias emacs='$EMACS -nw'
+            alias e='$EMACSCLIENT -t -s $EMACS_SERVER_FILE'
+            alias ea='$EMACSCLIENT -c -s $EMACS_SERVER_FILE'
         else
+            alias e='/usr/bin/emacsclient -t --alternate-editor=""'
+            alias ea='/usr/bin/emacsclient -c --alternate-editor=""'
             alias emacs='/usr/bin/emacsclient -t --alternate-editor=""'
             alias emacsapp='/usr/bin/emacsclient -c --alternate-editor=""'
         fi

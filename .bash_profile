@@ -139,7 +139,7 @@ _upinfo () {
 clear
 echo -e "${magenta}+++++++++++++++++++++++++++++++++${reset}${bold} W E L C O M E ${reset}${magenta}++++++++++++++++++++++++++++++++"; echo ""
 
-if [ -d ".config/neofetch" ]; then
+if [ -f "$HOME/local/bin/neofetch" ]; then
     neofetch
 else
     _hostinfo

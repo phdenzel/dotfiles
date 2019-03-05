@@ -2,7 +2,7 @@
 
 # link directories to ~/Documents
 echo "Directory links"
-for folder in ~/Dropbox/{Archive,backups,bookmarks,cheat-sheets,conferences,configs,cv,finances,how-tos,icons,lectures,manuals,master-thesis,mics,mom,papers,personal,portfolio,presentations,project-hackintosh,project-lespaul,project-stratocaster,project-v,review,ricardo,scores,software,teaching,tolino,travel-docs,wish-cards}; do
+for folder in ~/Dropbox/{Archive,backups,bookmarks,cheat-sheets,conferences,configs,cv,finances,how-tos,icons,lectures,manuals,master-thesis,misc,mom,papers,personal,portfolio,presentations,project-hackintosh,project-lespaul,project-stratocaster,project-v,review,ricardo,scores,software,teaching,tolino,travel-docs,wish-cards}; do
     dname=${folder##*/}
     if [ -e "$HOME/Documents/$dname" ]; then
         echo "    Link ~/Documents/$dname does already exist"

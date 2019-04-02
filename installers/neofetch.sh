@@ -6,7 +6,7 @@ git clone git@github.com:phdenzel/neofetch.git
 cd neofetch
 
 mkdir -p $LOCALINST
-make PREFIX=$$LOCALINST install
+make PREFIX=$LOCALINST install
 
 ln -s $HOME/local/neofetch/bin/neofetch $HOME/local/bin/neofetch
 

@@ -8,9 +8,9 @@ if which brew &> /dev/null; then
         OPENSSL_PREFIX="$(brew --prefix openssl)"
     fi;
     export PATH="$OPENSSL_PREFIX/bin:$PATH"
-    export CFLAGS="$CFLAGS -I$OPENSSL_PREFIX/include"
-    export CPPFLAGS="$CPPFLAGS -I$OPENSSL_PREFIX/include"
-    export LDFLAGS="$LDFLAGS -L$OPENSSL_PREFIX/lib"
+    #export CFLAGS="$CFLAGS -I$OPENSSL_PREFIX/include"
+    #export CPPFLAGS="$CPPFLAGS -I$OPENSSL_PREFIX/include"
+    #export LDFLAGS="$LDFLAGS -L$OPENSSL_PREFIX/lib"
     # export PATH="$OPENSSL_PREFIX@1.1/bin:$PATH"
     # export CFLAGS="-I$OPENSSL_PREFIX@1.1/include"
     # export LDFLAGS="-L$OPENSSL_PREFIX@1.1/lib"
@@ -24,9 +24,9 @@ if which brew &> /dev/null; then
         GSL_PREFIX="$(brew --prefix gsl)"
     fi;
     export PATH="$GSL_PREFIX/bin:$PATH"
-    export CFLAGS="$CFLAGS -I$GSL_PREFIX/include"
-    export CPPFLAGS="$CPPFLAGS -I$GSL_PREFIX/include"
-    export LDFLAGS="$LDFLAGS -L$GSL_PREFIX/lib"
+    #export CFLAGS="$CFLAGS -I$GSL_PREFIX/include"
+    #export CPPFLAGS="$CPPFLAGS -I$GSL_PREFIX/include"
+    #export LDFLAGS="$LDFLAGS -L$GSL_PREFIX/lib"
 fi;
 
 # GLPK
@@ -37,9 +37,9 @@ if which brew &> /dev/null; then
         GLPK_PREFIX="$(brew --prefix glpk)"
     fi;
     export PATH="$GLPK_PREFIX/bin:$PATH"
-    export CFLAGS="$CFLAGS -I$GLPK_PREFIX/include"
-    export CPPFLAGS="$CPPFLAGS -I$GLPK_PREFIX/include"
-    export LDFLAGS="$LDFLAGS -L$GLPK_PREFIX/lib"
+    #export CFLAGS="$CFLAGS -I$GLPK_PREFIX/include"
+    #export CPPFLAGS="$CPPFLAGS -I$GLPK_PREFIX/include"
+    #export LDFLAGS="$LDFLAGS -L$GLPK_PREFIX/lib"
 fi;
 
 # Eigen (header-only package)
@@ -49,8 +49,8 @@ if which brew &> /dev/null; then
     else
         EIGEN_PREFIX="$(brew --prefix eigen)"
     fi;
-    export CFLAGS="$CFLAGS -I$EIGEN_PREFIX/include/eigen3"
-    export CPPFLAGS="$CPPFLAGS -I$EIGEN_PREFIX/include/eigen3"
+    #export CFLAGS="$CFLAGS -I$EIGEN_PREFIX/include/eigen3"
+    #export CPPFLAGS="$CPPFLAGS -I$EIGEN_PREFIX/include/eigen3"
 fi;
 
 # Cuba
@@ -60,17 +60,17 @@ if which brew &> /dev/null; then
     else
         CUBA_PREFIX="$(brew --prefix cuba)"
     fi;
-    export CFLAGS="$CFLAGS -I$CUBA_PREFIX/include"
-    export CPPFLAGS="$CPPFLAGS -I$CUBA_PREFIX/include"
-    export LDFLAGS="$LDFLAGS -L$CUBA_PREFIX/lib"
+    #export CFLAGS="$CFLAGS -I$CUBA_PREFIX/include"
+    #export CPPFLAGS="$CPPFLAGS -I$CUBA_PREFIX/include"
+    #export LDFLAGS="$LDFLAGS -L$CUBA_PREFIX/lib"
 fi;
 
 # HDF5
 if ls $HOME/local/hdf5 &> /dev/null; then
     export PATH="$HOME/local/hdf5/bin:$PATH"
-    export CFLAGS="$CFLAGS -I$HOME/local/hdf5/include"
-    export CPPFLAGS="$CPPFLAGS -I$HOME/local/hdf5/include"
-    export LDFLAGS="$LDFLAGS -L$HOME/local/hdf5/lib"
+    #export CFLAGS="$CFLAGS -I$HOME/local/hdf5/include"
+    #export CPPFLAGS="$CPPFLAGS -I$HOME/local/hdf5/include"
+    #export LDFLAGS="$LDFLAGS -L$HOME/local/hdf5/lib"
 fi;
 
 # GO

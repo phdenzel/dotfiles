@@ -1,0 +1,6 @@
+#!/bin/sh
+
+sudo mkdir /Volumes/EFI
+sudo mount -t msdos /dev/disk1s1 /Volumes/EFI
+
+exit 0

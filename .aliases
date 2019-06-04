@@ -23,6 +23,7 @@ fi
 ### `ls`
 # always use color
 alias ls="$LS $LSCOLORFLAG"
+alias sl="ls"  # stupid typos!!!
 # long, hidden and humanly readable
 alias ll="$LS $LSCOLORFLAG -halF"
 # hidden

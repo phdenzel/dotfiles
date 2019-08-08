@@ -8,6 +8,8 @@
 ~/model-zapper
 ~/local/pylib
 ~/garden
+~/tenebrae
+~/crypto-c
 #
 # Collaborative repos
 ~/tdlmc
@@ -16,6 +18,7 @@
 ~/papers/heat-spike
 ~/papers/sw-05-42
 ~/papers/sw05
+~/papers/adler-paper
 #
 # Fun project repos
 ~/euler-project
@@ -46,6 +49,9 @@
 ~/stds/c-std
 ~/stds/c-info
 #
+# Forked repos
+~/neofetch 
+#~/spaghetti-lens
+#
 # External repos
 ~/magicenv
-#spaghetti-lens

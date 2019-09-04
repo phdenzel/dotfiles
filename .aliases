@@ -98,15 +98,24 @@ PERSON=$SSHUSER
 SSH="ssh"
 SSHFLAG="-2Y"
 SSHREDIRECT="-2Yt"
+alias uzhvpn="networksetup -connectpppoeservice 'VPN UZH'"
+alias uzhvpn-disconnect="networksetup -disconnectpppoeservice 'VPN UZH'"
+# Smaller machines
 alias anker="$SSH $SSHFLAG ${PERSON}@anker.physik.uzh.ch"
 alias swlabs="$SSH $SSHFLAG ${PERSON}@swlabs.physik.uzh.ch"
 alias taurus="$SSH $SSHFLAG ${PERSON}@taurus.physik.uzh.ch"
 alias malin="$SSH $SSHFLAG ${PERSON}@malin1.physik.uzh.ch"
 alias helix="$SSH $SSHFLAG ${PERSON}@helix.physik.uzh.ch"
+# Servers
+alias colossus="$SSH $SSHFLAG ${PERSON}@colossus.physik.uzh.ch"
+alias dirac="$SSH $SSHFLAG ${PERSON}@dirac.physik.uzh.ch"
 alias dimholt="$SSH $SSHFLAG ${PERSON}@dimholt.physik.uzh.ch"
 alias helios="$SSH $SSHFLAG ${PERSON}@helios.physik.uzh.ch"
-alias ics="$SSH $SSHREDIRECT ${PERSON}@malin1.physik.uzh.ch $SSH $SSHFLAG f1"
+alias poseidon="$SSH $SSHFLAG ${PERSON}@poseidon.physik.uzh.ch"
+alias weyl="$SSH $SSHFLAG ${PERSON}@weyl.physik.uzh.ch"
+# Clusters
 alias hydra="$SSH $SSHFLAG pdenze@cluster.s3it.uzh.ch"
+# Home servers
 alias diskstation="$SSH $SSHFLAG admin@192.168.178.39"
 alias homematic="$SSH root@192.168.178.41"
 ### on Server aliases

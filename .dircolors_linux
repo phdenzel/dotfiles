@@ -38,7 +38,7 @@ TERM xterm-256color # just in case the * doesn't work
 # black     - 38;5;232
 # white     - 38;5;255
 # red       - 38;5;160    br red    - 38;5;161 or 198
-# green     - 38;5;029    br green  - 38;5;035
+# green     - 38;5;036    br green  - 38;5;042
 # yellow    - 38;5;222    br yellow - 38;5;220
 # blue      - 38;5;027    dr blue   - 38;5;019 or 69 and 063
 # magenta   - 38;5;125    br magenta- 38;5;198 or 198
@@ -52,11 +52,11 @@ TERM xterm-256color # just in case the * doesn't work
 #FILE 00                          # normal - regular file (in Terminal profile)
 RESET 0                         # reset to 'NORMAL' color, i.e. fg
 DIR 01;38;5;063                 # dr blue - directory
-LINK 04;38;5;035                # underlined br green - symbolic link
+LINK 04;38;5;036                # underlined br green - symbolic link
                                 # use 'target' to color symlink
                                 # according to target file
 MULTIHARDLINK 00                # regular file with more than one link
-FIFO 01;04;38;5;029             # underlined bold green - pipe
+FIFO 01;04;38;5;042             # underlined bold green - pipe
 SOCK 01;04;38;5;019             # underlined dr blue - socket
 DOOR 01;02;04;38;5;019          # underlined dimmed dr blue - door
 BLK 01;38;5;044                 # cyan - block dev driver
@@ -241,6 +241,6 @@ EXEC 01;38;5;198                # magenta - executables
 .cpp 00;38;5;222      # yellow
 .o 02;38;5;222        # dimmed yellow
 .c 00;38;5;222        # yellow
-.py 00;38;5;029       # green
-.pyc 02;38;5;029      # dimmed green
+.py 00;38;5;036       # green
+.pyc 02;38;5;036      # dimmed green
 .org 00;38;5;105      # purple

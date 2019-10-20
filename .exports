@@ -9,7 +9,7 @@ if tput setaf 1 &> /dev/null; then
     black=$(tput setaf 232);
     white=$(tput setaf 255);
     red=$(tput setaf 160);
-    green=$(tput setaf 29);
+    green=$(tput setaf 36);
     yellow=$(tput setaf 222);
     blue=$(tput setaf 27);     # on some screens ~ dark blue, if so take 69
     magenta=$(tput setaf 125); # on some screens ~ dark red, if so take 198
@@ -18,7 +18,7 @@ if tput setaf 1 &> /dev/null; then
     purple=$(tput setaf 19);   # on some screens ~ dark blue, if so take 063
     grey=$(tput setaf 239);
     br_red=$(tput setaf 161);
-    br_green=$(tput setaf 35);
+    br_green=$(tput setaf 42);
     br_yellow=$(tput setaf 220);
     br_blue=$(tput setaf 19);
     br_magenta=$(tput setaf 198);
@@ -47,7 +47,7 @@ else
     black="\e[1;38;5;232m";
     white="\e[1;38;5;255m";
     red="\e[1;38;5;196m";
-    green="\e[1;38;5;029m";
+    green="\e[1;38;5;036m";
     yellow="\e[1;38;5;222m";
     blue="\e[1;38;5;027m";
     magenta="\e[1;38;5;125m";

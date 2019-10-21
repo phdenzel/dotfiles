@@ -38,7 +38,7 @@ TERM xterm-256color # just in case the * doesn't work
 # black     - 38;5;232
 # white     - 38;5;255
 # red       - 38;5;160    br red    - 38;5;161
-# green     - 38;5;029    br green  - 38;5;036
+# green     - 38;5;029    br green  - 38;5;035
 # yellow    - 38;5;222    br yellow - 38;5;220
 # blue      - 38;5;027    dr blue   - 38;5;019
 # magenta   - 38;5;125    br magenta- 38;5;198
@@ -70,7 +70,7 @@ STICKY_OTHER_WRITABLE 01;38;5;160
                                 # red - (+t,o+w) dir
 OTHER_WRITABLE 01;38;5;222      # yellow - (-t,o+w) dir
 STICKY 01;38;5;202              # orange - (+t,o-w) dir
-EXEC 01;38;5;125                # magenta - executables
+EXEC 01;38;5;198                # magenta - executables
 #
 ### EXTENSIONS
 # DOS-specific (bright cyan)

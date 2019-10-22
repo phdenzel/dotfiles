@@ -110,7 +110,12 @@
 
   ;; Latex
   `(font-latex-sedate-face       ((t (:foreground ,magenta))))
-  `(font-latex-sectioning-2-face ((t (:foreground ,orange))))
+  `(font-latex-sectioning-1-face ((t (:foreground ,purple))))
+  `(font-latex-sectioning-2-face ((t (:foreground ,yellow))))
+  `(font-latex-sectioning-3-face ((t (:foreground ,green))))
+  `(font-latex-italic-face ((t (:foreground ,green))))
+  `(font-latex-math-face ((t (:foreground ,orange))))
+  `(font-latex-warning-face ((t (:foreground ,blue))))
 
   ;; Mode-line
   `(mode-line                ((t (:background ,bg-bb :foreground ,fg-b))))

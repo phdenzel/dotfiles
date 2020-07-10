@@ -84,8 +84,8 @@ case $OS in
         else
             alias e='/usr/bin/emacsclient -t --alternate-editor=""'
             alias ea='/usr/bin/emacsclient -c --alternate-editor=""'
-            alias emacs='/usr/bin/emacsclient -t --alternate-editor=""'
-            alias emacsapp='/usr/bin/emacsclient -c --alternate-editor=""'
+            alias emacs='/usr/bin/emacs -nw'
+            alias emacsapp='/usr/bin/emacs'
         fi
         ;;
     *)

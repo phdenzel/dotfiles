@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if command -v free &> /dev/null; then
+    free $@
+    exit
+fi;
+
 ### --help/-h
 help() {
 	echo -e "\tUsage:\tfree [-sv] [-kmg] [-q]"

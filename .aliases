@@ -11,12 +11,13 @@ if ls --color > /dev/null 2>&1 || gls --color > /dev/null 2>&1; then
     # `gls` from brew-coreutils
     elif [ -r ~/.dircolors ] && command -v gdircolors &> /dev/null; then
         LS="gls"
-        eval `gdircolors -b ~/.dircolors`
+        eval `/usr/local/bin/gdircolors -b ~/.dircolors`
     elif command -v dircolors &> /dev/null; then
         eval `dircolors -b`
     fi;
 else # for BSD `ls` (w/ -G option)
     export CLICOLOR=1
+    eval `/usr/local/bin/gdircolors -b ~/.dircolors`
     LSCOLORFLAG="-G"
 fi
 ### `ls`

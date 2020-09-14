@@ -7,17 +7,16 @@ LSCOLORFLAG="--color"
 # GNU `ls` possible (w/ --color option)
 if ls --color > /dev/null 2>&1 || gls --color > /dev/null 2>&1; then
     if [ -r ~/.dircolors ] &&  command -v dircolors &> /dev/null; then
-        dircolors -b ~/.dircolors
+        eval `dircolors -b ~/.dircolors`
     # `gls` from brew-coreutils
     elif [ -r ~/.dircolors ] && command -v gdircolors &> /dev/null; then
         LS="gls"
-        gdircolors -b ~/.dircolors
-    elif 
-        dircolors -b
-    fi
+        eval `gdircolors -b ~/.dircolors`
+    elif command -v dircolors &> /dev/null; then
+        eval `dircolors -b`
+    fi;
 else # for BSD `ls` (w/ -G option)
     export CLICOLOR=1
-    LS="ls"
     LSCOLORFLAG="-G"
 fi
 ### `ls`
@@ -74,6 +73,7 @@ case $OS in
             alias ea='/usr/bin/emacsclient -c --alternate-editor=""'
             alias emacs='/usr/bin/emacsclient -t --alternate-editor=""'
             alias emacsapp='/usr/bin/emacsclient -c --alternate-editor=""'
+        fi
         ;;
     *)
         alias emacs='emacs -nw'

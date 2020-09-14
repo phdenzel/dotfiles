@@ -48,7 +48,6 @@ fi;
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 elif [ -f /usr/share/bash-completion/bash_completion ]; then
-elif command -v brew &> /dev/null && [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion
 fi
 
@@ -78,7 +77,7 @@ git config --global user.email "$GITMAIL"
 # Get some informations about the system
 _hostinfo () {
     echo -e "${orange}Host: \t\t\t\t ${blue}${HOSTNAME}"
-    echo -e "${orange}Operating System: \t\t${blue} \c" `uname -s`
+    echo -e "${orange}Operating System: \t\t${blue}" `uname -s`
     echo -e  "${orange}Kernel Information: \t\t${blue}" `uname -mr`
     echo -ne "${orange}Hello ${magenta}$USER${orange} today is: \t${blue}" `date`;
     echo -e "${reset}";
@@ -98,8 +97,7 @@ _mounted () {
 # Check free memory ((uses $OS set in .aliases))
 _meminfo () {
     echo "------------------------------ Memory Information ------------------------------"
-    command -v free &> /dev/null && free -tm || 
-    esac
+    command -v free &> /dev/null && free -tm || vm_stat
 }
 # Look at uptime
 _upinfo () {
@@ -115,8 +113,8 @@ echo -e "${magenta}+++++++++++++++++++++++++++++++++${reset}${bold} W E L C O M 
 command -v neofetch && neofetch || _hostinfo
 cal -3
 echo -ne "${green}"; _mounted; echo -ne "${reset}"
-# echo -ne "${orange}"; _meminfo; echo -ne "${reset}"
-# echo -ne "${blue}"; _upinfo;  echo "${reset}"
+echo -ne "${orange}"; _meminfo; echo -ne "${reset}"
+echo -ne "${blue}"; _upinfo;  echo "${reset}"
 echo "";
 echo -e  "${blue}${HOSTNAME}${reset} at your service";
 

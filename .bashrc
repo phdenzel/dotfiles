@@ -110,7 +110,7 @@ _upinfo () {
 clear
 echo -e "${magenta}+++++++++++++++++++++++++++++++++${reset}${bold} W E L C O M E ${reset}${magenta}++++++++++++++++++++++++++++++++"; echo ""
 
-command -v neofetch && neofetch || _hostinfo
+command -v neofetch &> /dev/null && neofetch || _hostinfo
 cal -3
 echo -ne "${green}"; _mounted; echo -ne "${reset}"
 echo -ne "${orange}"; _meminfo; echo -ne "${reset}"

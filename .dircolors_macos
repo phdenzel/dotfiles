@@ -30,10 +30,6 @@ TERM xterm-256color # just in case the * doesn't work
 # 03 - italic;  04 - underlined; 05 - blinking;
 # 06 - ?;       07 - reversed;   08 - hidden
 ### CUSTOM COLOR PALETTE
-# foreground  - #cacfde
-# background  - #292c33 (opacity 90%)
-# selection   - #4564b3
-# cursor      - #5f8af7
 #
 # black     - 38;5;232
 # white     - 38;5;255

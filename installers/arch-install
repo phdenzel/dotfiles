@@ -1,0 +1,166 @@
+# Optional
+> localectl list-keymaps | grep [US/CH/DE]
+> loadkeys de_CH-latin1
+
+### Internet connection
+> ip a
+
+# (optional; if there is no ethernet cable plugged in)
+[> iwctl]
+
+> timedatectl set-ntp true
+> timedatectl status  # to check status
+
+# Set up fastest mirror list
+> pacman -Syyy
+> pacman -S reflector
+> reflector -c Switzerland -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+> pacman -Syyy
+
+### Disk partitioning/formatting
+> lsblk
+> fdisk /dev/sd[a]  # sda is an example; choose the right one here
+# on modern single-user machines no /swap and no separate /home is needed
+> g  # as GPT
+> n  # EFI /boot partition
+> 1
+>
+> +1024MB  # choose minimum 512MB
+> n  # ROOT / partition
+> 2
+>
+>
+
+> mkfs.fat -F32 /dev/sda1
+> mkfs.ext4 /dev/sda2
+
+> lsblk
+
+> mount /dev/sda2 /mnt
+> mkdir /mnt/boot
+> mkdir /mnt/boot/EFI
+> mount /dev/sda1 /mnt/boot/EFI
+
+> lsblk
+
+### Base Install
+> pacstrap /mnt base linux linux-firmware nano
+> genfstab -U /mnt >> /mnt/etc/fstab
+> cat /mnt/etc/fstab
+
+### Enter Installation
+> arch-chroot /mnt
+> dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
+> chmod 600 /swapfile
+> mkswap /swapfile
+> swapon /swapfile
+> nano /etc/fstab
+# insert following line
+/swapfile none swap defaults 0 0
+
+### Set timezone / language / keymap
+> ln -sf /usr/share/zoneinfo/Europe/Zurich /etc/localtime
+> hwclock --systohc
+> nano /etc/locale.gen
+# uncomment following line
+en_US.UTF-8 UTF-8
+> locale-gen
+# insert following line
+> nano /etc/locale.conf
+LANG=en_US.UTF-8
+> nano /etc/vconsole.conf
+# insert following line (not necessary on US keyboards)
+KEYMAP=de_CH-latin1
+
+
+### Hostname
+> nano /etc/hostname
+# insert your hostname [lycan, phoenix, ...]
+lycan
+> nano /etc/hosts
+# insert following lines
+127.0.0.1	localhost
+::1		localhost
+127.0.0.1	lycan.localdomain	lycan
+
+### Password
+> passwd
+> ******
+> ******
+
+### Bootloader
+> pacman -S grub efibootmgr networkmanager network-manager-applet wireless_tools wpa_supplicant dialog os-prober base-devel linux-headers reflector git bluez bluez-utils cups xdg-utils xdg-user-dirs openssh
+> grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=GRUB
+> grub-mkconfig -o /boot/grub/grub.cfg
+> exit
+
+> umount -a
+> reboot
+
+### Log in to the installed machine as root
+> systemctl start NetworkManager
+# (optional; if there is no ethernet cable plugged in)
+[> nmtui]
+> systemctl enable NetworkManager
+> systemctl enable bluetooth
+> systemctl enable org.cups.cupsd
+
+### New user
+> useradd -m -G wheel phdenzel
+> passwd phdenzel
+> *****
+> *****
+> EDITOR=nano visudo
+# uncomment following line
+%wheel ALL=(ALL) ALL
+
+### Check internet connection
+> ip a
+> systemctl start sshd
+
+### Install Graphics drivers (choose needed)
+# Virtual machines
+> pacman -S xf86-video-qxl
+# Intel
+> pacman -S xf86-video-intel
+# AMD gpu
+> pacman -S xf86-video-amdgpu
+# NVIDIA gpu
+> pacman -S nvidia nvidia-utils
+
+### Display server / manager (choose needed)
+> pacman -S xorg
+# GNOME
+> pacman -S gdm
+> systemctl enable gdm
+# KDE
+> pacman -S sddm
+> systemctl enable sddm
+# LightDM
+> pacman -S lightdm
+> systemctl enable lightdm
+> nano /etc/lightdm/lightdm.conf  # Enable themes etc.
+
+
+### Desktop install
+# GNOME
+> pacman -S gnome
+# KDE
+> pacman -S plasma kde-applications packagekit-qt5
+
+> reboot
+
+# Update
+> pacman -Syyu
+
+# YAY
+> git clone https://aur.archlinux.org/yay.git
+> cd yay
+> makepkg -si PKGBUILD
+
+# Timeshift
+> yay -S timeshift
+
+# SSD
+> sudo systemctl enable fstrim.timer
+

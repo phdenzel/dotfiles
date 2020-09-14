@@ -8,7 +8,7 @@ while [ $# -ge 1 ]; do
         -h|--help)
             echo "Usage: pullall [--help]"
             echo ""
-            echo "All files in ~/.pulls are pulled from their git repo"
+            echo "All files in ~/.pulls are pulled from their git repos"
             exit 1
             ;;
         *)

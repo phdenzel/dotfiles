@@ -13,7 +13,7 @@ set match-hidden-files off
 # Show all autocomplete results at once
 set page-completions off
 # Ask first before showing more than 200 autocomplete results 
-set completion-query-items 200
+set completion-query-items 250
 # More intelligent completion in case the cursor is not at the end of the line
 set skip-completed-text on
 # Allow UTF-8 input and output to make sense of meta data

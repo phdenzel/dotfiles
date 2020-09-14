@@ -1,57 +1,83 @@
 # All file names included in pullall
-# Priority repos
-~/phdenzel.github.io
+### phdenzel HOME repos
+~/phdenzelhub.io
 ~/dotfiles
 ~/gleam
 ~/glass
 ~/model-zapper
-~/local/pylib
+~/sw05
+~/adler
+~/delays
+~/slacs-match
+~/tdlmc
+~/lensing.js
+~/camengine.js
+~/streaming_lens
+~/zurich-lens
+~/aesobscurum
+~/mymtg
 ~/garden
 ~/tenebrae
-~/aesobscurum
 ~/finasset
-#
-# Collaborative repos
-~/tdlmc
-~/adler
-~/fire-halos
-~/papers/heat-spike
-~/papers/sw-05-42
-~/papers/sw05
-~/papers/adler-paper
-#
-# Fun project repos
-~/euler-project
 ~/ollam
 ~/pentaplex
 ~/twilio-sms-bot
-#
-# Science/Creativity repos
-~/lensing.js
-~/camengine.js
-~/zurich-lens
-~/streaming-lens
-~/dm-sheets
+~/tophil
 ~/l-brain
-~/dydama
-~/fibonacci-flower
-~/ising
-~/julia
-~/kdtree-p
 #
-# Tutorials
+### DOCUMENT repos
+~/Documents/pylib
+~/Documents/euler-project
+~/Documents/teaching
+~/Documents/PhDCV
+~/Documents/master-thesis
+~/Documents/phd-thesis
+#
+~/Documents/papers/heat-spike-paper
+~/Documents/papers/adler-paper
+~/Documents/papers/time-delays-paper
+~/Documents/papers/slacs-matching-paper
+~/Documents/papers/sw05-paper
+#
+~/Documents/stds/c-info
+~/Documents/stds/c-std
+~/Documents/stds/dev-std
+~/Documents/stds/paper-template
+#
 ~/Documents/how-tos/local-python-install
 ~/Documents/how-tos/about-git
+~/Documents/how-tos/hello-world
 #
-# Misc
-~/Documents/master-thesis
-~/stds/dev-std
-~/stds/c-std
-~/stds/c-info
+~/Documents/git-archive/fk20-proposal
+~/Documents/git-archive/dm-sheets
+~/Documents/git-archive/dydama
+~/Documents/git-archive/fibonacci-flower
+~/Documents/git-archive/julia
+~/Documents/git-archive/ising
+~/Documents/git-archive/kdtree-p
+~/Documents/git-archive/fire-halos
 #
-# Forked repos
-~/neofetch 
-#~/spaghetti-lens
+### phdenzel FORK repos
+~/forks/neofetch
+~/forks/alacritty
+~/forks/ckb-next
+~/forks/piper
+~/forks/powerline
+~/forks/ripgrep
+~/forks/dust
 #
-# External repos
-~/magicenv
+~/forks/macos-kexts/WhateverGreen
+~/forks/macos-kexts/Lilu
+~/forks/macos-kexts/IntelMausiEthernet
+~/forks/macos-kexts/OS-X-FakeSMC-kozlek
+~/forks/macos-kexts/OS-X-USB-Inject-All
+~/forks/macos-kexts/RTL8111_driver_for_OS_X
+#
+### GITCLONES repos
+~/git-clones/magicenv
+~/git-clones/SpaghettiLens
+~/git-clones/pynbody
+# ~/git-clones/all-the-icons.el
+# ~/git-clones/org-html-themes
+# ~/git-clones/google-fonts
+# ~/git-clones/powerline-fonts

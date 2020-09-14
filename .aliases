@@ -1,20 +1,20 @@
 #!/bin/bash
 ####################################################### aliases
 ### set LSCOLORS first
-# GNU `ls` (from coreutils)
-if ls --color > /dev/null 2>&1 || \
-   gls --color > /dev/null 2>&1; then # GNU `ls` possible (w/ --color option)
-    if [ -x /usr/bin/gdircolors ] || \
-       [ -x /usr/local/bin/gdircolors ]; then # `gls` from brew-coreutils
-	      [ -r ~/.dircolors ] && eval `gdircolors -b ~/.dircolors` \
-	              || eval `gdircolors -b`
-	      LS="gls"
-    else # standard GNU `ls`
-	      [ -r ~/.dircolors ] && eval `dircolors -b ~/.dircolors` \
-                || eval `dircolors -b`
-	      LS="ls"
+# `ls` command
+LS="ls"
+LSCOLORFLAG="--color"
+# GNU `ls` possible (w/ --color option)
+if ls --color > /dev/null 2>&1 || gls --color > /dev/null 2>&1; then
+    if [ -r ~/.dircolors ] &&  command -v dircolors &> /dev/null; then
+        dircolors -b ~/.dircolors
+    # `gls` from brew-coreutils
+    elif [ -r ~/.dircolors ] && command -v gdircolors &> /dev/null; then
+        LS="gls"
+        gdircolors -b ~/.dircolors
+    elif 
+        dircolors -b
     fi
-    LSCOLORFLAG="--color"
 else # for BSD `ls` (w/ -G option)
     export CLICOLOR=1
     LS="ls"
@@ -45,91 +45,75 @@ alias -- -="cd -"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dropbox="cd ~/Dropbox"
-### Python
-#alias python="python2"
-#alias pip="pip2"
 ### Command shortcuts
 alias h="history"
 alias j="jobs"
 alias sudo='sudo ' # sudoing for aliases
-# OS dependent aliases
-# 'emacsapp' launches the app; for terminal-mode use 'emacs'
+# OS-dependent aliases
+# 'emacsw' launches in window mode; for terminal-mode use 'emacs'
 case $OS in
-	  Microsoft)  # Ubuntu built ontop of Windows
-		    # alias emacs='/usr/local/bin/emacs -nw'
-		    # alias emacsapp='/usr/local/bin/emacs'
-		    alias chrome='/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe'
-	      ;;
+    Linux)
+        alias emacs='emacs -nw'
+        alias emacsw='emacs'
+        alias e='emacsclient -t --alternate-editor=""'
+        alias ew='emacsclient -c --alternate-editor=""'
+        ;;
+    Microsoft)  # Ubuntu built ontop of Windows
+        # alias emacs='/usr/local/bin/emacs -nw'
+        # alias emacsapp='/usr/local/bin/emacs'
+        alias chrome='/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe'
+        ;;
     Darwin)
         if [ -d '/Applications/Emacs.app' ]; then
-            alias emacsapp='$EMACS'
             alias emacs='$EMACS -nw'
-            alias e='$EMACSCLIENT -t -s $EMACS_SERVER_FILE'
-            alias ea='$EMACSCLIENT -c -s $EMACS_SERVER_FILE'
+            alias emacsw='/Applications/Emacs.app/Contents/MacOS/emacs'
+            alias e='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -t --alternate-editor=""'
+            alias ew='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --alternate-editor=""'
         else
             alias e='/usr/bin/emacsclient -t --alternate-editor=""'
             alias ea='/usr/bin/emacsclient -c --alternate-editor=""'
             alias emacs='/usr/bin/emacsclient -t --alternate-editor=""'
             alias emacsapp='/usr/bin/emacsclient -c --alternate-editor=""'
-        fi
-		    alias eclipse='/Applications/Eclipse.app/Contents/MacOS/Eclipse'
-		    alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-        ;;
-    Linux)  # use self-compiled emacs in ~/local/bin
-        if [ -d "$HOME/local/emacs" ]; then
-            alias emacsapp='$EMACS'
-            alias emacs='$EMACS -nw'
-            alias e='$EMACSCLIENT -t -s $EMACS_SERVER_FILE'
-            alias ea='$EMACSCLIENT -c -s $EMACS_SERVER_FILE'
-        else
-            alias e='/usr/bin/emacsclient -t --alternate-editor=""'
-            alias ea='/usr/bin/emacsclient -c --alternate-editor=""'
-            alias emacs='/usr/bin/emacs -nw'
-            alias emacsapp='/usr/bin/emacs'
-        fi
         ;;
     *)
-        alias emacsapp='/usr/bin/emacs'
+        alias emacs='emacs -nw'
+        alias emacsw='emacs'
         ;;
 esac;
 ### Servers
 source ~/.USERINFO
-PERSON=$SSHUSER
-SSH="ssh"
 SSHFLAG="-2Y"
 SSHREDIRECT="-2Yt"
 alias uzhvpn="networksetup -connectpppoeservice 'VPN UZH'"
 alias uzhvpn-disconnect="networksetup -disconnectpppoeservice 'VPN UZH'"
-# Smaller machines
-alias anker="$SSH $SSHFLAG ${PERSON}@anker.physik.uzh.ch"
-alias swlabs="$SSH $SSHFLAG ${PERSON}@swlabs.physik.uzh.ch"
-alias taurus="$SSH $SSHFLAG ${PERSON}@taurus.physik.uzh.ch"
-alias malin="$SSH $SSHFLAG ${PERSON}@malin1.physik.uzh.ch"
-alias helix="$SSH $SSHFLAG ${PERSON}@helix.physik.uzh.ch"
-# Servers
-alias colossus="$SSH $SSHFLAG ${PERSON}@colossus.physik.uzh.ch"
-alias dirac="$SSH $SSHFLAG ${PERSON}@dirac.physik.uzh.ch"
-alias dimholt="$SSH $SSHFLAG ${PERSON}@dimholt.physik.uzh.ch"
-alias helios="$SSH $SSHFLAG ${PERSON}@helios.physik.uzh.ch"
-alias poseidon="$SSH $SSHFLAG ${PERSON}@poseidon.physik.uzh.ch"
-alias weyl="$SSH $SSHFLAG ${PERSON}@weyl.physik.uzh.ch"
-# Clusters
-alias hydra="$SSH $SSHFLAG pdenze@cluster.s3it.uzh.ch"
 # Home servers
-alias diskstation="$SSH $SSHFLAG admin@192.168.178.39"
-alias homematic="$SSH root@192.168.178.41"
-### on Server aliases
-alias mj="squeue -u ${PERSON}"
+alias diskstation="ssh $SSHFLAG admin@192.168.178.39"
+alias homematic="ssh root@192.168.178.41"
+# Smaller machines
+alias anker="ssh $SSHFLAG ${SSHUSER}@anker.physik.uzh.ch"
+alias taurus="ssh $SSHFLAG ${SSHUSER}@taurus.physik.uzh.ch"
+alias helix="ssh $SSHFLAG ${SSHUSER}@helix.physik.uzh.ch"
+#alias swlabs="ssh $SSHFLAG ${SSHUSER}@swlabs.physik.uzh.ch"
+# Servers
+alias helios="ssh $SSHFLAG ${SSHUSER}@helios.physik.uzh.ch"
+alias dimholt="ssh $SSHFLAG ${SSHUSER}@dimholt.physik.uzh.ch"
+alias colossus="ssh $SSHFLAG ${SSHUSER}@colossus.physik.uzh.ch"
+alias dirac="ssh $SSHFLAG ${SSHUSER}@dirac.physik.uzh.ch"
+alias poseidon="ssh $SSHFLAG ${SSHUSER}@poseidon.physik.uzh.ch"
+alias weyl="ssh $SSHFLAG ${SSHUSER}@weyl.physik.uzh.ch"
+# Clusters
+alias hydra="ssh $SSHFLAG pdenze@cluster.s3it.uzh.ch"
+alias mj="squeue -u ${SSHUSER}"
 alias aj="squeue"
 ### Network
 # IP addresses
 #if (dig +short myip.opendns.com @resolver1.opendns.com > /dev/null 2>&1); then
 #    alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 #else
-alias ip="curl ipecho.net/plain; echo"
+#alias ip="curl ipecho.net/plain; echo"
 #fi
-alias localip="ipconfig getifaddr en0"
-alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+#alias localip="ipconfig getifaddr en0"
+#alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 # Interfaces
 alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 # HTTP traffic
@@ -137,9 +121,21 @@ alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
-### Some Utility commands and aliases I rarely ever use, but are nice to have
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+# URL-encode strings
+alias urlencode='python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]));"'
+# pipeline copy/paste
+command -v xclip &> /dev/null && alias xclipc="xclip -i" || alias xclipc="pbcopy"
+command -v xclip &> /dev/null && alias xclipv="xclip -o" || alias xclipv="pbpaste"
+# Intuitive map command
+alias map="xargs -n1" # to find file in directory; usage: find . -name .gitattributes | map dirname
+### some encoding commands
+command -v hd > /dev/null || alias hd="hexdump -C"
+command -v md5sum > /dev/null || alias md5sum="md5" # macOS doesn't have md5sum
+command -v sha1sum > /dev/null || alias sha1sum="shasum" # macOS doesn't have sha1sum
+### Some macOS Utility commands and aliases I rarely ever use
 # Screen lock
 alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 # Empty the Trash on mounted volumes, the main HDD, Systen Logs and download history
@@ -147,8 +143,8 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo 
 # Launch service cleanup
 alias launchcleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
 # Show/hide hidden files in Finder
-alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
@@ -160,19 +156,8 @@ alias pumpitup="osascript -e 'set volume output volume 50'"
 alias gocrazy="osascript -e 'set volume output volume 100'"
 # alias for notification after long running commands; usage: `sleep 10; alert`
 alias alert='notify "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
-# URL-encode strings
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 # Merge pdf files, usage: mergepdf -o output.pdf input{1,2,3}.pdf
 alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-### some Hacking commands
-command -v hd > /dev/null || alias hd="hexdump -C"
-command -v md5sum > /dev/null || alias md5sum="md5" # macOS doesn't have md5sum
-command -v sha1sum > /dev/null || alias sha1sum="shasum" # macOS doesn't have sha1sum
-# pipeline copy/paste
-alias c="tr -d '\n' | pbcopy" # usage: `pwd | c`; pbpaste
-# Intuitive map command
-alias map="xargs -n1" # to find file in directory; usage: find . -name .gitattributes | map dirname
 # Recursively find/delete '.DS_Store' files
 alias dsstores="find . -type f -name '*.DS_Store'"
 alias dscleanup="find . -type f -name '*.DS_Store' -ls -delete"

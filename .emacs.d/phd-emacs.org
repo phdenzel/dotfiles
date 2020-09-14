@@ -18,8 +18,10 @@ with Homebrew using the following command:
   brew install --with-cocoa --with-ctags --with-gnutls --with-imagemagick emacs
 #+END_SRC
 
-However, installing Emacs with Homebrew can lead to instabilities later on, which is why I later opted for compiling
-Emacs from source code myself is ultimately the best solution on any OS. For details, go to [[https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh][https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh]].
+However, installing Emacs with Homebrew can lead to instabilities later on,
+which is why I later opted for compiling Emacs from source code myself is
+ultimately the best solution on any OS. For details, go to
+[[https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh][https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh]].
 
 
 * User specifics
@@ -98,7 +100,8 @@ Thus all packages should be loaded with 'use-package'.
 #+BEGIN_SRC emacs-lisp
 
     ;; Package install function
-    ;; Evaluates & installs packages in list at each load, if not already installed
+    ;; Evaluates & installs packages in list at each load,
+    ;; if not already installed
     (defun phd-pkgs-install (&rest packages)
       "Install all packages from a list PACKAGES, if not already installed."
       (message "Running phd--pkgs-install")

@@ -31,16 +31,38 @@ sudo apt install gawk
 # LaTeX
 sudo apt install texlive-full
 
+# Fonts
+sudo apt install gsfonts-x11
+sudo apt install fonts-hack
+
+# Audio / Video encoding
+sudo apt install sox
+sudo apt install ffmpeg
+sudo apt install libcairo2 libcairo2-dev
+
+# Programming
+sudo apt install pipenv
+sudo apt install ruby-full
+
 # Development utils
 sudo apt install alacritty
 sudo apt install emacs-gtk
 sudo apt install build-essential cmake
+sudo apt install swig
+sudo apt install npm
+sudo apt install python2-dev
+sudo apt install python-tk
+sudo apt install python3-opencv
+sudo apt install python3-sklearn
+sudo apt install pylint
 
 # Other devs
+sudo apt install libavcodec-dev libavformat-dev libswscale-dev
 sudo apt install qtdeclarative5-dev
 sudo apt install libxinerama-dev libxrandr-dev libxcursor-dev libxi-dev libx11-dev libxtst-dev
 
 # Media and Gaming
+sudo apt install calibre
 sudo pat install spotify-client
 sudo apt install celluloid
 sudo apt install dxvk

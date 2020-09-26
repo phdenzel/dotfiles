@@ -7,7 +7,6 @@ mkdir -p $HOME/Documents/papers        # for paper repos
 mkdir -p $HOME/Documents/stds          # for templates
 mkdir -p $HOME/Documents/how-tos       # for repo tutorials
 mkdir -p $HOME/Documents/git-archive   # for archived repos
-mkdir -p $HOME/forks/macos-kexts            # for macOS kext forks
 
 GITCLONES=$HOME/git-clones
 FORKS=$HOME/forks
@@ -83,13 +82,14 @@ git clone git@github.com:phdenzel/powerline.git
 git clone git@github.com:phdenzel/ripgrep.git
 git clone git@github.com:phdenzel/dust.git
 git clone git@github.com:phdenzel/arxiv-latex-cleaner.git
-cd $FORKS/macos-kexts
-git clone git@github.com:phdenzel/WhateverGreen.git
-git clone git@github.com:phdenzel/Lilu.git
-git clone git@github.com:phdenzel/IntelMausiEthernet.git
-git clone git@github.com:phdenzel/OS-X-FakeSMC-kozlek.git
-git clone git@github.com:phdenzel/OS-X-USB-Inject-All.git
-git clone git@github.com:phdenzel/RTL8111_driver_for_OS_X.git
+# mkdir -p $HOME/forks/macos-kexts       # for macOS kext forks
+# cd $FORKS/macos-kexts
+# git clone git@github.com:phdenzel/WhateverGreen.git
+# git clone git@github.com:phdenzel/Lilu.git
+# git clone git@github.com:phdenzel/IntelMausiEthernet.git
+# git clone git@github.com:phdenzel/OS-X-FakeSMC-kozlek.git
+# git clone git@github.com:phdenzel/OS-X-USB-Inject-All.git
+# git clone git@github.com:phdenzel/RTL8111_driver_for_OS_X.git
 
 ### GITCLONES repos
 cd $GITCLONES

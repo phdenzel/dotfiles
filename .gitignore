@@ -24,6 +24,7 @@ Desktop.ini
 *.class
 
 # VS code workspaces
+.vscode
 .code-workspace
 
 # Jekyll artifacts

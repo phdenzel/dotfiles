@@ -53,8 +53,8 @@ alias sudo='sudo ' # sudoing for aliases
 # 'emacsw' launches in window mode; for terminal-mode use 'emacs'
 case $OS in
     Linux)
-        alias emacs='emacs -nw'
         alias emacsw='emacs'
+        alias emacs='emacs -nw'
         alias e='emacsclient -t --alternate-editor=""'
         alias ew='emacsclient -c --alternate-editor=""'
         ;;
@@ -77,8 +77,8 @@ case $OS in
         fi
         ;;
     *)
-        alias emacs='emacs -nw'
         alias emacsw='emacs'
+        alias emacs='emacs -nw'
         ;;
 esac;
 ### Servers

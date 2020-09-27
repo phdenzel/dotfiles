@@ -81,6 +81,7 @@ git clone git@github.com:phdenzel/piper.git
 git clone git@github.com:phdenzel/powerline.git
 git clone git@github.com:phdenzel/ripgrep.git
 git clone git@github.com:phdenzel/dust.git
+git clone git@github.com:phdenzel/reveal.js.git
 git clone git@github.com:phdenzel/arxiv-latex-cleaner.git
 # mkdir -p $HOME/forks/macos-kexts       # for macOS kext forks
 # cd $FORKS/macos-kexts

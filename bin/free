@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if command -v free &> /dev/null; then
+if command -v /usr/bin/free &> /dev/null; then
     free $@
     exit
 fi;

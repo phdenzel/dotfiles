@@ -83,6 +83,8 @@ git clone git@github.com:phdenzel/ripgrep.git
 git clone git@github.com:phdenzel/dust.git
 git clone git@github.com:phdenzel/reveal.js.git
 git clone git@github.com:phdenzel/arxiv-latex-cleaner.git
+git clone git@github.com:phdenzel/libimobiledevice.git
+# git clone git@github.com:phdenzel/EuclidEmulator2.git
 # mkdir -p $HOME/forks/macos-kexts       # for macOS kext forks
 # cd $FORKS/macos-kexts
 # git clone git@github.com:phdenzel/WhateverGreen.git

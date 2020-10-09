@@ -8,6 +8,8 @@
   s = status -s  # a brief status summary
   d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"  # diff between last commit and current state
   b = branch -a
+  l = log --pretty=oneline --abbrev-commit -10
+  lg = log --pretty=oneline --abbrev-commit
   r = remote -v
   c = commit -avm
   ac = !git add -A && git commit -avm
@@ -57,3 +59,6 @@
   # Include summaries of merged commits in newly created merge commit messages
   log = true
 
+[user]
+	name = phdenzel
+	email = phdenzel@gmail.com

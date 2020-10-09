@@ -27,6 +27,7 @@ sudo apt install virt-manager virt-viewer
 # Text streaming
 sudo apt install colordiff
 sudo apt install gawk
+sudo apt install qrencode
 
 # LaTeX
 sudo apt install texlive-full
@@ -57,13 +58,16 @@ sudo apt install python3-sklearn
 sudo apt install pylint
 
 # Other devs
+sudo apt install libtool-bin libplist-dev libusbmuxd-dev libssl-dev usbmuxd
+sudo apt install libimobiledevice6 libimobiledevice-dev libimobiledevice-utils
 sudo apt install libavcodec-dev libavformat-dev libswscale-dev
 sudo apt install qtdeclarative5-dev
 sudo apt install libxinerama-dev libxrandr-dev libxcursor-dev libxi-dev libx11-dev libxtst-dev
 
 # Media and Gaming
 sudo apt install calibre
-sudo pat install spotify-client
+curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -
+sudo apt install spotify-client
 sudo apt install celluloid
 sudo apt install dxvk
 sudo dpkg --add-architecture i386
@@ -127,3 +131,8 @@ sudo apt install code
 # MEGA sync Desktop app
 curl https://mega.nz/linux/MEGAsync/xUbuntu_20.04/amd64/megasync-xUbuntu_20.04_amd64.deb --output ~/Downloads/megasync-xUbuntu_20.04_amd64.deb
 sudo apt install ~/Downloads/megasync-xUbuntu_20.04_amd64.deb
+
+
+# ### Purge unwanted packages
+# sudo apt purge totem
+# sudo apt purge geary

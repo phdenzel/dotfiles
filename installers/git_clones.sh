@@ -100,6 +100,7 @@ git clone git@github.com:psaha/magicenv.git
 git clone git@github.com:RafiKueng/SpaghettiLens.git
 git clone git@github.com:GalacticDynamics-Oxford/Agama.git agama
 git clone git@github.com:pynbody/pynbody.git
+git clone https://gitlab.com/git-latexdiff/git-latexdiff.git
 # git clone git@github.com:domtronn/all-the-icons.el.git
 # git clone git@github.com:fniessen/org-html-themes.git
 # git clone git@github.com:google/fonts.git google-fonts

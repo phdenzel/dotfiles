@@ -85,6 +85,8 @@ sudo apt install lutris
 sudo apt install libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libsqlite3-0:i386
 
 # Device support software
+sudo apt install adb
+sudo apt install android-tools-adb
 sudo apt install piper
 
 ### External debs

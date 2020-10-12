@@ -220,7 +220,7 @@ like we want it to.
 
   ;; Hunspell for ispell - bundled with emacs by default since v24
   ;; show where ispell is installed (with homebrew)
-  (setq ispell-program-name "/usr/local/opt/ispell/bin/ispell")
+  (setq ispell-program-name "/usr/bin/aspell")
   (use-package ispell
     :config
     (when (executable-find "hunspell")
@@ -749,8 +749,9 @@ Adding support for some programming languages or global coding behaviour...
   (use-package flycheck
     :ensure t
     :init
-    (global-flycheck-mode t)
     (setq-default flycheck-flake8-maximum-line-length 99)
+    (setq-default flycheck-disabled-checkers '(python-pylint))
+    (global-flycheck-mode t)
   )
 
   ;; - Snippets
@@ -804,9 +805,9 @@ Adding support for some programming languages or global coding behaviour...
 
 
   ;; Python
-  (setq python-shell-completion-native-enable nil)
-  (setq py-python-command "python") ;; "python3")
-  (setq python-shell-interpreter "python") ;; "python3")
+  (setq python-shell-completion-native-enable t)
+  (setq py-python-command "python3")
+  (setq python-shell-interpreter "python3")
 
   ;; - company auto-complete
   (use-package company-jedi
@@ -817,7 +818,7 @@ Adding support for some programming languages or global coding behaviour...
     (add-hook 'python-mode-hook 'phd-python-mode-hook))
 #+END_SRC
 
-Be sure to install the necessary libraries via pip:
+Be sure to install the necessary libraries via ~pip~ or ~M-x elpy-config~ within emacs:
 
 #+BEGIN_SRC shell :tangle no
   pip install jedi
@@ -827,6 +828,12 @@ Be sure to install the necessary libraries via pip:
   pip instal yapf
 #+END_SRC
 
+Moreover, make sure to add your directory of virtual environments to ~custom.el~, e.g.
+#+BEGIN_SRC emacs-lisp :tangle no
+  (custom-set-variables
+   '(python-environment-directory "~/.local/share/virtualenvs"))
+#+END_SRC
+
 Now, elpy can get to work...
 
 #+BEGIN_SRC emacs-lisp
@@ -834,12 +841,17 @@ Now, elpy can get to work...
   (use-package elpy
     :ensure t
     :defer t
+    :init
+    (setq elpy-rpc-python-command python-shell-interpreter)
+    (advice-add 'python-mode :before 'elpy-enable)
     :config
-    (elpy-enable)
     (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
     (eval-after-load "elpy"
       '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
          (define-key elpy-mode-map (kbd key) nil)))
+    (when (load "flycheck" t t)
+      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+      (add-hook 'elpy-mode-hook 'flycheck-mode))
     )
 #+END_SRC
 
@@ -1134,12 +1146,12 @@ Giphy embedding
 
 Reveal presentations
 #+BEGIN_SRC emacs-lisp
-  (setq org-reveal-root (concat "file://" (expand-file-name "~/forks/dist/reveal.js")))
+  (setq org-reveal-root (concat "file://" (expand-file-name "~/forks/reveal.js")))
   (setq org-reveal-mathjax t)
   (use-package ox-reveal
-    ;; :ensure t
-    :defer t
-    :config (require 'ox-reveal)
+    :ensure t
+    ;;:defer t
+    ;;:config (require 'ox-reveal)
     )
 #+END_SRC
 
@@ -1612,8 +1624,6 @@ git clone git@github.com:domtronn/all-the-icons.el.git
                                   :height 1.2
                                   :v-adjust -0.06)
            " "))))
-    ;; - Elpy (alternative to flycheck)
-    ;; TODO
     ;; - Selection
     (defun *selection-info ()
       "Information about the current selection"

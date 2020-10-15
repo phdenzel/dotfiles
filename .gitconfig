@@ -55,10 +55,9 @@
 [diff "bin"]
   textconv = hexdump -v -C  # use hexdump to do binary git diff
 
+[pull]
+  rebase = false
+
 [merge]
   # Include summaries of merged commits in newly created merge commit messages
   log = true
-
-[user]
-	name = phdenzel
-	email = phdenzel@gmail.com

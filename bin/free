@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if command -v /usr/bin/free &> /dev/null; then
-    free $@
+    /usr/bin/free $@
     exit
 fi;
 

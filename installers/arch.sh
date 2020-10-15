@@ -37,7 +37,7 @@ sudo pacman -Syu wget git curl lynx
 
 # GNOME Customization
 sudo pacman -Syu gnome-tweaks
-sudo pacman -Syu ttf-fira-mono ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono
+sudo pacman -Syu ttf-fira-mono ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono ttf-font-awesome
 yay -S ttf-roboto-slab
 ## Export GNOME key-shortcuts
 #dconf dump / | sed -n '/\[org.gnome.settings-daemon.plugins.media-keys/,/^$/p' > custom-shortcuts$(date -I).ini

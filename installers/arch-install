@@ -7,18 +7,25 @@
 
 # (optional; if there is no ethernet cable plugged in)
 [> iwctl]
+[> help]
+[> device list]
+[> station wlan0 scan]
+[> station wlan0 connect-hidden myWLAN]
 
 > timedatectl set-ntp true
 > timedatectl status  # to check status
 
 # Set up fastest mirror list
-> pacman -Syyy
+> pacman -Syy
 > pacman -S reflector
 > reflector -c Switzerland -a 6 --sort rate --save /etc/pacman.d/mirrorlist
-> pacman -Syyy
+> pacman -Syy
 
 ### Disk partitioning/formatting
 > lsblk
+[> dd if=/dev/urandom of=/dev/sd[a] bs=10M]  # erase all partitions on drive
+
+# For UEFI boot
 > fdisk /dev/sd[a]  # sda is an example; choose the right one here
 # on modern single-user machines no /swap and no separate /home is needed
 > g  # as GPT
@@ -30,11 +37,10 @@
 > 2
 >
 >
+> w
 
 > mkfs.fat -F32 /dev/sda1
 > mkfs.ext4 /dev/sda2
-
-> lsblk
 
 > mount /dev/sda2 /mnt
 > mkdir /mnt/boot
@@ -43,13 +49,39 @@
 
 > lsblk
 
+
+# For legacy boot
+> fdisk /dev/sd[a]  # sda is an example; choose the right one here
+> n
+>
+>
+>
+> +4G
+> t
+> L
+> 82  # swap
+> n
+>
+>
+>
+> w
+
+> mkswap /dev/sda1
+> swapon /dev/sda1
+> mkfs.ext4 /dev/sda2
+
+> mount /dev/sda2 /mnt
+
+
 ### Base Install
-> pacstrap /mnt base linux linux-firmware nano
+> pacstrap /mnt base linux linux-firmware intel-ucode nano
 > genfstab -U /mnt >> /mnt/etc/fstab
 > cat /mnt/etc/fstab
 
 ### Enter Installation
 > arch-chroot /mnt
+
+# Create swapfile (only if no swap partition was created)
 > dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
 > chmod 600 /swapfile
 > mkswap /swapfile
@@ -81,7 +113,7 @@ lycan
 # insert following lines
 127.0.0.1	localhost
 ::1		localhost
-127.0.0.1	lycan.localdomain	lycan
+127.0.1.1	lycan.localdomain	lycan
 
 ### Password
 > passwd
@@ -89,11 +121,17 @@ lycan
 > ******
 
 ### Bootloader
-> pacman -S grub efibootmgr networkmanager network-manager-applet wireless_tools wpa_supplicant dialog os-prober base-devel linux-headers reflector git bluez bluez-utils cups xdg-utils xdg-user-dirs openssh
+> pacman -S grub [efibootmgr] networkmanager network-manager-applet wireless_tools wpa_supplicant dialog mtools dosfstools base-devel linux-headers reflector git bluez bluez-utils cups alsa-utils pulseaudio pulseaudio-bluetooth xdg-utils xdg-user-dirs openssh
+
+# For UEFI boot
 > grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=GRUB
 > grub-mkconfig -o /boot/grub/grub.cfg
-> exit
 
+# For legacy boot
+> grub-install --target=i386-pc /dev/sda
+> grub-mkconfig -o /boot/grub/grub.cfg
+
+> exit
 > umount -a
 > reboot
 
@@ -106,7 +144,7 @@ lycan
 > systemctl enable org.cups.cupsd
 
 ### New user
-> useradd -m -G wheel phdenzel
+> useradd -mG wheel phdenzel
 > passwd phdenzel
 > *****
 > *****
@@ -158,9 +196,12 @@ lycan
 > cd yay
 > makepkg -si PKGBUILD
 
-# Timeshift
-> yay -S timeshift
+# Uncomment in /etc/pacman.conf
+# Color
 
 # SSD
 > sudo systemctl enable fstrim.timer
 
+# Uninstall unwanted packages
+> sudo pacman -Rsc gnome-books gnome-boxes gnome-maps gnome-documents gnome-music gnome-photos epiphany totem
+> sudo pacman -Rc malcontent

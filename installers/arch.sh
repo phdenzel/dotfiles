@@ -1,10 +1,14 @@
 ### Arch setup
 # Install+Update   w/   pacman -Syu <pkg>
 # Install only     w/   pacman -S <pkg>
+# List installed   w/   pacman -Qe
 # Uninstall        w/   pacman -Rsc <pgk>
 # Search           w/   pacman -Ss <key>
 # Refresh mirrors  w/   pacman -Syyu
 # Update           w/   pacman -Syu
+#
+# Upgradable packages        w/   yay -Pu
+# Remove unused dependencies w/   yay -Yc
 
 sudo pacman -Syyu
 
@@ -15,26 +19,36 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si PKGBUILD
 
+# Disk utils
+sudo pacman -Syu cron
+yay -S timeshift
+
 # Development tools
-sudo pacman -Syu alacritty
-sudo pacman -Syu emacs
+yay -S alacritty-git
+# if no Hardware acceleration is available
+# run alacritty with `LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
+# and replace Exec in `/usr/share/applications/Alacritty.desktop`
+# `Exec=env LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
+sudo pacman -Syu emacs code
+sudo pacman -Syu texlive-most texlive-lang
+
+# Web packages
+sudo pacman -Syu wget git curl lynx
 
 # GNOME Customization
 sudo pacman -Syu gnome-tweaks
-sudo pacman -Syu ttf-fira-mono community/tff-fira-code community/tff-fira-mono community/tff-fira-sans community/tff-roboto community/tff-roboto-mono
-yay -S tff-roboto-slab
+sudo pacman -Syu ttf-fira-mono ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono
+yay -S ttf-roboto-slab
 ## Export GNOME key-shortcuts
 #dconf dump / | sed -n '/\[org.gnome.settings-daemon.plugins.media-keys/,/^$/p' > custom-shortcuts$(date -I).ini
 ## Import GNOME key-shortcuts
 #dconf load / < custom-shortcuts.ini
 
-
-# Disk utils
-sudo pacman -Syu cron
-yay -S timeshift
-
-# Web packages
-sudo pacman -Syu wget git curl
-sudo pacman -Syu lynx
-yay -S brave-bin
-yay -S mailspring
+# Media packages
+sudo pacman -S chrome-gnome-shell
+yay -S enpass-bin dropbox
+dropbox start -i
+yay -S brave-bin mailspring
+sudo pacman -Syu calibre celluloid
+curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -
+yay -S spotify zenity ffmpeg-compat-57

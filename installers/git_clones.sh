@@ -20,7 +20,7 @@ git clone git@github.com:phdenzel/gleam.git
 git clone git@github.com:phdenzel/glass.git
 git clone git@github.com:phdenzel/model-zapper.git
 git clone git@github.com:phdenzel/sw05.git
-git clone git@github.com:phdenzel/adler.git
+git clone git@github.com:psaha/adler.git
 git clone git@github.com:phdenzel/delays.git
 git clone git@github.com:phdenzel/slacs-match.git
 git clone git@github.com:phdenzel/tdlmc.git

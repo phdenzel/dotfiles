@@ -90,7 +90,7 @@ if which brew &> /dev/null; then
 fi;
 
 # JAVA
-if which jenv &> /dev/null; then eval "$(jenv init -)"; fi
+if command -v jenv &> /dev/null; then eval "$(jenv init -)"; fi
 #jenv enable-plugin export
 #jenv rehash
 #export CLASSPATH="$(jenv prefix)"
@@ -101,7 +101,7 @@ export CLASSPATH=$CLASSPATH:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.
 #export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
 
 # GIT
-if which brew &> /dev/null; then
+if command -v brew &> /dev/null; then
     if [ -d "/usr/local/opt/git" ]; then
         GIT_PREFIX="/usr/local/opt/git"
     else
@@ -121,10 +121,10 @@ if [ -d "$HOME/local/python" ]; then
             export PATH="$f:${PATH}"
         done;
     fi;
-elif which brew &> /dev/null; then
+elif command -v brew &> /dev/null; then
     export PATH="/usr/local/opt/python/libexec/bin:${PATH}"
 fi;
-export PYTHONPATH="$PYTHONPATH:$HOME/local/pylib"
+export PYTHONPATH="$PYTHONPATH:$HOME/Documents/pylib"
 
 # PIP
 export PATH="$PATH:$HOME/.local/bin"

@@ -12,6 +12,7 @@ sudo apt install gparted timeshift
 
 # Desktop utils
 sudo apt install htop
+sudo apt install feh
 sudo apt install gnome-tweaks
 sudo apt install gnome-shell-extension-gsconnect
 sudo apt install gnome-shell-extension-system-monitor
@@ -40,6 +41,7 @@ sudo apt install fonts-hack
 sudo apt install sox
 sudo apt install ffmpeg
 sudo apt install libcairo2 libcairo2-dev
+sudo apt install handbrake
 
 # Programming
 sudo apt install pipenv
@@ -89,6 +91,8 @@ sudo apt install lutris
 sudo apt install libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libsqlite3-0:i386
 
 # Device support software
+sudo apt install pavucontrol
+sudo apt install blueman
 sudo apt install adb
 sudo apt install android-tools-adb
 sudo apt install piper
@@ -126,6 +130,9 @@ sudo apt install brave-browser
 # Mailspring
 wget -O ~/Downloads/mailspring.deb "https://updates.getmailspring.com/download?platform=linuxDeb"
 sudo apt install ~/Downloads/mailspring.deb
+# if gvfs-bin error:
+# use `sudo dpkg --ignore-depends=gvfs-bin -i mailspring.deb`
+# and erase dependency in mailspring entry of `/var/lib/dpkg/status`
 
 # VS Code
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -140,5 +147,6 @@ sudo apt install ~/Downloads/megasync-xUbuntu_20.04_amd64.deb
 
 
 # ### Purge unwanted packages
-# sudo apt purge totem
-# sudo apt purge geary
+sudo apt purge totem
+sudo apt purge geary
+sudo apt purge eog

@@ -45,6 +45,7 @@ sudo apt install handbrake
 
 # Programming
 sudo apt install pipenv
+sudo apt install default-jre default-jdk
 sudo apt install ruby-full
 sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
 sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
@@ -99,7 +100,7 @@ sudo apt install piper
 
 ### External debs
 # Corsair keyboard driver
-sudo apt install libudev-dev qt5-default zlib1g-dev libpulse-dev libquazip5-dev libqt5x11extras5-dev libxcb-screensaver0-dev libxcb-ewmh-dev libxcb1-dev qttools5-dev-tools libdbusmenu-qt5-dev
+sudo apt install libudev-dev qt5-default zlib1g-dev libpulse-dev libquazip5-dev libqt5x11extras5-dev libxcb-screensaver0-dev libxcb-ewmh-dev libxcb1-dev qttools5-dev qttools5-dev-tools libdbusmenu-qt5-dev
 mkdir ~/forks
 git clone https://github.com/phdenzel/ckb-next.git ~/forks/ckb-next
 cd ~/forks/ckb-next
@@ -133,6 +134,11 @@ sudo apt install ~/Downloads/mailspring.deb
 # if gvfs-bin error:
 # use `sudo dpkg --ignore-depends=gvfs-bin -i mailspring.deb`
 # and erase dependency in mailspring entry of `/var/lib/dpkg/status`
+
+# Signal
+wget -O- https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
+echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+sudo apt update && sudo apt install signal-desktop
 
 # VS Code
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg

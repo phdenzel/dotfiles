@@ -75,6 +75,7 @@ sudo apt install libxinerama-dev libxrandr-dev libxcursor-dev libxi-dev libx11-d
 sudo apt install calibre
 curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add -
 sudo apt install spotify-client
+sudo apt install lollypop
 sudo apt install celluloid
 sudo apt install dxvk
 sudo dpkg --add-architecture i386

@@ -9,6 +9,8 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
 (defvar melpa '("melpa" . "https://melpa.org/packages/"))
 (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))

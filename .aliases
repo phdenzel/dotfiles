@@ -81,6 +81,8 @@ case $OS in
         alias emacs='emacs -nw'
         ;;
 esac;
+
+alias semacs='sudo emacs'
 ### Servers
 source ~/.USERINFO
 SSHFLAG="-2Y"
@@ -90,6 +92,7 @@ alias uzhvpn-disconnect="networksetup -disconnectpppoeservice 'VPN UZH'"
 # Home servers
 alias diskstation="ssh $SSHFLAG admin@192.168.178.39"
 alias homematic="ssh root@192.168.178.41"
+alias stryx="ssh ${SSHUSER}@stryx"
 # Smaller machines
 alias anker="ssh $SSHFLAG ${SSHUSER}@anker.physik.uzh.ch"
 alias taurus="ssh $SSHFLAG ${SSHUSER}@taurus.physik.uzh.ch"

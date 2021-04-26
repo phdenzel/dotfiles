@@ -8,7 +8,7 @@
   s = status -s  # a brief status summary
   d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"  # diff between last commit and current state
   b = branch -a
-  l = log --pretty=oneline --abbrev-commit -10
+  l = log --pretty=oneline --abbrev-commit -12
   lg = log --pretty=oneline --abbrev-commit
   r = remote -v
   c = commit -avm
@@ -55,9 +55,14 @@
 [diff "bin"]
   textconv = hexdump -v -C  # use hexdump to do binary git diff
 
-[pull]
-  rebase = false
-
 [merge]
   # Include summaries of merged commits in newly created merge commit messages
   log = true
+
+[pull]
+	rebase = false
+
+
+[user]
+	name = phdenzel
+	email = phdenzel@gmail.com

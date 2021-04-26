@@ -25,6 +25,8 @@ if tput setaf 1 &> /dev/null; then
     br_cyan=$(tput setaf 51);
     br_orange=$(tput setaf 202);
     br_purple=$(tput setaf 57);
+    grep_clr="1;38;5;162";
+    ls_clr=$blue;
 
     case $OS in
         Linux)
@@ -63,6 +65,8 @@ else
     br_cyan="\e[1;38;5;051m"
     br_orange="\e[1;38;5;202m";
     br_purple="\e[1;38;5;057m";
+    grep_clr="1;38;5;162";
+    ls_clr=$blue
 
     case $OS in
         Linux)
@@ -98,8 +102,8 @@ export ALTERNATE_EDITOR=""
 export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
 export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
 # Less settings
-export LESS_TERMCAP_md="${blue}"
-export GREP_COLOR="${magenta}"
+export LESS_TERMCAP_md="$ls_clr"
+export GREP_COLOR="$grep_clr"
 # Python IO encoding
 export PYTHONIOENCODING='UTF-8'
 ### Programming environments

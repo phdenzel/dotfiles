@@ -1,5 +1,8 @@
 #!/bin/bash
 ####################################################### Bash path
+
+
+
 # SSL/TSL
 if which brew &> /dev/null; then
     if [ -d "/usr/local/opt/openssl" ]; then
@@ -77,6 +80,7 @@ fi;
 export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 
 # node/npm: DEPRECATED
+export PATH=$PATH:$HOME/.npm_global/bin
 #export PATH="$PATH:/usr/local/share/npm/bin"
 
 # RUBY

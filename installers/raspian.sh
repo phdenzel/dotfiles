@@ -13,7 +13,7 @@ sudo apt update
 sudo apt upgrade
 sudo apt autoremove
 
-sudo apt install apt-transport-https wget curl git zip
+sudo apt install apt-transport-https wget curl git zip xclip
 
 sudo apt install openssh-server realvnc-vnc-server realvnc-vnc-viewer
 

@@ -56,7 +56,7 @@ sudo ninja -C "build" install
 
 mkdir $HOME/.themes
 cd $HOME/local
-git clone git@github.com:phdenzel/openbox-theme-equilux-compact.git
+git clone https://github.com/phdenzel/openbox-theme-equilux-compact.git
 cd openbox-theme-equilux-compact
 unzip equilux-comp.zip
 cp -r Equilux-compact ~/.themes/
@@ -77,9 +77,20 @@ fc-cache -v -f
 # Neofetch
 mkdir $HOME/forks
 cd $HOME/forks
-git clone git@github.com:phdenzel/neofetch.git
+git clone https://github.com/phdenzel/neofetch.git
 cd neofetch
 make install
+
+# Dropbox
+cd $HOME/Downloads
+curl https://rclone.org/install.sh > rclone_install.sh
+sudo bash rclone_install.sh
+rclone config
+# n; Dropbox; 11; Enter; Enter; Y; etc.
+sudo curl https://raw.githubusercontent.com/cjnaz/rclonesync-V2/master/rclonesync --output /usr/local/bin/rclonesync && sudo chmod +x /usr/local/bin/rclonesync
+mkdir ~/.rclonesyncwd
+rclonesync --first-sync Dropbox:/ ~/Dropbox
+rclonesync Dropbox:/ ~/Dropbox
 
 # Brave browser
 # sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg

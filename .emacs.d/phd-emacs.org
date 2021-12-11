@@ -54,6 +54,7 @@ First install 'certifi' via pip...
 GnuTLS ensures a secure handshake:
 
 #+BEGIN_SRC emacs-lisp
+  ;;(require 'cl)
   (setq tls-checktrust t)
 
   (let ((trustfile
@@ -220,9 +221,6 @@ like we want it to.
   ;; Hunspell for ispell - bundled with emacs by default since v24
   ;; show where ispell is installed (with homebrew)
   (setq ispell-program-name "/usr/bin/aspell")
-  (if (executable-find "aspell")
-      (setq ispell-program-name "/usr/bin/aspell")
-    (setq ispell-program-name "hunspell"))
   (use-package ispell
     :config
     (when (executable-find "hunspell")
@@ -653,115 +651,92 @@ Settings to improve editing speed...
 
 
 #+BEGIN_SRC emacs-lisp
-    ;; - instead of dabbrev-expand
-    (global-set-key (kbd "M-.") 'hippie-expand)
-    ;; rest of the enhancements is done with Counsel
+  ;; - instead of dabbrev-expand
+  (global-set-key (kbd "M-.") 'hippie-expand)
+  ;; rest of the enhancements is done with Counsel
 
-    ;; Commenting
-    (use-package comment-dwim-2
-      :ensure t
-      :bind
-      ("M-/" . comment-dwim-2))
+  ;; Commenting
+  (use-package comment-dwim-2
+    :ensure t
+    :bind
+    ("M-/" . comment-dwim-2))
 
-    ;; Deletes all the whitespace when you hit backspace or delete
-    (use-package hungry-delete
-      :ensure t
-      :bind
-      ("<C-backspace>" . hungry-delete-backward)
-      )
+  ;; Deletes all the whitespace when you hit backspace or delete
+  (normal-erase-is-backspace-mode 0)
+  (global-set-key (kbd "M-h") 'help-command)
+  (use-package hungry-delete
+    :ensure t
+    :bind
+    ("C-h" . hungry-delete-backward)
+    )
 
-    ;; Text: spelling and wrapping
-    (dolist (hook '(text-mode-hook))
-      (add-hook hook (lambda()
-                       (flyspell-mode 1)
-                       ;; (visual-line-mode 1) ;; in conflict with Swiper
-                       )))
+  ;; Text: spelling and wrapping
+  (dolist (hook '(text-mode-hook))
+    (add-hook hook (lambda()
+                     (flyspell-mode 1)
+                     ;; (visual-line-mode 1) ;; in conflict with Swiper
+                     )))
 
-    ;; Company - Modern autocomplete [**Comp**lete-**any**thing]
-    (use-package company
-      :ensure t
-      :defer 5
-      :bind
-      ("C-c ." . company-complete)
-      :config
-      (add-hook 'after-init-hook 'global-company-mode))
+  ;; Company - Modern autocomplete [**Comp**lete-**any**thing]
+  (use-package company
+    :ensure t
+    :defer 5
+    :bind
+    ("C-c ." . company-complete)
+    :config
+    (add-hook 'after-init-hook 'global-company-mode))
 
-    ;; Expand-region selection; alternatively use 'mark-sexp
-    (use-package expand-region
-      :ensure t
-      :bind
-      (([?\C-\M- ] . er/expand-region)
-       ))
+  ;; Expand-region selection; alternatively use 'mark-sexp
+  (use-package expand-region
+    :ensure t
+    :bind
+    (([?\C-\M- ] . er/expand-region)
+     ))
 
-    ;; Drag-stuff - simply moves entire lines
-    (use-package drag-stuff
-      :ensure t
-      :bind
-      (("<C-M-up>" . drag-stuff-up)
-       ("<C-M-down>" . drag-stuff-down)))
+  ;; Drag-stuff - simply moves entire lines
+  (use-package drag-stuff
+    :ensure t
+    :bind
+    (("<C-M-up>" . drag-stuff-up)
+     ("<C-M-down>" . drag-stuff-down)))
 
-    ;; Multiple cursors
-    (use-package multiple-cursors
-      :ensure t
-      :bind
-      (("M-SPC" . set-rectangular-region-anchor)
-       ("C-c ," . mc/edit-lines)
-       ("C->" . mc/mark-next-like-this)
-       ("C-<" . mc/mark-previous-like-this)
-       ("C-c C-<"  . mc/mark-all-like-this)
-       ("<C-M-mouse-1>" . mc/add-cursor-on-click)
-       ("M-m"   . hydra-mc/body)
-       ("C-x m" . hydra-mc/body))
-      :config
-      ;; (defhydra hydra-mc (:hint nil)
-      ;;   "                                                        
-      ;;   ^Up^            ^Down^        ^Miscellaneous^                
-      ;;   -----------------------------------------------------------        
-      ;;   [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows     
-      ;;   [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp     
-      ;;   [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit                         
-      ;;   "
-      ;;   ("l"   mc/edit-lines :exit nil)
-      ;;   ("a"   mc/mark-all-like-this-dwim :exit nil)
-      ;;   ("n"   mc/mark-next-like-this)
-      ;;   ("N"   mc/skip-to-next-like-this)
-      ;;   ("M-n" mc/unmark-next-like-this)
-      ;;   ("p"   mc/mark-previous-like-this)
-      ;;   ("P"   mc/skip-to-previous-like-this)
-      ;;   ("M-p" mc/unmark-previous-like-this)
-      ;;   ("g"   mc/mark-all-in-region-regexp :exit nil)
-      ;;   ("r"   mc/mark-sgml-tag-pairexit t)
-      ;;   ("x"   mc/mark-more-like-this-extended)
-      ;;   ("q"   nil)
-      ;;   ("<mouse-1>" mc/add-cursor-on-click)
-      ;;   ("<down-mouse-1>" ignore)
-      ;;   ("<drag-mouse-1>" ignore))
-      (defhydra hydra-mc (:hint nil)
-        "
-   Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
-  ------------------------------------------------------------------
-   [_p_]   Next     [_n_]   Next     [_l_] Edit lines  [_0_] Insert numbers
-   [_P_]   Skip     [_N_]   Skip     [_a_] Mark all    [_A_] Insert letters
-   [_M-p_] Unmark   [_M-n_] Unmark   [_s_] Search      [_q_] Quit
-   [_|_] Align with input CHAR       [Click] Cursor at point"
-        ("l" mc/edit-lines :exit t)
-        ("a" mc/mark-all-like-this :exit t)
-        ("n" mc/mark-next-like-this)
-        ("N" mc/skip-to-next-like-this)
-        ("M-n" mc/unmark-next-like-this)
-        ("p" mc/mark-previous-like-this)
-        ("P" mc/skip-to-previous-like-this)
-        ("M-p" mc/unmark-previous-like-this)
-        ("|" mc/vertical-align)
-        ("s" mc/mark-all-in-region-regexp :exit t)
-        ("0" mc/insert-numbers :exit t)
-        ("A" mc/insert-letters :exit t)
-        ("<mouse-1>" mc/add-cursor-on-click)
-        ;; Help with click recognition in this hydra
-        ("<down-mouse-1>" ignore)
-        ("<drag-mouse-1>" ignore)
-        ("q" nil))
-      )
+  ;; Multiple cursors
+  (use-package multiple-cursors
+    :ensure t
+    :bind
+    (("M-SPC" . set-rectangular-region-anchor)
+     ("C-c ," . mc/edit-lines)
+     ("C->" . mc/mark-next-like-this)
+     ("C-<" . mc/mark-previous-like-this)
+     ("C-c C-<"  . mc/mark-all-like-this)
+     ("<C-M-mouse-1>" . mc/add-cursor-on-click)
+     ("M-m"   . hydra-mc/body)
+     ("C-x m" . hydra-mc/body))
+    :config
+    (defhydra hydra-mc (:hint nil)
+      "                                                        
+      ^Up^            ^Down^        ^Miscellaneous^                
+      -----------------------------------------------------------        
+      [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows     
+      [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp     
+      [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit                         
+      "
+      ("l"   mc/edit-lines :exit t)
+      ("a"   mc/mark-all-like-this-dwim :exit t)
+      ("n"   mc/mark-next-like-this)
+      ("N"   mc/skip-to-next-like-this)
+      ("M-n" mc/unmark-next-like-this)
+      ("p"   mc/mark-previous-like-this)
+      ("P"   mc/skip-to-previous-like-this)
+      ("M-p" mc/unmark-previous-like-this)
+      ("g" mc/mark-all-in-region-regexp :exit t)
+      ("r"   mc/mark-sgml-tag-pairexit t)
+      ("x"   mc/mark-more-like-this-extended)
+      ("q"   nil)
+      ("<mouse-1>" mc/add-cursor-on-click)
+      ("<down-mouse-1>" ignore)
+      ("<drag-mouse-1>" ignore))
+    )
 
 #+END_SRC
 
@@ -873,6 +848,9 @@ Now, elpy can get to work...
     (advice-add 'python-mode :before 'elpy-enable)
     :config
     (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+    (eval-after-load "elpy"
+      '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
+         (define-key elpy-mode-map (kbd key) nil)))
     (when (load "flycheck" t t)
       (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
       (add-hook 'elpy-mode-hook 'flycheck-mode))

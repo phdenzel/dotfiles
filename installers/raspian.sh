@@ -93,11 +93,23 @@ rclonesync --first-sync Dropbox:/ ~/Dropbox
 rclonesync Dropbox:/ ~/Dropbox
 
 # Brave browser
-# sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-# echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-# sudo apt update
-
-# sudo apt install build-essential python2.7 python-setuptools
-# sudo apt install nodejs npm
-
 # git clone git@github.com:brave/brave-browser.git
+
+# OctoPrint
+pip install --upgrade pip
+pip install pipenv
+
+mkdir OctoPrint
+cd OctoPrint
+pipenv install
+pipenv install octoprint
+
+mkdir src
+cd src
+git clone git@github.com:OctoPrint/OctoPrint.git
+cd ..
+cp src/OctoPrint/scripts/octoprint.service .
+sed -i "s|/home/pi/OctoPrint/venv|$(echo `pipenv --venv`)|" octoprint.service
+
+sudo usermod -a -G tty pi
+sudo usermod -a -G dialout pi

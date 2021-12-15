@@ -8,6 +8,18 @@ sudo sed -i -e 's/XKBOPTIONS=""/XKBOPTIONS="ctrl:nocaps"/g' /etc/default/keyboar
 #sudo dpkg-reconfigure keyboard-configuration
 sudo reboot
 
+# Locale
+sudo sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
+sudo sed -i 's/en_GB.UTF-8 UTF-8/# en_GB.UTF-8 UTF-8/g' /etc/locale.gen
+sudo locale-gen en_US.UTF-8
+sudo dpkg-reconfigure locales
+sudo update-locale en_US.UTF-8
+
+# SSH setup
+mkdir -p $HOME/local/bin
+ssh-keygen -t rsa -b 4096 -C "phdenzel@gmail.com"
+# Add ~/.ssh/id_rsa.pub to GitHub
+
 # Check if Wifi is set up correctly, then update
 sudo apt update
 sudo apt upgrade
@@ -18,9 +30,6 @@ sudo apt install apt-transport-https wget curl git zip xclip
 sudo apt install openssh-server realvnc-vnc-server realvnc-vnc-viewer
 
 sudo apt install ncal
-sudo perl -pi -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
-sudo locale-gen en_US.UTF-8
-sudo update-locale en_US.UTF-8
 
 sudo apt install emacs code
 sudo apt remove thonny geany
@@ -30,12 +39,8 @@ sudo apt autoremove
 git clone https://github.com/phdenzel/dotfiles.git
 cd $HOME/dotfiles
 ./bootstrap.sh --emacs
+./bootstrap.sh --bin
 . bootstrap.sh
-
-# SSH setup
-mkdir -p $HOME/local/bin
-ssh-keygen -t rsa -b 4096 -C "phdenzel@gmail.com"
-# Add ~/.ssh/id_rsa.pub to GitHub
 
 # Themes
 sudo apt install software-properties-common
@@ -46,7 +51,7 @@ git clone https://github.com/pop-os/gtk-theme.git pop-gtk-theme
 cd pop-gtk-theme
 meson build && cd build
 ninja
-ninja install
+sudo ninja install
 
 cd $HOME/local
 git clone https://github.com/pop-os/icon-theme pop-icon-theme
@@ -86,7 +91,7 @@ cd $HOME/Downloads
 curl https://rclone.org/install.sh > rclone_install.sh
 sudo bash rclone_install.sh
 rclone config
-# n; Dropbox; 11; Enter; Enter; Y; etc.
+# n; Dropbox; 11; Enter; Enter; Enter; Y; etc.
 sudo curl https://raw.githubusercontent.com/cjnaz/rclonesync-V2/master/rclonesync --output /usr/local/bin/rclonesync && sudo chmod +x /usr/local/bin/rclonesync
 mkdir ~/.rclonesyncwd
 rclonesync --first-sync Dropbox:/ ~/Dropbox

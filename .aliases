@@ -82,7 +82,7 @@ case $OS in
         ;;
 esac;
 
-alias semacs='sudo emacs'
+alias semacs='sudo /usr/bin/emacs'
 ### Servers
 source ~/.USERINFO
 SSHFLAG="-2Y"

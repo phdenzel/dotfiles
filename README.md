@@ -11,7 +11,7 @@ The repository can be cloned wherever you want; a natural place would be `~/dotf
 The files in `custom/` are probably no use to anyone except me, but I included them anyways, just in case somebody wants to change them for their own use.
 
 ### Example
-![Screenshot of my shell prompt](screenshot.png)
+![Screenshot of my shell prompt](imgs/screenshot.png)
   
 ### Install
 

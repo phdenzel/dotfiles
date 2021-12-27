@@ -1,5 +1,8 @@
 ### LSCOLORS environment variable configuration
-TERM Eterm
+COLOR tty
+
+TERM alacritty
+TERM alacritty-direct
 TERM ansi
 TERM *color*
 TERM con[0-9]*x[0-9]*
@@ -7,23 +10,40 @@ TERM cons25
 TERM console
 TERM cygwin
 TERM dtterm
+TERM dvtm
+TERM dvtm-256color
+TERM Eterm
+TERM eterm-color
+TERM fbterm
 TERM gnome
+TERM gnome-256color
 TERM hurd
 TERM jfbterm
 TERM konsole
+TERM konsole-256color
 TERM kterm
 TERM linux
 TERM linux-c
 TERM mlterm
 TERM putty
+TERM putty-256color
 TERM rxvt*
+TERM rxvt-unicode
+TERM rxvt-256color
+TERM rxvt-unicode256
 TERM screen*
+TERM screen-256color
 TERM st
+TERM st-256color
 TERM terminator
 TERM tmux*
+TERM tmux-256color
 TERM vt100
 TERM xterm*
-TERM xterm-256color # just in case the * doesn't work
+TERM xterm-color
+TERM xterm-88color
+TERM xterm-256color
+TERM xterm-kitty
 #
 ### ANSI ESCAPE CODE
 # 00 - normal;  01 - bold;       02 - dimmed;
@@ -44,8 +64,8 @@ TERM xterm-256color # just in case the * doesn't work
 # grey      - 38;5;239    br grey   - 38;5;236
 #
 ### GENERAL COLORING
-#NORMAL 00                        # no color code at all (in Terminal profile)
-#FILE 00                          # normal - regular file (in Terminal profile)
+#NORMAL 00                      # no color code at all (in Terminal profile)
+#FILE 00                        # normal - regular file (in Terminal profile)
 RESET 0                         # reset to 'NORMAL' color, i.e. fg
 DIR 01;38;5;063                 # dr blue - directory
 LINK 04;38;5;036                # underlined br green - symbolic link
@@ -57,7 +77,7 @@ SOCK 01;04;38;5;019             # underlined dr blue - socket
 DOOR 01;02;04;38;5;019          # underlined dimmed dr blue - door
 BLK 01;38;5;044                 # cyan - block dev driver
 CHR 01;38;5;051                 # cyan - character dev driver
-ORPHAN 04;38;5;239              # underlined grey - symlink to Nirvana
+ORPHAN 02;04;38;5;239           # underlined grey - symlink to Nirvana
 MISSING 00                      # → Nirvana
 SETUID 07;38;5;069;48;5;255     # fg white/ bg blue - setuid file
 SETGID 07;38;5;045;48;5;255     # fg white/ bg cyan - setgid file
@@ -70,11 +90,22 @@ EXEC 01;38;5;198                # magenta - executables
 #
 ### EXTENSIONS
 # DOS-specific (bright cyan)
-#.cmd 01;38;5;051
 .exe 01;38;5;051
+#.cmd 01;38;5;051
 #.com 01;38;5;051
 #.btm 01;38;5;051
 #.bat 01;38;5;051
+#
+### Backup files
+*~ 00;38;5;239
+.bak 00;38;5;239
+.BAK 00;38;5;239
+.old 00;38;5;239
+.OLD 00;38;5;239
+.orig 00;38;5;239
+.ORIG 00;38;5;239
+.swp 00;38;5;239
+#.log 00;38;5;239
 #
 ### ARCHIVES or COMPRESSED FILES (dr purple)
 .tar 01;38;5;057
@@ -130,6 +161,8 @@ EXEC 01;38;5;198                # magenta - executables
 .pbm 00;38;5;215
 .pgm 00;38;5;215
 .ppm 00;38;5;215
+.pps 00;38;5;215
+.ppsx 00;38;5;215
 .tga 00;38;5;215
 .xbm 00;38;5;215
 .xpm 00;38;5;215
@@ -154,8 +187,9 @@ EXEC 01;38;5;198                # magenta - executables
 .fits 02;38;5;215
 .fts 02;38;5;215
 #
-# VECTORIZED GRAPHICS FORMATS (br orange)
+### VECTORIZED GRAPHICS FORMATS (br orange)
 .pdf 00;38;5;202
+.dvi 00;38;5;202
 .cgm 00;38;5;202
 .dvg 00;38;5;202
 .eps 00;38;5;202
@@ -170,7 +204,7 @@ EXEC 01;38;5;198                # magenta - executables
 .rvt 00;38;5;202
 .sxd 00;38;5;202
 #
-# VIDEO FORMATS (blue)
+### VIDEO FORMATS (blue)
 .webm 00;38;5;069
 .mkv 00;38;5;069
 .flv 00;38;5;069
@@ -231,7 +265,7 @@ EXEC 01;38;5;198                # magenta - executables
 .spx 00;38;5;044
 .xspf 00;38;5;044
 #
-# CODES and SCRIPTS (selected colors)
+### CODES and SCRIPTS (selected colors)
 .sh 00;38;5;198       # magenta
 .csh 00;38;5;198      # magenta
 .cpp 00;38;5;222      # yellow
@@ -240,3 +274,4 @@ EXEC 01;38;5;198                # magenta - executables
 .py 00;38;5;036       # green
 .pyc 02;38;5;036      # dimmed green
 .org 00;38;5;105      # purple
+.rs 00;38;5;61        # dr purple

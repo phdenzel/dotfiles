@@ -1,14 +1,5 @@
 #!/bin/bash
 ####################################################### Bash prompt
-# Note: color variables have to been defined in .exports
-#       and thus .exports has to be sourced before this file
-#
-# prefer Terminal xterm-256color
-if infocmp xterm-256color >/dev/null 2>&1; then
-    export TERM='xterm-256color';
-elif [[ $COLORTERM = gnome-* && $TERM = xterm* ]] && infocmp gnome-256color >/dev/null 2>&1; then
-	export TERM='gnome-256color';
-fi;
 # Function that returns git branch name and status
 # in the colors whcih can be given as arguments
 git2prompt () { # {1}: path separator + branch color; {2}: status sign color
@@ -58,13 +49,13 @@ else
 fi;
 # Is the user logged in on an SSHHOST ?
 if [[ "${SSH_TTY}" ]]; then
-    #hostColor="${bold}${purple}"
-    hostColor="${bold}${blue}"
+    hostColor="${bold}${purple}"
+    # hostColor="${bold}${blue}"
 else
-    #hostColor="${purple}"
+    # hostColor="${purple}"
     hostColor="${blue}"
 fi;
-# First prompt
+# First prompt (Main interaction prompt)
 PS1="\[${userColor}\]\u";  # username
 PS1+="\[${reset}\]@";      # at
 PS1+="\[${hostColor}\]\h"; # hostname
@@ -74,6 +65,7 @@ PS1+="\$(git2prompt \"\[${reset}\]#\[${orange}\]\" \"\[${purple}\]\")";
                            # with git info if any
 PS1+="\[${reset}\]\$ ";    # color reset and $-sign
 export PS1;
-# Second prompt
+# Second prompt (continuation of multiple line commands)
 PS2="\[${orange}\]→ \[${reset}\]";
 export PS2;
+

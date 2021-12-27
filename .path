@@ -1,72 +1,7 @@
 #!/bin/bash
 ####################################################### Bash path
-
-
-
-# SSL/TSL
-if which brew &> /dev/null; then
-    if [ -d "/usr/local/opt/openssl" ]; then
-        OPENSSL_PREFIX="/usr/local/opt/openssl"
-    else
-        OPENSSL_PREFIX="$(brew --prefix openssl)"
-    fi;
-    export PATH="$OPENSSL_PREFIX/bin:$PATH"
-    #export CFLAGS="$CFLAGS -I$OPENSSL_PREFIX/include"
-    #export CPPFLAGS="$CPPFLAGS -I$OPENSSL_PREFIX/include"
-    #export LDFLAGS="$LDFLAGS -L$OPENSSL_PREFIX/lib"
-    # export PATH="$OPENSSL_PREFIX@1.1/bin:$PATH"
-    # export CFLAGS="-I$OPENSSL_PREFIX@1.1/include"
-    # export LDFLAGS="-L$OPENSSL_PREFIX@1.1/lib"
-fi;
-
-# GSL
-if which brew &> /dev/null; then
-    if [ -d "/usr/local/opt/gsl" ]; then
-        GSL_PREFIX="/usr/local/opt/gsl"
-    else
-        GSL_PREFIX="$(brew --prefix gsl)"
-    fi;
-    export PATH="$GSL_PREFIX/bin:$PATH"
-    #export CFLAGS="$CFLAGS -I$GSL_PREFIX/include"
-    #export CPPFLAGS="$CPPFLAGS -I$GSL_PREFIX/include"
-    #export LDFLAGS="$LDFLAGS -L$GSL_PREFIX/lib"
-fi;
-
-# GLPK
-if which brew &> /dev/null; then
-    if [ -d "/usr/local/opt/glpk" ]; then
-        GLPK_PREFIX="/usr/local/opt/glpk"
-    else
-        GLPK_PREFIX="$(brew --prefix glpk)"
-    fi;
-    export PATH="$GLPK_PREFIX/bin:$PATH"
-    #export CFLAGS="$CFLAGS -I$GLPK_PREFIX/include"
-    #export CPPFLAGS="$CPPFLAGS -I$GLPK_PREFIX/include"
-    #export LDFLAGS="$LDFLAGS -L$GLPK_PREFIX/lib"
-fi;
-
-# Eigen (header-only package)
-if which brew &> /dev/null; then
-    if [ -d "/usr/local/opt/eigen" ]; then
-        EIGEN_PREFIX="/usr/local/opt/eigen"
-    else
-        EIGEN_PREFIX="$(brew --prefix eigen)"
-    fi;
-    #export CFLAGS="$CFLAGS -I$EIGEN_PREFIX/include/eigen3"
-    #export CPPFLAGS="$CPPFLAGS -I$EIGEN_PREFIX/include/eigen3"
-fi;
-
-# Cuba
-if which brew &> /dev/null; then
-    if [ -d "/usr/local/opt/cuba" ]; then
-        CUBA_PREFIX="/usr/local/opt/cuba"
-    else
-        CUBA_PREFIX="$(brew --prefix cuba)"
-    fi;
-    #export CFLAGS="$CFLAGS -I$CUBA_PREFIX/include"
-    #export CPPFLAGS="$CPPFLAGS -I$CUBA_PREFIX/include"
-    #export LDFLAGS="$LDFLAGS -L$CUBA_PREFIX/lib"
-fi;
+# LOCAL BINARIES
+export PATH="$HOME/local/bin:${PATH}"
 
 # HDF5
 if ls $HOME/local/hdf5 &> /dev/null; then
@@ -76,77 +11,35 @@ if ls $HOME/local/hdf5 &> /dev/null; then
     #export LDFLAGS="$LDFLAGS -L$HOME/local/hdf5/lib"
 fi;
 
-# GO
-export PATH="$PATH:/usr/local/opt/go/libexec/bin"
+# Ruby Gems
+export GEM_HOME="$HOME/.gem"
+export PATH=$PATH:$GEM_HOME/bin
 
-# node/npm: DEPRECATED
+# Node/npm
 export PATH=$PATH:$HOME/.npm_global/bin
-#export PATH="$PATH:/usr/local/share/npm/bin"
-
-# RUBY
-if which brew &> /dev/null; then
-    if [ -d "/usr/local/opt/ruby" ]; then
-        RUBY_PREFIX="/usr/local/opt/ruby"
-    else
-        RUBY_PREFIX="$(brew --prefix ruby)"
-    fi;
-    export PATH="$RUBY_PREFIX/bin:$PATH"
-fi;
 
 # JAVA
+export PATH="$HOME/.jenv/bin:$PATH"
 if command -v jenv &> /dev/null; then eval "$(jenv init -)"; fi
-#jenv enable-plugin export
-#jenv rehash
-#export CLASSPATH="$(jenv prefix)"
+# jenv enable-plugin export
+# jenv add /usr/lib/jvm/java-11-openjdk-amd64/
+# jenv add /usr/lib/jvm/java-8-openjdk-amd64/
+# jenv rehash
+# export CLASSPATH="$(jenv prefix)"
 export CLASSPATH=$CLASSPATH:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar
-
-# GNU coreutils/findutils commands override existing bins
-#export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-#export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
-
-# GIT
-if command -v brew &> /dev/null; then
-    if [ -d "/usr/local/opt/git" ]; then
-        GIT_PREFIX="/usr/local/opt/git"
-    else
-        GIT_PREFIX="$(brew --prefix git)"
-    fi;
-    export PATH="$GIT_PREFIX/bin/:$PATH"
-fi;
 
 
 # PYTHON
-if [ -d "$HOME/local/python" ]; then
-    for f in $(ls -dr $HOME/local/python/[0-9]*/bin); do
+export PYTHONPATH="$PYTHONPATH:$HOME/Documents/pylib"
+
+if ls -dr $HOME/local/Python-[0-9]* &> /dev/null; then
+    for f in $(ls -dr $HOME/local/Python-[0-9]*/bin); do
 	      export PATH="$f:${PATH}"
     done;
-    if ls -dr $HOME/local/python/[0-9]*/Python.framework/Versions/[0-9]*/bin &> /dev/null; then
-        for f in $(ls -dr $HOME/local/python/[0-9]*/Python.framework/Versions/[0-9]*/bin); do
-            export PATH="$f:${PATH}"
-        done;
-    fi;
-elif command -v brew &> /dev/null; then
-    export PATH="/usr/local/opt/python/libexec/bin:${PATH}"
 fi;
-export PYTHONPATH="$PYTHONPATH:$HOME/Documents/pylib"
 
 # PIP
 export PATH="$PATH:$HOME/.local/bin"
 # export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.6/site-packages"
 # export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.7/site-packages"
 # export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages"
-
-# PYTHON AND PIP from python.org macOS-installer
-if [ -d "/Library/Frameworks/Python.framework/Versions" ]; then
-    for f in $(ls -dr /Library/Frameworks/Python.framework/Versions/[0-9]*/bin); do
-        export PATH="$f:${PATH}"
-    done;
-fi;
-
-# LOCAL BINARIES
-export PATH="$HOME/local/bin:${PATH}"
-
-if [ -d '/Applications/Emacs.app' ]; then
-    export PATH="/Applications/Emacs.app/Contents/MacOS:${PATH}"
-    export PATH="/Applications/Emacs.app/Contents/MacOS/bin:${PATH}"
-fi;

@@ -29,23 +29,26 @@ yay -S alacritty-git
 # run alacritty with `LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
 # and replace Exec in `/usr/share/applications/Alacritty.desktop`
 # `Exec=env LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
-sudo pacman -Syu emacs code
+sudo pacman -Syu emacs
+# sudo pacman -Syu code
 sudo pacman -Syu texlive-most texlive-lang
 
 # Web packages
 sudo pacman -Syu wget git curl lynx
 
-# GNOME Customization
-sudo pacman -Syu gnome-tweaks
-sudo pacman -Syu ttf-fira-mono ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono ttf-font-awesome
+# Fonts
+sudo pacman -Syu ttf-fira-mono ttf-fira-code ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono ttf-font-awesome tff-all-the-icons
 yay -S ttf-roboto-slab
+
+# GNOME Customization
+# sudo pacman -Syu gnome-tweaks
+# sudo pacman -S chrome-gnome-shell
 ## Export GNOME key-shortcuts
 #dconf dump / | sed -n '/\[org.gnome.settings-daemon.plugins.media-keys/,/^$/p' > custom-shortcuts$(date -I).ini
 ## Import GNOME key-shortcuts
 #dconf load / < custom-shortcuts.ini
 
 # Media packages
-sudo pacman -S chrome-gnome-shell
 yay -S enpass-bin dropbox
 dropbox start -i
 yay -S brave-bin mailspring

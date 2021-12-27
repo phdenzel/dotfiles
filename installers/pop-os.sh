@@ -28,6 +28,7 @@ sudo apt install virt-manager virt-viewer
 # Text streaming
 sudo apt install colordiff
 sudo apt install gawk
+sudo apt install ripgrep pcregrep ngrep
 sudo apt install qrencode
 
 # LaTeX
@@ -46,7 +47,8 @@ sudo apt install handbrake
 # Programming
 sudo apt install pipenv
 sudo apt install default-jre default-jdk
-sudo apt install ruby-full
+git clone https://github.com/jenv/jenv.git ~/.jenv
+sudo apt install ruby-full zlib1g-dev
 sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
 sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
 sudo apt update
@@ -60,8 +62,6 @@ sudo apt install swig
 sudo apt install npm
 sudo apt install python2-dev
 sudo apt install python-tk
-sudo apt install python3-opencv
-sudo apt install python3-sklearn
 sudo apt install pylint
 
 # Other devs
@@ -97,18 +97,8 @@ sudo apt install pavucontrol
 sudo apt install blueman
 sudo apt install adb
 sudo apt install android-tools-adb
-sudo apt install piper
 
 ### External debs
-# Corsair keyboard driver
-sudo apt install libudev-dev qt5-default zlib1g-dev libpulse-dev libquazip5-dev libqt5x11extras5-dev libxcb-screensaver0-dev libxcb-ewmh-dev libxcb1-dev qttools5-dev qttools5-dev-tools libdbusmenu-qt5-dev
-mkdir ~/forks
-git clone https://github.com/phdenzel/ckb-next.git ~/forks/ckb-next
-cd ~/forks/ckb-next
-git checkout 1555ca9  # release v0.4.2
-./quickinstall
-cd
-
 # Dropbox
 echo "deb https://linux.dropbox.com/ubuntu bionic main" | sudo tee /etc/apt/sources.list.d/dropbox.list
 # sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 1C61A2656FB57B7E4DE0F4C1FC918B335044912E

@@ -37,3 +37,7 @@ function codepoint() {
 		echo "";
 	fi;
 }
+# Start Emacsclient connection in the background
+function ew() {
+    emacsclient -c --alternate-editor="" "$@" &
+}

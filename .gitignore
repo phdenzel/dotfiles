@@ -1,4 +1,6 @@
 ####################################################### gitignore
+private
+ 
 # Thumbnail cache files
 ._*
 Thumbs.db

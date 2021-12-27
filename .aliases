@@ -4,23 +4,7 @@
 # `ls` command
 LS="ls"
 LSCOLORFLAG="--color"
-# GNU `ls` possible (w/ --color option)
-if ls --color > /dev/null 2>&1 || gls --color > /dev/null 2>&1; then
-    if [ -r ~/.dircolors ] &&  command -v dircolors &> /dev/null; then
-        eval `dircolors -b ~/.dircolors`
-    # `gls` from brew-coreutils
-    elif [ -r ~/.dircolors ] && command -v gdircolors &> /dev/null; then
-        LS="gls"
-        eval `/usr/local/bin/gdircolors -b ~/.dircolors`
-    elif command -v dircolors &> /dev/null; then
-        eval `dircolors -b`
-    fi;
-else # for BSD `ls` (w/ -G option)
-    export CLICOLOR=1
-    eval `/usr/local/bin/gdircolors -b ~/.dircolors`
-    LSCOLORFLAG="-G"
-fi
-### `ls`
+eval `dircolors -b ~/.dircolors`
 # always use color
 alias ls="$LS $LSCOLORFLAG"
 alias sl="ls"  # stupid typos!!!
@@ -31,7 +15,7 @@ alias la="$LS $LSCOLORFLAG -A"
 # c-style ls
 alias l="$LS  $LSCOLORFLAG -CF"
 ### `grep`
-#export GREP_OPTIONS='--color=auto' # deprecated
+# export GREP_OPTIONS='--color=auto' # deprecated
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -42,46 +26,20 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"
 ### Directory shortcuts
-alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
-alias dropbox="cd ~/Dropbox"
+alias cddl="cd ~/Downloads"
+alias cddt="cd ~/Desktop"
+alias cddb="cd ~/Dropbox"
 ### Command shortcuts
 alias h="history"
 alias j="jobs"
 alias sudo='sudo ' # sudoing for aliases
 # OS-dependent aliases
 # 'emacsw' launches in window mode; for terminal-mode use 'emacs'
-case $OS in
-    Linux)
-        alias emacsw='/usr/bin/emacs'
-        alias emacs='emacs -nw'
-        alias e='emacsclient -t --alternate-editor=""'
-        alias ew='emacsclient -c --alternate-editor=""'
-        ;;
-    Microsoft)  # Ubuntu built ontop of Windows
-        # alias emacs='/usr/local/bin/emacs -nw'
-        # alias emacsapp='/usr/local/bin/emacs'
-        alias chrome='/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe'
-        ;;
-    Darwin)
-        if [ -d '/Applications/Emacs.app' ]; then
-            alias emacs='$EMACS -nw'
-            alias emacsw='/Applications/Emacs.app/Contents/MacOS/emacs'
-            alias e='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -t --alternate-editor=""'
-            alias ew='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --alternate-editor=""'
-        else
-            alias e='/usr/bin/emacsclient -t --alternate-editor=""'
-            alias ea='/usr/bin/emacsclient -c --alternate-editor=""'
-            alias emacs='/usr/bin/emacsclient -t --alternate-editor=""'
-            alias emacsapp='/usr/bin/emacsclient -c --alternate-editor=""'
-        fi
-        ;;
-    *)
-        alias emacsw='emacs'
-        alias emacs='emacs -nw'
-        ;;
-esac;
-
+alias emacsw='/usr/bin/emacs'
+alias emacs='emacs -nw'
+alias e='emacsclient -t --alternate-editor=""'
+# see .functions for alias ew
+alias ew='ew'
 alias semacs='sudo /usr/bin/emacs'
 ### Servers
 source ~/.USERINFO
@@ -102,20 +60,14 @@ alias aj="squeue"
 alias dropbox_sync="rclonesync Dropbox:/ ~/Dropbox"
 ### Network
 # IP addresses
-#if (dig +short myip.opendns.com @resolver1.opendns.com > /dev/null 2>&1); then
-#    alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-#else
-#alias ip="curl ipecho.net/plain; echo"
-#fi
-#alias localip="ipconfig getifaddr en0"
-#alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
-# Interfaces
-alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+alias ipecho="curl https://ipecho.net/plain; echo"
+#alias ipecho="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="hostname -I | awk '{print $1}'"
 # HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 # Flush Directory Service cache
-alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+alias dnsflush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
@@ -128,31 +80,10 @@ command -v xclip &> /dev/null && alias xclipv="xclip -selection c -o" || alias x
 alias map="xargs -n1" # to find file in directory; usage: find . -name .gitattributes | map dirname
 ### some encoding commands
 command -v hd > /dev/null || alias hd="hexdump -C"
-command -v md5sum > /dev/null || alias md5sum="md5" # macOS doesn't have md5sum
-command -v sha1sum > /dev/null || alias sha1sum="shasum" # macOS doesn't have sha1sum
-### Some macOS Utility commands and aliases I rarely ever use
-# Screen lock
-alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 # Empty the Trash on mounted volumes, the main HDD, Systen Logs and download history
-alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
-# Launch service cleanup
-alias launchcleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
-# Show/hide hidden files in Finder
-alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
-# Hide/show all desktop icons (useful when presenting)
-alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-# PlistBuddy (useful when accessing nested dictionaries)
-alias plistbuddy="/usr/libexec/PlistBuddy"
+alias emptytrash="sudo rm -rf $HOME/.local/share/Trash/files/*; sudo rm -rf $HOME/.local/share/Trash/info/*; sudo rm -rf $HOME/.local/share/Trash/expunged/*"
 # Volume control (see http://xkcd.com/530/)
-alias stfu="osascript -e 'set volume output muted true'"
-alias pumpitup="osascript -e 'set volume output volume 50'"
-alias gocrazy="osascript -e 'set volume output volume 100'"
-# alias for notification after long running commands; usage: `sleep 10; alert`
-alias alert='notify "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-# Merge pdf files, usage: mergepdf -o output.pdf input{1,2,3}.pdf
-alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-# Recursively find/delete '.DS_Store' files
-alias dsstores="find . -type f -name '*.DS_Store'"
-alias dscleanup="find . -type f -name '*.DS_Store' -ls -delete"
+alias stfu="amixer -D pulse sset Master 0%"
+alias pumpitdown="amixer -D pulse sset Master 10%-"
+alias pumpitup="amixer -D pulse sset Master 10%+"
+alias gocrazy="amixer -D pulse sset Master 100%"

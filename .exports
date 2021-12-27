@@ -1,5 +1,14 @@
 #!/bin/bash
 ####################################################### Bash exports
+### prefer Terminal alacritty or xterm-256color
+if infocmp alacritty >/dev/null 2>&1; then
+    export TERM='alacritty';
+elif infocmp xterm-256color >/dev/null 2>&1; then
+    export TERM='xterm-256color';
+elif [[ $COLORTERM = gnome-* && $TERM = xterm* ]] && infocmp gnome-256color >/dev/null 2>&1; then
+	  export TERM='gnome-256color';
+fi;
+
 ### Color palette (no export, color variables restricted to current shell)
 if tput setaf 1 &> /dev/null; then
     tput sgr0; # reset
@@ -10,38 +19,23 @@ if tput setaf 1 &> /dev/null; then
     white=$(tput setaf 255);
     red=$(tput setaf 160);
     green=$(tput setaf 36);
-    yellow=$(tput setaf 214);  # on some screens ~ light yellow, if so take 220/222
-    blue=$(tput setaf 69);     # on some screens ~ dark blue, if so take 27
-    magenta=$(tput setaf 162); # on some screens ~ dark red, if so take 198
+    yellow=$(tput setaf 214);   # on some screens ~ light yellow, if so take 220/222
+    blue=$(tput setaf 69);      # on some screens ~ dark blue, if so take 27
+    magenta=$(tput setaf 198);  # on some screens ~ dark red, if so take 162
     cyan=$(tput setaf 44);
     orange=$(tput setaf 215);
-    purple=$(tput setaf 63);   # on some screens ~ dark blue, if so take 19
+    purple=$(tput setaf 63);    # on some screens ~ dark blue, if so take 19
     grey=$(tput setaf 239);
     br_red=$(tput setaf 161);
-    br_green=$(tput setaf 42);  # on some screens ~ green, if so take 42
-    br_yellow=$(tput setaf 214); # on some screens ~ yellow, if so take 220
-    br_blue=$(tput setaf 19);
+    br_green=$(tput setaf 42);
+    br_yellow=$(tput setaf 214);   # on some screens ~ yellow, if so take 220
+    br_blue=$(tput setaf 63);      # on some screens too dark, if so take 19
     br_magenta=$(tput setaf 162);  # on some screens ~ dark red, if so take 198
     br_cyan=$(tput setaf 51);
     br_orange=$(tput setaf 202);
     br_purple=$(tput setaf 57);
     grep_clr="1;38;5;162";
     ls_clr=$blue;
-
-    case $OS in
-        Linux)
-            magenta=$(tput setaf 198);
-            purple=$(tput setaf 63);
-            br_blue=$(tput setaf 63);
-            blue=$(tput setaf 69);
-            ;;
-        Microsoft)
-            magenta=$(tput setaf 198);
-            purple=$(tput setaf 63);
-            br_blue=$(tput setaf 63);
-            blue=$(tput setaf 69);
-            ;;
-    esac;
 
 else
     bold='';
@@ -51,37 +45,22 @@ else
     red="\e[1;38;5;196m";
     green="\e[1;38;5;036m";
     yellow="\e[1;38;5;222m";
-    blue="\e[1;38;5;027m";
-    magenta="\e[1;38;5;125m";
+    blue="\e[1;38;5;069m";
+    magenta="\e[1;38;5;198m";
     cyan="\e[1;38;5;045m";
     orange="\e[1;38;5;215m";
-    purple="\e[1;38;5;019m";
+    purple="\e[1;38;5;063m";
     grey="\e[1;38;5;239m";
     br_red="\e[1;38;5;161m";
     br_green="\e[1;38;5;035m";
     br_yellow="\e[1;38;5;220m";
-    br_blue="\e[1;38;5;019m";
+    br_blue="\e[1;38;5;063m";
     br_magenta="\e[1;38;5;198m";
     br_cyan="\e[1;38;5;051m"
     br_orange="\e[1;38;5;202m";
     br_purple="\e[1;38;5;057m";
     grep_clr="1;38;5;162";
     ls_clr=$blue
-
-    case $OS in
-        Linux)
-            magenta="\e[1;38;5;198m";
-            purple="\e[1;38;5;063m";
-            blue="\e[1;38;5;069m";
-            br_blue="\e[1;38;5;063m";
-            ;;
-        Microsoft)
-            magenta="\e[1;38;5;198m";
-            purple="\e[1;38;5;063m";
-            blue="\e[1;38;5;069m";
-            br_blue="\e[1;38;5;063m";
-            ;;
-    esac;
 fi;
 
         
@@ -105,24 +84,14 @@ export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
 # Less settings
 export LESS_TERMCAP_md="$ls_clr"
 export GREP_COLOR="$grep_clr"
-# Python IO encoding
-export PYTHONIOENCODING='UTF-8'
-### Programming environments
-# Homebrew llvm
-# for compliers also specify:
-#   LDFLAGS:  -L/usr/local/opt/llvm/lib
-#   CPPFLAGS: -I/usr/local/opt/llvm/include
-# for python to find bindings:
-#   echo /usr/local/opt/llvm/lib/python2.7/site-packages >> /usr/local/lib/python2.7/site-packages/llvm.pth
-# to use bundled libc++:
-#   LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
-#export PATH="/usr/local/opt/llvm/bin:$PATH"
 
-# Homebrew gcc
-export HOMEBREW_CC=gcc-6
-export HOMEBREW_CXX=g++-6
+### Programming environments
+# C Compilers
 #export CC=gcc-6
 #export CXX=g++-6
+
+# Python
+export PYTHONIOENCODING='UTF-8'
 
 # OpenMP
 export GOMP_STACKSIZE=16384
@@ -131,7 +100,7 @@ export GOMP_STACKSIZE=16384
 export MONO_GAC_PREFIX="/usr/local"
 
 # BOOST
-export BOOST_ROOT="/$HOME/local/boost/boost"
+export BOOST_ROOT="$HOME/local/boost/boost"
 
 # XERCES-C
 export XERCES_LIBS="-L$HOME/local/xerces/build/lib"

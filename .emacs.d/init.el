@@ -11,9 +11,9 @@
 
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
-(defvar gnu '("gnu" . "https://elpa.gnu.org/packages/"))
-(defvar melpa '("melpa" . "https://melpa.org/packages/"))
-(defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(defvar archive-gnu '("gnu" . "https://elpa.gnu.org/packages/"))
+(defvar archive-melpa '("melpa" . "https://melpa.org/packages/"))
+(defvar archive-melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
 ;; (defvar marmalade '("marmalade" . "https://marmalade-repo.org/packages/"))
 
 ;; Problematic in earlier versions
@@ -22,9 +22,9 @@
   (setq package-archives nil)
   ;; add HTTPS archives
   ;; (add-to-list 'package-archives marmalade t)
-  (add-to-list 'package-archives melpa-stable t)
-  (add-to-list 'package-archives melpa t)
-  (add-to-list 'package-archives gnu t))
+  (add-to-list 'package-archives archive-melpa-stable t)
+  (add-to-list 'package-archives archive-melpa t)
+  (add-to-list 'package-archives archive-gnu t))
 
 ;;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -41,21 +41,16 @@
   (package-refresh-contents))
 
 ;;; Configs
-;;
-;; Start a server (server-socket-dir and EMACS_SERVER_FILE need to match)
-(setq server-socket-dir (expand-file-name "~/.emacs.d/server"))
-(server-start)
-;;
 ;;; Attempt to speed up startup by allocating RAM for the garbage collector
-(setq gc-cons-threshold (* 1000 1000 1000))
+(setq gc-cons-threshold (* 1024 1024 1024))
 (add-hook 'after-init-hook
           (lambda ()
-            (setq gc-cons-threshold (* 8 100 1000))))
+            (setq gc-cons-threshold (* 2 1024 1024))))
 (let ((file-name-handler-alist nil)) (expand-file-name "~/.emacs.d/init.el"))
 
 
 (add-hook 'emacs-startup-hook
-          (lambda ()
+          (lambda()
             (message "Emacs ready in %s with %d garbage collections."
                      (format "%.2f seconds"
                              (float-time
@@ -74,5 +69,8 @@
 ;; Custom stuff in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file :noerror)
+
+;; Byte compile configs for speed-up
+(byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
 
 ;;; init.el ends here

@@ -74,7 +74,7 @@
 
 
 ### Base Install
-> pacstrap /mnt base linux linux-firmware intel-ucode nano
+> pacstrap /mnt base linux linux-firmware intel-ucode vim
 > genfstab -U /mnt >> /mnt/etc/fstab
 > cat /mnt/etc/fstab
 
@@ -168,6 +168,8 @@ lycan
 
 ### Display server / manager (choose needed)
 > pacman -S xorg
+# XMonad
+> pacman -S xorg-xinit
 # GNOME
 > pacman -S gdm
 > systemctl enable gdm

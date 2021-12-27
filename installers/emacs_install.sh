@@ -9,10 +9,8 @@ if [ $OS == "Darwin" ]; then
     make && make install
     cd nextstep/
     cp -r Emacs.app /Applications/
-elif [ $OS == "Linux" ]; then
-    ./configure --prefix=$HOME/local/emacs --with-gif=no --with-gnutls=no
-    make && make install
-    ln -s $HOME/local/emacs/bin/emacs $HOME/local/bin/emacs
 elif [ $OS == "Windows" ]; then
     echo "In Windows better use the .exe installer"
+else
+    echo "In linux use your package manager, such as apt, pacman, zypper, etc."
 fi;

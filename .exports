@@ -65,9 +65,11 @@ export HISTCONTROL='ignoreboth'
 # Increase Bash history size to 16³ entries
 export HISTSIZE=4096
 export HISTFILESIZE=$HISTSIZE
+
 # Language settings
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
+
 # Programs
 export TERMINAL="alacritty"
 export EMACS='emacs'
@@ -78,6 +80,7 @@ export ALTERNATE_EDITOR=""
 export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
 export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
 export BROWSER="brave"
+
 # XDG
 export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
@@ -93,6 +96,10 @@ export LESS_TERMCAP_us="$br_yellow$underline"
 export LESS_TERMCAP_ue="$reset"
 # Grep settings
 export GREP_COLORS="ms=01;38;5;013:mc=01;38;5;013:sl=:cx=:fn=00;38;5;004:ln=00;38;5;010:bn=00;38;5;010:se=00;38;5;011"
+
+# GPG
+export GPG_TTY=$(tty)
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 ### Programming environments
 # C Compilers

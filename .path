@@ -18,6 +18,10 @@ export PATH=$PATH:$GEM_HOME/bin
 # Node/npm
 export PATH=$PATH:$HOME/.npm_global/bin
 
+# golang
+export GOPATH=$HOME/local/go
+export PATH=$PATH:$GOPATH/bin
+
 # JAVA
 export PATH="$HOME/.jenv/bin:$PATH"
 if command -v jenv &> /dev/null; then eval "$(jenv init -)"; fi

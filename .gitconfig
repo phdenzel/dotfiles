@@ -11,6 +11,8 @@
   l = log --pretty=oneline --abbrev-commit -12
   lg = log --pretty=oneline --abbrev-commit
   r = remote -v
+  rau = remote add upstream
+  fu = git fetch upstream
   c = commit -avm
   ac = !git add -A && git commit -avm
   aml = !git add -A && git commit --amend --no-edit
@@ -62,6 +64,10 @@
 [diff "bin"]
   textconv = hexdump -v -C  # use hexdump to do binary git diff
 
+
+# [commit]
+#   gpgsign = true
+
 [merge]
   # Include summaries of merged commits in newly created merge commit messages
   log = true
@@ -73,5 +79,6 @@
 [user]
 	name = phdenzel
 	email = phdenzel@gmail.com
+	signingkey = 629FC7317EFB4935
 [credential]
 	helper = cache

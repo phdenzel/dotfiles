@@ -32,11 +32,11 @@ export CLASSPATH=$CLASSPATH:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.
 # PYTHON
 export PYTHONPATH="$PYTHONPATH:$HOME/Documents/pylib"
 
-if ls -dr $HOME/local/Python-[0-9]* &> /dev/null; then
-    for f in $(ls -dr $HOME/local/Python-[0-9]*/bin); do
-	      export PATH="$f:${PATH}"
-    done;
-fi;
+# if ls -dr $HOME/local/Python-[0-9]* &> /dev/null; then
+#     for f in $(ls -dr $HOME/local/Python-[0-9]*/bin); do
+# 	      export PATH="$f:${PATH}"
+#     done;
+# fi;
 
 # PIP
 export PATH="$PATH:$HOME/.local/bin"

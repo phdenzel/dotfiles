@@ -13,6 +13,8 @@ fi;
 if tput setaf 1 &> /dev/null; then
     tput sgr0; # reset
     bold=$(tput bold);
+    underline=$(tput smul);
+    underline_reset=$(tput rmul);
     reset=$(tput sgr0);
     # Custom color palette (see .dircolors)
     black=$(tput setaf 0);
@@ -55,11 +57,9 @@ else
     br_white="\e[1;38;5;015m"
     br_purple="\e[1;38;5;099m";
 fi;
-grep_color="1;38;5;013";
-ls_color=$blue
 
         
-### Bash settings exports
+### General export settings
 # Don't put duplicates or lines starting with space in the history
 export HISTCONTROL='ignoreboth'
 # Increase Bash history size to 16³ entries
@@ -68,7 +68,8 @@ export HISTFILESIZE=$HISTSIZE
 # Language settings
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
-# Editors
+# Programs
+export TERMINAL="alacritty"
 export EMACS='emacs'
 export EMACSCLIENT='emacsclient'
 export EMACS_SERVER_FILE="$HOME/.emacs.d/server/server"
@@ -76,9 +77,22 @@ export EMACS_SOCKET_NAME="$HOME/.emacs.d/server/server"
 export ALTERNATE_EDITOR=""
 export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
 export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
+export BROWSER="brave"
+# XDG
+export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
+
 # Less settings
-export LESS_TERMCAP_md="$ls_color"
-export GREP_COLOR="$grep_color"
+export LESS_TERMCAP_mb="$blue$bold"
+export LESS_TERMCAP_md="$blue$bold"
+export LESS_TERMCAP_me="$reset"
+export LESS_TERMCAP_so="$white"
+export LESS_TERMCAP_se="$reset"
+export LESS_TERMCAP_us="$br_yellow$underline"
+export LESS_TERMCAP_ue="$reset"
+# Grep settings
+export GREP_COLORS="ms=01;38;5;013:mc=01;38;5;013:sl=:cx=:fn=00;38;5;004:ln=00;38;5;010:bn=00;38;5;010:se=00;38;5;011"
 
 ### Programming environments
 # C Compilers

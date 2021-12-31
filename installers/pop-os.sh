@@ -10,6 +10,16 @@ sudo apt install transmission
 # Disk utils
 sudo apt install gparted timeshift
 
+# Password managment
+sudo apt install pass pass-extension-otp
+sudo apt install zbar-tools
+
+mkdir $HOME/forks
+cd ~/forks
+git clone git@github.com:phdenzel/pass-import.git
+cd pass-import
+python3 setup.py install --user
+
 # Desktop utils
 sudo apt install htop
 sudo apt install feh

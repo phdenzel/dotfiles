@@ -20,21 +20,28 @@
   # Use colors in Git command outputs to the terminal where possible
   ui = auto
 [color "branch"]
-  current = 44  # cyan
-  local = 27  # blue
-  remote = 35  # green
+  current = 14
+  local = 4
+  remote = 10
 [color "diff"]
   plain = normal
-  meta = 215 bold  # orange bold
-  frag = 161 bold  # magenta red bold for line info
-  old = 125 # magenta for deletions
-  new = 35  # green for additions
-  commit = 215  # orange commit hashes
-  whitespace = normal white  # magenta red for whitespaces
+  meta = 11 bold
+  frag = 9 bold
+  old = 13
+  new = 10
+  commit = 11
+  whitespace = normal white
 [color "status"]
-  added = 35  # green
-  changed = 161  # red
-  untracked = 44  # cyan  
+  branch = 11
+  remoteBranch = 9
+  added = 10
+  changed = 9
+  untracked = 14
+[color "decorate"]
+  head = 10
+  branch = 11
+  remoteBranch = 9
+  tag = 14
 [color "grep"]
   match = normal
 [color "interactive"]

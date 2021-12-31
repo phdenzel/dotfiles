@@ -13,32 +13,32 @@
          (colors `(("fg"        .  (if ,256color "#C6C6C6" "#BDC3CE"))
                    ("fg-b"      .  (if ,256color "#D0D0D0" "#DDE3EE"))
                    ("fg-bb"     .  (if ,256color "#DADADA" "#EDF3FE"))
-                   ("bg"        .  "#303030")
+                   ("bg"        .  "#303033")
                    ("bg-b"      .  (if ,256color "#3A3A3A" "#404850"))
                    ("bg-bb"     .  (if ,256color "#444444" "#3A3C3F"))
-                   ("black"     .  (if ,256color "#000000" "#181E26"))
                    ("white"     .  (if ,256color "#CCCCCC" "#DFDFDF"))
                    ("grey"      .  (if ,256color "#666666" "#5B6268"))
                    ("grey-b"    .  (if ,256color "#999999" "#8A8A8A"))
                    ("grey-d"    .  (if ,256color "#444444" "#464858"))
                    
-                   ("yellow"    .  "#FFD787")
-                   ("orange"    .  (if ,256color "#FFAF5F" "#FDB760"))
-                   ("orange-d"  .  "#FF5F00")
+                   ("black"     .  (if ,256color "#000000" "#181E26"))
                    ("red"       .  (if ,256color "#FF5F5F" "#FF6D6B"))
                    ("red-d"     .  "#D7005F")
                    ("red-dd"    .  "#D70000")
-                   ("magenta"   .  (if ,256color "#FF0087" "#E83A82"))
-                   ("purple"    .  "#8787FF")
-                   ("violet"    .  (if ,256color "#AFAFD7" "#A9A1E1"))
-                   ("cyan"      .  (if ,256color "#5FD7FF" "#46D9FF"))
-                   ("teal"      .  (if ,256color "#5FAFAF" "#4DB5BD"))
-                   ("blue"      .  (if ,256color "#5F87FF" "#5F8AF7"))
-                   ("blue-d"    .  (if ,256color "#005f87" "#1F5582"))
-                   ("blue-dd"   .  (if ,256color "#0000FF" "#3723B7"))
                    ("green"     .  (if ,256color "#00AF87" "#44BC84"))
                    ("green-d"   .  (if ,256color "#5FAF87" "#3DAA77"))
                    ("green-b"   .  "#00AF5F")
+                   ("yellow"    .  "#FFD787")
+                   ("orange"    .  (if ,256color "#FFAF5F" "#FDB760"))
+                   ("orange-d"  .  "#FF5F00")
+                   ("blue"      .  (if ,256color "#5F87FF" "#5F8AF7"))
+                   ("blue-d"    .  (if ,256color "#005f87" "#1F5582"))
+                   ("blue-dd"   .  (if ,256color "#0000FF" "#3723B7"))
+                   ("violet"    .  (if ,256color "#AFAFD7" "#A9A1E1"))
+                   ("purple"    .  "#8787FF")
+                   ("magenta"   .  (if ,256color "#FF0087" "#E83A82"))
+                   ("cyan"      .  (if ,256color "#5FD7FF" "#46D9FF"))
+                   ("teal"      .  (if ,256color "#5FAFAF" "#4DB5BD"))
                    
                    ("gui-font"      . "Inconsolata")
                    ("terminal-font" . "Fira Mono")
@@ -118,8 +118,8 @@
   `(font-latex-warning-face ((t (:foreground ,blue))))
 
   ;; Mode-line
-  `(mode-line                ((t (:background ,bg-bb :foreground ,fg-b))))
-  `(mode-line-inactive       ((t (:background ,bg-b :foreground ,fg-b))))
+  `(mode-line                ((t (:background ,bg-bb :foreground ,fg-bb))))
+  `(mode-line-inactive       ((t (:background ,bg-b :foreground ,fg-bb))))
   `(mode-line-emphasis       ((t (:bold t))))
   `(mode-line-buffer-id      ((t (:bold t))))
   `(persp-selected-face      ((t (:foreground ,purple))))
@@ -194,10 +194,6 @@
   `(swiper-match-face-4   ((t (:background ,green :foreground ,black
                                            :bold t))))
 
-  ;; Hl-paren
-  `(hl-paren-colors '(,magenta ,orange ,green ,blue ,violet ,purple
-                      ,cyan ,teal ,yellow ,red))
-
   ;; Highlight-indentation
   `(highlight-indentation-face                ((t (:background ,bg-b))))
   `(highlight-indentation-current-column-mode ((t (:background ,bg-b))))
@@ -207,8 +203,10 @@
   `(rainbow-delimiters-depth-2-face   ((t (:foreground ,magenta))))
   `(rainbow-delimiters-depth-3-face   ((t (:foreground ,green))))
   `(rainbow-delimiters-depth-4-face   ((t (:foreground ,orange))))
-  `(rainbow-delimiters-depth-5-face   ((t (:foreground ,violet))))
-  `(rainbow-delimiters-unmatched-face ((t (:foreground ,red
+  `(rainbow-delimiters-depth-5-face   ((t (:foreground ,purple))))
+  `(rainbow-delimiters-depth-6-face   ((t (:foreground ,yellow))))
+  `(rainbow-delimiters-depth-7-face   ((t (:foreground ,cyan))))
+  `(rainbow-delimiters-unmatched-face ((t (:foreground ,grey
                                                        :bold t
                                                        :inverse-video t))))
 
@@ -217,9 +215,18 @@
 
   ))
 
-(global-highlight-parentheses-mode)
+(with-phd-variables
+ (custom-set-variables
+  ;;'phd-dark
+
+  ;; highlight-parentheses
+  `(hl-paren-colors '(,blue ,magenta ,green ,orange ,purple ,grey ,yellow ))
+  `(highlight-parentheses-colors '(,blue ,magenta ,green ,orange ,purple ,grey ,yellow ))
+  )
+)
 
 (provide-theme 'phd-dark)
+;;(((((((((((((())))))))))))))
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:

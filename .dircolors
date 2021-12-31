@@ -45,233 +45,234 @@ TERM xterm-88color
 TERM xterm-256color
 TERM xterm-kitty
 #
-### ANSI ESCAPE CODE
-# 00 - normal;  01 - bold;       02 - dimmed;
-# 03 - italic;  04 - underlined; 05 - blinking;
-# 06 - ?;       07 - reversed;   08 - hidden
-### CUSTOM COLOR PALETTE
+
+### FORMAT DESCRIPTION
+# [ANSI ESCAPE CODES];38;5;[]
 #
-# black     - 38;5;232
-# white     - 38;5;255
-# red       - 38;5;160    br red    - 38;5;161 or 198
-# green     - 38;5;036    br green  - 38;5;042
-# yellow    - 38;5;222    br yellow - 38;5;220
-# blue      - 38;5;027    dr blue   - 38;5;019 or 69 and 063
-# magenta   - 38;5;125    br magenta- 38;5;198 or 198
-# cyan      - 38;5;044    br cyan   - 38;5;051
-# orange    - 38;5;215    br orange - 38;5;202
-# purple    - 38;5;105    dr purple - 38;5;057 or 061
-# grey      - 38;5;239    br grey   - 38;5;236
+### ANSI ESCAPE CODE
+# 00 - normal  01 - bold        02 - dimmed
+# 03 - italic  04 - underlined  05 - blinking
+# 06 - ?       07 - reversed    08 - hidden
+#
+### COLOR INDEX PALETTE (000-015)
+# (000) black:   '#181E26'   (008) bright-black:   '#404850'
+# (001) red:     '#FF6D6B'   (009) bright-red:     '#D7005F'
+# (002) green:   '#44BC84'   (010) bright-green:   '#00AF87'
+# (003) yellow:  '#FFD787'   (011) bright-yellow:  '#FDB760'
+# (004) blue:    '#5F8AF7'   (012) bright-blue:    '#5F5FFF'
+# (005) magenta: '#E83A82'   (013) bright-magenta: '#FF0087'
+# (006) cyan:    '#4DB5BD'   (014) bright-cyan:    '#46D9FF'
+# (007) white:   '#DFDFDF'   (015) bright-white:   '#EEEEEE'
+# (105) purple:  '#8787FF'   (099) bright-purple:  '#875FFF'
 #
 ### GENERAL COLORING
-#NORMAL 00                      # no color code at all (in Terminal profile)
-#FILE 00                        # normal - regular file (in Terminal profile)
-RESET 0                         # reset to 'NORMAL' color, i.e. fg
-DIR 01;38;5;063                 # dr blue - directory
-LINK 04;38;5;036                # underlined br green - symbolic link
-                                # use 'target' to color symlink
-                                # according to target file
-MULTIHARDLINK 00                # regular file with more than one link
-FIFO 01;04;38;5;042             # underlined bold green - pipe
-SOCK 01;04;38;5;019             # underlined dr blue - socket
-DOOR 01;02;04;38;5;019          # underlined dimmed dr blue - door
-BLK 01;38;5;044                 # cyan - block dev driver
-CHR 01;38;5;051                 # cyan - character dev driver
-ORPHAN 02;04;38;5;239           # underlined grey - symlink to Nirvana
-MISSING 00                      # → Nirvana
-SETUID 07;38;5;069;48;5;255     # fg white/ bg blue - setuid file
-SETGID 07;38;5;045;48;5;255     # fg white/ bg cyan - setgid file
-CAPABILITY 07;38;5;255;48;5;232 # fg white/ bg black - capability file
-STICKY_OTHER_WRITABLE 01;38;5;160
-                                # red - (+t,o+w) dir
-OTHER_WRITABLE 01;38;5;222      # yellow - (-t,o+w) dir
-STICKY 01;38;5;202              # orange - (+t,o-w) dir
-EXEC 01;38;5;198                # magenta - executables
+#NORMAL 00
+#FILE 00
+RESET 0
+DIR 01;38;5;012
+LINK 04;38;5;010
+#
+MULTIHARDLINK 00
+FIFO 01;04;38;5;010
+SOCK 01;04;38;5;011
+DOOR 01;02;04;38;5;003
+BLK 01;38;5;014
+CHR 01;38;5;006
+ORPHAN 02;04;38;5;007
+MISSING 02;38;5;000
+SETUID 07;38;5;004;48;5;015
+SETGID 07;38;5;006;48;5;015
+CAPABILITY 07;38;5;015;48;5;000
+STICKY_OTHER_WRITABLE 01;38;5;009
+OTHER_WRITABLE 01;38;5;001
+STICKY 01;38;5;011
+EXEC 01;38;5;013
 #
 ### EXTENSIONS
-# DOS-specific (bright cyan)
-.exe 01;38;5;051
-#.cmd 01;38;5;051
-#.com 01;38;5;051
-#.btm 01;38;5;051
-#.bat 01;38;5;051
+# DOS-specific
+.exe 01;38;5;006
+.cmd 01;38;5;006
+#.com 01;38;5;006
+#.btm 01;38;5;006
+#.bat 01;38;5;006
 #
 ### Backup files
-*~ 00;38;5;239
-.bak 00;38;5;239
-.BAK 00;38;5;239
-.old 00;38;5;239
-.OLD 00;38;5;239
-.orig 00;38;5;239
-.ORIG 00;38;5;239
-.swp 00;38;5;239
-#.log 00;38;5;239
+*~ 02;38;5;007
+.bak 02;38;5;007
+.BAK 02;38;5;007
+.old 02;38;5;007
+.OLD 02;38;5;007
+.orig 02;38;5;007
+.ORIG 02;38;5;007
+.swp 02;38;5;007
+#.log 02;38;5;007
 #
-### ARCHIVES or COMPRESSED FILES (dr purple)
-.tar 01;38;5;057
-.tgz 01;38;5;057
-.arc 01;38;5;057
-.arj 01;38;5;057
-.taz 01;38;5;057
-.lha 01;38;5;057
-.lz4 01;38;5;057
-.lzh 01;38;5;057
-.lzma 01;38;5;057
-.tlz 01;38;5;057
-.txz 01;38;5;057
-.tzo 01;38;5;057
-.t7z 01;38;5;057
-.zip 01;38;5;057
-.z 01;38;5;057
-.Z 01;38;5;057
-.dz 01;38;5;057
-.gz 01;38;5;057
-.lrz 01;38;5;057
-.lz 01;38;5;057
-.lzo 01;38;5;057
-.xz 01;38;5;057
-.zst 01;38;5;057
-.tzst 01;38;5;057
-.bz2 01;38;5;057
-.bz 01;38;5;057
-.tbz 01;38;5;057
-.tbz2 01;38;5;057
-.tz 01;38;5;057
-.deb 01;38;5;057
-.rpm 01;38;5;057
-.jar 01;38;5;057
-.war 01;38;5;057
-.ear 01;38;5;057
-.sar 01;38;5;057
-.rar 01;38;5;057
-.alz 01;38;5;057
-.ace 01;38;5;057
-.zoo 01;38;5;057
-.cpio 01;38;5;057
-.7z 01;38;5;057
-.rz 01;38;5;057
-.cab 01;38;5;057
+### ARCHIVES or COMPRESSED FILES
+.tar 01;38;5;099
+.tgz 01;38;5;099
+.arc 01;38;5;099
+.arj 01;38;5;099
+.taz 01;38;5;099
+.lha 01;38;5;099
+.lz4 01;38;5;099
+.lzh 01;38;5;099
+.lzma 01;38;5;099
+.tlz 01;38;5;099
+.txz 01;38;5;099
+.tzo 01;38;5;099
+.t7z 01;38;5;099
+.zip 01;38;5;099
+.z 01;38;5;099
+.Z 01;38;5;099
+.dz 01;38;5;099
+.gz 01;38;5;099
+.lrz 01;38;5;099
+.lz 01;38;5;099
+.lzo 01;38;5;099
+.xz 01;38;5;099
+.zst 01;38;5;099
+.tzst 01;38;5;099
+.bz2 01;38;5;099
+.bz 01;38;5;099
+.tbz 01;38;5;099
+.tbz2 01;38;5;099
+.tz 01;38;5;099
+.deb 01;38;5;099
+.rpm 01;38;5;099
+.jar 01;38;5;099
+.war 01;38;5;099
+.ear 01;38;5;099
+.sar 01;38;5;099
+.rar 01;38;5;099
+.alz 01;38;5;099
+.ace 01;38;5;099
+.zoo 01;38;5;099
+.cpio 01;38;5;099
+.7z 01;38;5;099
+.rz 01;38;5;099
+.cab 01;38;5;099
 #
-### IMAGE FORMATS (orange)
-.jpg 00;38;5;215
-.JPG 00;38;5;215
-.jpeg 00;38;5;215
-.JPEG 00;38;5;215
-.bmp 00;38;5;215
-.pbm 00;38;5;215
-.pgm 00;38;5;215
-.ppm 00;38;5;215
-.pps 00;38;5;215
-.ppsx 00;38;5;215
-.tga 00;38;5;215
-.xbm 00;38;5;215
-.xpm 00;38;5;215
-.tif 00;38;5;215
-.tiff 00;38;5;215
-.png 00;38;5;215
-.PNG 00;38;5;215
-.pcx 00;38;5;215
-.flc 00;38;5;215
-.fli 00;38;5;215
-.gl 00;38;5;215
-.dl 00;38;5;215
-.xcf 00;38;5;215
-.xwd 00;38;5;215
-.emf 00;38;5;215
-.ico 00;38;5;215
-.gif 00;38;5;215
-.gifv 00;38;5;215
-.mjpg 00;38;5;215
-.mjpeg 00;38;5;215
+### IMAGE FORMATS
+.jpg 00;38;5;011
+.JPG 00;38;5;011
+.jpeg 00;38;5;011
+.JPEG 00;38;5;011
+.bmp 00;38;5;011
+.pbm 00;38;5;011
+.pgm 00;38;5;011
+.ppm 00;38;5;011
+.pps 00;38;5;011
+.ppsx 00;38;5;011
+.tga 00;38;5;011
+.xbm 00;38;5;011
+.xpm 00;38;5;011
+.tif 00;38;5;011
+.tiff 00;38;5;011
+.png 00;38;5;011
+.PNG 00;38;5;011
+.pcx 00;38;5;011
+.flc 00;38;5;011
+.fli 00;38;5;011
+.gl 00;38;5;011
+.dl 00;38;5;011
+.xcf 00;38;5;011
+.xwd 00;38;5;011
+.emf 00;38;5;011
+.ico 00;38;5;011
+.gif 00;38;5;011
+.gifv 00;38;5;011
+.mjpg 00;38;5;011
+.mjpeg 00;38;5;011
 # Image formats for astrophysicists and astronomers ;)
-.fits 02;38;5;215
-.fts 02;38;5;215
+.fits 00;38;5;003
+.fts 00;38;5;003
 #
-### VECTORIZED GRAPHICS FORMATS (br orange)
-.pdf 00;38;5;202
-.dvi 00;38;5;202
-.cgm 00;38;5;202
-.dvg 00;38;5;202
-.eps 00;38;5;202
-.ps 00;38;5;202
-.odg 00;38;5;202
-.mba 00;38;5;202
-.svg 00;38;5;202
-.svgz 00;38;5;202
-.swf 00;38;5;202
-.pgf 00;38;5;202
-.tikz 00;38;5;202
-.rvt 00;38;5;202
-.sxd 00;38;5;202
+### VECTORIZED GRAPHICS FORMATS
+.pdf 00;38;5;009
+.dvi 00;38;5;009
+.cgm 00;38;5;009
+.dvg 00;38;5;009
+.eps 00;38;5;009
+.ps 00;38;5;009
+.odg 00;38;5;009
+.mba 00;38;5;009
+.svg 00;38;5;009
+.svgz 00;38;5;009
+.swf 00;38;5;009
+.pgf 00;38;5;009
+.tikz 00;38;5;009
+.rvt 00;38;5;009
+.sxd 00;38;5;009
 #
-### VIDEO FORMATS (blue)
-.webm 00;38;5;069
-.mkv 00;38;5;069
-.flv 00;38;5;069
-.vob 00;38;5;069
-.ogg 00;38;5;069
-.ogv 00;38;5;069
-.ogm 00;38;5;069
-.ogx 00;38;5;069
-.drc 00;38;5;069
-.mng 00;38;5;069
-.avi 00;38;5;069
-.mov 00;38;5;069
-.MOV 00;38;5;069
-.qt 00;38;5;069
-.wmv 00;38;5;069
-.yuv 00;38;5;069
-.rm 00;38;5;069
-.rmvb 00;38;5;069
-.asf 00;38;5;069
-.amv 00;38;5;069
-.mp4 00;38;5;069
-.m4p 00;38;5;069
-.m4v 00;38;5;069
-.mp4v 00;38;5;069
-.mpg 00;38;5;069
-.mpeg 00;38;5;069
-.mpe 00;38;5;069
-.mpv 00;38;5;069
-.mp2 00;38;5;069
-.m2v 00;38;5;069
-.svi 00;38;5;069
-.3gp 00;38;5;069
-.3g2 00;38;5;069
-.mxf 00;38;5;069
-.roq 00;38;5;069
-.nsv 00;38;5;069
-.nuv 00;38;5;069
-.f4v 00;38;5;069
-.f4p 00;38;5;069
-.f4a 00;38;5;069
-.f4b 00;38;5;069
+### VIDEO FORMATS
+.webm 00;38;5;004
+.mkv 00;38;5;004
+.flv 00;38;5;004
+.vob 00;38;5;004
+.ogg 00;38;5;004
+.ogv 00;38;5;004
+.ogm 00;38;5;004
+.ogx 00;38;5;004
+.drc 00;38;5;004
+.mng 00;38;5;004
+.avi 00;38;5;004
+.mov 00;38;5;004
+.MOV 00;38;5;004
+.qt 00;38;5;004
+.wmv 00;38;5;004
+.yuv 00;38;5;004
+.rm 00;38;5;004
+.rmvb 00;38;5;004
+.asf 00;38;5;004
+.amv 00;38;5;004
+.mp4 00;38;5;004
+.m4p 00;38;5;004
+.m4v 00;38;5;004
+.mp4v 00;38;5;004
+.mpg 00;38;5;004
+.mpeg 00;38;5;004
+.mpe 00;38;5;004
+.mpv 00;38;5;004
+.mp2 00;38;5;004
+.m2v 00;38;5;004
+.svi 00;38;5;004
+.3gp 00;38;5;004
+.3g2 00;38;5;004
+.mxf 00;38;5;004
+.roq 00;38;5;004
+.nsv 00;38;5;004
+.nuv 00;38;5;004
+.f4v 00;38;5;004
+.f4p 00;38;5;004
+.f4a 00;38;5;004
+.f4b 00;38;5;004
 #
-### AUDIO FORMATS (cyan)
-.aac 00;38;5;044
-.au 00;38;5;044
-.flac 00;38;5;044
-.m4a 00;38;5;044
-.mid 00;38;5;044
-.midi 00;38;5;044
-.mka 00;38;5;044
-.mp3 00;38;5;044
-.mpc 00;38;5;044
-.ogg 00;38;5;044
-.ra 00;38;5;044
-.wav 00;38;5;044
-.oga 00;38;5;044
-.opus 00;38;5;044
-.spx 00;38;5;044
-.xspf 00;38;5;044
+### AUDIO FORMATS
+.aac 00;38;5;014
+.au 00;38;5;014
+.flac 00;38;5;014
+.m4a 00;38;5;014
+.mid 00;38;5;014
+.midi 00;38;5;014
+.mka 00;38;5;014
+.mp3 00;38;5;014
+.mpc 00;38;5;014
+.ogg 00;38;5;014
+.ra 00;38;5;014
+.wav 00;38;5;014
+.oga 00;38;5;014
+.opus 00;38;5;014
+.spx 00;38;5;014
+.xspf 00;38;5;014
 #
 ### CODES and SCRIPTS (selected colors)
-.sh 00;38;5;198       # magenta
-.csh 00;38;5;198      # magenta
-.cpp 00;38;5;222      # yellow
-.o 02;38;5;222        # dimmed yellow
-.c 00;38;5;222        # yellow
-.py 00;38;5;036       # green
-.pyc 02;38;5;036      # dimmed green
-.org 00;38;5;105      # purple
-.rs 00;38;5;61        # dr purple
+.sh 00;38;5;005
+.csh 00;38;5;005
+.zsh 00;38;5;005
+.cpp 00;38;5;003
+.o 02;38;5;003
+.c 00;38;5;003
+.py 00;38;5;002
+.pyc 02;38;5;002
+.org 00;38;5;105
+.rs 00;38;5;099

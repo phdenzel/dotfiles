@@ -76,10 +76,10 @@ git config --global user.email "$GITMAIL"
 ####################################################### Welcome helpers
 # Get some informations about the system
 _hostinfo () {
-    echo -e "${orange}Host: \t\t\t\t ${blue}${HOSTNAME}"
-    echo -e "${orange}Operating System: \t\t${blue}" `uname -s`
-    echo -e  "${orange}Kernel Information: \t\t${blue}" `uname -mr`
-    echo -ne "${orange}Hello ${magenta}$USER${orange} today is: \t${blue}" `date`;
+    echo -e "${br_yellow}Host: \t\t\t\t ${blue}${HOSTNAME}"
+    echo -e "${br_yellow}Operating System: \t\t${blue}" `uname -s`
+    echo -e  "${br_yellow}Kernel Information: \t\t${blue}" `uname -mr`
+    echo -ne "${br_yellow}Hello ${magenta}$USER${br_yellow} today is: \t${blue}" `date`;
     echo -e "${reset}";
 }
 # Get the mounted drives and free space
@@ -113,7 +113,7 @@ sleep 0.5s;
 command -v neofetch &> /dev/null && neofetch || _hostinfo;
 cal -3
 echo -ne "${green}"; _mounted; echo -ne "${reset}"
-echo -ne "${orange}"; _meminfo; echo -ne "${reset}"
+echo -ne "${br_yellow}"; _meminfo; echo -ne "${reset}"
 echo -ne "${blue}"; _upinfo;  echo "${reset}"
 echo "";
 echo -e  "${blue}${HOSTNAME}${reset} at your service";

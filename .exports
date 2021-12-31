@@ -15,53 +15,48 @@ if tput setaf 1 &> /dev/null; then
     bold=$(tput bold);
     reset=$(tput sgr0);
     # Custom color palette (see .dircolors)
-    black=$(tput setaf 232);
-    white=$(tput setaf 255);
-    red=$(tput setaf 160);
-    green=$(tput setaf 36);
-    yellow=$(tput setaf 214);   # on some screens ~ light yellow, if so take 220/222
-    blue=$(tput setaf 69);      # on some screens ~ dark blue, if so take 27
-    magenta=$(tput setaf 198);  # on some screens ~ dark red, if so take 162
-    cyan=$(tput setaf 44);
-    orange=$(tput setaf 215);
-    purple=$(tput setaf 63);    # on some screens ~ dark blue, if so take 19
-    grey=$(tput setaf 239);
-    br_red=$(tput setaf 161);
-    br_green=$(tput setaf 42);
-    br_yellow=$(tput setaf 214);   # on some screens ~ yellow, if so take 220
-    br_blue=$(tput setaf 63);      # on some screens too dark, if so take 19
-    br_magenta=$(tput setaf 162);  # on some screens ~ dark red, if so take 198
-    br_cyan=$(tput setaf 51);
-    br_orange=$(tput setaf 202);
-    br_purple=$(tput setaf 57);
-    grep_clr="1;38;5;162";
-    ls_clr=$blue;
-
+    black=$(tput setaf 0);
+    red=$(tput setaf 1);
+    green=$(tput setaf 2);
+    yellow=$(tput setaf 3);
+    blue=$(tput setaf 4);
+    magenta=$(tput setaf 5);
+    cyan=$(tput setaf 6);
+    white=$(tput setaf 7);
+    purple=$(tput setaf 105);
+    br_black=$(tput setaf 8);
+    br_red=$(tput setaf 9);
+    br_green=$(tput setaf 10);
+    br_yellow=$(tput setaf 11);
+    br_blue=$(tput setaf 12);
+    br_magenta=$(tput setaf 13);
+    br_cyan=$(tput setaf 14);
+    br_white=$(tput setaf 15);
+    br_purple=$(tput setaf 99);
 else
     bold='';
     reset="\e[0m";
-    black="\e[1;38;5;232m";
-    white="\e[1;38;5;255m";
-    red="\e[1;38;5;196m";
-    green="\e[1;38;5;036m";
-    yellow="\e[1;38;5;222m";
-    blue="\e[1;38;5;069m";
-    magenta="\e[1;38;5;198m";
-    cyan="\e[1;38;5;045m";
-    orange="\e[1;38;5;215m";
-    purple="\e[1;38;5;063m";
-    grey="\e[1;38;5;239m";
-    br_red="\e[1;38;5;161m";
-    br_green="\e[1;38;5;035m";
-    br_yellow="\e[1;38;5;220m";
-    br_blue="\e[1;38;5;063m";
-    br_magenta="\e[1;38;5;198m";
-    br_cyan="\e[1;38;5;051m"
-    br_orange="\e[1;38;5;202m";
-    br_purple="\e[1;38;5;057m";
-    grep_clr="1;38;5;162";
-    ls_clr=$blue
+    black="\e[1;38;5;000m";
+    red="\e[1;38;5;001m";
+    green="\e[1;38;5;002m";
+    yellow="\e[1;38;5;003m";
+    blue="\e[1;38;5;004m";
+    magenta="\e[1;38;5;005m";
+    cyan="\e[1;38;5;006m";
+    white="\e[1;38;5;007m";
+    purple="\e[1;38;5;105m";
+    br_black="\e[1;38;5;008m";
+    br_red="\e[1;38;5;009m";
+    br_green="\e[1;38;5;010m";
+    br_yellow="\e[1;38;5;011m";
+    br_blue="\e[1;38;5;012m";
+    br_magenta="\e[1;38;5;013m";
+    br_cyan="\e[1;38;5;014m"
+    br_white="\e[1;38;5;015m"
+    br_purple="\e[1;38;5;099m";
 fi;
+grep_color="1;38;5;013";
+ls_color=$blue
 
         
 ### Bash settings exports
@@ -82,8 +77,8 @@ export ALTERNATE_EDITOR=""
 export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
 export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
 # Less settings
-export LESS_TERMCAP_md="$ls_clr"
-export GREP_COLOR="$grep_clr"
+export LESS_TERMCAP_md="$ls_color"
+export GREP_COLOR="$grep_color"
 
 ### Programming environments
 # C Compilers

@@ -41,13 +41,15 @@
   (package-refresh-contents))
 
 ;;; Configs
+
+(setq server-socket-dir (expand-file-name "~/.emacs.d/server"))
+
 ;;; Attempt to speed up startup by allocating RAM for the garbage collector
 (setq gc-cons-threshold (* 1024 1024 1024))
 (add-hook 'after-init-hook
           (lambda ()
             (setq gc-cons-threshold (* 2 1024 1024))))
 (let ((file-name-handler-alist nil)) (expand-file-name "~/.emacs.d/init.el"))
-
 
 (add-hook 'emacs-startup-hook
           (lambda()
@@ -59,8 +61,8 @@
 
 ;; Bootstrap use-package
 (unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 ;;; Load org configs
 (require 'org)
@@ -73,4 +75,5 @@
 ;; Byte compile configs for speed-up
 (byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
 
+;;(put 'dired-find-alternate-file 'disabled nil)
 ;;; init.el ends here

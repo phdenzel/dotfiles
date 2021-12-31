@@ -61,11 +61,11 @@ PS1+="\[${reset}\]@";      # at
 PS1+="\[${hostColor}\]\h"; # hostname
 PS1+="\[${reset}\]:";      # in
 PS1+="\[${green}\]\w";     # working directory path
-PS1+="\$(git2prompt \"\[${reset}\]#\[${orange}\]\" \"\[${purple}\]\")";
+PS1+="\$(git2prompt \"\[${reset}\]#\[${br_yellow}\]\" \"\[${purple}\]\")";
                            # with git info if any
 PS1+="\[${reset}\]\$ ";    # color reset and $-sign
 export PS1;
 # Second prompt (continuation of multiple line commands)
-PS2="\[${orange}\]→ \[${reset}\]";
+PS2="\[${br_yellow}\]→ \[${reset}\]";
 export PS2;
 

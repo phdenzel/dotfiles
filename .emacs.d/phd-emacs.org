@@ -159,8 +159,6 @@ like we want it to.
   (setq indent-line-function 'insert-tab)
   (electric-indent-mode t)
 
-  ;; Show line numbers
-  ;; (global-linum-mode)
 
   ;; Shut off that annoying bell
   (defun phd-bell ())
@@ -819,6 +817,13 @@ Now, elpy can get to work...
     :interpreter
     ("scala" . scala-mode))
 #+END_SRC
+
+#+begin_src emacs-lisp
+  (use-package haskell-mode
+    :ensure t
+    :interpreter 
+    ("ghc" . haskell-mode))
+#+end_src
 
 
 * Project management

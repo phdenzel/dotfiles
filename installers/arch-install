@@ -1,9 +1,14 @@
 # Optional
+> setfont ter-120n # or maybe ter-132n
 > localectl list-keymaps | grep [US/CH/DE]
 > loadkeys de_CH-latin1
 
+### Verify boot mode (EFI vs BIOS/CMS mode)
+ls /sys/firmware/efi/efivars   # shows output if in EFI mode
+
 ### Internet connection
-> ip a
+> ip -c a
+> ping archlinux.org
 
 # (optional; if there is no ethernet cable plugged in)
 [> iwctl]
@@ -17,15 +22,53 @@
 
 # Set up fastest mirror list
 > pacman -Syy
-> pacman -S reflector
-> reflector -c Switzerland -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+> reflector -c Switzerland -a 6 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 > pacman -Syy
 
 ### Disk partitioning/formatting
 > lsblk
 [> dd if=/dev/urandom of=/dev/sd[a] bs=10M]  # erase all partitions on drive
 
-# For UEFI boot
+### BEGIN options: A/B
+### A: For UEFI boot: gdisk variant
+> gdisk /dev/vda
+# EFI system partition
+> n
+> 1
+>
+> +1024M
+> l
+> ef00
+# create 2G swap (for less <2G RAM make it bigger)
+> n
+> 2
+> 
+> +2G
+> 8200
+# create root partition
+> n
+> 3
+> 
+> +40G
+>
+# create home partition
+> n
+> 4
+>
+>
+>
+> w
+> Y
+
+> lsblk
+> mkfs.vfat /dev/vda1 # boot part
+> mkswap /dev/vda2    # swap part
+> swapon /dev/vda2
+> mkfs.ext4 /dev/vda3 # root part
+> mkfs.ext4 /dev/vda4 # home part
+> lsblk
+
+### B: For UEFI boot: fdisk variant
 > fdisk /dev/sd[a]  # sda is an example; choose the right one here
 # on modern single-user machines no /swap and no separate /home is needed
 > g  # as GPT
@@ -41,16 +84,9 @@
 
 > mkfs.fat -F32 /dev/sda1
 > mkfs.ext4 /dev/sda2
-
-> mount /dev/sda2 /mnt
-> mkdir /mnt/boot
-> mkdir /mnt/boot/EFI
-> mount /dev/sda1 /mnt/boot/EFI
-
 > lsblk
 
-
-# For legacy boot
+### C: For legacy boot
 > fdisk /dev/sd[a]  # sda is an example; choose the right one here
 > n
 >
@@ -69,12 +105,19 @@
 > mkswap /dev/sda1
 > swapon /dev/sda1
 > mkfs.ext4 /dev/sda2
+### END options A/B/C
 
-> mount /dev/sda2 /mnt
+# mount root partition (e.g. /dev/sda3) to /mnt
+> mount /dev/sda3 /mnt
+
+> mkdir -p /mnt/{boot/efi,home}
+> mount /dev/sda1 /mnt/boot/efi
+> mount /dev/sda4 /mnt/home
 
 
 ### Base Install
-> pacstrap /mnt base linux linux-firmware intel-ucode vim
+# for AMD processors use amd-ucode
+> pacstrap /mnt base linux linux-firmware intel-ucode git vim
 > genfstab -U /mnt >> /mnt/etc/fstab
 > cat /mnt/etc/fstab
 
@@ -93,14 +136,14 @@
 ### Set timezone / language / keymap
 > ln -sf /usr/share/zoneinfo/Europe/Zurich /etc/localtime
 > hwclock --systohc
-> nano /etc/locale.gen
+> vim /etc/locale.gen
 # uncomment following line
 en_US.UTF-8 UTF-8
 > locale-gen
 # insert following line
-> nano /etc/locale.conf
+> vim /etc/locale.conf
 LANG=en_US.UTF-8
-> nano /etc/vconsole.conf
+> vim /etc/vconsole.conf
 # insert following line (not necessary on US keyboards)
 KEYMAP=de_CH-latin1
 
@@ -119,91 +162,58 @@ lycan
 > passwd
 > ******
 > ******
+### New user
+> useradd -m phdenzel
+> passwd phdenzel
+> *****
+> *****
+> usermod -aG wheel,audio,video,optical,storage,kvm phdenzel
+pacman -S sudo
+> EDITOR=vim visudo
+# uncomment following line
+%wheel ALL=(ALL) ALL
+
 
 ### Bootloader
-> pacman -S grub [efibootmgr] networkmanager network-manager-applet wireless_tools wpa_supplicant dialog mtools dosfstools base-devel linux-headers reflector git bluez bluez-utils cups alsa-utils pulseaudio pulseaudio-bluetooth xdg-utils xdg-user-dirs openssh
+# minimalistic
+> pacman -S grub efibootmgr dosfstools mtools os-prober networkmanager wpa_supplicant dialog base-devel linux-headers git xdg-utils xdg-user-dirs
+# or a bit more packages
+> pacman -S grub efibootmgr dosfstools mtools os-prober networkmanager network-manager-applet wireless_tools wpa_supplicant dialog mtools dosfstools base-devel linux-headers git bluez bluez-utils cups alsa-utils pulseaudio pulseaudio-bluetooth pavucontrol xdg-utils xdg-user-dirs openssh terminus-font
 
 # For UEFI boot
-> grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=GRUB
+> grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub_uefi --recheck
 > grub-mkconfig -o /boot/grub/grub.cfg
 
 # For legacy boot
 > grub-install --target=i386-pc /dev/sda
 > grub-mkconfig -o /boot/grub/grub.cfg
 
+### Log in to the installed machine as root
 > exit
 > umount -a
 > reboot
+### On VMs: if UEFI shell appears, do
+# fs0:
+# fs0:
+# cd EFI
+# cd grub_uefi
+# grubx64.efi
+# for permanent fix, do:
+# fs0:
+# edit startup.nsh
+# add the above lines to the file, save, and exit
 
-### Log in to the installed machine as root
+### Start essential services
 > systemctl start NetworkManager
 # (optional; if there is no ethernet cable plugged in)
 [> nmtui]
 > systemctl enable NetworkManager
 > systemctl enable bluetooth
-> systemctl enable org.cups.cupsd
-
-### New user
-> useradd -mG wheel phdenzel
-> passwd phdenzel
-> *****
-> *****
-> EDITOR=nano visudo
-# uncomment following line
-%wheel ALL=(ALL) ALL
+> systemctl enable cups
 
 ### Check internet connection
 > ip a
 > systemctl start sshd
 
-### Install Graphics drivers (choose needed)
-# Virtual machines
-> pacman -S xf86-video-qxl
-# Intel
-> pacman -S xf86-video-intel
-# AMD gpu
-> pacman -S xf86-video-amdgpu
-# NVIDIA gpu
-> pacman -S nvidia nvidia-utils
-
-### Display server / manager (choose needed)
-> pacman -S xorg
-# XMonad
-> pacman -S xorg-xinit
-# GNOME
-> pacman -S gdm
-> systemctl enable gdm
-# KDE
-> pacman -S sddm
-> systemctl enable sddm
-# LightDM
-> pacman -S lightdm
-> systemctl enable lightdm
-> nano /etc/lightdm/lightdm.conf  # Enable themes etc.
-
-
-### Desktop install
-# GNOME
-> pacman -S gnome
-# KDE
-> pacman -S plasma kde-applications packagekit-qt5
-
-> reboot
-
-# Update
-> pacman -Syyu
-
-# YAY
-> git clone https://aur.archlinux.org/yay.git
-> cd yay
-> makepkg -si PKGBUILD
-
-# Uncomment in /etc/pacman.conf
-# Color
-
 # SSD
-> sudo systemctl enable fstrim.timer
-
-# Uninstall unwanted packages
-> sudo pacman -Rsc gnome-books gnome-boxes gnome-maps gnome-documents gnome-music gnome-photos epiphany totem
-> sudo pacman -Rc malcontent
+> systemctl enable fstrim.timer

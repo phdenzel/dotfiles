@@ -32,7 +32,8 @@ sudo apt install hddtemp nvme-cli
 sudo apt install psensor
 
 # Virtualization
-sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+sudo apt install virt-manager qemu qemu-utils ovmf vde2 bridge-utils netcat-openbsd
+sudo pacman -S virt-manager qemu qemu-arch-extra ovmf vde2 ebtables dnsmasq bridge-utils openbsd-netcat
 sudo apt install virt-manager virt-viewer
 
 # Text streaming

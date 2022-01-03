@@ -4,6 +4,7 @@
 # Import additional configuration files
 import:
   - ~/.config/alacritty/alacritty-themes.yml
+  - ~/.config/alacritty/alacritty-fonts.yml
 
 # Env defaults
 env:
@@ -11,6 +12,7 @@ env:
 
 # Window settings (changes may require restart)
 window:
+  opacity: 0.95
   dimensions:
     columns: 80
     lines: 54
@@ -41,36 +43,15 @@ scrolling:
   #multiplier: 3
 
 # Font configuration
-font:
-  normal:
-    family: Fira Mono
-    style: Regular
-  bold:
-    family: Fira Mono
-    style: Bold
-  italic:
-    family: Fira Mono
-    style: Italic
-  #bold_italic:
-    #family: monospace
-    #style: Bold Italic
-  # Point size
-  size: 11.0
-  # Offset is the extra space around each character.
-  offset:
-    x: 0
-    y: 0
-  #glyph_offset:
-  #  x: 0
-  #  y: 0
-  #use_thin_strokes: true  # macOS only
+# see import: ~/.config/alacritty/alacritty-fonts.yml
+# font: *fira-mono
+
+# Color configuration
+# see import: ~/.config/alacritty/alacritty-themes.yml
+# colors: *phd-dark
 
 # Bright colors for bold text
 draw_bold_text_with_bright_colors: false
-
-# Colors (PhDdark)
-# see import: ~/.config/alacritty/alacritty-themes.yml
-# colors: *phd-dark
 
 # Visual Bell
 bell:
@@ -80,9 +61,6 @@ bell:
   command: None
   #  program: notify-send
   #  args: ["Hello, World!"]
-
-# Background opacity
-background_opacity: 0.96
 
 # Selection
 selection:

@@ -27,6 +27,27 @@ schemes:
     #  y: 0
     #use_thin_strokes: true  # macOS only
 
+  ### Fira Mono Nerd Font ###
+  fira-mono-nf: &fira-mono-nf
+    # Styles
+    normal:
+      family: FiraMono Nerd Font Mono
+      style: Regular
+    bold:
+      family: FiraMono Nerd Font Mono
+      style: Bold
+    # Point size
+    size: 10
+    # Offset is the extra space around each character.
+    offset:
+      x: 0
+      y: 0
+    #glyph_offset:
+    #  x: 0
+    #  y: 0
+    #use_thin_strokes: true  # macOS only
+
+  ### Source Code Pro ###
   source-code-pro: &source-code-pro
     # Styles
     normal:
@@ -52,6 +73,7 @@ schemes:
     #  y: 0
     #use_thin_strokes: true  # macOS only
 
+  ### Ubuntu ###
   ubuntu: &ubuntu
     # Styles
     normal:
@@ -77,6 +99,7 @@ schemes:
     #  y: 0
     #use_thin_strokes: true  # macOS only
 
+  ### Hack ###
   hack: &hack
     # Styles
     normal:
@@ -102,6 +125,7 @@ schemes:
     #  y: 0
     #use_thin_strokes: true  # macOS only
 
+  ### Inconsolata ###
   inconsolata: &inconsolata
     # Styles
     normal:
@@ -127,6 +151,7 @@ schemes:
     #  y: 0
     #use_thin_strokes: true  # macOS only
 
+  ### Exo-2 ###
   exo-2: &exo-2
     # Styles
     normal:
@@ -153,6 +178,6 @@ schemes:
     #use_thin_strokes: true  # macOS only
 
 # Themes:
-# | fira-mono | source-code-pro | ubuntu  | hack | inconsolata
+# | fira-mono | fira-mono-nf | source-code-pro | ubuntu  | hack | inconsolata
 # | exo-2
 font: *fira-mono

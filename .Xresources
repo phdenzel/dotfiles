@@ -1,0 +1,46 @@
+!--- Xorg config
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: true
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcdfilter
+
+XTerm*loginshell: true
+XTerm*renderFont: true
+XTerm*faceName: xft:Fira Mono:style=Regular:size=11, \
+                xft:Hack:style=Regular:size=10, \
+                xft:Monospace:style=Medium:size=11   
+XTerm*faceSize: 11
+XTerm*utf8: 2
+XTerm*locale: true
+
+
+!--- Color config
+*.foreground:  #dde3ee
+*.background:  #303033
+*.cursorColor:  #5f8af7
+! Black
+*.color0:  #6b6b6b
+*.color8:  #464858
+! Red
+*.color1:  #ff6d6b
+*.color9:  #d7005f
+! Green
+*.color2:  #44bc84
+*.color10:  #00af87
+! Yellow
+*.color3:  #ffd787
+*.color11:  #fdb760
+! Blue
+*.color4:  #5f8af7
+*.color12:  #5f5fff
+! Magenta
+*.color5:  #E83A82
+*.color13:  #FF0087
+! Cyan
+*.color6:  #4db5bd
+*.color14:  #46d9ff
+! White
+*.color7:  #dfdfdf
+*.color15:  #eeeeee

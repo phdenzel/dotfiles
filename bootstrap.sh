@@ -8,6 +8,7 @@
 # ./bootstrap.sh --emacs      : install the emacs config files.
 #                --emacs-sync : sync the emacs config files.
 #                --bin        : link the binary files (symlinks in ~/local/bin).
+#                --gtk        : install custom gtk theme
 BOOTSTRAP_PATH=$(dirname "$0")
 BOOTSTRAP_PATH=$(cd "$BOOTSTRAP_PATH" && pwd)
 EXCLUDES=(
@@ -24,6 +25,7 @@ EXCLUDES=(
     --exclude "LICENSE"
     --exclude "README.md"
     --exclude "phd-dark.tmTheme"
+    --exclude ".config/gtk-3.0/"
     #--exclude ".editorconfig"
 )
 
@@ -37,11 +39,13 @@ if [ "$1" == "--emacs" ]; then
 	      echo ".emacs.d already existed and has been backed up to ~/emacs.d.bak"
     fi;
 elif [ "$1" == "--emacs-sync" ]; then
-    rsync -ahv .emacs.d ~/.emacs.d
+    rsync -ahv .emacs.d/ ~/.emacs.d/
 elif [ "$1" == "--bin" ]; then
     # Link the binaries to ~/local/bin/
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
     ln -s $(pwd)/bin/* ${HOME}/local/bin/
+elif [ "$1" == "--gtk" ]; then
+    rsync -ahv .config/gtk-3.0/ ~/.config/gtk-3.0/
 elif [ "$1" == "--dry-run" ]; then
     rsync "${EXCLUDES[@]}" --dry-run -avh . ~;
     exit 1

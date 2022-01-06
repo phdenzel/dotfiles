@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# Usage: ./psf_from_ttf [font-name] [point-size] [resolution]
+# Examples:
+# ./psf_from_ttf DejaVuSansMono 2 724
+# ./psf_from_ttf FiraMono-Medium 4 406
+# 
+#
+# Requirements: [yay -S] otf2bdf bdf2psf
+
+DEFAULT_DIR=/usr/share/fonts/TTF
+DEFAULT_EXT="ttf"
+FONTNAME="${1:-DejaVuSansMono}"
+SIZE="${2:-16}"
+RESOLUTION="${3:-96}"
+FONTPATH="${DEFAULT_DIR}/${FONTNAME}.${DEFAULT_EXT}"
+
+BDF_STDEQS=/usr/share/bdf2psf/standard.equivalents
+BDF_SETS=/usr/share/bdf2psf/fontsets/Uni2.512
+BDF_N=512
+WIDTH_MOD=10
+
+# Convert to BDF
+otf2bdf -p $SIZE -r $RESOLUTION -c M -o "${FONTNAME}.bdf" $FONTPATH
+
+# Round the AVERAGE_WIDTH
+WIDTH=$(awk -v wmod=$WIDTH_MOD -F ' ' '/AVERAGE_WIDTH/ {print int(($2+wmod)/wmod)*wmod}' ${FONTNAME}.bdf)
+sed -i "s/AVERAGE_WIDTH.*/AVERAGE_WIDTH $WIDTH/" ${FONTNAME}.bdf
+
+# Convert to PSF
+bdf2psf --fb ${FONTNAME}.bdf $BDF_STDEQS $BDF_SETS $BDF_N "${FONTNAME}.psf"

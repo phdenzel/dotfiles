@@ -27,7 +27,7 @@ sudo pacman -Syyu
 # Color
  
 ### Install Graphics drivers (choose needed)
-# If in doubt just install xorg
+# If in doubt just install a bunch (sudo pacman -Ss xf86-video)
 # Virtual machines
 # sudo pacman -S xf86-video-qxl
 # Intel
@@ -46,36 +46,54 @@ cd yay
 makepkg -si PKGBUILD
 
 
-### Dotfiles
+### My own dotfiles (xmonad configs)
 cd
 git clone https://github.com/phdenzel/dotfiles.git
 cd dotfiles
-. bootstrap.sh
 ./bootstrap.sh --bin
 ./bootstrap.sh --emacs
+. bootstrap.sh
+
+./bootstrap.sh --gtk
+gsettings set org.gnome.desktop.interface gtk-theme phd-dark
+# if this doesn't work use lxappearance
+# > sudo pacman -S lxappearance
 
 
-### Display server / manager (choose needed)
-# XMonad
+### Display server setup
 sudo pacman -S xorg-server xorg-init xorg-xrandr
-sudo pacman -S xmonad xmonad-contrib dmenu
-yay -S ly  # lightweight display manager
-yay -S brave-bin
-yay -S alacritty-git
+# Window compositor
+sudo pacman -S picom
+# Image viewer for setting wallpapers
+sudo pacman -S feh
+# XMonad (install xterm if you don't want to use my xmonad config)
+sudo pacman -S xmonad xmonad-contrib dmenu #xterm
+# Display manager  (skip if you want to manually execute xstart)
+yay -S ly  # most lightweight DM I know
 sudo systemctl enable ly.service
-# # LightDM
+# or use LightDM (still lightweight, but just a bit less)
 # > sudo pacman -S lightdm
 # > sudo systemctl enable lightdm [lightdm-mini-greeter | lightdm-webkit-greeter | lightdm-webkit2-theme-tty-git]
 # > nano /etc/lightdm/lightdm.conf  # Enable themes etc.
+# Some programs needed for further setup
+yay -S brave-bin      # privacy-oriented browser
+yay -S alacritty-git  # best terminal
+# If you want a desktop environment instead use
+# > sudo pacman -S gdm gnome
+# > sudo systemctl enable gdm
 
 
 # File manager
-sudo pacman -S pcmanfm
+sudo pacman -S pcmanfm ranger
+
 
 # Disk utils
-sudo pacman -S zip unzip
-sudo pacman -S cronie rsync
+sudo pacman -S zip unzip rsync
+# Snapshot/Backup utility
 yay -S timeshift
+# Job handling
+sudo pacman -S cronie htop
+
 
 # Development tools
 yay -S alacritty-git
@@ -83,15 +101,34 @@ yay -S alacritty-git
 # run alacritty with `LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
 # and replace Exec in `/usr/share/applications/Alacritty.desktop`
 # `Exec=env LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
+# My favorite editor (vim usually already installed during grub-install)
 sudo pacman -S emacs
-# sudo pacman -Syu code
+# sudo pacman -Syu code  # VSCode
+# LaTeX
 sudo pacman -S texlive-most texlive-lang
+# Python (should already be installed, but pip seems not to be)
+sudo pacman -S python-pip python-pipenv
+
 
 # Web packages
-sudo pacman -S git wget curl lynx
+sudo pacman -S git wget curl
+yay -S brave-bin     # privacy-oriented browser
+sudo pacman -S lynx  # blazingly fast, text-based browser
 
-# Virtualization
-sudo pacman -S virt-manager qemu qmu-arch-extra edk2-ovmf vde2 bridge-utils
+
+# Password manager
+sudo pacman -S pass pass-otp
+# pass-import (for Enpass import)
+yay -S pass-import
+# or if you don't trust AUR
+cd forks
+git clone https://github.com/phdenzel/pass-import.git
+cd pass-import
+python3 setup.py install
+
+
+# Virtualization (see arch_vm.sh for VM init)
+sudo pacman -S virt-manager qemu qemu-arch-extra edk2-ovmf vde2 bridge-utils
 # sudo pacman -S ebtables dnsmasq openbsd-netcat
 sudo systemctl enable libvirtd.service
 sudo systemctl start libvirtd.service
@@ -102,6 +139,7 @@ sudo systemctl start libvirtd.service
 
 # Fonts
 sudo pacman -S \
+     ttf-dejavu \
      ttf-fira-mono ttf-fira-sans \
      ttf-roboto ttf-roboto-mono \
      adobe-source-code-pro-fonts adobe-source-sans-fonts \
@@ -110,14 +148,30 @@ sudo pacman -S \
      ttf-ubuntu-font-family \
      ttf-font-awesome
 yay -S \
+    otf-nerd-fonts-fira-mono \
     ttf-exo-2 \
-    ttf-all-the-icons
+    ttf-all-the-icons \
+    ttf-weather-icons
+# for more fonts go to https://www.nerdfonts.com/font-downloads
+# Make your own psf fonts
+# > yay -S otf2bdf bdf2psf
+# > ~/local/bin/psf_from_ttf DejaVuSansMono 16 96
+# > mkdir -p ~/local/fonts
+# > mv DejaVuSansMono.psf ~/.fonts
+# Set tty font
+echo "LANG=DejaVuSansMono.psf" | sudo tee /etc/vconsole.conf
+cp .fonts/*.psf /usr/share/kbd/consolefonts/
+fc-cache -v -f
+sudo sed -i 's/keyboard/consolefont keyboard/' /etc/mkinitcpio.conf
+# Add consolefont to the /etc/mkinitcpio.conf HOOKS
+sudo mkinitcpio -p linux
+
 
 # Media packages
 yay -S dropbox
 dropbox start -i
 yay -S enpass-bin brave-bin mailspring
-sudo pacman -S feh zathura
-sudo pacman -Syu calibre celluloid
+sudo pacman -S zathura
+sudo pacman -S calibre celluloid
 curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -
 yay -S spotify zenity ffmpeg-compat-57

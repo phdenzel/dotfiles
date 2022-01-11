@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 ### Download latest archlinux iso
 arch_mirror="pkg.adfinis.com"
 # Other mirrors just in case
@@ -10,11 +9,15 @@ arch_mirror="pkg.adfinis.com"
 # "mirror.rackspace.com"
 latest_dir="archlinux/iso/latest"
 
-wget -c "${arch_mirror}/${latest_dir}/md5sums.txt"
-sed -i '/archlinux-bootstrap/d' md5sums.txt
-read md5sum arch_iso <<< $(cat md5sums.txt)
-wget -c "${arch_mirror}/${latest_dir}/${arch_iso}"
-md5sum -c md5sums.txt
+if [ $# -eq 0 ]; then
+    wget -c "${arch_mirror}/${latest_dir}/md5sums.txt"
+    sed -i '/archlinux-bootstrap/d' md5sums.txt
+    read md5sum arch_iso <<< $(cat md5sums.txt)
+    wget -c "${arch_mirror}/${latest_dir}/${arch_iso}"
+    md5sum -c md5sums.txt
+else
+    arch_iso = "$1"
+fi;
 
 ### Start installation
 qemu-img create -f qcow2 /var/lib/libvirt/images/arch.qcow2 64G

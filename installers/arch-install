@@ -4,7 +4,7 @@
 > loadkeys de_CH-latin1
 
 ### Verify boot mode (EFI vs BIOS/CMS mode)
-ls /sys/firmware/efi/efivars   # shows output if in EFI mode
+> ls /sys/firmware/efi/efivars   # shows output if in EFI mode
 
 ### Internet connection
 > ip -c a
@@ -176,13 +176,16 @@ pacman -S sudo
 
 ### Bootloader
 # minimalistic
-> pacman -S grub efibootmgr dosfstools mtools os-prober networkmanager wpa_supplicant dialog base-devel linux-headers git xdg-utils xdg-user-dirs
-# or a bit more packages
+> pacman -S grub efibootmgr dosfstools mtools os-prober networkmanager wpa_supplicant dialog base-devel linux-headers git xdg-utils alsa-utils
+# or a bit more packages (if you want to detect other installations use os-prober, otherwise leave it out)
 > pacman -S grub efibootmgr dosfstools mtools os-prober networkmanager network-manager-applet wireless_tools wpa_supplicant dialog mtools dosfstools base-devel linux-headers git bluez bluez-utils cups alsa-utils pulseaudio pulseaudio-bluetooth pavucontrol xdg-utils xdg-user-dirs openssh terminus-font
 
 # For UEFI boot
 > grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub_uefi --recheck
 > grub-mkconfig -o /boot/grub/grub.cfg
+# GRUB_DISABLE_OS_PROBER is default, so go to /etc/defaults/grub.cfg, uncomment it and regen cfg
+# > sed -i 's/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/g' /etc/defaults/grub.cfg
+# > grub-mkconfig -o /boot/grub/grub.cfg
 
 # For legacy boot
 > grub-install --target=i386-pc /dev/sda
@@ -205,7 +208,9 @@ pacman -S sudo
 
 ### Start essential services
 > systemctl start NetworkManager
-# (optional; if there is no ethernet cable plugged in)
+# (optional; if there is no ethernet cable plugged in, otherwise
+#  edit /etc/wpa_supplicant/wpa_supplicant.conf, and remember to
+#  use wpa_passphrase to encrypt your password)
 [> nmtui]
 > systemctl enable NetworkManager
 > systemctl enable bluetooth

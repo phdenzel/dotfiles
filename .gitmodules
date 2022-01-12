@@ -1,0 +1,3 @@
+[submodule ".config/xmobar/xmobarconf"]
+	path = .config/xmobar/xmobarconf
+	url = git@github.com:phdenzel/xmobarconf.git

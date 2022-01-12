@@ -46,9 +46,15 @@ cd yay
 makepkg -si PKGBUILD
 
 
+# Generate an SSH key (and copy the public key to all trusted hosts)
+sudo pacman -S openssh
+ssh-keygen -t ed25519 -C "phdenzel@gmail.com"
+
+
 ### My own dotfiles (xmonad configs)
 cd
-git clone https://github.com/phdenzel/dotfiles.git
+# git clone https://github.com/phdenzel/dotfiles.git
+git clone git@github.com:phdenzel/dotfiles.git
 cd dotfiles
 ./bootstrap.sh --bin
 ./bootstrap.sh --emacs
@@ -78,6 +84,11 @@ sudo systemctl enable ly.service
 # Some programs needed for further setup
 yay -S brave-bin      # privacy-oriented browser
 yay -S alacritty-git  # best terminal
+# git clone git@github.com:phdenzel/xmobarconf.git ~/.config/xmobar/xmobarconf
+# git clone git@github.com:phdenzel/xmobar_wttr.git
+sudo pacman -S python-pip python-pipenv  # Python (should already be installed, but pip seems not to be)
+pip install xmobar-wttr
+
 # If you want a desktop environment instead use
 # > sudo pacman -S gdm gnome
 # > sudo systemctl enable gdm
@@ -106,9 +117,8 @@ sudo pacman -S emacs
 # sudo pacman -Syu code  # VSCode
 # LaTeX
 sudo pacman -S texlive-most texlive-lang
-# Python (should already be installed, but pip seems not to be)
-sudo pacman -S python-pip python-pipenv
-
+# Haskell
+sudo pacman -S ghc-static
 
 # Web packages
 sudo pacman -S git wget curl
@@ -122,7 +132,8 @@ sudo pacman -S pass pass-otp
 yay -S pass-import
 # or if you don't trust AUR
 cd forks
-git clone https://github.com/phdenzel/pass-import.git
+# git clone https://github.com/phdenzel/pass-import.git
+git clone git@github.com:phdenzel/pass-import.git
 cd pass-import
 python3 setup.py install
 
@@ -154,6 +165,7 @@ yay -S \
     ttf-weather-icons
 # for more fonts go to https://www.nerdfonts.com/font-downloads
 # Make your own psf fonts
+
 # > yay -S otf2bdf bdf2psf
 # > ~/local/bin/psf_from_ttf DejaVuSansMono 16 96
 # > mkdir -p ~/local/fonts

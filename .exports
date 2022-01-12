@@ -90,7 +90,7 @@ export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
 export LESS_TERMCAP_mb="$blue$bold"
 export LESS_TERMCAP_md="$blue$bold"
 export LESS_TERMCAP_me="$reset"
-export LESS_TERMCAP_so="$white"
+export LESS_TERMCAP_so="$magenta"
 export LESS_TERMCAP_se="$reset"
 export LESS_TERMCAP_us="$br_yellow$underline"
 export LESS_TERMCAP_ue="$reset"

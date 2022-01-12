@@ -1,5 +1,5 @@
 Defaults:
   location: ''
-  xmobar_format: '%gx %t(%f)<1:\200A>.u %G<1:\200A>h %gW<1:\200A>%G<1:\200A>w<1:\200A>.u %G<1:\200A>P<1:\200A>.u'
+  xmobar_format: '%gx %t(%f)<1: >.u %G<1: >h %gW<1: >%G<1: >w<1: >.u %G<1: >P<1: >.u'
   icon_map_hooks:
     '*': '<6:{}>'

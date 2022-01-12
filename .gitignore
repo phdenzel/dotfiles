@@ -16,8 +16,12 @@ Desktop.ini
 # Compiled Python files
 *.pyc
 *__pycache__
+*.egg-info
   # pickle file extension
 *.pkl
+
+# Haskell interface files
+*.hi
 
 # C/C++ object files
 *.o

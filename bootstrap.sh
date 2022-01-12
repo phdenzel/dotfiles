@@ -13,6 +13,7 @@ BOOTSTRAP_PATH=$(dirname "$0")
 BOOTSTRAP_PATH=$(cd "$BOOTSTRAP_PATH" && pwd)
 EXCLUDES=(
     --exclude ".git/"
+    --exclude ".gitmodules"
     --exclude ".macOS"
     --exclude "bootstrap.sh"
     --exclude "bin/"
@@ -26,6 +27,7 @@ EXCLUDES=(
     --exclude "README.md"
     --exclude "phd-dark.tmTheme"
     --exclude ".config/gtk-3.0/"
+    --exclude ".config/xmobar/xmobarconf/.git"
     #--exclude ".editorconfig"
 )
 

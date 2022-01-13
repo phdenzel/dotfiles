@@ -4,7 +4,7 @@
 # `ls` command
 LS="ls"
 LSCOLORFLAG="--color"
-eval `dircolors -b ${XDG_CONFIG_HOME}/dircolors`
+eval `dircolors -b ${XDG_CONFIG_HOME}/dircolors/dircolors`
 # always use color
 alias ls="$LS $LSCOLORFLAG"
 alias sl="ls"  # stupid typos!!!

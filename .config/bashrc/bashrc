@@ -1,15 +1,4 @@
 ####################################################### bashrc
-# Diagnostics
-# if command -v brew &> /dev/null; then
-#     PS4='+ $(gdate "+%s.%N")\011 '
-#     exec 3>&2 2>/tmp/bashstart.$$.log
-#     set -x
-# else
-#     PS4='+ $(date "+%s.%N")\011 '
-#     exec 3>&2 2>/tmp/bashstart.$$.log
-#     set -x
-# fi
-#######################################################
 # Determine OS
 if `uname -a | grep -q "Microsoft"`; then
     export OS=Microsoft
@@ -122,8 +111,4 @@ unset _hostinfo;
 unset _mounted;
 unset _meminfo;
 unset _upinfo;
-#######################################################
-# Turn of diagnostics
-# set +x
-# exec 2>&3 3>&-
 ####################################################### END bash profile

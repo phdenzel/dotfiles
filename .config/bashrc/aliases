@@ -4,7 +4,7 @@
 # `ls` command
 LS="ls"
 LSCOLORFLAG="--color"
-eval `dircolors -b ~/.dircolors`
+eval `dircolors -b ${XDG_CONFIG_HOME}/dircolors`
 # always use color
 alias ls="$LS $LSCOLORFLAG"
 alias sl="ls"  # stupid typos!!!
@@ -38,11 +38,10 @@ alias sudo='sudo ' # sudoing for aliases
 alias emacsw='/usr/bin/emacs'
 alias emacs='emacs -nw'
 alias e='emacsclient -t --alternate-editor=""'
-# see .functions for alias ew
-alias ew='ew'
-alias semacs='sudo /usr/bin/emacs'
+alias ew='ew'  # see local/bin for 'ew' emacs lauch script
+alias semacs='sudo /usr/bin/emacs --nw'
 ### Servers
-source ~/.USERINFO
+source ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO
 SSHFLAG="-2Y"
 SSHREDIRECT="-2Yt"
 alias uzhvpn="networksetup -connectpppoeservice 'VPN UZH'"

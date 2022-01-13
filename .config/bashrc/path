@@ -2,6 +2,7 @@
 ####################################################### Bash path
 # LOCAL BINARIES
 export PATH="$HOME/local/bin:${PATH}"
+export PATH="${PATH}:$HOME/.local/bin"
 
 # PYTHON
 export PYTHONPATH="${PYTHONPATH}:$HOME/Documents/pylib"
@@ -13,12 +14,13 @@ export PYTHONPATH="${PYTHONPATH}:$HOME/Documents/pylib"
 # fi;
 
 # PIP
-export PATH="${PATH}:$HOME/.local/bin"
-# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.6/site-packages"
+# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.9/site-packages"
+# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.8/site-packages"
 # export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.7/site-packages"
+# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.6/site-packages"
 # export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages"
 
-# golang
+# Golang
 export GOPATH=$HOME/local/go
 export PATH="${PATH}:$GOPATH/bin"
 

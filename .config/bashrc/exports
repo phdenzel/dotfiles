@@ -60,8 +60,9 @@ fi;
 
         
 ### General export settings
-# Don't put duplicates or lines starting with space in the history
-export HISTCONTROL='ignoreboth'
+# General environment variables
+# no duplicates or lines starting with space in the history
+export HISTCONTROL='ignoreboth'  
 # Increase Bash history size to 16³ entries
 export HISTSIZE=4096
 export HISTFILESIZE=$HISTSIZE
@@ -70,21 +71,32 @@ export HISTFILESIZE=$HISTSIZE
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 
+# XDG
+export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
+
 # Programs
 export TERMINAL="alacritty"
-export EMACS='emacs'
-export EMACSCLIENT='emacsclient'
-export EMACS_SERVER_FILE="$HOME/.emacs.d/server/server"
-export EMACS_SOCKET_NAME="$HOME/.emacs.d/server/server"
+export EMACS="emacs"
+export EMACSCLIENT="emacsclient"
+export EMACS_SERVER_FILE="${XDG_CONFIG_HOME}/emacs/server/server"
+export EMACS_SOCKET_NAME="${XDG_CONFIG_HOME}/emacs/server/server"
 export ALTERNATE_EDITOR=""
 export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
 export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
 export BROWSER="brave"
 
-# XDG
-export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
-export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
-export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
+# XMonad
+export XMONAD_CONFIG_DIR="${XDG_CONFIG_HOME}/xmonad"
+#export XMONAD_DATA_DIR="${XDG_CONFIG_HOME}/xmonad"
+#export XMONAD_CACHE_DIR="${XDG_CONFIG_HOME}/xmonad"
+
+# Shell command configs
+export INPUTRC="${XDG_CONFIG_HOME}/gnu/inputrc"
+export SCREENRC="${XDG_CONFIG_HOME}/gnu/screenrc"
+export WGETRC="${XDG_CONFIG_HOME}/gnu/wgetrc"
+export CURL_HOME="${XDG_CONFIG_HOME}/curl"
 
 # Less settings
 export LESS_TERMCAP_mb="$blue$bold"

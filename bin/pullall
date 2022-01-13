@@ -1,14 +1,14 @@
 #!/bin/bash
 # Usage: pullall [--help]
 #
-# All files in ~/.pulls are pulled from their git repo
+# All files in $XDG_CONFIG_HOME/bashrc/pulls are pulled from their git repo
 
 while [ $# -ge 1 ]; do
     case "$1" in
         -h|--help)
             echo "Usage: pullall [--help]"
             echo ""
-            echo "All files in ~/.pulls are pulled from their git repos"
+            echo "All files in $XDG_CONFIG_HOME/bashrc/pulls are pulled from their git repos"
             exit 1
             ;;
         *)
@@ -27,4 +27,4 @@ while read rep; do
         cd $reppath && git pull --all
         echo ""
     fi
-done < ~/.pulls
+done < ${XDG_CONFIG_HOME:="$HOME/.config"}/pulls

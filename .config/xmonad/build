@@ -1,0 +1,12 @@
+#!/bin/bash
+
+exec stack --stack-yaml $HOME/local/xmonad/stack.yaml \
+     ghc -- \
+     --make xmonad.hs \
+     -i \
+     -ilib \
+     -dynamic \
+     -fforce-recomp \
+     -main-is main \
+     -v0 \
+     -o "$1"

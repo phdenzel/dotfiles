@@ -166,8 +166,8 @@ like we want it to.
   (setq visible-bell nil)
 
   ;; Backups
-  ;; - collect them in .emacs.d/backups
-  (defvar phd-backup-directory "~/.emacs.d/backups")
+  ;; - collect them in .config/emacs/backups
+  (defvar phd-backup-directory "~/.config/emacs/backups")
   ;; - and if it doesn't exist, make it
   (if (not (file-exists-p phd-backup-directory))
       (make-directory phd-backup-directory t))
@@ -654,42 +654,42 @@ Settings to improve editing speed...
      ("<C-M-down>" . drag-stuff-down)))
 
   ;; Multiple cursors
-  (use-package multiple-cursors
-    :ensure t
-    :bind
-    (("M-SPC" . set-rectangular-region-anchor)Z
-     ("C-c ," . mc/edit-lines)
-     ("C->" . mc/mark-next-like-this)
-     ("C-<" . mc/mark-previous-like-this)
-     ("C-c C-<"  . mc/mark-all-like-this)
-     ("<C-M-mouse-1>" . mc/add-cursor-on-click)
-     ("M-m"   . hydra-mc/body)
-     ("C-x m" . hydra-mc/body))
-    :config
-    (defhydra hydra-mc (:hint nil)
-      "
-      ^Up^            ^Down^        ^Miscellaneous^
-      -----------------------------------------------------------
-      [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
-      [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
-      [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit
-      "
-      ("l"   mc/edit-lines :exit t)
-      ("a"   mc/mark-all-like-this-dwim :exit t)
-      ("n"   mc/mark-next-like-this)
-      ("N"   mc/skip-to-next-like-this)
-      ("M-n" mc/unmark-next-like-this)
-      ("p"   mc/mark-previous-like-this)
-      ("P"   mc/skip-to-previous-like-this)
-      ("M-p" mc/unmark-previous-like-this)
-      ("g" mc/mark-all-in-region-regexp :exit t)
-      ("r"   mc/mark-sgml-tag-pairexit t)
-      ("x"   mc/mark-more-like-this-extended)
-      ("q"   nil)
-      ("<mouse-1>" mc/add-cursor-on-click)
-      ("<down-mouse-1>" ignore)
-      ("<drag-mouse-1>" ignore))
-    )
+  ;; (use-package multiple-cursors
+  ;;   :ensure t
+  ;;   :bind
+  ;;   (("M-SPC" . set-rectangular-region-anchor)Z
+  ;;    ("C-c ," . mc/edit-lines)
+  ;;    ("C->" . mc/mark-next-like-this)
+  ;;    ("C-<" . mc/mark-previous-like-this)
+  ;;    ("C-c C-<"  . mc/mark-all-like-this)
+  ;;    ("<C-M-mouse-1>" . mc/add-cursor-on-click)
+  ;;    ("M-m"   . hydra-mc/body)
+  ;;    ("C-x m" . hydra-mc/body))
+  ;;   :config
+  ;;   (defhydra hydra-mc (:hint nil)
+  ;;     "
+  ;;     ^Up^            ^Down^        ^Miscellaneous^
+  ;;     -----------------------------------------------------------
+  ;;     [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
+  ;;     [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
+  ;;     [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit
+  ;;     "
+  ;;     ("l"   mc/edit-lines :exit t)
+  ;;     ("a"   mc/mark-all-like-this-dwim :exit t)
+  ;;     ("n"   mc/mark-next-like-this)
+  ;;     ("N"   mc/skip-to-next-like-this)
+  ;;     ("M-n" mc/unmark-next-like-this)
+  ;;     ("p"   mc/mark-previous-like-this)
+  ;;     ("P"   mc/skip-to-previous-like-this)
+  ;;     ("M-p" mc/unmark-previous-like-this)
+  ;;     ("g" mc/mark-all-in-region-regexp :exit t)
+  ;;     ("r"   mc/mark-sgml-tag-pairexit t)
+  ;;     ("x"   mc/mark-more-like-this-extended)
+  ;;     ("q"   nil)
+  ;;     ("<mouse-1>" mc/add-cursor-on-click)
+  ;;     ("<down-mouse-1>" ignore)
+  ;;     ("<drag-mouse-1>" ignore))
+  ;;   )
 
 #+END_SRC
 

@@ -12,7 +12,6 @@
 BOOTSTRAP_PATH=$(dirname "$0")
 BOOTSTRAP_PATH=$(cd "$BOOTSTRAP_PATH" && pwd)
 CONF_HOME=${XDG_CONFIG_HOME:=$HOME/.config}
-echo "$BOOTSTRAP_PATH"
 EXCLUDES=(
     --exclude ".git/"
     --exclude ".gitmodules"
@@ -33,31 +32,41 @@ EXCLUDES=(
 )
 
 if [ "$1" == "--emacs" ]; then
-    # Copy .emacs.d to its rightful place                                 
+    # Copy .emacs.d to its rightful place
+    echo "Installing emacs configs in $CONF_HOME/emacs"    
     if [ ! -d "$CONF_HOME/emacs" ]; then
 	      cp -r .config/emacs $CONF_HOME/emacs
     else
         mv $CONF_HOME/emacs $CONF_HOME/emacs.bak
 	      cp -r .config/emacs $CONF_HOME/
-	      echo ".config/emacs directory already existed and has been backed up to .config/emacs.bak"
+	      echo "$CONF_HOME/emacs directory already existed and has been backed up to $CONF_HOME/emacs.bak"
     fi;
 elif [ "$1" == "--emacs-sync" ]; then
     rsync -ahv .config/emacs/ $CONF_HOME/emacs/
 elif [ "$1" == "--bin" ]; then
     # Link the binaries to ~/local/bin/
+    echo "Installing ~/local/bin/ symlink binaries"
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
     ln -s $BOOTSTRAP_PATH/bin/* ${HOME}/local/bin/
 elif [ "$1" == "--gtk" ]; then
+    echo "Installing gtk theme: phd-dark"
     rsync -ahv .config/gtk-3.0/ $CONF_HOME/gtk-3.0/
 elif [ "$1" == "--dry-run" ]; then
+    echo "Installation dry-run"
     rsync "${EXCLUDES[@]}" --dry-run -avh . ~;
-    exit 1
+    exit 0
 else
+    echo "Installing dotfiles to $HOME and $CONF_HOME"
     rsync "${EXCLUDES[@]}" -avh . ~;
     git submodule update
     if [ ! -d $CONF_HOME/xmobar/xmobarconf ]; then
         ln -s $BOOTSTRAP_PATH/.config/xmobar/xmobarconf $CONF_HOME/xmobar/xmobarconf
     fi;
+    while true; do
+	read -p "Source the new .bashrc file? [y/N] " answ
+	case $answ in
+		[Yy]* ) source $HOME/.bashrc; break;;
+		* ) break;;
+	esac;
+    done;
 fi;
-
-source ~/.bashrc

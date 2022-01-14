@@ -85,12 +85,16 @@ export EMACS_SOCKET_NAME="${XDG_CONFIG_HOME}/emacs/server/server"
 export ALTERNATE_EDITOR=""
 export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
 export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
+export PAGER="less"
 export BROWSER="brave"
+
+# GTK
+export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc-2.0"
 
 # XMonad
 export XMONAD_CONFIG_DIR="${XDG_CONFIG_HOME}/xmonad"
-#export XMONAD_DATA_DIR="${XDG_CONFIG_HOME}/xmonad"
-#export XMONAD_CACHE_DIR="${XDG_CONFIG_HOME}/xmonad"
+export XMONAD_DATA_DIR="${XDG_CONFIG_HOME}/xmonad"
+export XMONAD_CACHE_DIR="${XDG_CONFIG_HOME}/xmonad"
 
 # Shell command configs
 export INPUTRC="${XDG_CONFIG_HOME}/gnu/inputrc"

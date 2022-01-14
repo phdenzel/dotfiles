@@ -60,7 +60,7 @@ else
     rsync "${EXCLUDES[@]}" -avh . ~;
     git submodule update
     if [ ! -d $CONF_HOME/xmobar/xmobarconf ]; then
-        ln -s $BOOTSTRAP_PATH/.config/xmobar/xmobarconf $CONF_HOME/xmobar/xmobarconf
+        ln -s $(pwd)/.config/xmobar/xmobarconf $CONF_HOME/xmobar/
     fi;
     while true; do
 	read -p "Source the new .bashrc file? [y/N] " answ

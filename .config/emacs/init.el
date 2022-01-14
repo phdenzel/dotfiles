@@ -33,23 +33,23 @@
 (package-initialize)
 
 ;; Refresh archives if not in cache
-(unless (and (file-exists-p "~/.emacs.d/elpa/archives/gnu")
-             (file-exists-p "~/.emacs.d/elpa/archives/melpa")
-             (file-exists-p "~/.emacs.d/elpa/archives/melpa-stable")
-             ;; (file-exists-p "~/.emacs.d/elpa/archives/marmalade")
+(unless (and (file-exists-p "~/.config/emacs/elpa/archives/gnu")
+             (file-exists-p "~/.config/emacs/elpa/archives/melpa")
+             (file-exists-p "~/.config/emacs/elpa/archives/melpa-stable")
+             ;; (file-exists-p "~/.config/emacs/elpa/archives/marmalade")
              )
   (package-refresh-contents))
 
 ;;; Configs
 
-(setq server-socket-dir (expand-file-name "~/.emacs.d/server"))
+(setq server-socket-dir (expand-file-name "~/.config/emacs/server"))
 
 ;;; Attempt to speed up startup by allocating RAM for the garbage collector
 (setq gc-cons-threshold (* 1024 1024 1024))
 (add-hook 'after-init-hook
           (lambda ()
             (setq gc-cons-threshold (* 2 1024 1024))))
-(let ((file-name-handler-alist nil)) (expand-file-name "~/.emacs.d/init.el"))
+(let ((file-name-handler-alist nil)) (expand-file-name "~/.config/emacs/init.el"))
 
 (add-hook 'emacs-startup-hook
           (lambda()
@@ -66,14 +66,14 @@
 
 ;;; Load org configs
 (require 'org)
-(org-babel-load-file (expand-file-name "~/.emacs.d/phd-emacs.org"))
+(org-babel-load-file (expand-file-name "~/.config/emacs/phd-emacs.org"))
 
 ;; Custom stuff in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file :noerror)
 
 ;; Byte compile configs for speed-up
-(byte-recompile-directory (expand-file-name "~/.emacs.d") 0)
+(byte-recompile-directory (expand-file-name "~/.config/emacs") 0)
 
 ;;(put 'dired-find-alternate-file 'disabled nil)
 ;;; init.el ends here

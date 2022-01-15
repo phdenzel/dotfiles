@@ -7,7 +7,7 @@ for pid in $pids; do
     kill -9 "$pid"
 done;
 
-if [ ! -z "$(ls -A $HOME/.emacs.d/server/)" ]; then
-    echo "Removing $(ls -A $HOME/.emacs.d/server/*)"
-    rm $HOME/.emacs.d/server/*
+if [ ! -z "$(ls -A $XDG_CONFIG_HOME/emacs/server/)" ]; then
+    echo "Removing $(ls -A $XDG_CONFIG_HOME/emacs/server/*)"
+    rm $XDG_CONFIG_HOME/emacs/server/*
 fi;

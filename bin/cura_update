@@ -1,0 +1,60 @@
+#!/bin/bash
+
+mkdir -p $HOME/local/cura
+URL="https://software.ultimaker.com/cura/Ultimaker_Cura-%s.AppImage"
+
+if /bin/ls $HOME/local/cura/Ultimaker_Cura-*.AppImage 1>/dev/null 2>&1; then
+    CURA_LATEST_FILE=$(/bin/ls $HOME/local/cura/Ultimaker_Cura-*.AppImage | sort -nr | head -1)
+else
+    CURA_LATEST_FILE="$HOME/local/cura/Ultimaker_Cura-4.12.0.AppImage"
+fi
+CURA_LATEST_VERSION_FIELDS=($(echo "${CURA_LATEST_FILE}" | awk -F'[._-]' '{print $3, $4, $5}'))
+CURA_LATEST_VERSION=$(printf "%s.%s.%s" ${CURA_LATEST_VERSION_FIELDS[@]})
+
+# check for newer versions
+VERSION_FIELDS=( 0 0 0 )
+for i in {0..2}; do
+    CURA_VF=${CURA_LATEST_VERSION_FIELDS[$i]}
+    VERSION_FIELDS[$i]=$(($CURA_VF + 1))
+    # echo ${VERSION_FIELDS[@]}
+    VERSION=$(printf "%s.%s.%s" "${VERSION_FIELDS[@]}")
+    VERSION_URL=$(printf "${URL}" "${VERSION}")
+    VERSION_FIELDS[$i]=$CURA_VF
+    # download version if newer
+    HTTP_RESP=$(curl -s -I -i $VERSION_URL 2>&1 | head -1 | awk '/HTTP/{print $2}')
+    if (( $HTTP_RESP >= 200 && $HTTP_RESP <= 299 )); then
+        printf "New version found %s > %s\n" $VERSION $CURA_LATEST_VERSION
+        VERSION_FILE=$(printf "$HOME/local/cura/Ultimaker_Cura-%s.AppImage" $VERSION)
+        curl $VERSION_URL --output $VERSION_FILE
+        CURA_LATEST_FILE=$VERSION_FILE
+        CURA_LATEST_VERSION=$VERSION
+        break
+    fi
+done;
+
+
+ICON_FILE="$HOME/local/cura/cura-128.png"
+if [ ! -f "${ICON_FILE}" ]; then
+    echo "Downloading icon..."
+    curl "https://raw.githubusercontent.com/Ultimaker/Cura/master/icons/cura-128.png" --output $ICON_FILE
+fi
+
+
+echo "Newest version:" $CURA_LATEST_VERSION
+echo $CURA_LATEST_FILE
+
+DESKTOP_FILE="${HOME}/.local/share/applications/ultimaker-cura.desktop"
+echo "Generate Desktop entry:"
+echo $DESKTOP_FILE
+echo "[Desktop Entry]
+Name=Ultimaker Cura
+Version=$CURA_LATEST_VERSION
+Type=Application
+GenericName=Slicer Program
+Comment=Slicing Software for 3D printers
+Exec=$CURA_LATEST_FILE
+Icon=$ICON_FILE
+Terminal=false
+Categories=Utility;" > $DESKTOP_FILE
+
+ln -s -f $CURA_LATEST_FILE $HOME/local/bin/cura

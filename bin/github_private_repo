@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.USERINFO
+source $XDG_CONFIG_HOME/USERINFO
 PERSON="$GITHUBUSER"
 GITHUB="git@github.com"
 

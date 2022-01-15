@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VLC="/Applications/VLC.app/Contents/MacOS/VLC -I dummy"
+VLC="vlc -I dummy"
 VLCQ=vlc://quit
 INPUT="$1"
 ACODEC="mpga" # codec

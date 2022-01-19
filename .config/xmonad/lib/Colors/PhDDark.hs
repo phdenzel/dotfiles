@@ -1,10 +1,14 @@
 module Colors.PhDDark where
 
+colorScheme :: String
 colorScheme = "phd-dark"
 
+colorBack, colorFore :: String
 colorBack = "#303033"
 colorFore = "#dde3ee"
 
+color00, color01, color02, color03, color04, color05, color06, color07 :: String
+color08, color09, color10, color11, color12, color13, color14, color15 :: String
 -- Black
 color00 = "#6b6b6b"
 color08 = "#464858"
@@ -31,4 +35,4 @@ color07 = "#dfdfdf"
 color15 = "#eeeeee"
 
 colorTrayer :: String
-colorTrayer = "--tint 0x303033"
+colorTrayer = "--tint 0x303033 "

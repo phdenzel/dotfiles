@@ -15,6 +15,14 @@ XTerm*faceSize: 11
 XTerm*utf8: 2
 XTerm*locale: true
 
+Xmessage*font: -misc-roboto\ mono-medium-r-normal--0-164-0-0-m-0-*-*
+Xmessage*geometry: +40+40
+Xmessage.form.message.Scroll: WhenNeeded
+Xmessage*Buttons: Quit
+Xmessage*defaultButton: Quit
+
+xscreensaver.fadeSeconds: 2
+
 
 !--- Color config
 *.foreground:  #dde3ee

@@ -47,7 +47,7 @@ elif [ "$1" == "--bin" ]; then
     # Link the binaries to ~/local/bin/
     echo "Installing ~/local/bin/ symlink binaries"
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
-    ln -s $BOOTSTRAP_PATH/bin/* ${HOME}/local/bin/
+    ln -s -f $BOOTSTRAP_PATH/bin/* ${HOME}/local/bin/
 elif [ "$1" == "--gtk" ]; then
     echo "Installing gtk theme: phd-dark"
     rsync -ahv .config/gtk-3.0/ $CONF_HOME/gtk-3.0/

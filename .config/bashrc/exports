@@ -69,7 +69,7 @@ export HISTFILESIZE=$HISTSIZE
 
 # Language settings
 export LANG='en_US.UTF-8'
-export LC_ALL=C
+export LC_ALL='en_US.UTF-8'
 
 # XDG
 export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}

@@ -17,6 +17,8 @@ XTerm*locale: true
 
 Xmessage*font: -misc-roboto\ mono-medium-r-normal--0-164-0-0-m-0-*-*
 Xmessage*geometry: +40+40
+Xmessage*Scrollbar.width:       1
+Xmessage*Scrollbar.borderWidth: 0
 Xmessage.form.message.Scroll: WhenNeeded
 Xmessage*Buttons: Quit
 Xmessage*defaultButton: Quit

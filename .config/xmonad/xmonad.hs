@@ -23,9 +23,13 @@ import XMonad.Hooks.StatusBar.PP (wrap, shorten, xmobarColor, xmobarBorder,
 import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 import XMonad.Hooks.SetWMName
 -- Layout
---import XMonad.Layout.Fullscreen (fullscreenEventHook, fullscreenManageHook)
-import XMonad.Layout.ResizableTile (MirrorResize(MirrorShrink, MirrorExpand))
-import qualified XMonad.Layout.ToggleLayouts as T
+import XMonad.Layout.Renamed (renamed, Rename(Replace))
+import XMonad.Layout.ResizableTile (ResizableTall(..), MirrorResize(MirrorShrink, MirrorExpand))
+import XMonad.Layout.GridVariants (Grid(Grid))
+import XMonad.Layout.ResizableThreeColumns (ResizableThreeCol(ResizableThreeColMid))
+import XMonad.Layout.NoBorders (noBorders, smartBorders, withBorder)
+import XMonad.Layout.Spacing (spacingRaw, Spacing(..), Border(..))
+import XMonad.Layout.LayoutModifier (ModifiedLayout(..))
 import XMonad.Layout.ShowWName
 -- Actions
 import XMonad.Actions.CycleWS (moveTo, shiftTo, nextScreen, prevScreen,
@@ -81,7 +85,7 @@ main :: IO ()
 main = do
   xmonad $
     ewmhFullscreen . ewmh . docks $
-    dynamicSBs sbSpawn myConfigs
+    dynamicSBs xmobarSpawn myConfigs
 
 
 myConfigs = def
@@ -143,7 +147,6 @@ myWorkspaces = ["wm", "tty", "dev", "web", "doc", "mu", "tx", "gx", "ls"]
 --                 "<fn=3>\xf56b</fn>", "<fn=3>\xf441</fn>", "<fn=3>\xf038</fn>"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..]
 
-
 myShowWNameTheme :: SWNConfig  -- for indicators when switching workspaces
 myShowWNameTheme = def
     { swn_font              = "xft:Ubuntu:bold:size=48"
@@ -155,6 +158,56 @@ myShowWNameTheme = def
 windowCount :: X (Maybe String)  -- count open windows on workspaces
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
+
+-------------------- Layouts
+mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw True (Border i i i i) True (Border i i i i) True
+
+tall = renamed [Replace "tall"]
+       $ avoidStruts
+       $ smartBorders
+       $ mySpacing 3
+       $ ResizableTall nmaster delta ratio []
+  where
+    nmaster = 1   -- number of master pane windows
+    ratio = 1/2   -- area ratio of master pane
+    delta = 3/100 -- percentual resizing increment
+
+grid = renamed [Replace "grid"]
+       $ avoidStruts
+       $ smartBorders
+       $ mySpacing 3
+       $ Grid (aspect)
+  where
+    aspect = 16/10  -- desired aspect ratio of windows
+
+mirr = renamed [Replace "mirr"]
+       $ avoidStruts
+       $ smartBorders
+       $ mySpacing 3
+       $ Mirror
+       $ ResizableTall nmaster delta ratio []
+  where
+    nmaster = 1
+    ratio = 1/2
+    delta = 3/100
+
+c3s = renamed [Replace "c3s"]
+      $ avoidStruts
+      $ smartBorders
+      $ mySpacing 3
+      $ ResizableThreeColMid nmaster delta ratio []
+  where
+    nmaster = 1
+    ratio = 1/2
+    delta = 3/100
+
+full = renamed [Replace "full"]
+       $ avoidStruts
+       $ noBorders
+       $ Full
+        
+myLayoutHook = (tall ||| grid ||| mirr ||| c3s ||| full)
 
 -------------------- Scratchpads
 myScratchPads :: [NamedScratchpad]
@@ -190,18 +243,6 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
         w = 0.9
         t = 0.95 -h
         l = 0.95 -w
-
--------------------- Layouts
-myLayoutHook = avoidStruts (tiled ||| Mirror tiled ||| Full)
-  where
-    -- default tiling algorithm partitions the screen into two panes
-    tiled   = Tall nmaster delta ratio
-    -- The default number of windows in the master pane
-    nmaster = 1
-    -- Default proportion of screen occupied by master pane
-    ratio   = 1/2
-    -- Percent of screen to increment by when resizing panes
-    delta   = 3/100
 
 
 -------------------- Manage windows
@@ -262,35 +303,36 @@ myXMobarPP = def
   , ppHiddenNoWindows = blue . hideNSP
   -- layout format map
   , ppLayout  = cyan . (\layout -> case layout of
-                           "Tall"        -> "[|]"
-                           "Mirror Tall" -> "[-]"
-                           "Full"        -> "[X]")
+                           "tall" -> "{|}"
+                           "grid" -> "[#]"
+                           "mirr" -> "}|{"
+                           "c3s"  -> "|||"
+                           "full" -> "[X]")
   -- window count
   , ppExtras  = [ windowCount ] -- xmobarColor color03 ""
-  -- title of window in focus
-  , ppTitle   = mempty  -- xmobarColor color07 "" . shorten 25
-  -- , ppTitleSanitize   = xmobarStrip
-  , ppOrder   = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-  } where
-  hideNSP :: WorkspaceId -> String
-  hideNSP ws = if ws /= "NSP" then ws else ""
-  greyHex, blueHex, redHex, cyanHex :: String
-  greyHex = color00
-  blueHex = color04
-  redHex = color05
-  cyanHex = color06
-  blue, red, cyan, grey :: String -> String
-  blue = xmobarColor blueHex ""
-  red = xmobarColor redHex ""
-  cyan = xmobarColor cyanHex ""
-  grey = xmobarColor greyHex ""
-  hair :: String
-  hair = "<fn=1> </fn>"
-  
+  -- order pp fields
+  -- , ppTitle   = xmobarColor color07 "" . shorten 25
+  , ppOrder   = \(ws:l:t:ex) -> [ws,l] ++ map red ex
+  }
+  where
+    hideNSP :: WorkspaceId -> String
+    hideNSP ws = if ws /= "NSP" then ws else ""
+    greyHex, blueHex, redHex, cyanHex :: String
+    greyHex = color08
+    blueHex = color04
+    redHex = color05
+    cyanHex = color06
+    blue, red, cyan, grey :: String -> String
+    blue = xmobarColor blueHex ""
+    red = xmobarColor redHex ""
+    cyan = xmobarColor cyanHex ""
+    grey = xmobarColor greyHex ""
+    hair :: String
+    hair = "<fn=1> </fn>"
 
 xmobar0 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++" -x 0 "++myXMobarConf) (pure myXMobarPP)
-sbSpawn :: ScreenId -> IO StatusBarConfig
-sbSpawn 0 = pure $ xmobar0
+xmobarSpawn :: ScreenId -> IO StatusBarConfig
+xmobarSpawn 0 = pure $ xmobar0
 
 
 -------------------- Logging
@@ -298,7 +340,7 @@ myLogHook = refocusLastLogHook
             >> nsHideOnFocusLoss myScratchPads
 
 
--------------------- My Keybindings
+-------------------- Keybindings
 myKeys :: XConfig l -> M.Map (KeyMask, KeySym) (X ())
 myKeys conf = (mkKeymap conf myKeymap) <+> (defaultKeymap conf)
 myKeymap :: [(String, X ())]
@@ -309,13 +351,16 @@ myKeymap =
   --, ("M-p"          , spawn "dmenu_run")
   , ("M-S-c"        , kill)
   , ("M-C-c"        , kill)
+  , ("M-S-C-c"      , killAll)
 
   -- XMonad & system bindings
   , ("M-b"          , sendMessage ToggleStruts)  -- toggle status bar
+  , ("M-S-b"        , spawn "xmobar_toggle")     -- kill status bar
   , ("M-q"          , spawn "xmonad_restart")    -- recompile & restart xmonad
   , ("M-S-x"        , io (exitWith ExitSuccess)) -- exit XMonad
   , ("M-S-z"        , spawn "xscreensaver-command --activate")  -- suspend
-  
+  , ("M-S-v"        , spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
+
   -- Window control
   , ("M-<Tab>"      , windows W.focusDown)
   , ("M-j"          , windows W.focusDown)
@@ -327,8 +372,8 @@ myKeymap =
   , ("M-n"          , refresh)
   , ("M-h"          , sendMessage Shrink)
   , ("M-l"          , sendMessage Expand)
-  , ("M-C-h"        , sendMessage MirrorShrink)
-  , ("M-C-l"        , sendMessage MirrorExpand)
+  , ("M-C-h"        , moveTo Prev (nonNSP))
+  , ("M-C-l"        , moveTo Next (nonNSP))
   , ("M-S-h"        , shiftTo Prev (nonNSP) >> moveTo Prev (nonNSP))
   , ("M-S-l"        , shiftTo Next (nonNSP) >> moveTo Next (nonNSP))
   , ("M-<Down>"     , windows W.focusDown)
@@ -337,8 +382,10 @@ myKeymap =
   , ("M-S-<Up>"     , windows W.swapUp)
   , ("M-<Left>"     , sendMessage Shrink)
   , ("M-<Right>"    , sendMessage Expand)
-  , ("M-C-<Down>"   , sendMessage MirrorShrink)
   , ("M-C-<Up>"     , sendMessage MirrorExpand)
+  , ("M-C-<Down>"   , sendMessage MirrorShrink)
+  , ("M-C-<Left>"   , moveTo Prev (nonNSP))
+  , ("M-C-<Right>"  , moveTo Next (nonNSP))
   , ("M-S-<Left>"   , shiftTo Prev (nonNSP) >> moveTo Prev (nonNSP))
   , ("M-S-<Right>"  , shiftTo Next (nonNSP) >> moveTo Next (nonNSP))
   , ("M-,"          , nextScreen)
@@ -346,15 +393,17 @@ myKeymap =
 
   -- Toggle layouts
   , ("M-<Space>"    , sendMessage NextLayout)
-  -- , ("M-S-<Space>"  , setLayout $ myLayoutHook)
+  , ("M-S-<Space>"  , sendMessage FirstLayout)
+  , ("M-f"          , sendMessage (JumpToLayout "bfull") >> sendMessage ToggleStruts)
+  , ("M-S-f"        , withFocused $ float)
   , ("M-t"          , withFocused $ windows . W.sink)
   , ("M-S-t"        , sinkAll)
   
   -- Program bindings
   , ("M-d"          , spawn "pcmanfm")
   , ("M-\\"         , spawn myBrowser)
-  , ("M-["          , unGrab *> spawn "scrot")
-  , ("M-S-["        , unGrab *> spawn "scrot -s")
+  , ("M-="          , unGrab *> spawn "scrot")
+  , ("M-S-="        , unGrab *> spawn "scrot -s")
 
   -- Scratchpads
   , ("M-S-<Return>" , namedScratchpadAction myScratchPads "terminal")
@@ -365,8 +414,6 @@ myKeymap =
     nonNSP = anyWS :&: ignoringWSs [scratchpadWorkspaceTag]
 
 defaultKeymap conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-  [((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)]
-  ++
   [((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
@@ -376,14 +423,6 @@ defaultKeymap conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         , (f, m)    <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
-myKeysAlt conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-    [
-    -- Resize viewed windows to the correct size
-    ((modm,               xK_n     ), refresh)
-    -- Run xmessage with a summary of the default keybindings (useful for beginners)
-    , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
-    ]
-
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
 myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
@@ -391,6 +430,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
     -- mod-button1, Set the window to floating mode and move by dragging
     [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
                                        >> windows W.shiftMaster))
+    -- , ((0, button2), (\w -> focus w >> mouseMoveWindow w
+    --                                 >> windows W.shiftMaster))
 
     -- mod-button2, Raise the window to the top of the stack
     , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))

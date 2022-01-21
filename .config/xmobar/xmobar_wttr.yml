@@ -1,5 +1,20 @@
 Defaults:
   location: ''
-  xmobar_format: '%gx %t(%f)<1: >.u %G<1: >h %gW<1: >%G<1: >w<1: >.u %G<1: >P<1: >.u'
+  # xmobar_format: '%g!x %!t(%!f)<1: >.u {color14:%G}<1: >!h %g!W<1: >%G<1: >!w<1: >.u %G<1: >!P<1: >.u'
+  xmobar_format: '%g!x %!t(%!f).u {color14:%G}<1: >!h {color10:%G}<1: >!w<1: >.u {color11:%G}<1: >!P<1: >.u'
   icon_map_hooks:
     '*': '<6:{}>'
+  haskell_color_lib: '~/.config/xmonad/lib/Colors/PhDDark.hs'
+  params:
+    - '!t'  # temperature
+    - '!f'  # temperature (feel)
+    - '!x'  # weather condition
+    - '!h'  # humidity
+    - '!p'  # precipitation
+    - '!o'  # chance of precipitation
+    - '!P'  # pressure
+    - '!w'  # wind
+    - '!M'  # moon days
+    - '!T'  # localtime
+    - '!S'  # sunrise
+    - '!s'  # sunset

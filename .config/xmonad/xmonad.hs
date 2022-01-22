@@ -272,10 +272,10 @@ myManageHook = (composeAll . concat $
                <+> manageHook def
   where
     mywmShifts  = [ "" ]
-    myttyShifts = [ "alacritty", "Xterm" ]
+    myttyShifts = [ "Alacritty", "Xterm" ]
     mydevShifts = [ "Emacs", "Code" ]
     mywebShifts = [ "Brave-browser" ]
-    mydocShifts = [ "pcmanfm", "Ranger" ]
+    mydocShifts = [ "Pcmanfm", "Ranger" ]
     mymuShifts  = [ "Mailspring" ]
     mytxShifts  = [ "Transmission-gtk" ]
     mygxShifts  = [ "Gimp" ]

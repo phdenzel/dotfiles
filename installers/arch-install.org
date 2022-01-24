@@ -1,0 +1,325 @@
+#+AUTHOR: Philipp Denzel
+#+OPTIONS: num:nil
+
+These are my personal notes on conventions I typically use for an arch
+install.  Everything here, I've previously tested and implemented
+myself at some point.  Nevertheless, arch has a rolling release scheme
+and thus, is constantly changing.  Always consult the installation
+guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] when in doubt, or for troubleshooting.
+
+
+*** My current setup
+
+    I'm currently using arch on my
+    - main desktop machine
+      - Asus Strix Z270E
+      - Intel i7-7700K(8)@4.5GHz
+      - Nvidia GTX 1080Ti
+      - btrfs/luks encryption setup
+    - MacBookPro 13" (2016)
+      - btrfs/luks encryption setup
+
+
+* Create a bootable medium
+
+  Straight-forward on linux. For other operating systems best consult
+  the web.
+
+
+* Right after boot
+
+**** Optional
+
+     You may install ssh and log in remotely, if that is more comfortable
+     for you. However, for this you first have to set the root password
+
+     #+begin_src shell
+       pacman -S openssh
+       systemctl start sshd  # or alternatively: systemctl enable --now sshd
+       passwd
+     #+end_src
+
+**** Optional
+     
+     If you use and choose a non-standard, non-US keyboard layout, you
+     may load a different one here. E.g., for the Swiss keyboard
+     layout
+
+     #+begin_src shell
+       localectl list-keymaps | grep CH
+       loadkeys de_CH-latin1
+     #+end_src
+
+     For your eyesight, it might also be advantageous to use a bigger font
+
+     #+begin_src shell
+       setfont ter-132n
+     #+end_src
+
+*** Verify boot mode
+
+    These days, it is likely you boot in EFI mode. To verify this, use
+
+    #+begin_src shell
+      ls /sys/firmware/efi/efivars
+    #+end_src
+
+    If you see any output, you are booted into EFI mode, and you may
+    proceed. Otherwise, you may have to change some settings in your
+    BIOS or consult the arch wiki for a CMS-mode install guide.
+
+*** Internet connection
+
+    List devices with
+
+    #+begin_src shell
+    ip -c a
+    #+end_src
+
+    If you use an ethernet connection, everything should already be
+    working. To verify this, ping any website you know, e.g.
+
+    #+begin_src shell
+      ping -c 3 archlinux.org
+    #+end_src
+
+**** Optional
+     
+     If there is no ethernet cable plugged in, you may have to log
+     into a wifi network
+
+     #+begin_src shell
+       iwctl
+       help
+       device list
+       station wlan0 scan
+       station wlan0 connect-hidden myWLAN
+     #+end_src
+
+*** Update mirrorlist
+
+    First, ensure the system clock is accurate
+    #+begin_src shell
+      timedatectl set-ntp true
+      timedatectl status
+    #+end_src
+
+    Afterwards, update your mirrorlist for optimal download speeds
+    (change specifics for your locale)
+    
+    #+begin_src shell
+      pacman -Syy
+      reflector -c Switzerland -a 6 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+      pacman -Syy
+    #+end_src
+
+* Disk partitioning and formatting
+
+  Here, you have to make several decisions:
+
+  - Which disk(s) should contain the installation?
+    - NVMe devices usually have ~/dev/nvme0n1~, ~/dev/nvme1n1~...
+    - SATA devices usually have ~/dev/sda~, ~/dev/sdb~...
+  - What partitioning layout do you want to use?
+    - a root ~/~ and an EFI system partition ~/boot/efi~ are minimally
+      required
+    - it is generally advisable to have a separate ~/home~ partition (or
+      subvolume), in order to easily reinstall or restore arch without
+      any data loss. (Note: it is still possible without a seperate
+      home partition, but probably comes with headaches.)
+    - a ~/swap~ partition is always a good idea, even if you have
+      enough RAM, say 64GB ;). The linux kernel moves memory pages
+      that are hardly ever used to swap space to ensure that enough
+      RAM is available for more frequently used ones. Alternatively,
+      you can use swap on zram (see the [[https://aur.archlinux.org/packages/zramd/][zramd]] package on the AUR), if
+      you prefer to save disk space.
+  - What filesystem do you want to use?
+    - most stable and efficient filesystem probably is ~ext4~
+    - a more modern filesystem is ~btrfs~. It has advanced features
+      such as Copy-on-Write, self-healing, device pooling, and
+      nearly-instant snapshotting capabilities (this is what I
+      personally find most useful, especially for rolling release
+      distributions)
+
+  #+begin_src shell
+    lsblk -o NAME,PATH,FSTYPE,LABEL,FSSIZE,MOUNTPOINT
+  #+end_src
+
+  The following subsections use the devices ~/dev/sda~ and ~/dev/sdb~
+  as example. Adjust accordingly if you decide to use other devices
+  (and naturally choose only one of the following partitioning examples).
+
+  It might also be better (and more secure) to erase/randomize the
+  contents of the disk before re-formatting it.
+
+  #+begin_src shell
+    dd if=/dev/urandom of=/dev/sda bs=10M
+  #+end_src
+
+*** "Classic" partitioning scheme
+
+    The classic partitioning scheme is what most people go for (and
+    probably should without other informed reasons/opinions).
+
+    | device | filesystem  | mount point | size  |
+    |--------+-------------+-------------+-------|
+    | sda1   | EFI  (ef00) | /boot/efi   | +512M |
+    | sda2   | swap (8200) | /swap       | +2G   |
+    |        |             |             |       |
+
+    If the device is smaller than 1 TB (assumed in the case above),
+    then downscale the partitions appropriately.
+
+> gdisk /dev/sda
+# EFI system partition
+> n
+> 1
+>
+> +1024M
+> l
+> ef00
+# create 2G swap (for less <2G RAM make it bigger)
+> n
+> 2
+> 
+> +2G
+> 8200
+# create root partition
+> n
+> 3
+> 
+> +40G
+>
+# create home partition
+> n
+> 4
+>
+>
+>
+> w
+> Y
+
+> lsblk
+> mkfs.vfat /dev/sda1 # boot part
+> mkswap /dev/sda2    # swap part
+> swapon /dev/sda2
+> mkfs.ext4 /dev/sda3 # root part
+> mkfs.ext4 /dev/sda4 # home part
+> lsblk
+
+
+# mount root partition (e.g. /dev/sda3) to /mnt
+> mount /dev/sda3 /mnt
+
+> mkdir -p /mnt/{boot/efi,home}
+> mount /dev/sda1 /mnt/boot/efi
+> mount /dev/sda4 /mnt/home
+
+
+### Base Install
+# for AMD processors use amd-ucode
+> pacstrap /mnt base linux linux-firmware intel-ucode git vim
+> genfstab -U /mnt >> /mnt/etc/fstab
+> cat /mnt/etc/fstab
+
+### Enter Installation
+> arch-chroot /mnt
+
+# Create swapfile (only if no swap partition was created)
+> dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
+> chmod 600 /swapfile
+> mkswap /swapfile
+> swapon /swapfile
+> nano /etc/fstab
+# insert following line
+/swapfile none swap defaults 0 0
+
+### Set timezone / language / keymap
+> ln -sf /usr/share/zoneinfo/Europe/Zurich /etc/localtime
+> hwclock --systohc
+> vim /etc/locale.gen
+# uncomment following line
+en_US.UTF-8 UTF-8
+> locale-gen
+# insert following line
+> vim /etc/locale.conf
+LANG=en_US.UTF-8
+> vim /etc/vconsole.conf
+# insert following line (not necessary on US keyboards)
+KEYMAP=de_CH-latin1
+
+
+### Hostname
+> nano /etc/hostname
+# insert your hostname [lycan, phoenix, ...]
+lycan
+> nano /etc/hosts
+# insert following lines
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	lycan.localdomain	lycan
+
+### Password
+> passwd
+> ******
+> ******
+### New user
+> useradd -m phdenzel
+> passwd phdenzel
+> *****
+> *****
+> usermod -aG wheel,audio,video,optical,storage,kvm phdenzel
+pacman -S sudo
+> EDITOR=vim visudo
+# uncomment following line
+%wheel ALL=(ALL) ALL
+
+
+### Bootloader
+# minimalistic
+> pacman -S grub efibootmgr dosfstools mtools os-prober networkmanager wpa_supplicant dialog base-devel linux-headers git xdg-utils alsa-utils
+# or a bit more packages (if you want to detect other installations use os-prober, otherwise leave it out)
+> pacman -S grub efibootmgr dosfstools mtools os-prober networkmanager network-manager-applet wireless_tools wpa_supplicant dialog mtools dosfstools base-devel linux-headers git bluez bluez-utils cups alsa-utils pulseaudio pulseaudio-bluetooth pavucontrol xdg-utils xdg-user-dirs openssh terminus-font
+
+# For UEFI boot
+> grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub_uefi --recheck
+> grub-mkconfig -o /boot/grub/grub.cfg
+# GRUB_DISABLE_OS_PROBER is default, so go to /etc/defaults/grub.cfg, uncomment it and regen cfg
+# > sed -i 's/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/g' /etc/defaults/grub.cfg
+# > grub-mkconfig -o /boot/grub/grub.cfg
+
+# For legacy boot
+> grub-install --target=i386-pc /dev/sda
+> grub-mkconfig -o /boot/grub/grub.cfg
+
+### Log in to the installed machine as root
+> exit
+> umount -a
+> reboot
+### On VMs: if UEFI shell appears, do
+# fs0:
+# fs0:
+# cd EFI
+# cd grub_uefi
+# grubx64.efi
+# for permanent fix, do:
+# fs0:
+# edit startup.nsh
+# add the above lines to the file, save, and exit
+
+### Start essential services
+> systemctl start NetworkManager
+# (optional; if there is no ethernet cable plugged in, otherwise
+#  edit /etc/wpa_supplicant/wpa_supplicant.conf, and remember to
+#  use wpa_passphrase to encrypt your password)
+[> nmtui]
+> systemctl enable NetworkManager
+> systemctl enable bluetooth
+> systemctl enable cups
+
+### Check internet connection
+> ip a
+> systemctl start sshd
+
+# SSD
+> systemctl enable fstrim.timer

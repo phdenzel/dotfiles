@@ -29,9 +29,8 @@
 > lsblk
 [> dd if=/dev/urandom of=/dev/sd[a] bs=10M]  # erase all partitions on drive
 
-### BEGIN options: A/B
-### A: For UEFI boot: gdisk variant
-> gdisk /dev/vda
+
+> gdisk /dev/sda
 # EFI system partition
 > n
 > 1
@@ -61,51 +60,13 @@
 > Y
 
 > lsblk
-> mkfs.vfat /dev/vda1 # boot part
-> mkswap /dev/vda2    # swap part
-> swapon /dev/vda2
-> mkfs.ext4 /dev/vda3 # root part
-> mkfs.ext4 /dev/vda4 # home part
+> mkfs.vfat /dev/sda1 # boot part
+> mkswap /dev/sda2    # swap part
+> swapon /dev/sda2
+> mkfs.ext4 /dev/sda3 # root part
+> mkfs.ext4 /dev/sda4 # home part
 > lsblk
 
-### B: For UEFI boot: fdisk variant
-> fdisk /dev/sd[a]  # sda is an example; choose the right one here
-# on modern single-user machines no /swap and no separate /home is needed
-> g  # as GPT
-> n  # EFI /boot partition
-> 1
->
-> +1024MB  # choose minimum 512MB
-> n  # ROOT / partition
-> 2
->
->
-> w
-
-> mkfs.fat -F32 /dev/sda1
-> mkfs.ext4 /dev/sda2
-> lsblk
-
-### C: For legacy boot
-> fdisk /dev/sd[a]  # sda is an example; choose the right one here
-> n
->
->
->
-> +4G
-> t
-> L
-> 82  # swap
-> n
->
->
->
-> w
-
-> mkswap /dev/sda1
-> swapon /dev/sda1
-> mkfs.ext4 /dev/sda2
-### END options A/B/C
 
 # mount root partition (e.g. /dev/sda3) to /mnt
 > mount /dev/sda3 /mnt

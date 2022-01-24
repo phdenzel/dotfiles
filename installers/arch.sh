@@ -1,4 +1,5 @@
-### Arch setup (execute all cmds w/ sudo)
+### Arch setup 
+# For an all-in-one command, see bottom
 # Install+Update   w/   pacman -Syu <pkg>
 # Install only     w/   pacman -S <pkg>
 # List installed   w/   pacman -Qe
@@ -23,9 +24,10 @@
 
 
 sudo pacman -Syyu
-# Uncomment in /etc/pacman.conf
-# Color
- 
+# Uncomment in /etc/pacman.conf '#Color'
+sudo sed -i 's/#Color/Color/g' /etc/pacman.conf
+
+
 ### Install Graphics drivers (choose needed)
 # If in doubt just install a bunch (sudo pacman -Ss xf86-video)
 # Virtual machines
@@ -39,7 +41,7 @@ sudo pacman -S nvidia nvidia-utils
 
 
 ### AUR yay setup
-mkdir local
+mkdir ~/local
 cd local
 git clone https://aur.archlinux.org/yay.git
 cd yay
@@ -62,33 +64,56 @@ cd dotfiles
 
 ./bootstrap.sh --gtk
 gsettings set org.gnome.desktop.interface gtk-theme phd-dark
+# for applications requiring sudo rights, sudo copy
+# .themes/phd-dark to /usr/share/themes/ and
+# .config/gtk-3.0/settings.ini to /usr/share/gtk-3.0/
+
 # if this doesn't work use lxappearance
 # > sudo pacman -S lxappearance
 
+cd ~/local
+git clone git@github.com:phdenzel/neofetch.git
+cd neofetch
+make install
+
 
 ### Display server setup
-sudo pacman -S xorg-server xorg-init xorg-xrandr
-# Window compositor
-sudo pacman -S picom
-# Image viewer for setting wallpapers
-sudo pacman -S feh
+# XMonad
+sudo pacman -S xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr \
+     libx11 libxft libxinerama libxrandr libxss pkgconf stack wireless_tools
+mkdir -p ~/local/xmonad
+cd ~/local/xmonad
+stack setup
+stack upgrade
+git clone https://github.com/xmonad/xmonad.git
+git clone https://github.com/xmonad/xmonad-contrib.git
+git clone https://github.com/jaor/xmobar.git
+stack init
+stack install
+sudo ln -s ~/.local/bin/xmonad /usr/bin
+sudo mkdir -p /usr/share/xsessions
+sudo ln -s ~/.config/xmonad/xmonad.desktop /usr/share/xsessions
+
+
+# Window compositor and image viewer (for setting wallpapers)
+sudo pacman -S picom feh
 # XMonad (install xterm if you don't want to use my xmonad config)
-sudo pacman -S xmonad xmonad-contrib dmenu #xterm
+# sudo pacman -S xmonad xmonad-contrib dmenu #xterm
 # Display manager  (skip if you want to manually execute xstart)
 yay -S ly  # most lightweight DM I know
 sudo systemctl enable ly.service
 # or use LightDM (still lightweight, but just a bit less)
-# > sudo pacman -S lightdm
+# > sudo pacman -S lightdm lightdm-webkit2-greeter
 # > sudo systemctl enable lightdm [lightdm-mini-greeter | lightdm-webkit-greeter | lightdm-webkit2-theme-tty-git]
-# > nano /etc/lightdm/lightdm.conf  # Enable themes etc.
-# Some programs needed for further setup
-yay -S brave-bin      # privacy-oriented browser
-yay -S alacritty-git  # best terminal
-# git clone git@github.com:phdenzel/xmobarconf.git ~/.config/xmobar/xmobarconf
-# git clone git@github.com:phdenzel/xmobar_wttr.git
+# > vim /etc/lightdm/lightdm.conf  # Enable themes etc.
+# Browser, terminal, and other programs useful for further setup
+yay -S brave-bin alacritty-git 
 sudo pacman -S python-pip python-pipenv  # Python (should already be installed, but pip seems not to be)
-pip install xmobar-wttr
-
+cd local
+git clone git@github.com:phdenzel/xmobar_wttr.git
+cd xmobar_wttr
+make pkg
+python3 setup.py install --user
 # If you want a desktop environment instead use
 # > sudo pacman -S gdm gnome
 # > sudo systemctl enable gdm
@@ -98,33 +123,34 @@ pip install xmobar-wttr
 sudo pacman -S pcmanfm ranger
 
 
+# System tools
+sudo pacman -S xscreensaver
+
 # Disk utils
-sudo pacman -S zip unzip rsync
+sudo pacman -S zip unzip rsync cronie htop
 # Snapshot/Backup utility
 yay -S timeshift
-# Job handling
-sudo pacman -S cronie htop
 
 
 # Development tools
-yay -S alacritty-git
+# yay -S alacritty-git
 # if no Hardware acceleration is available
 # run alacritty with `LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
 # and replace Exec in `/usr/share/applications/Alacritty.desktop`
 # `Exec=env LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
-# My favorite editor (vim usually already installed during grub-install)
-sudo pacman -S emacs
-# sudo pacman -Syu code  # VSCode
+# My favorite editor(s) (vim usually already installed during grub-install)
+sudo pacman -S emacs code vim
 # LaTeX
 sudo pacman -S texlive-most texlive-lang
 # Haskell
 sudo pacman -S ghc-static
 
-# Web packages
-sudo pacman -S git wget curl
+# Web packages (lynx: blazingly fast, text-based browser)
+sudo pacman -S git wget curl lynx
 yay -S brave-bin     # privacy-oriented browser
-sudo pacman -S lynx  # blazingly fast, text-based browser
 
+# Utility tools
+sudo pacman -S colordiff qalculate-gtk xclip xsel scrot 
 
 # Password manager
 sudo pacman -S pass pass-otp
@@ -135,7 +161,7 @@ cd forks
 # git clone https://github.com/phdenzel/pass-import.git
 git clone git@github.com:phdenzel/pass-import.git
 cd pass-import
-python3 setup.py install
+python3 setup.py install --user
 
 
 # Virtualization (see arch_vm.sh for VM init)
@@ -148,30 +174,20 @@ sudo systemctl start libvirtd.service
 # sudo virsh net-start br10
 # sudo virsh net-autostart br10
 
+
 # Fonts
-sudo pacman -S \
-     ttf-dejavu \
-     ttf-fira-mono ttf-fira-sans \
-     ttf-roboto ttf-roboto-mono \
-     adobe-source-code-pro-fonts adobe-source-sans-fonts \
-     ttf-hack \
-     ttf-inconsolata \
-     ttf-ubuntu-font-family \
-     ttf-font-awesome
-yay -S \
-    otf-nerd-fonts-fira-mono \
-    ttf-exo-2 \
-    ttf-all-the-icons \
-    ttf-weather-icons
+sudo pacman -S ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto \
+     ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts \
+     ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome
+yay -S otf-nerd-fonts-fira-mono ttf-exo-2 ttf-all-the-icons ttf-weather-icons
 # for more fonts go to https://www.nerdfonts.com/font-downloads
 # Make your own psf fonts
-
 # > yay -S otf2bdf bdf2psf
 # > ~/local/bin/psf_from_ttf DejaVuSansMono 16 96
 # > mkdir -p ~/local/fonts
 # > mv DejaVuSansMono.psf ~/.fonts
 # Set tty font
-echo "LANG=DejaVuSansMono.psf" | sudo tee /etc/vconsole.conf
+echo "FONT=DejaVuSansMono.psf" | sudo tee /etc/vconsole.conf
 cp .fonts/*.psf /usr/share/kbd/consolefonts/
 fc-cache -v -f
 sudo sed -i 's/keyboard/consolefont keyboard/' /etc/mkinitcpio.conf
@@ -180,10 +196,13 @@ sudo mkinitcpio -p linux
 
 
 # Media packages
-yay -S dropbox
+sudo pacman -S zathura calibre celluloid
+yay -S dropbox enpass-bin brave-bin mailspring spotify zenity ffmpeg-compat-57
 dropbox start -i
-yay -S enpass-bin brave-bin mailspring
-sudo pacman -S zathura
-sudo pacman -S calibre celluloid
 curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -
-yay -S spotify zenity ffmpeg-compat-57
+
+
+# All in one install
+sudo pacman -Syyu
+sudo pacman -Syu
+sudo pacman -S xf86-video-intel nvidia nvidia-utils openssh xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr libx11 libxft libxinerama libxrandr libxss pkgconf stack wireless_tools picom feh dmenu python-pip python-pipenv pcmanfm ranger xscreensaver zip unzip rsync cronie htop emacs texlive-most texlive-lang ghc-static git wget curl lynx colordiff qalculate-gtk xclip xsel scrot pass pass-otp virt-manager qemu qemu-arch-extra edk2-ovmf vde2 bridge-utils ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome zathura calibre celluloid

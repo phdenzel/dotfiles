@@ -24,6 +24,7 @@ EXCLUDES=(
     --exclude "private/"
     --exclude ".config/emacs/"
     --exclude ".config/gtk-3.0/"
+    --exclude ".config/xmonad/stack.yaml"
     --exclude ".config/xmobar/xmobarconf/"
     --exclude "LICENSE"
     --exclude "README.md"

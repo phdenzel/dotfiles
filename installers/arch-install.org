@@ -359,8 +359,8 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
       cd
       umount /mnt
 
-      mkdir -p /mnt/{boot,home,var,tmp,snapshots}  # or /mnt/{efi,home,var,tmp,snapshots}
       mount -o noatime,compress=zstd,space_cache=v2,discard=async,subvol=@ /dev/mapper/cryptroot /mnt
+      mkdir -p /mnt/{boot,home,var,tmp,snapshots}  # or /mnt/{efi,home,var,tmp,snapshots}
       mount -o noatime,compress=zstd,space_cache=v2,discard=async,subvol=@home /dev/mapper/cryptroot /mnt/home
       mount -o noatime,compress=zstd,space_cache=v2,discard=async,subvol=@var /dev/mapper/cryptroot /mnt/var
       mount -o noatime,compress=zstd,space_cache=v2,discard=async,subvol=@tmp /dev/mapper/cryptroot /mnt/tmp
@@ -439,9 +439,9 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
       echo "KEYMAP=de_CH-latin1" >> /etc/vconsole.conf
     #+end_src
 
-    Note that by default arch assumes a US keyboard layout, so if you
-    only add the last command, if you use a different layout.  Also,
-    some programs (for instance steam) require the ~en_US.UTF-8 UTF-8~
+    Note that by default arch assumes a US keyboard layout, so only
+    add the last command, if you use a different layout.  Also, some
+    programs (for instance steam) require the ~en_US.UTF-8 UTF-8~
     locale, so it's best to uncomment at least this one (multiple
     locales are allowed).
 
@@ -461,40 +461,19 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
       echo "127.0.1.1 archphoenix.localdomain archphoenix" >> /etc/hosts
     #+end_src
 
-
-*** Add yourself as user
-
     If you haven't already done so, set the password for root.
 
     #+begin_src shell
       passwd
     #+end_src
 
-    Then, add yourself as user. It is generally advisable to create at
-    least another user which is not root.  Add the user to any group
-    that is required.
-    
-    #+begin_src shell
-      useradd -m phdenzel
-      passwd phdenzel
-      usermod -aG wheel,audio,video,optical,storage,kvm,libvirt phdenzel
-      sed -i '82s/.//' /etc/sudoers
-    #+end_src
-
-    Alternatively to adding the new user to the wheel group, you may
-    add the user to the ~/etc/sudoers.d/~ directory.
-
-    #+begin_src shell
-    echo "phdenzel ALL=(ALL) ALL" >> /etc/sudoers.d/phdenzel
-    #+end_src
-
 
 *** Initramfs
 
     In case you're using btrfs and/or encryption, you need to
-    regenerate the initramfs with some customizations. Add ~btrfs~ to
-    the ~MODULES~ list, and ~encrypt~ before ~filesystems~ in the
-    ~HOOKS~ list.
+    regenerate the initramfs with some customizations. In
+    ~/etc/mkinitcpio.conf~, add ~btrfs~ to the ~MODULES~ list, and
+    ~encrypt~ before ~filesystems~ in the ~HOOKS~ list.
 
     #+begin_src shell
       # MODULES=(btrfs)
@@ -513,6 +492,28 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   #+end_src
 
 
+*** Add yourself as user
+
+    
+    Once you installed all the necessary packages, add yourself as
+    user. It is generally advisable to create at least another user
+    which is not root.  Add the user to any group that is required.
+    
+    #+begin_src shell
+      useradd -m phdenzel
+      passwd phdenzel
+      usermod -aG wheel,audio,video,optical,storage,kvm,libvirt phdenzel
+      sed -i '82s/.//' /etc/sudoers
+    #+end_src
+
+    Alternatively to adding the new user to the wheel group, you may
+    add the user to the ~/etc/sudoers.d/~ directory.
+
+    #+begin_src shell
+    echo "phdenzel ALL=(ALL) ALL" >> /etc/sudoers.d/phdenzel
+    #+end_src
+
+
 * Boot loader install
 
   Install the boot loader of your choice. In my case, I like ~grub~ ;)
@@ -522,13 +523,42 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     grub-mkconfig -o /boot/grub/grub.cfg
   #+end_src
 
+  Note, if you mounted your ESP on ~/mnt/efi~ instead of ~/mnt/boot~,
+  make the necessary changes to the command above.
+
+  If you encryted your drive, you have to make a few changes to the
+  ~/etc/default/grub~ in order for GRUB to be able to recognize the
+  encrypted drive. Execute ~blkid~ and copy the UUID of the device
+  itself, e.g. ~/dev/sda3~
+
+  #+begin_src  shell
+    blkid | grep /dev/sda3 | awk -F' ' '/UUID/{print $2}'
+  #+end_src
+
+  Copy it, or pipe the command above to append to ~/etc/default/grub~,
+  and edit it with your preferred text editor.
+
+  The entry in ~/etc/default/grub~, should look something like
+
+  #+begin_src shell
+    GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet cryptdevice=UUID=[insert the UUID here]:cryptroot root=/dev/mapper/cryptroot"
+  #+end_src
+
+  Once the changes in the grub file are applied, don't forget to
+  regenerate the configuration
+
+  #+begin_src shell
+    grub-mkconfig -o /boot/grub/grub.cfg
+  #+end_src
+
   In case you happened to install the ~os-prober~ package, you need to
   enable it in the grub configuration and regenerate it
-
+  
   #+begin_src shell
     sed -i 's/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/g' /etc/defaults/grub.cfg
     grub-mkconfig -o /boot/grub/grub.cfg
   #+end_src
+
 
 * Final touches
 
@@ -540,6 +570,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     umount -a
     reboot
   #+end_src
+
 
 **** Optional: VM UEFI shell startup.nsh fix
 

@@ -1,20 +1,14 @@
+#!/bin/bash
 ####################################################### bashrc
-# Determine OS
-if `uname -a | grep -q "Microsoft"`; then
-    export OS=Microsoft
-elif `uname -a | grep -q "Darwin"`; then
-    export OS=Darwin
-else
-    export OS=Linux
-fi;
 
 ####################################################### Source the dotfiles
 # Note: color variables are defined in .exports; thus every command
 #       using colors has to be sourced/executed thereafter
-for file in ${XDG_CONFIG_HOME:=$HOME/.config}/bashrc/{path,exports,prompt,functions,aliases}; do
+for file in ${XDG_CONFIG_HOME:=$HOME/.config}/bashrc/{path,exports,prompt,functions,aliases,xauto}; do
     [ -r "$file" ] && [ -f "$file" ] && . "$file"
 done;
 unset file;
+
 
 ####################################################### General settings
 # Append to the history file, don't overwrite it
@@ -40,27 +34,11 @@ elif [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/local/etc/bash_completion
 fi
 
-# On macOS
-# Add tab completion for defaults read/write NSGlobalDomain
-# Add tab completion for killall with common apps
-# Add private ssh-key to the ephemeral ssh-agent
-# use -K option if using OSX Keychain and passphrase
-if [ "$OS" == "Darwin" ]; then
-    complete -W "NSGlobalDomain" defaults;
-    complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal" killall;
-    ssh-add -K	~/.ssh/id_rsa &> /dev/null
-    # ssh-add ~/.ssh/id_rsa
-fi;
-
-# Reference the DISPLAY on Linux on Windows
-if [ "$OS" == "Microsoft" ]; then
-    export DISPLAY=localhost:0.0
-fi;
-
 # configure git
 source ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO
 git config --global user.name "$GITUSER"
 git config --global user.email "$GITMAIL"
+
 
 ####################################################### Welcome helpers
 # Get some informations about the system
@@ -74,14 +52,7 @@ _hostinfo () {
 # Get the mounted drives and free space
 _mounted () {
     echo "-------------------------------- Mounted Drives --------------------------------"
-    case $OS in
-	      Darwin)
-            command -v gdf &> /dev/null && gdf -Hx tmpfs || df -H
-	          ;;
-        *)
-            df -Hx tmpfs
-            ;;
-    esac
+    df -Hx tmpfs
 }
 # Check free memory ((uses $OS set in .aliases))
 _meminfo () {

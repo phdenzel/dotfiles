@@ -9,6 +9,7 @@ elif [[ $COLORTERM = gnome-* && $TERM = xterm* ]] && infocmp gnome-256color >/de
 	  export TERM='gnome-256color';
 fi;
 
+
 ### Color palette (no export, color variables restricted to current shell)
 if tput setaf 1 &> /dev/null; then
     tput sgr0; # reset

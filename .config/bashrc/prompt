@@ -41,12 +41,14 @@ git2prompt () { # {1}: path separator + branch color; {2}: status sign color
 	      return;
     fi;
 }
+
 # Is the USER logged in as root ?
 if [[ "${USER}" == "root" ]]; then
     userColor="${red}";
 else
     userColor="${magenta}";
 fi;
+
 # Is the user logged in on an SSHHOST ?
 if [[ "${SSH_TTY}" ]]; then
     hostColor="${bold}${purple}"
@@ -55,6 +57,7 @@ else
     # hostColor="${purple}"
     hostColor="${blue}"
 fi;
+
 # First prompt (Main interaction prompt)
 PS1="\[${userColor}\]\u";  # username
 PS1+="\[${reset}\]@";      # at

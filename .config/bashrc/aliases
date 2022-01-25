@@ -44,8 +44,6 @@ alias semacs='sudo /usr/bin/emacs --nw'
 source ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO
 SSHFLAG="-2Y"
 SSHREDIRECT="-2Yt"
-alias uzhvpn="networksetup -connectpppoeservice 'VPN UZH'"
-alias uzhvpn-disconnect="networksetup -disconnectpppoeservice 'VPN UZH'"
 # Home network
 alias diskstation="ssh $SSHFLAG admin@192.168.178.39"
 alias homematic="ssh root@192.168.178.41"
@@ -65,16 +63,14 @@ alias localip="hostname -I | awk '{print $1}'"
 # HTTP traffic
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
-# Flush Directory Service cache
-alias dnsflush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 # URL-encode strings
 alias urlencode='python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]));"'
 # pipeline copy/paste
-command -v xclip &> /dev/null && alias xclipc="xclip -selection c" || alias xclipc="pbcopy"
-command -v xclip &> /dev/null && alias xclipv="xclip -selection c -o" || alias xclipv="pbpaste"
+command -v xclip &> /dev/null && alias xclipc="xclip -selection c"
+command -v xclip &> /dev/null && alias xclipv="xclip -selection c -o"
 # Intuitive map command
 alias map="xargs -n1" # to find file in directory; usage: find . -name .gitattributes | map dirname
 ### some encoding commands

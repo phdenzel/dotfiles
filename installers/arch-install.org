@@ -25,6 +25,18 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   Straight-forward on linux. For other operating systems best consult
   the web.
 
+  On linux, simply copy the iso to the unmounted device, e.g.
+  
+  #+begin_src shell
+    cat ~/Downloads/archlinux-2022.01.01-x86_64.iso > /dev/sde
+  #+end_src
+
+*** On partitioned flash drive
+
+    The method above unfortunately only works on the entire drive,
+    without preserving already existent paritions. Creating a manually
+    partitioned flash drive is a bit more involved.
+
 
 * Right after boot
 
@@ -570,6 +582,51 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     umount -a
     reboot
   #+end_src
+
+
+*** Encrypting the swap partition
+
+    From a security perspective it is important to also encrypt your
+    swap partition, as it could hold unencrypted sensitive memory
+    pages for a long time. The idea is to create a setup where at each
+    reboot swap would be re-encrypted. However, the downside of such
+    an approach is that hibernation thus becomes intrinsically
+    disabled. (For me this does not matter as I never use hibernation
+    anyways.)
+
+    Such as setup can be implemented with the ~/etc/crypttab~
+    file. Unfortunately, using devices names (such as ~/dev/sda2~) is
+    a bad idea, as changes in the naming could lead to the encryption
+    of the wrong drives and therefore potentially also to data
+    loss. We therefore need a persistent LABEL or UUID for the swap
+    partition, which is achieved by adding a tiny offset on the
+    partition with the sole purpose of holding a LABEL and UUID.
+
+    #+begin_src shell
+      swapoff /dev/sda2
+      mkfs.ext2 -L cryptswap /dev/sda2 1M
+    #+end_src
+
+    Check the parition using ~blkid~ should now show the label on
+    ~/dev/sda2~ which we can enter in the crypt table
+
+    #+begin_src shell
+      # <name> <device>         <password>    <options>
+      swap     LABEL=cryptswap  /dev/urandom  swap,offset=2048,cipher=aes-xts-plain64,size=512
+    #+end_src
+
+    Note the offset of 2048 sectors 512 bytes each, making exactly
+    1M. As we now have encrypted swap, we need to change the UUID of
+    the swap parition with the mapper device in the ~/etc/fstab~
+    file.
+
+    #+begin_src shell
+      # /dev/sda2
+      /dev/mapper/swap    none    swap    defaults    0 0
+    #+end_src
+
+    Trying ~mount -a~ now shouldn't lead to errors. After the next
+    reboot you should have encrypted swap.
 
 
 **** Optional: VM UEFI shell startup.nsh fix

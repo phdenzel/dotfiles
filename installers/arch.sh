@@ -40,17 +40,17 @@ sudo pacman -S xf86-video-intel
 sudo pacman -S nvidia nvidia-utils
 
 
+# Generate an SSH key (and copy the public key to all trusted hosts)
+sudo pacman -S openssh
+ssh-keygen -t ed25519 -C "phdenzel@gmail.com"
+
+
 ### AUR yay setup
 mkdir ~/local
 cd local
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si PKGBUILD
-
-
-# Generate an SSH key (and copy the public key to all trusted hosts)
-sudo pacman -S openssh
-ssh-keygen -t ed25519 -C "phdenzel@gmail.com"
 
 
 ### My own dotfiles (xmonad configs)
@@ -89,6 +89,7 @@ git clone https://github.com/xmonad/xmonad.git
 git clone https://github.com/xmonad/xmonad-contrib.git
 git clone https://github.com/jaor/xmobar.git
 stack init
+cp ~/dotfiles/.config/xmonad/stack.yml stack.yml
 stack install
 sudo ln -s ~/.local/bin/xmonad /usr/bin
 sudo mkdir -p /usr/share/xsessions
@@ -188,7 +189,7 @@ yay -S otf-nerd-fonts-fira-mono ttf-exo-2 ttf-all-the-icons ttf-weather-icons
 # > mv DejaVuSansMono.psf ~/.fonts
 # Set tty font
 echo "FONT=DejaVuSansMono.psf" | sudo tee /etc/vconsole.conf
-cp .fonts/*.psf /usr/share/kbd/consolefonts/
+sudo cp .fonts/*.psf /usr/share/kbd/consolefonts/
 fc-cache -v -f
 sudo sed -i 's/keyboard/consolefont keyboard/' /etc/mkinitcpio.conf
 # Add consolefont to the /etc/mkinitcpio.conf HOOKS
@@ -205,4 +206,4 @@ curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -
 # All in one install
 sudo pacman -Syyu
 sudo pacman -Syu
-sudo pacman -S xf86-video-intel nvidia nvidia-utils openssh xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr libx11 libxft libxinerama libxrandr libxss pkgconf stack wireless_tools picom feh dmenu python-pip python-pipenv pcmanfm ranger xscreensaver zip unzip rsync cronie htop emacs texlive-most texlive-lang ghc-static git wget curl lynx colordiff qalculate-gtk xclip xsel scrot pass pass-otp virt-manager qemu qemu-arch-extra edk2-ovmf vde2 bridge-utils ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome zathura calibre celluloid
+sudo pacman -S xf86-video-intel nvidia nvidia-utils openssh xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr libx11 libxft libxinerama libxrandr libxss pkgconf stack wireless_tools picom feh dmenu python-pip python-pipenv pcmanfm ranger xscreensaver zip unzip rsync cronie htop emacs texlive-most texlive-lang ghc-static git wget curl lynx colordiff qalculate-gtk xclip xsel scrot pass pass-otp virt-manager qemu qemu-arch-extra edk2-ovmf vde2 bridge-utils ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome zathura calibre mpv celluloid

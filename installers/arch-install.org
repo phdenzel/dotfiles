@@ -146,7 +146,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
       subvolume), in order to easily reinstall or restore arch without
       any data loss. (Note: it is still possible without a seperate
       home partition, but probably comes with headaches.)
-    - a ~/swap~ partition is always a good idea, even if you have
+    - a ~swap~ partition is always a good idea, even if you have
       enough RAM, say 64GB ;). The linux kernel moves memory pages
       that are hardly ever used to swap space to ensure that enough
       RAM is available for more frequently used ones. Alternatively,
@@ -195,11 +195,11 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     | sda4   | linux (8300) | {/mnt}/home               | 100%  |
 
     If the device is smaller than 1 TB (assumed in the case above),
-    then downscale the partitions appropriately, however EFI needs at
-    least 300M and swap at least 512M. I prefer ~/mnt/efi~ as mount
+    then downscale the partitions appropriately, however the ESP needs
+    at least 300M and swap at least 512M. I prefer ~/mnt/efi~ as mount
     point for the ESP, but this could create problems for some boot
-    managers which look in the boot directory. ~grub~ can boot from
-    anywhere though when configured correctly.
+    managers which look in the ~/boot~ directory. ~grub~ can boot from
+    anywhere though (when configured correctly).
 
     #+begin_src shell
       gdisk /dev/sda
@@ -219,21 +219,22 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
 
     After the partitioning, you're ready to format the partitions and
     mount them (labelling the partitions is not necessary as it's best
-    to use the uuid in the filesystem table to mount them).
+    to use the UUID in the filesystem table to mount them, to avoid
+    mistakes which could lead to serious data loss).
 
     #+begin_src shell
       mkfs.fat -F 32 /dev/sda1
       mkswap /dev/sda2
       swapon /dev/sda2
       mkfs.ext4 /dev/sda3
-      mkfs/ext4 /dev/sda4
+      mkfs.ext4 /dev/sda4
     #+end_src
 
     Once formatted, create the directories and mount them
 
     #+begin_src shell
-      mkdir -p /mnt/{boot/efi,home}
       mount /dev/sda3 /mnt
+      mkdir -p /mnt/{boot,home}
       mount /dev/sda4 /mnt/home
       mount /dev/sda1 /mnt/boot  # or /mnt/efi
     #+end_src
@@ -248,18 +249,19 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     | sda1   | EFI   (ef00) | {/mnt}/boot or {/mnt}/efi | +512M |
     | sda2   | swap  (8200) | [SWAP]                    | +4G   |
     | sda3   | linux (8300) | {/mnt}/                   | 100%  |
-    | sdb1   | linux (8300) |                           | 100%  |
+    | sdb    | -            |                           | 100%  |
 
     Again, adjust the sizes if your drives are smaller (EFI needs at
     least 300M and swap at least 512M). I prefer ~/mnt/efi~ as a mount
-    point for the ESP, which is no problem for the ~grub~ boot loader,
+    point for the ESP, which is no problem for the grub boot loader,
     but needs a bit more work to configure with encryption.
     
     Here, we don't create a separate home partition, because we
     generate individual btrfs subvolumes which can also be mounted
     separately. With btrfs, we can also use device pooling to set up
-    RAID systems. If you decide against RAID1, simply create all
-    subvolumes on the same drive in the following example.
+    RAID systems. If you decide against RAID, simply create the
+    filesystem on a single drive only (leave out ~/dev/sdb~ in all
+    following commands).
 
     | btrfs subvolume |
     |-----------------|
@@ -302,7 +304,8 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     partition or subvolume on a separate filesystem, you have to ~cd~
     out of the ~/mnt~ directory, unmount the previous partition, and
     mount the other disk to ~/mnt~. On RAID systems this doesn't
-    matter as multiple drives represent a single filesystem.
+    matter as multiple drives form a single filesystem.
+
     #+begin_src shell
       mount /dev/sda3 /mnt
       cd /mnt
@@ -335,7 +338,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     First, create the 3 partitions as described above. The EFI
     partition has FAT32 format and can be formatted as such, the swap
     can be temporarily created as above and will be encrypted in a
-    later step.
+    later step (see below).
 
     Before formatting the btrfs partition, we first have to encrypt
     it, with a strong password:
@@ -351,16 +354,16 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     the installation.
 
     #+begin_src shell
-    cryptsetup luksOpen /dev/sda3 cryptroot
+      cryptsetup luksOpen /dev/sda3 cryptroot
     #+end_src
 
-    The ~cryptroot~ filesystem can then be formatted
+    The ~cryptroot~ mapper system can then be formatted
 
     #+begin_src shell
       mkfs.btrfs /dev/mapper/cryptroot 
     #+end_src
 
-    Mount the ~cryptroot~ as root and create the subvolumes
+    Mount ~cryptroot~ as root and create the subvolumes
 
     #+begin_src shell
       mount /dev/mapper/cryptroot /mnt
@@ -402,6 +405,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   #+end_src
 
   Once the base install has finished, we generate the filesystem table
+  which tells the system on reboot what drives to mount and how
 
   #+begin_src shell
     genfstab -U /mnt >> /mnt/etc/fstab
@@ -417,11 +421,13 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     arch-chroot /mnt
   #+end_src
 
+  After this, ~/mnt~ will be ~/~.
+
 
 **** Optional: swapfile
 
-     If you decided to not create a swap partition, it might be wise
-     to at least create a swapfile...
+     If you decided against creating a swap partition, it might be
+     wise to at least create a swapfile...
 
      #+begin_src shell
        dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
@@ -431,7 +437,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
      #+end_src
 
      So far, I haven't tried encrypting a swapfile, so I can't write
-     anyhting about it here.
+     anything about it here.
 
 
 *** Set the locale
@@ -516,15 +522,8 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     #+begin_src shell
       useradd -m phdenzel
       passwd phdenzel
-      usermod -aG wheel,audio,video,optical,storage,kvm,libvirt phdenzel
-      sed -i '82s/.//' /etc/sudoers
-    #+end_src
-
-    Alternatively to adding the new user to the wheel group, you may
-    add the user to the ~/etc/sudoers.d/~ directory.
-
-    #+begin_src shell
-    echo "phdenzel ALL=(ALL) ALL" >> /etc/sudoers.d/phdenzel
+      usermod -aG wheel,audio,video,optical,storage,kvm phdenzel
+      echo "phdenzel ALL=(ALL) ALL" >> /etc/sudoers.d/phdenzel
     #+end_src
 
 
@@ -538,8 +537,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   #+end_src
 
   Note, if you mounted your ESP on ~/mnt/efi~ instead of ~/mnt/boot~,
-  make the necessary changes to the command above if you're on LUKS
-  (see section below).
+  make the necessary changes to the command above (see section below).
 
   If you encryted your drive, you have to make a few changes to the
   ~/etc/default/grub~ in order for GRUB to be able to recognize the
@@ -547,7 +545,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   itself, e.g. ~/dev/sda3~
 
   #+begin_src  shell
-    blkid | grep /dev/sda3 | awk -F' ' '/UUID/{print $2}'
+    blkid | awk -F' ' '/sda3/{print $2}'
   #+end_src
 
   Copy it, or pipe the command above to append to ~/etc/default/grub~,

@@ -199,7 +199,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     least 300M and swap at least 512M. I prefer ~/mnt/efi~ as mount
     point for the ESP, but this could create problems for some boot
     managers which look in the boot directory. ~grub~ can boot from
-    anywhere though.
+    anywhere though when configured correctly.
 
     #+begin_src shell
       gdisk /dev/sda
@@ -251,8 +251,9 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     | sdb1   | linux (8300) |                           | 100%  |
 
     Again, adjust the sizes if your drives are smaller (EFI needs at
-    least 300M and swap at least 512M). I prefer ~/mnt/efi~ as mount
-    point for the ESP, which is no problem for the ~grub~ boot loader.
+    least 300M and swap at least 512M). I prefer ~/mnt/efi~ as a mount
+    point for the ESP, which is no problem for the ~grub~ boot loader,
+    but needs a bit more work to configure with encryption.
     
     Here, we don't create a separate home partition, because we
     generate individual btrfs subvolumes which can also be mounted
@@ -343,9 +344,10 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
       cryptsetup luksFormat /dev/sda3
     #+end_src
 
-    Confirm the prompt by typing ~YES~ and enter a your passphrase.
-    The encryption takes a few seconds to a minute to
-    finish. Afterwards, open the encrypted drive to be able to work on
+    Confirm the prompt by typing ~YES~ and enter your passphrase.  The
+    encryption takes a few seconds to a minute to finish.    
+
+    Afterwards, open the encrypted drive to be able to work on
     the installation.
 
     #+begin_src shell
@@ -536,7 +538,8 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   #+end_src
 
   Note, if you mounted your ESP on ~/mnt/efi~ instead of ~/mnt/boot~,
-  make the necessary changes to the command above.
+  make the necessary changes to the command above if you're on LUKS
+  (see section below).
 
   If you encryted your drive, you have to make a few changes to the
   ~/etc/default/grub~ in order for GRUB to be able to recognize the
@@ -567,7 +570,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   enable it in the grub configuration and regenerate it
   
   #+begin_src shell
-    sed -i 's/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/g' /etc/defaults/grub.cfg
+    sed -i 's/#GRUB_DISABLE_OS_PROBER/GRUB_DISABLE_OS_PROBER/g' /etc/defaults/grub
     grub-mkconfig -o /boot/grub/grub.cfg
   #+end_src
 
@@ -583,6 +586,101 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     reboot
   #+end_src
 
+
+*** Encrypted root and ESP on ~/efi~
+
+    As of time of writing, it is a bit more involved to have the ESP
+    mounted at ~/efi~, combined with a LUKS2 encrypted root... however
+    it comes with the benefit of having nicely separated directories
+    for the kernel and initrd images, and the ability to snapshot
+    them in a btrfs system.
+
+    If you make these changes to an existing machine, be sure to make
+    the necessary backups and move them to a partition to which you
+    have access.
+
+    First, check that the keyslot (0 in my case) of your LUKS2
+    partition is using pbkdf2
+
+    #+begin_src shell
+      cryptsetup luksDump /dev/sda3
+    #+end_src
+
+    and if not convert it
+
+    #+begin_src shell
+      cryptsetup luksConvertKey --key-slot 0 --pbkdf pbkdf2 /dev/sda3
+    #+end_src
+
+    If you encrypted ~/boot~ you'd have to enter your previously set
+    passphrase twice. To avoid this, create a keyfile called
+    ~/crypto_keyfile.bin~ and add it as a LUKS key
+
+    #+begin_src shell
+      dd bs=512 count=4 if=/dev/random of=/crypto_keyfile.bin iflag=fullblock
+      chmod 600 /crypto_keyfile.bin
+      chmod 600 /boot/initramfs-linux*
+      cryptsetup luksAddKey /dev/sdXN /crypto_keyfile.bin
+    #+end_src
+
+    Make also sure to add the keyfile to ~/etc/mkinitcpio.conf~ in the
+    FILES list
+
+    #+begin_src shell
+      FILES=(/crypto_keyfile.bin)
+    #+end_src
+
+    and regenerate the initramfs with ~mkinitcpio -P~.
+
+    If you haven't already, install grub on the ESP, in this case
+    ~/efi~ with
+
+    #+begin_src shell
+      grub-install --target=x86_64-efi --efi-directory=/efi --boot-directory=/efi --bootloader-id=GRUB
+    #+end_src
+
+    In ~/etc/default/grub~ add ~luks2~ to the module preload list and
+    enable booting from an encrypted ~/boot~
+
+    #+begin_src shell
+      GRUB_PRELOAD_MODULES="part_gpt part_msdos luks2"
+      GRUB_ENABLE_CRYPTODISK=y
+    #+end_src
+
+    Currently, grub only offers limited support for LUKS2, so mounting
+    an encrypted partition has to be configured. For this purpose,
+    create a file ~/etc/grub.d/01_header~ and add the UUID of the LUKS
+    partition ~/dev/sda3~ without any dashes, for example for the UUID
+    ~266584be-d7b7-11eb-8c76-c3eef48c7257~ the entry should be
+    ~266584bed7b711eb8c76c3eef48c7257~
+
+    #+begin_src shell
+      #!/bin/sh
+      echo "cryptomount -u 266584bed7b711eb8c76c3eef48c7257"
+    #+end_src
+
+    and regenerate the grub configuration
+
+    #+begin_src shell
+      grub-mkconfig -o /efi/grub/grub.cfg
+    #+end_src
+
+    Additionally, if you chose to install ~grub-btrfs~, you also need
+    to change the path of the ESP in the configuration file
+    ~/etc/default/grub-btrfs/config~
+
+    #+begin_src shell
+    GRUB_BTRFS_GRUB_DIRNAME="/efi/grub"
+    #+end_src
+
+    and add the initramfs hook at the end to be able to boot read-only
+    snapshots
+
+    #+begin_src shell
+      HOOKS=(... grub-btrfs-overlayfs)
+    #+end_src
+
+    and remember to regenerate the image with ~mkinitcpio -P~.
 
 *** Encrypting the swap partition
 

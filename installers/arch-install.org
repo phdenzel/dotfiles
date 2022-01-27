@@ -31,12 +31,25 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     cat ~/Downloads/archlinux-2022.01.01-x86_64.iso > /dev/sde
   #+end_src
 
+
 *** On partitioned flash drive
 
     The method above unfortunately only works on the entire drive,
     without preserving already existent paritions. Creating a manually
     partitioned flash drive is a bit more involved.
 
+    Create a partition table and partitions on the USB drive, and
+    format them FAT32, for the partition ~/dev/sde1~ for example
+
+    #+begin_src shell
+      mkfs.fat -F32 /dev/sde1
+    #+end_src
+
+    #+begin_src shell
+      sudo mount /dev/sde1 /mnt
+      sudo bsdtar -x -f archlinux-2022.01.01-x86_64.iso -C /mnt
+      sudo fatlabel /dev/sde1 ARCH_202201
+    #+end_src
 
 * Right after boot
 
@@ -618,7 +631,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
       dd bs=512 count=4 if=/dev/random of=/crypto_keyfile.bin iflag=fullblock
       chmod 600 /crypto_keyfile.bin
       chmod 600 /boot/initramfs-linux*
-      cryptsetup luksAddKey /dev/sdXN /crypto_keyfile.bin
+      cryptsetup luksAddKey /dev/sda3 /crypto_keyfile.bin
     #+end_src
 
     Make also sure to add the keyfile to ~/etc/mkinitcpio.conf~ in the
@@ -679,6 +692,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
     #+end_src
 
     and remember to regenerate the image with ~mkinitcpio -P~.
+
 
 *** Encrypting the swap partition
 

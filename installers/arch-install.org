@@ -773,3 +773,41 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   ~/etc/wpa_supplicant/wpa_supplicant.conf~ and your network info.
   Make sure to use ~wpa_passphrase~ to enter your encrypted network
   password.
+
+
+* Useful laptop settings
+
+  Shutting the lid of a laptop sometimes misbehaves. Use the following
+  settings in ~/etc/systemd/logind.conf~ to activate suspend
+
+  #+begin_src shell
+    HandlePowerkey=suspend
+    HandleLidswitch=suspend
+  #+end_src
+
+  Sometimes, an issue arises after wakeup (see ~/proc/acpi/wakeup~)
+  where XHC1 is enabled. Fix this by disabling it at boot time in
+  ~/etc/udev/rules.d/90-xhc_sleep.rules~
+
+  #+begin_src shell
+    # disable wake from S3 on XHC1
+    SUBSYSTEM=="pci", KERNEL=="0000:00:14.0", ATTR{device}=="0x9c31" RUN+="/bin/sh -c '/bin/echo disabled > /sys$env{DEVPATH}/power/wakeup'"
+  #+end_src
+
+  For CPU-related power management, install some useful packages
+
+  #+begin_src shell
+    pacman -S thermald cpupower
+    sudo systemctl enable thermald
+    sudo systemctl start thermald
+    sudo systemctl enable cpupower
+    sudo systemctl start cpupower
+  #+end_src
+
+  Audio can also contribute to power saving, add a configuration file
+  for your Intel Audio card to ~/etc/modprobe.d/60-snd_hda_intel.conf~
+
+  #+begin_src shell
+    # Enable Power Saving on Intel HDA Audio
+    options snd_hda_intel power_save=1
+  #+end_src

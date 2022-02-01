@@ -10,6 +10,7 @@
 #     set -x
 # fi
 #######################################################
+[ -z "$PS1" ] && return
 
 if [ -f ${XDG_CONFIG_HOME:=$HOME/.config}/bashrc/bashrc ]; then
     . ${XDG_CONFIG_HOME:=$HOME/.config}/bashrc/bashrc

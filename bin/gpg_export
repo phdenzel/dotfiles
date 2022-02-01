@@ -1,0 +1,4 @@
+#!/bin/bash
+gpg -a --export > gpg_pubkeys.asc
+gpg -a --export-secret-keys > gpg_privkeys.asc
+# gpg --list-secret-keys --keyid-format LONG

@@ -1,0 +1,5 @@
+#!/bin/bash
+gpg --import gpg_privkeys.asc
+gpg --edit-key 629FC7317EFB4935 trust quit
+# enter 5<RETURN> (I trust ultimately)
+# enter y<RETURN> (Really set this key to ultimate trust - Yes)

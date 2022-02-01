@@ -2,9 +2,15 @@
 ####################################################### bashrc
 
 ####################################################### Source the dotfiles
-# Note: color variables are defined in .exports; thus every command
-#       using colors has to be sourced/executed thereafter
-for file in ${XDG_CONFIG_HOME:=$HOME/.config}/bashrc/{path,exports,prompt,functions,aliases,xauto}; do
+# Note: - color variables are defined in .exports; thus every command
+#         using colors has to be sourced/executed thereafter
+#       - use 'xauto' to automatically start xorg-server when logging in
+for file in ${XDG_CONFIG_HOME:=$HOME/.config}/bashrc/{path,exports,prompt,functions,aliases}; do
+    [ -r "$file" ] && [ -f "$file" ] && . "$file"
+done;
+unset file;
+
+for file in ${HOME}/local/bin/resolution_tty; do
     [ -r "$file" ] && [ -f "$file" ] && . "$file"
 done;
 unset file;

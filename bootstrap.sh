@@ -22,6 +22,7 @@ EXCLUDES=(
     --exclude "imgs/"
     --exclude "utils/"
     --exclude "private/"
+    --exclude ".config/USERINFO"
     --exclude ".config/emacs/"
     --exclude ".config/gtk-3.0/"
     --exclude ".config/xmonad/stack.yaml"

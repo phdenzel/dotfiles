@@ -116,13 +116,13 @@ myConfigs = def
 myStartupHook :: X()
 myStartupHook = do
   spawn     "killall trayer"
-  spawnOnce "xrandr -s 1920x1080 &"            -- screen resolution
+  spawnOnce "resolution_x11 &"                 -- set screen resolution using xrandr
   spawnOnce "xsetroot -cursor_name left_ptr &" -- set cursor
   spawnOnce "xset r rate 180 35 &"             -- increase scroll speed
   spawnOnce "xrgb -merge ~/.Xresources &"      -- load x resources
-  -- spawnOnce "xmodmap ~/.Xmodmap"               -- load x modmap
+  spawnOnce "xmodmap ~/.Xmodmap &"             -- load x modmap
   spawnOnce "picom &"                          -- start compositor
-  setWallpaper
+  spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper
   spawnOnce "xscreensaver -no-splash &"        -- xscreensaver daemon
   spawnOnce "/usr/bin/emacs --daemon &"        -- Emacs daemon
   spawn     ("trayer --edge top --align left --widthtype request "
@@ -133,9 +133,6 @@ myStartupHook = do
             )
   setWMName "LG3D"  -- Java hack
   return () >> checkKeymap myConfigs myKeymap
-    where
-      setWallpaper :: X ()
-      setWallpaper = spawnOnce "~/.config/feh/fehbg &"
 
 
 -------------------- Workspaces
@@ -272,7 +269,7 @@ myManageHook = (composeAll . concat $
                <+> manageHook def
   where
     mywmShifts  = [ "" ]
-    myttyShifts = [ "Alacritty", "Xterm" ]
+    myttyShifts = [ "Xterm" ]
     mydevShifts = [ "Emacs", "Code" ]
     mywebShifts = [ "Brave-browser" ]
     mydocShifts = [ "Pcmanfm", "Ranger" ]

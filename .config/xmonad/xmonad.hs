@@ -345,7 +345,7 @@ myKeymap =
   -- Launch/kill bindings
   [ ("M-<Return>"   , spawn myTerminal)
   , ("M-/"          , spawn "dmenu_run")
-  --, ("M-p"          , spawn "dmenu_run")
+  , ("M-p"          , spawn "passmenu")
   , ("M-S-c"        , kill)
   , ("M-C-c"        , kill)
   , ("M-S-C-c"      , killAll)

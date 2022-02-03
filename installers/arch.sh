@@ -127,8 +127,10 @@ sudo pacman -S pcmanfm ranger
 # System tools
 sudo pacman -S xscreensaver
 
+
 # Disk utils
-sudo pacman -S zip unzip rsync cronie htop
+sudo pacman -S gptfdisk zip unzip rsync cronie htop
+sudo pacman -S dust
 # Snapshot/Backup utility
 yay -S timeshift
 
@@ -140,24 +142,27 @@ yay -S timeshift
 # and replace Exec in `/usr/share/applications/Alacritty.desktop`
 # `Exec=env LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty`
 # My favorite editor(s) (vim usually already installed during grub-install)
-sudo pacman -S emacs code vim
+sudo pacman -S emacs vim
 # LaTeX
 sudo pacman -S texlive-most texlive-lang
 # Haskell
 sudo pacman -S ghc-static
 
+
 # Web packages (lynx: blazingly fast, text-based browser)
 sudo pacman -S git wget curl lynx
 yay -S brave-bin     # privacy-oriented browser
 
+
 # Utility tools
 sudo pacman -S colordiff qalculate-gtk xclip xsel scrot 
+
 
 # Password manager
 sudo pacman -S pass pass-otp
 # pass-import (for Enpass import)
 yay -S pass-import
-# or if you don't trust AUR
+# or if you prefer manual installation
 cd forks
 # git clone https://github.com/phdenzel/pass-import.git
 git clone git@github.com:phdenzel/pass-import.git
@@ -197,8 +202,12 @@ sudo mkinitcpio -p linux
 
 
 # Media packages
-sudo pacman -S zathura calibre celluloid
-yay -S dropbox enpass-bin brave-bin mailspring spotify zenity ffmpeg-compat-57
+sudo pacman -S zathura calibre mpv celluloid
+sudo pacman -S lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly
+yay -S brave-bin spotify zenity ffmpeg-compat-57
+yay -S mailspring
+sudo pacman -S gnome-keyring
+yay -S dropbox
 dropbox start -i
 curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -
 
@@ -206,4 +215,4 @@ curl -sS https://download.spotify.com/debian/pubkey.gpg | gpg --import -
 # All in one install
 sudo pacman -Syyu
 sudo pacman -Syu
-sudo pacman -S xf86-video-intel nvidia nvidia-utils openssh xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr libx11 libxft libxinerama libxrandr libxss pkgconf stack wireless_tools picom feh dmenu python-pip python-pipenv pcmanfm ranger xscreensaver zip unzip rsync cronie htop emacs texlive-most texlive-lang ghc-static git wget curl lynx colordiff qalculate-gtk xclip xsel scrot pass pass-otp virt-manager qemu qemu-arch-extra edk2-ovmf vde2 bridge-utils ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome zathura calibre mpv celluloid
+sudo pacman -S xf86-video-intel nvidia nvidia-utils openssh xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr libx11 libxft libxinerama libxrandr libxss pkgconf stack wireless_tools picom feh dmenu python-pip python-pipenv pcmanfm ranger xscreensaver zip unzip rsync cronie htop dust emacs texlive-most texlive-lang ghc-static git wget curl lynx colordiff qalculate-gtk xclip xsel scrot pass pass-otp virt-manager qemu qemu-arch-extra edk2-ovmf vde2 bridge-utils ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome zathura calibre mpv celluloid lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly gnome-keyring

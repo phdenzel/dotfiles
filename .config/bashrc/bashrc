@@ -58,12 +58,12 @@ _hostinfo () {
 # Get the mounted drives and free space
 _mounted () {
     echo "-------------------------------- Mounted Drives --------------------------------"
-    df -Hx tmpfs
+    df -h -x tmpfs -x devtmpfs --output=source,target,fstype,size,used,pcent,avail
 }
 # Check free memory ((uses $OS set in .aliases))
 _meminfo () {
     echo "------------------------------ Memory Information ------------------------------"
-    command -v free &> /dev/null && free -tm || vm_stat
+    command -v free &> /dev/null && free -th
 }
 # Look at uptime
 _upinfo () {

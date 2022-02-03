@@ -125,12 +125,15 @@ myStartupHook = do
   spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper
   spawnOnce "xscreensaver -no-splash &"        -- xscreensaver daemon
   spawnOnce "/usr/bin/emacs --daemon &"        -- Emacs daemon
-  spawn     ("trayer --edge top --align left --widthtype request "
+  spawn     ("trayer --edge top --align right --widthtype request "
              ++ "--padding 6 --SetDockType true --SetPartialStrut true "
              ++ "--expand true --transparent true --alpha 0 --height 22 "
+             ++ "--iconspacing 16 "
              ++ colorTrayer
              ++ "&"
             )
+  spawn     "blueman-applet &"
+  spawn     "nm-applet &"
   setWMName "LG3D"  -- Java hack
   return () >> checkKeymap myConfigs myKeymap
 

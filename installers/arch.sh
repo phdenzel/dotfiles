@@ -125,7 +125,8 @@ sudo pacman -S pcmanfm ranger
 
 
 # System tools
-sudo pacman -S xscreensaver
+sudo pacman -S xdotool xscreensaver
+sudo pacman -S network-manager-applet blueman
 
 
 # Disk utils

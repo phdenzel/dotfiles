@@ -347,7 +347,7 @@ myKeymap :: [(String, X ())]
 myKeymap =
   -- Launch/kill bindings
   [ ("M-<Return>"   , spawn myTerminal)
-  , ("M-/"          , spawn "dmenu_run")
+  , ("M-/"          , spawn "dmenu_run -c -l 15")
   , ("M-p"          , spawn "passmenu")
   , ("M-S-c"        , kill)
   , ("M-C-c"        , kill)

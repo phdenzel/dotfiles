@@ -127,7 +127,7 @@ myStartupHook = do
   spawnOnce "/usr/bin/emacs --daemon &"        -- Emacs daemon
   spawn     ("trayer --edge top --align right --widthtype request "
              ++ "--padding 6 --SetDockType true --SetPartialStrut true "
-             ++ "--expand true --transparent true --alpha 0 --height 22 "
+             ++ "--expand true --transparent true --alpha 0 --height 30 "
              ++ "--iconspacing 16 "
              ++ colorTrayer
              ++ "&"

@@ -25,6 +25,7 @@ EXCLUDES=(
     --exclude ".config/USERINFO"
     --exclude ".config/emacs/"
     --exclude ".config/gtk-3.0/"
+    --exclude ".config/qt5ct/"
     --exclude ".config/xmonad/stack.yaml"
     --exclude ".config/xmobar/xmobarconf/"
     --exclude "LICENSE"
@@ -53,6 +54,7 @@ elif [ "$1" == "--bin" ]; then
 elif [ "$1" == "--gtk" ]; then
     echo "Installing gtk theme: phd-dark"
     rsync -ahv .config/gtk-3.0/ $CONF_HOME/gtk-3.0/
+    rsync -ahv .config/qt5ct/ $CONF_HOME/qt5ct/
 elif [ "$1" == "--dry-run" ]; then
     echo "Installation dry-run"
     rsync "${EXCLUDES[@]}" --dry-run -avh . ~;

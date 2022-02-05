@@ -64,6 +64,7 @@ cd dotfiles
 
 ./bootstrap.sh --gtk
 gsettings set org.gnome.desktop.interface gtk-theme phd-dark
+sudo pacman -S qt5ct
 # for applications requiring sudo rights, sudo copy
 # .themes/phd-dark to /usr/share/themes/ and
 # .config/gtk-3.0/settings.ini to /usr/share/gtk-3.0/
@@ -160,7 +161,7 @@ sudo pacman -S colordiff qalculate-gtk xclip xsel scrot
 
 
 # Password manager
-sudo pacman -S pass pass-otp
+sudo pacman -S pass pass-otp zbar
 # pass-import (for Enpass import)
 yay -S pass-import
 # or if you prefer manual installation

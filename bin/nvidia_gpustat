@@ -1,0 +1,29 @@
+#!/bin/bash
+GPUSTAT_FILE=/tmp/nvidia_gpustat
+
+APPEND=""
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -a)
+      APPEND="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+    *)      
+      shift # past argument
+      ;;
+  esac
+done
+
+nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits >> $GPUSTAT_FILE
+echo "$(tail -n 10 $GPUSTAT_FILE)" > $GPUSTAT_FILE
+
+GPUSTAT_VAL=$(tail -n 1 $GPUSTAT_FILE)
+printf -v output "%2d%%" $GPUSTAT_VAL
+output+=$APPEND
+echo -n "$output"

@@ -8,7 +8,7 @@
 # ./bootstrap.sh --emacs      : install the emacs config files.
 #                --emacs-sync : sync the emacs config files.
 #                --bin        : link the binary files (symlinks in ~/local/bin).
-#                --gtk        : install custom gtk theme
+#                --themes     : install custom gtk/qt appearance and icon theme
 BOOTSTRAP_PATH=$(dirname "$0")
 BOOTSTRAP_PATH=$(cd "$BOOTSTRAP_PATH" && pwd)
 CONF_HOME=${XDG_CONFIG_HOME:=$HOME/.config}
@@ -24,6 +24,8 @@ EXCLUDES=(
     --exclude "private/"
     --exclude ".config/USERINFO"
     --exclude ".config/emacs/"
+    --exclude ".themes/"
+    --exclude ".icons/"
     --exclude ".config/gtk-3.0/"
     --exclude ".config/qt5ct/"
     --exclude ".config/xmonad/stack.yaml"
@@ -51,8 +53,10 @@ elif [ "$1" == "--bin" ]; then
     echo "Installing ~/local/bin/ symlink binaries"
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
     ln -s -f $BOOTSTRAP_PATH/bin/* ${HOME}/local/bin/
-elif [ "$1" == "--gtk" ]; then
-    echo "Installing gtk theme: phd-dark"
+elif [ "$1" == "--themes" ]; then
+    echo "Installing gtk/qt theme: phd-dark"
+    rsync -ahv .themes/ $HOME/.themes/
+    rsync -ahv .icons/ $HOME/.icons/
     rsync -ahv .config/gtk-3.0/ $CONF_HOME/gtk-3.0/
     rsync -ahv .config/qt5ct/ $CONF_HOME/qt5ct/
 elif [ "$1" == "--dry-run" ]; then

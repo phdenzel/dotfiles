@@ -9,4 +9,8 @@ else
     RESOLUTION_DPI="200"
     XOUTPUT="HDMI1"
 fi
-xrandr --output "$XOUTPUT" --mode "${RESOLUTION_W}x${RESOLUTION_H}" --dpi "$RESOLUTION_DPI"
+xrandr \
+    --output "$XOUTPUT" \
+    --mode "${RESOLUTION_W}x${RESOLUTION_H}" \
+    --dpi "$RESOLUTION_DPI" \
+    --primary

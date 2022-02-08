@@ -37,13 +37,15 @@ fi;
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 elif [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/local/etc/bash_completion
+    . /usr/share/bash-completion/bash_completion
 fi
 
 # configure git
-source ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO
-git config --global user.name "$GITUSER"
-git config --global user.email "$GITMAIL"
+if [ -f ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO ]; then
+	source ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO
+	git config --global user.name "$GITUSER"
+	git config --global user.email "$GITMAIL"
+fi
 
 
 ####################################################### Welcome helpers

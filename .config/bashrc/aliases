@@ -41,7 +41,11 @@ alias e='emacsclient -t --alternate-editor=""'
 alias ew='ew'  # see local/bin for 'ew' emacs lauch script
 alias semacs='sudo /usr/bin/emacs --nw'
 ### Servers
-source ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO
+if [ -f ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO ]; then
+	source ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO
+else
+	SSHUSER=$(whoami)
+fi;
 SSHFLAG="-2Y"
 SSHREDIRECT="-2Yt"
 # Home network

@@ -8,6 +8,7 @@ import XMonad
 import System.IO
 import System.Exit
 import qualified XMonad.StackSet as W
+
 -- Data
 import Data.Monoid
 import qualified Data.Map as M
@@ -31,7 +32,9 @@ import XMonad.Layout.NoBorders (noBorders, smartBorders, withBorder)
 import XMonad.Layout.Spacing (spacingRaw, Spacing(..), Border(..))
 import XMonad.Layout.LayoutModifier (ModifiedLayout(..))
 import XMonad.Layout.ShowWName
+
 -- Actions
+import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.CycleWS (moveTo, shiftTo, nextScreen, prevScreen,
                                anyWS, ignoringWSs,
                                Direction1D(Next, Prev), WSType(WSIs, (:&:)))
@@ -52,7 +55,9 @@ import Colors.PhDDark  -- color[Trayer, Fore, Back, 01..15]
 myXMobar :: String
 myXMobar = "xmobar"
 myXMobarConf :: String
-myXMobarConf = "~/.config/xmobar/xmobarrc"
+myXMobarConf = " ~/.config/xmobar/xmobarrc "
+myXMobarConf2 :: String
+myXMobarConf2 = " ~/.config/xmobar/xmobarrc2 "
 myTerminal :: String
 myTerminal = "alacritty"
 myBrowser  :: String
@@ -74,7 +79,7 @@ myFocusColor = color06
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = False
 myClickJustFocuses :: Bool
-myClickJustFocuses = True
+myClickJustFocuses = False
 -- Key controls
 myModMask :: KeyMask
 myModMask = mod4Mask  -- Super-mod4Mask | L-Alt-mod1Mask | R-Alt-mod3Mask
@@ -116,7 +121,7 @@ myConfigs = def
 myStartupHook :: X()
 myStartupHook = do
   spawn     "killall trayer"
-  spawnOnce "resolution_x11 &"                 -- set screen resolution using xrandr
+  spawnOnce "resolution_2x11 &"                -- set screen resolution using xrandr
   spawnOnce "xsetroot -cursor_name left_ptr &" -- set cursor
   spawnOnce "xset r rate 180 35 &"             -- increase scroll speed
   spawnOnce "xrgb -merge ~/.Xresources &"      -- load x resources
@@ -125,15 +130,16 @@ myStartupHook = do
   spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper
   spawnOnce "xscreensaver -no-splash &"        -- xscreensaver daemon
   spawnOnce "/usr/bin/emacs --daemon &"        -- Emacs daemon
-  spawn     ("trayer --edge top --align right --widthtype request "
+  spawn     ("sleep 2 && trayer --edge top --align right --widthtype request "
              ++ "--padding 6 --SetDockType true --SetPartialStrut true "
-             ++ "--expand true --transparent true --alpha 0 --height 30 "
-             ++ "--iconspacing 16 "
+             ++ "--expand true --transparent true --alpha 0 --height 28 "
+             ++ "--iconspacing 12 "
              ++ colorTrayer
              ++ "&"
             )
-  spawn     "blueman-applet &"
-  spawn     "nm-applet &"
+  spawn     "blueman-applet"
+  spawn     "nm-applet"
+  spawn     "volumeicon"
   setWMName "LG3D"  -- Java hack
   return () >> checkKeymap myConfigs myKeymap
 
@@ -149,7 +155,7 @@ myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..]
 
 myShowWNameTheme :: SWNConfig  -- for indicators when switching workspaces
 myShowWNameTheme = def
-    { swn_font              = "xft:Ubuntu:bold:size=48"
+    { swn_font              = "xft:Ubuntu:bold:size=32"
     , swn_fade              = 1.0
     , swn_bgcolor           = colorBack
     , swn_color             = color07
@@ -271,14 +277,15 @@ myManageHook = (composeAll . concat $
                <+> manageDocks
                <+> manageHook def
   where
+    -- I only use these on laptops
     mywmShifts  = [ "" ]
-    myttyShifts = [ "Xterm" ]
-    mydevShifts = [ "Emacs", "Code" ]
-    mywebShifts = [ "Brave-browser" ]
-    mydocShifts = [ "Pcmanfm", "Ranger" ]
-    mymuShifts  = [ "Mailspring" ]
-    mytxShifts  = [ "Transmission-gtk" ]
-    mygxShifts  = [ "Gimp" ]
+    myttyShifts = [ "" ]
+    mydevShifts = [ "" ]
+    mywebShifts = [ "" ]
+    mydocShifts = [ "" ]
+    mymuShifts  = [ "" ]
+    mytxShifts  = [ "" ]
+    mygxShifts  = [ "" ]
     mylsShifts  = [ "" ]
     myfFloats   = [ "" ]
     mycFloats   = [ "feh", "Xmessage" ]
@@ -330,9 +337,13 @@ myXMobarPP = def
     hair :: String
     hair = "<fn=1> </fn>"
 
-xmobar0 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++" -x 0 "++myXMobarConf) (pure myXMobarPP)
+
+xmobar = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf++"-x 0") (pure myXMobarPP)
+xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 1") (pure myXMobarPP)
 xmobarSpawn :: ScreenId -> IO StatusBarConfig
-xmobarSpawn 0 = pure $ xmobar0
+xmobarSpawn 0 = pure $ xmobar
+xmobarSpawn 1 = pure $ xmobar2
+xmobarSpawn _ = mempty  -- every additional monitor doesn't have a statusbar
 
 
 -------------------- Logging

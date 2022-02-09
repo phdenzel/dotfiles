@@ -326,9 +326,9 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** System tools
-    Bash tab completion, xorg utilities, and system applets
+    Bash tab completion, xorg utilities, and system tray applets
     #+begin_src shell
-      sudo pacman -S bash-completion xdotool xscreensaver network-manager-applet blueman
+      sudo pacman -S bash-completion xdotool xscreensaver network-manager-applet blueman volumeicon
     #+end_src
 
 *** Disk utilities

@@ -1,4 +1,5 @@
 #+AUTHOR: Philipp Denzel
+#+TITLE: Arch install
 #+OPTIONS: num:nil
 
 These are my personal notes on conventions I typically use for an arch
@@ -521,7 +522,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   Pick and choose what you need...
 
   #+begin_src shell
-    pacman -S grub grub-btrfs efibootmgr dosfstools mtools dialog base-devel linux-headers xdg-utils git networkmanager wireless_tools wpa_supplicant openssh bluez bluez-utils blueman alsa-utils pulseaudio pulseaudio-bluetooth pavucontrol cups
+    pacman -S grub grub-btrfs efibootmgr dosfstools mtools dialog base-devel linux-headers bash-completion xdg-utils git networkmanager wireless_tools wpa_supplicant openssh bluez bluez-utils blueman alsa-utils pulseaudio pulseaudio-bluetooth pavucontrol cups
   #+end_src
 
 

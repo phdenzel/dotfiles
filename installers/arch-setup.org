@@ -1,0 +1,538 @@
+#+AUTHOR: Philipp Denzel
+#+TITLE: Arch setup
+#+OPTIONS: num:nil
+
+Once you have a clean install of arch linux and verified that your
+network service is up and running, we can go ahead an setup and
+customize arch to our liking.
+
+The following explains what I usually install and in what order.  You
+can also simply install all packages beforehand, and skip the
+individual package installs below, which could speed up the setup
+process a bit. For this, simply run the ~arch.sh~ install script.
+
+
+* Setup
+
+  My setup routine is relatively simple.  First, refresh the
+  repositories
+  #+begin_src shell
+    sudo pacman -Syyu
+  #+end_src
+
+  I like to uncomment the ~Color~ setting in ~/etc/pacman.conf~ for a
+  more clearly presented output
+  #+begin_src shell
+    sudo sed -i 's/#Color/Color/g' /etc/pacman.conf
+  #+end_src
+
+
+** Drivers
+  
+  Next, install all necessary xorg-drivers (check them with ~sudo
+  pacman -Ss xf86-video~; if in doubt simply install a bunch, the
+  system will choose the right one automatically). My setup consists
+  of an Intel processor and an Nvidia GPU (proprietary drivers are a
+  thorn in my eye, but for now I'm stuck with what works)
+  #+begin_src shell
+    sudo pacman -S xf86-video-intel nvidia nvidia-utils nvidia-settings
+  #+end_src
+  if you have an AMD card simply swap out the packages above with
+  ~xf86-video-amdgpu~.
+
+  Make sure to regenerate the initcpio if an nvidia-driver update is
+  installed. If you don't want to manually regenerate it, add a pacman
+  hook ~/etc/pacman.d/hooks/nvidia.hook~ to ensure triggering
+  initramfs update
+  #+begin_src conf
+    [Trigger]
+    Operation=Install
+    Operation=Upgrade
+    Operation=Remove
+    Type=Package
+    Target=nvidia
+    Target=linux
+
+    [Action]
+    Description=Update Nvidia module in initcpio
+    Depends=mkinitcpio
+    When=PostTransaction
+    NeedsTargets
+    Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
+  #+end_src
+
+  Nvidia drivers unfortunately don't play well with the kernel
+  framebuffer, which makes setting resolutions of the tty a
+  nightmare. For me, the solution was to disable CSM in the UEFI BIOS,
+  and changing the ~/etc/defaults/grub~ to to choose the proper
+  resolution. The relevant lines are
+
+  #+begin_src conf
+    GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet nvidia-drm.modeset=1"
+    GRUB_GFXMODE=2560x1440x32,1920x1080x32,auto
+    GRUB_GFXPAYLOAD_LINUX=keep
+  #+end_src
+
+  Once you're done modifying your GRUB settings, regenerate the
+  GRUB configuration
+  #+begin_src shell
+    grub-mkconfig -o /efi/grub/grub.cfg
+  #+end_src
+
+
+*** Optional: GRUB configuration
+
+  Additionally, I like to change the font in GRUB
+  #+begin_src shell
+    sudo grub-mkfont -o /efi/grub/fonts/ter-32b.pf2 /usr/share/fonts/misc/ter-u32b.otb
+  #+end_src
+
+  Once the font is created, add the following line to the
+  ~/etc/defaults/grub~
+  #+begin_src conf
+    GRUB_FONT=/efi/grub/fonts/ter-32b.pf2
+  #+end_src
+
+  Again, once you're done modifying your GRUB settings, regenerate the
+  GRUB configuration
+  #+begin_src shell
+    grub-mkconfig -o /efi/grub/grub.cfg
+  #+end_src
+
+
+** SSH keys
+
+   Generate an SSH key
+   #+begin_src shell
+     sudo pacman -S openssh
+     ssh-keygen -t ed25519 -C "phdenzel@gmail.com"
+   #+end_src
+   and copy the public key to all trusted hosts.
+
+
+** Install AUR helper
+
+   Clone the ~yay~ AUR helper repository and install it (I like to
+   store sources which get locally installed to a folder in my home
+   directory ~~/local~)
+
+   #+begin_src shell
+     mkdir ~/local
+     cd ~/local
+     git clone https://aur.archlinux.org/yay.git
+     cd yay
+     makepkg -si PKGBUILD
+     cd
+   #+end_src
+
+
+** Dotfiles
+
+   Since you're reading this, you know that I have my dotfiles stored
+   in a GitHub repository. It'll install configurations of my window
+   manager ~XMonad~, ~emacs~, some bash scripts, and GTK/QT themes.
+
+   Prerequisites have to be installed fist
+   #+begin_src shell
+     sudo pacman -S rsync ghc ghc-static qt5ct
+   #+end_src
+
+   Install everything from the dotfiles repository (no need to source
+   the config files in the end)
+   #+begin_src shell
+     git clone git@github.com:phdenzel/dotfiles.git
+     cd ~/dotfiles
+
+     ./bootstrap.sh --bin
+
+     ./bootstrap.sh --emacs
+
+     # This command might take a minute
+     ./bootstrap.sh --themes
+     gsettings set org.gnome.desktop.interface gtk-theme phd-dark
+
+     source bootstrap.sh
+   #+end_src
+
+   Some applications (such as ~timeshift-gtk~) need ~sudo~ priviliges,
+   and thus can't use locally installed themes. Therefore, we need to
+   copy them to the respective directories in ~/usr/share/~
+   #+begin_src shell
+     sudo cp -r .themes/phd-dark /usr/share/themes/
+     sudo cp -r .config/gtk-3.0/settings.ini /usr/share/gtk-3.0/
+   #+end_src
+
+   At last edit the file in ~.config/USERINFO~ with the attributes
+   corresponding to your username and machine, and copy it to your
+   ~.config~ directory
+   #+begin_src shell
+     cp .config/USERINFO $HOME/.config/
+   #+end_src
+
+**** Optional: ~neofetch~
+
+     While everything works without it, I like the look and
+     convenience of the ~neofetch~ script
+     
+     #+begin_src shell
+       cd ~/local
+       git clone git@github.com:phdenzel/neofetch.git
+       cd neofetch
+       make install
+       cd
+     #+end_src
+
+**** Optional: GUI for theming
+
+     If you prefer GUIs to set up your themes, you might want to install
+     #+begin_src shell
+       sudo pacman -S lxappearance
+     #+end_src
+
+
+** XMonad & xmobar
+
+   To get the latest version of XMonad and xmobar, I like to compile
+   them from source myself. This takes a bit longer than simply
+   installing it with the package manager.  First, install all
+   required packages
+
+   #+begin_src shell
+     sudo pacman -S stack xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr libx11 libxft libxinerama libxrandr libxss pkgconf wireless_tools
+   #+end_src
+
+   ~stack~ provides an easy way to compile and install XMonad and
+   xmobar from a sandboxed environment
+
+   #+begin_src shell
+     mkdir -p ~/local/xmonad
+     cd ~/local/xmonad
+     stack setup
+     stack upgrade
+     git clone git@github.com:xmonad/xmonad.git
+     git clone git@github.com:xmonad/xmonad-contrib.git
+     git clone git@github.com:jaor/xmobar.git
+     stack init
+     cp ~/dotfiles/.config/xmonad/stack.yml stack.yml
+     stack install
+     sudo ln -s ~/.local/bin/xmonad /usr/bin
+     sudo mkdir -p /usr/share/xsessions
+     sudo ln -s ~/.config/xmonad/xmonad.desktop /usr/share/xsessions
+     cd
+   #+end_src
+
+
+** dmenu
+
+   ~dmenu~ accompanies XMonad perfectly. Once again, as this is a
+   suckless tool to which one might want to apply some patches,
+   I prefer compiling my own version
+
+   #+begin_src shell
+     cd ~/local
+     git clone git@github.com:phdenzel/dmenu.git
+     cd dmenu
+     make patching
+     make
+     sudo make install
+     cd
+   #+end_src
+
+
+** More suckless tools
+
+   To complete the tiling window manager setup, we furthermore install
+   a compositor, sys-tray, and image viewer (for setting wallpapers)
+
+   #+begin_src shell
+     sudo pacman -S picom feh trayer
+   #+end_src
+
+
+*** Optional: xmobar_wttr - an xmobar addon
+
+    I wrote my own weather fetcher as python program which nicely
+    formats and iconifies the information for ~xmobar~. Python should
+    already be installed on a clean arch installation, but as ~pip~
+    (and ~pipenv~) are not, we first have to install these packages
+    (as well as ~emacs~ for compiling the README)
+
+    #+begin_src shell
+      sudo pacman -S emacs python-pip python-pipenv
+    #+end_src
+
+    ~xmobar_wttr~ can be installed via ~pip~, but I usually just clone
+    the repo and install it from source
+
+    #+begin_src shell
+      cd ~/local
+      git clone git@github.com:phdenzel/xmobar_wttr.git
+      cd xmobar_wttr
+      make pkg
+      python3 setup.py install --user
+      cd
+    #+end_src
+
+
+*** Optional: display manager
+
+    I personally don't use a display manager, as I encrypt my drives
+    and use xinit on login. If I would use a login manager though, it
+    probably would be ~lightdm~ or ~ly~. So,
+
+    #+begin_src shell
+      yay -S ly
+      sudo systemctl enable ly.service
+    #+end_src
+
+    or
+
+    #+begin_src shell
+      sudo pacman -S lightdm lightdm-webkit2-greeter
+      sudo systemctl enable lightdm
+    #+end_src
+
+    If you decided on ~lightdm~, enable its ~lightdm-webkit2-greeter~
+    in ~/etc/lightdm/lightdm.conf~, otherwise it won't work.
+
+
+** Basic programs
+
+   Install my favorite terminal, browser and mail client
+   #+begin_src shell
+     yay -S alacritty-git brave-bin mailspring
+   #+end_src
+
+   Alacritty uses GPU hardware acceleration, but if no hardware
+   acceleration is available (on very old hardware for instance), run
+   ~alacritty~ with ~LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty~ and
+   replace ~Exec=env LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty~ in
+   ~/usr/share/applications/Alacritty.desktop~
+
+   Mailspring needs the ~gnome-keyring~ package for some reason, so to
+   get it working, we will have to install it
+   #+begin_src shell
+     sudo pacman -S gnome-keyring
+   #+end_src
+
+   In the subsections are categorized, and are here for completion. I
+   usually install these via my install script ~arch.sh~
+
+*** File managers
+    GUI and terminal-based file managers
+    #+begin_src shell
+      sudo pacman -S pcmanfm ranger
+    #+end_src
+
+*** System tools
+    Bash tab completion, xorg utilities, and system applets
+    #+begin_src shell
+      sudo pacman -S bash-completion xdotool xscreensaver network-manager-applet blueman
+    #+end_src
+
+*** Disk utilities
+    File system tabulator, disk formatter/analyser, and various compression, copy, and job control programs
+    #+begin_src shell
+      sudo pacman -S arch-install-scripts gptfdisk dust zip unzip rsync cronie htop
+    #+end_src
+
+*** Backup utilities
+    Timeshift integrates well with btrfs, and dropbox
+    #+begin_src shell
+      yay -S timeshift dropbox
+    #+end_src
+
+    Once you're in your graphical environment, set up dropbox using
+    #+begin_src shell
+      dropbox start -i
+    #+end_src
+
+*** Dev tools
+    Languages: lisp, haskell, rust, LaTeX
+    #+begin_src shell
+      sudo pacman -S emacs vim ghc ghc-static rust texlive-most texlive-lang
+    #+end_src
+
+*** Web packages
+    Version control, data transfer, text-based browser programs
+    #+begin_src shell
+      sudo pacman -S git wget curl transmission-cli transmission-gtk lynx
+    #+end_src
+
+*** Password utilities
+    Pass and enpass are password managers I like most so far
+    #+begin_src shell
+      sudo pacman -S pass pass-otp zbar
+      yay -S enpass-bin
+    #+end_src
+
+    Set up a new GPG key or import one from another machine
+    (see ~../bin/gpg_import~ and ~../bin/gpg_export~ scripts).
+
+    In order to sync between them, I use ~pass-import~
+    #+begin_src shell
+      cd ~/local
+      git clone git@github.com:phdenzel/pass-import.git
+      cd pass-import
+      python3 setup.py install --user
+    #+end_src
+
+*** Utilities
+    Calculator, clipboard, and screenshot programs
+    #+begin_src shell
+      sudo pacman -S colordiff qalculate-gtk xclip xsel scrot
+    #+end_src
+
+*** Media programs
+    Document viewer, music and media players
+    #+begin_src shell
+      sudo pacman -S zathura zathura-pdf-mupdf calibre lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly mpv celluloid
+    #+end_src
+
+    and the spotify client
+    #+begin_src shell
+      yay -S ffmpeg-compat-57 spotify
+      sudo pacman -S zenity 
+    #+end_src
+
+*** Fonts
+    #+begin_src shell
+      sudo pacman -S terminus-font ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome
+    #+end_src
+
+    #+begin_src shell
+      yay -S ttf-all-the-icons ttf-weather-icons
+    #+end_src
+
+    Set the tty font using
+    #+begin_src shell
+      echo "FONT=ter-132b" | sudo tee /etc/vconsole.conf
+    #+end_src
+
+    You could also try to convert your own psf fonts using
+    #+begin_src shell
+      yay -S otf2bdf bdf2psf
+      ~/local/bin/psf_from_ttf DejaVuSansMono 16 96
+      sudo cp DejaVuSansMono.psf /usr/share/kbd/consolefonts/
+      fc-cache -v -f
+      echo "FONT=DejaVuSansMono.psf" | sudo tee /etc/vconsole.conf
+    #+end_src
+
+    and add the consolefont hook to the initcpio
+    #+begin_src shell
+      sudo sed -i 's/keyboard/consolefont keyboard/' /etc/mkinitcpio.conf
+      sudo mkinitcpio -P
+    #+end_src
+
+*** Virtualization
+    I prefer ~virt-manager~ much over ~virtualbox~ (see ~arch_vm.sh~
+    for easy initialization of VMs)
+    #+begin_src shell
+      sudo pacman -S virt-manager qemu qemu-arch-extra edk2-ovmf vde2 bridge-utils  # ebtables dnsmasq openbsd-netcat
+      sudo systemctl enable --now libvirtd.service
+    #+end_src
+
+    For some linux distros, the default virtual network doesn't work
+    #+begin_src shell
+      sudo virsh net-define br10.xml
+      sudo virsh net-start br10
+      sudo virsh net-autostart br10
+    #+end_src
+    where
+    #+begin_src xml
+      <network>
+        <name>br10</name>
+        <forward mode='nat'>
+          <nat>
+            <port start='1024' end='65535'/>
+          </nat>
+        </forward>
+        <bridge name='br10' stp='on' delay='0'/>
+        <ip address='192.168.30.1' netmask='255.255.255.0'>
+          <dhcp>
+            <range start='192.168.30.50' end='192.168.30.200'/>
+          </dhcp>
+        </ip>
+      </network>
+    #+end_src
+
+
+* Maintenance
+
+  With arch, I and probably most people use the package managers
+  ~pacman~ and ~yay~.
+
+  ~pacman~'s three major flags are ~-S~ for sync, ~-R~ for remove, and
+  ~-Q~ for query. ~yay~ works mostly analogously to ~pacman~, except
+  there is no need to use ~sudo~. The following list contains my most
+  frequently used commands:
+
+  - Install a package
+    #+begin_src shell
+      sudo pacman -S <pkg>
+    #+end_src
+  - Search a package in the repositories
+    #+begin_src shell
+      sudo pacman -Ss <search>
+    #+end_src
+  - Update packages
+    #+begin_src shell
+      sudo pacman -Syu
+    #+end_src
+    or
+    #+begin_src shell
+      yay
+    #+end_src
+  - Refresh mirrors
+    #+begin_src shell
+      sudo pacman -Syyu
+    #+end_src
+  - Uninstall
+    #+begin_src shell
+      sudo pacman -Rsc <pkg>
+    #+end_src
+  - List installed packages
+    #+begin_src shell
+      sudo pacman -Qe
+    #+end_src
+  - Clean unused cache (add another ~c~ to clean entire cache)
+    #+begin_src shell
+      sudo pacman -Sc
+    #+end_src
+  - Check/list orphan packages
+    #+begin_src shell
+      pacman -Qtdq
+    #+end_src
+  - Remove orphan packages
+    #+begin_src shell
+      sudo pacman -Rns $(pacman -Qtdq)
+    #+end_src
+  - List upgradable packages
+    #+begin_src shell
+      yay -Pu
+    #+end_src
+  - Remove unused dependencies
+    #+begin_src shell
+      yay -Yc
+    #+end_src
+
+
+  Besides updating, refreshing, and cache cleaning packages, there are
+  only a couple more things to do for system maintenance:
+
+  - Check for failed systemd services
+    #+begin_src shell
+      systemctl --failed
+    #+end_src
+  - Clean the cache (either selectively or the entire cache)
+    #+begin_src shell
+      rm -rf ~/.cache/*
+    #+end_src
+  - Check log files
+    #+begin_src shell
+      sudo journalctl -p 3 -xb
+    #+end_src
+  - Clean the journal up to the last 2 weeks
+    #+begin_src shell
+      sudo journalctl --vacuum-time=2weeks
+    #+end_src

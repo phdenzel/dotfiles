@@ -9,7 +9,8 @@ customize arch to our liking.
 The following explains what I usually install and in what order.  You
 can also simply install all packages beforehand, and skip the
 individual package installs below, which could speed up the setup
-process a bit. For this, simply run the ~arch.sh~ install script.
+process a bit. For this, simply run the ~arch.sh~ install script
+(after the AUR helper install).
 
 
 * Setup
@@ -471,10 +472,12 @@ process a bit. For this, simply run the ~arch.sh~ install script.
     #+begin_src shell
       sudo pacman -S <pkg>
     #+end_src
+
   - Search a package in the repositories
     #+begin_src shell
       sudo pacman -Ss <search>
     #+end_src
+
   - Update packages
     #+begin_src shell
       sudo pacman -Syu
@@ -483,34 +486,42 @@ process a bit. For this, simply run the ~arch.sh~ install script.
     #+begin_src shell
       yay
     #+end_src
+
   - Refresh mirrors
     #+begin_src shell
       sudo pacman -Syyu
     #+end_src
+
   - Uninstall
     #+begin_src shell
       sudo pacman -Rsc <pkg>
     #+end_src
+
   - List installed packages
     #+begin_src shell
       sudo pacman -Qe
     #+end_src
+
   - Clean unused cache (add another ~c~ to clean entire cache)
     #+begin_src shell
       sudo pacman -Sc
     #+end_src
+
   - Check/list orphan packages
     #+begin_src shell
       pacman -Qtdq
     #+end_src
+
   - Remove orphan packages
     #+begin_src shell
       sudo pacman -Rns $(pacman -Qtdq)
     #+end_src
+
   - List upgradable packages
     #+begin_src shell
       yay -Pu
     #+end_src
+
   - Remove unused dependencies
     #+begin_src shell
       yay -Yc
@@ -524,14 +535,17 @@ process a bit. For this, simply run the ~arch.sh~ install script.
     #+begin_src shell
       systemctl --failed
     #+end_src
+
   - Clean the cache (either selectively or the entire cache)
     #+begin_src shell
       rm -rf ~/.cache/*
     #+end_src
+
   - Check log files
     #+begin_src shell
       sudo journalctl -p 3 -xb
     #+end_src
+
   - Clean the journal up to the last 2 weeks
     #+begin_src shell
       sudo journalctl --vacuum-time=2weeks

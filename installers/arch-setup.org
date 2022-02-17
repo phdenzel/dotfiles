@@ -275,6 +275,29 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 
+*** Optional: licht - Hue lights controller applet
+
+    I used to use a systray GNOME applet back on Pop!_OS which was
+    able to connect to a Philips Hue bridge in my network, but
+    unfortunately this doesn't work on Arch linux, so I wrote a
+    replacement for it:
+
+    #+begin_src shell
+      cd ~/local
+      git clone git@github.com:phdenzel/licht.git
+      cd licht
+      make pkg
+      python3 setup.py install --user
+    #+end_src
+
+    If this should not work, consider simply installing it via ~pip~.
+    I try to keep the releases up-to-date:
+
+    #+begin_src shell
+      pip install licht
+    #+end_src
+
+
 *** Optional: display manager
 
     I personally don't use a display manager, as I encrypt my drives
@@ -394,6 +417,12 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+begin_src shell
       yay -S ffmpeg-compat-57 spotify
       sudo pacman -S zenity 
+    #+end_src
+
+*** Graphics
+    Graphics editors
+    #+begin_src shell
+      sudo pacman -S gimp inkscape
     #+end_src
 
 *** Fonts

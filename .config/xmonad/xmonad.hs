@@ -140,6 +140,7 @@ myStartupHook = do
   spawn     "blueman-applet"
   spawn     "nm-applet"
   spawnOnce "volumeicon"
+  spawnOnce "licht -a &"
   setWMName "LG3D"  -- Java hack
   return () >> checkKeymap myConfigs myKeymap
 

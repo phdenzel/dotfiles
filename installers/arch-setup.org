@@ -372,9 +372,9 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** Dev tools
-    Languages: lisp, haskell, rust, LaTeX
+    Languages: lisp, haskell, rust, ruby, LaTeX
     #+begin_src shell
-      sudo pacman -S emacs vim ghc ghc-static rust texlive-most texlive-lang
+      sudo pacman -S emacs vim ghc ghc-static rust ruby rubygems texlive-most texlive-lang
     #+end_src
 
 *** Web packages

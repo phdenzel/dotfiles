@@ -3,10 +3,10 @@
 #
 # Standard style settings for matplotlib plots
 #
-backend: TkAgg
+# backend: TkAgg
 
 # Fonts
-text.color: 555555
+text.color: 404048
 
 # text.usetex: true
 # text.latex.unicode: true
@@ -16,34 +16,63 @@ text.latex.preamble: \usepackage[cm]{sfmath},\usepackage{siunitx}
   #,\usepackage[T1]{fontenc}
   #,\usepackage{bm}
   #,\usepackage{euler}
-mathtext.fontset: cm # stixsans
+mathtext.fontset: cm  # stixsans
 mathtext.default: rm
-mathtext.fallback_to_cm: True
+# mathtext.fallback_to_cm: True
+
 
 # Colors
-axes.prop_cycle: cycler('color', ['4444FF', 'FF3333', '22AA66']) + cycler('linewidth', [1, 3, 1])
+axes.prop_cycle: cycler("color", ['42bd93', 'bd426c', '426cbd', 'bd9342', 'e07745', '6d5fbb', '77777d', 'dc5882', '5fbb6d']) + cycler('linewidth', 9*[2])
+# cycler = turquoise, red, orange, blue, yellow, orange, purple, grey, magenta, green
+# turquoise = #42bd93
+# red = #bd426c
+# blue = #426cbd
+# yellow = #bd9342
+# orange = #e07745
+# purple = #6d5fbb
+# grey = #77777d
+# magenta = #dc5882
+# green = #5fbb6d
+# lightgrey = #b9b9bd
+# mediumgrey = #50505d
+# white = #d8d8de
+# black = #202028
 
-# Faces and Edges
-figure.facecolor: white
+figure.facecolor: d8d8de
 legend.facecolor: white
-legend.edgecolor: grey
-patch.facecolor: FF3333 # reddish
-patch.edgecolor: none
 axes.facecolor: white
-axes.edgecolor: a9b0b7 # lightgrey
-# savefig.edgecolor: none
-# savefig.facecolor: none
+patch.facecolor: bd426c
+patch.edgecolor: none
+legend.labelcolor: 50505d
+
+# for dark backgrounds
+legend.edgecolor: b9b9bd
+axes.edgecolor: b9b9bd
+axes.labelcolor: b9b9bd
+xtick.color: b9b9bd
+ytick.color: b9b9bd
+
+# # for light backgrounds
+# legend.edgecolor: 50505d
+# axes.edgecolor: 50505d
+# axes.labelcolor: 50505d
+# xtick.color: 50505d
+# ytick.color: 50505d
+
 
 # Axes
 axes.linewidth: 2
 
+
 # Figure (particularly for 1080p)
+figure.dpi: 300
 figure.subplot.left: 0.11
 figure.subplot.right: 0.89
 figure.subplot.bottom: 0.07
 figure.subplot.top: 0.93
 figure.subplot.wspace: 0.3
 figure.subplot.hspace: 0.2
+
 
 # Font sizes
 axes.formatter.use_mathtext: True
@@ -61,12 +90,7 @@ xtick.major.pad: 1
 ytick.major.pad: 1
 xtick.major.width : 1
 ytick.major.width : 1
-# xtick.minor.size: 5
-# ytick.minor.size: 5
-# xtick.minor.pad: 2
-# ytick.minor.pad: 2
-# xtick.minor.width : 0.5
-# ytick.minor.width : 0.5
+
 
 # Grids
 axes.grid: False # when using with ggplot
@@ -74,12 +98,16 @@ grid.linestyle : -
 grid.linewidth : 1.0
 grid.color : e2e2e2
 
+
 # Legends
 legend.loc: best
 legend.fancybox: true
 legend.framealpha: 0.6
 
+
 # Saving
 savefig.dpi: figure
 savefig.format: pdf
-# savefig.transparent: True
+savefig.transparent: True
+savefig.edgecolor: none
+savefig.facecolor: none

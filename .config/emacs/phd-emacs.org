@@ -136,7 +136,7 @@ like we want it to.
                                (previous-line 1)))
   (global-set-key [mouse-5] '(lambda ()
                                (interactive)
-                               (next-line 1)))
+                               (forward-line 1)))
 
   ;; ;; Load PATH (and append ~~/local/bin~)
   ;; (use-package exec-path-from-shell
@@ -353,7 +353,7 @@ A few useful functions that can be activated with Meta-x.
     "Move cursor down N lines"
     (interactive "P")
     ;; (message "The nxtln argument %s" arg)
-    (next-line arg))
+    (forward-line arg))
 
   (defun phd-hydra-prevln (&optional arg)
     "Move cursor up N lines"
@@ -997,15 +997,36 @@ Loading markup and -down...
     :defer t
     :config
     (custom-set-variables '(markdown-command
-                            "/usr/local/bin/pandoc"))
+                            "/usr/bin/pandoc"))
     )
 #+END_SRC
 
 
 ** Orgmode
+
+Exports
 #+BEGIN_SRC emacs-lisp
   ;; (eval-after-load "org-indent" '(diminish 'org-indent-mode))
   (eval-after-load "org" '(require 'ox-md nil t))
+  (eval-after-load "org" '(require 'ox-gfm nil t))
+
+  (defun my-md-src-block (src-block contents info)
+    "Transcode a SRC-BLOCK element from Org to Markdown.
+    CONTENTS is nil. INFO is a plist used as a communication 
+    channel."
+    (if (not (org-export-read-attribute :attr_md src-block :language))
+        (org-export-with-backend 'md src-block contents info)
+      (org-export-with-backend 'html src-block contents info))
+    )
+
+  (org-export-define-derived-backend 'my-md 'md
+    :translate-alist '((src-block . my-md-src-block)))
+  ;; for now eval (org-export-to-buffer 'my-md "*Org MY-MD Export*")
+  ;; and save the buffer as file... working on self-installing an item
+  ;; in the export dispatcher menu
+
+  (use-package ox-gfm
+    :ensure t)
 #+END_SRC
 
 Orgmode
@@ -1015,6 +1036,7 @@ Orgmode
     :config
     (setq org-src-fontify-natively t)
     (setq org-src-tab-acts-natively t)
+    (setq markdown-fontify-code-blocks-natively t)
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((python . t)))

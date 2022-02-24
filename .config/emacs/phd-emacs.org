@@ -1174,6 +1174,43 @@ LaTeX stuff...
 
 
 
+* Mail
+
+#+BEGIN_SRC emacs-lisp
+  (use-package pass
+   :ensure t
+   :config
+   (setf epg-pinentry-mode 'loopback)
+   (auth-source-pass-enable)
+   (setq auth-sources '(password-store "~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
+   )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-mime
+    :ensure t
+    :hook ((message-mode . (lambda ()
+                             (local-set-key (kbd "C-c M-o") 'org-mime-htmlize)))
+           (org-mode . (lambda ()
+                         (local-set-key (kbd "C-c M-o") 'org-mime-org-buffer-htmlize))))
+    :config
+    (setq org-mime-export-options '(:section-numbers nil
+                                    :with-author nil
+                                    :with-toc nil))
+    )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package phd-mu4e-setup
+    :ensure nil
+    :load-path "~/local/phd-mu4e-setup/"
+    :bind (("C-x m" . mu4e)
+           ("C-x C-m" . mu4e-compose-new))
+    :config
+    (mu4e t))
+#+END_SRC
+
+
 * Helpers
 
 Settings for a few helping features.

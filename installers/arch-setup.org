@@ -160,7 +160,8 @@ process a bit. For this, simply run the ~arch.sh~ install script
    copy them to the respective directories in ~/usr/share/~
    #+begin_src shell
      sudo cp -r .themes/phd-dark /usr/share/themes/
-     sudo cp -r .config/gtk-3.0/settings.ini /usr/share/gtk-3.0/
+     sudo ln -s $HOME/.config/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
+     sudo ln -s $HOME/.config/gtk-2.0/gtkrc-2.0 /etc/gtk-2.0/gtkrc
    #+end_src
 
    At last edit the file in ~.config/USERINFO~ with the attributes
@@ -351,7 +352,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** System tools
     Bash tab completion, xorg utilities, and system tray applets
     #+begin_src shell
-      sudo pacman -S bash-completion xdotool xscreensaver network-manager-applet blueman volumeicon
+      sudo pacman -S bash-completion man-db xdotool xscreensaver network-manager-applet blueman volumeicon
     #+end_src
 
 *** Disk utilities
@@ -381,6 +382,16 @@ process a bit. For this, simply run the ~arch.sh~ install script
     Version control, data transfer, text-based browser programs
     #+begin_src shell
       sudo pacman -S git wget curl transmission-cli transmission-gtk lynx
+    #+end_src
+
+*** Mail (mu4e and mbsync)
+    It is always nice to have an alternate way of reading emails
+    #+begin_src shell
+      sudo pacman -S openssl isync
+    #+end_src
+
+    #+begin_src shell
+      yay -S mu
     #+end_src
 
 *** Password utilities

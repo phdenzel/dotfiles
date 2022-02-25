@@ -1,0 +1,2 @@
+#!/bin/sh
+mbsync -a -c ~/.config/mbsync/mbsyncrc

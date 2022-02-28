@@ -381,7 +381,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Web packages
     Version control, data transfer, text-based browser programs
     #+begin_src shell
-      sudo pacman -S git wget curl transmission-cli transmission-gtk lynx
+      sudo pacman -S git wget curl transmission-cli transmission-gtk lynx w3m
     #+end_src
 
 *** Mail (mu4e and mbsync)
@@ -419,9 +419,9 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** Media programs
-    Document viewer, music and media players
+    Office suite, document viewer, music and media players
     #+begin_src shell
-      sudo pacman -S zathura zathura-pdf-mupdf calibre lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly mpv celluloid
+      sudo pacman -S libreoffice-still zathura zathura-pdf-mupdf calibre lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly mpv celluloid
     #+end_src
 
     and the spotify client

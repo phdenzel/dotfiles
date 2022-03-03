@@ -6,6 +6,7 @@ export PATH="${PATH}:$HOME/.local/bin"
 
 # PYTHON
 export PYTHONPATH="${PYTHONPATH}:$HOME/Documents/pylib"
+export WORKON_HOME="${HOME}/.local/share/virtualenvs"
 
 # if ls -dr $HOME/local/Python-[0-9]* &> /dev/null; then
 #     for f in $(ls -dr $HOME/local/Python-[0-9]*/bin); do

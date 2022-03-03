@@ -90,7 +90,7 @@ export PAGER="less"
 export BROWSER="brave"
 
 # GTK
-export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc-2.0 "
+export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc-2.0 "  # add programs
 export QT_QPA_PLATFORMTHEME=qt5ct
 
 # XMonad
@@ -112,26 +112,6 @@ export LESS_TERMCAP_so="$magenta"
 export LESS_TERMCAP_se="$reset"
 export LESS_TERMCAP_us="$br_yellow$underline"
 
-
-# XMonad
-export XMONAD_CONFIG_DIR="${XDG_CONFIG_HOME}/xmonad"
-export XMONAD_DATA_DIR="${XDG_CONFIG_HOME}/xmonad"
-export XMONAD_CACHE_DIR="${XDG_CONFIG_HOME}/xmonad"
-
-# Shell command configs
-export INPUTRC="${XDG_CONFIG_HOME}/gnu/inputrc"
-export SCREENRC="${XDG_CONFIG_HOME}/gnu/screenrc"
-export WGETRC="${XDG_CONFIG_HOME}/gnu/wgetrc"
-export CURL_HOME="${XDG_CONFIG_HOME}/curl"
-
-# Less settings
-export LESS_TERMCAP_mb="$blue$bold"
-export LESS_TERMCAP_md="$blue$bold"
-export LESS_TERMCAP_me="$reset"
-export LESS_TERMCAP_so="$magenta"
-export LESS_TERMCAP_se="$reset"
-export LESS_TERMCAP_us="$br_yellow$underline"
-export LESS_TERMCAP_ue="$reset"
 # Grep settings
 export GREP_COLORS="ms=01;38;5;013:mc=01;38;5;013:sl=:cx=:fn=00;38;5;004:ln=00;38;5;010:bn=00;38;5;010:se=00;38;5;011"
 

@@ -1,6 +1,6 @@
 #+TITLE: phd-emacs - A GNU Emacs configuration
 #+STARTUP: indent
-#+OPTIONS: H:5 num:nil tags:nil toc:nil timestamps:t
+#+OPTIONS: H:5 num:nil tags:nil toc:t timestamps:t
 #+LAYOUT: post
 #+DESCRIPTION: Loading emacs configuration using org-babel
 #+TAGS: emacs
@@ -15,9 +15,9 @@ It is to be loaded in the [[./init.el][init.el]] (or .emacs) file using the org-
 Although having a bit trouble, installing Emacs on macOS, I finally managed
 with Homebrew using the following command:
 
-#+BEGIN_SRC shell :exports none
+#+begin_src shell :exports none
   brew install --with-cocoa --with-ctags --with-gnutls --with-imagemagick emacs
-#+END_SRC
+#+end_src
 
 However, installing Emacs with Homebrew can lead to instabilities later on,
 which is why I later opted for compiling Emacs from source code myself is
@@ -25,21 +25,31 @@ ultimately the best solution on any OS. For details, go to
 [[https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh][https://github.com/phdenzel/dotfiles/blob/master/installers/emacs_install.sh]].
 
 These days though, I usually work on linux machines, which facilitates
-installing emacs immensely:
-#+BEGIN_SRC shell :exports none
+installing emacs immensely.
+
+On debian-based distros, type
+
+#+begin_src shell :exports none
   sudo apt install emacs
-#+END_SRC
+#+end_src
+
+On Arch-based systems, use
+
+#+begin_src shell :exports none
+  sudo pacman -S emacs
+#+end_src
 
 
 * User specifics
 
-User-specific information is hardcoded and has to be completed if it is needed,
-e.g. for email extensions.
+User-specific information is hardcoded and has to be completed if it
+is needed, e.g. for mail extensions (see solution for multiple email
+accounts in the Mail section below).
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq user-full-name "Philipp Denzel")
   (setq user-mail-address "phdenzel@gmail.com")
-#+END_SRC
+#+end_src
 
 
 * Security
@@ -52,16 +62,16 @@ For details see:
 https://glyph.twistedmatrix.com/2015/11/editor-malware.html
 Here, steps are taken to increase security...
 
-First install 'certifi' via pip, if it isn't already installed...
+If it isn't installed already (should be on most distros though),
+install 'certifi' via pip...
 
-
-#+BEGIN_SRC shell :tangle no
+#+begin_src shell :tangle no
   python -m pip install --user certifi
-#+END_SRC
+#+end_src
 
 GnuTLS ensures a secure handshake:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'cl-lib)
   (setq tls-checktrust t)
 
@@ -93,7 +103,7 @@ GnuTLS ensures a secure handshake:
   ;;                      bad-hosts))
   ;;     (url-retrieve "https://badssl.com"
   ;;                   (lambda (retrieved) t))))
-#+END_SRC
+#+end_src
 
 
 * Load packages with use-package
@@ -106,212 +116,97 @@ substantially.
 Thus all packages should be loaded with 'use-package'.
 
 
-* General behaviour
-
-Here, some default quirks in Emacs are corrected, to make it behave
-like we want it to.
-
-#+BEGIN_SRC emacs-lisp
-  ;; Startup screen
-  (setq inhibit-startup-message t)
-
-  ;; Ask for y/n instead of yes/no
-  (fset 'yes-or-no-p 'y-or-n-p)
-
-  ;; Reload buffer
-  (global-set-key (kbd "<f5>") 'revert-buffer)
-
-  ;; Other global key-bindings
-  ;; - Kill current buffer instead of any buffer
-  (global-set-key (kbd "C-x k") 'kill-this-buffer)
-
-  ;; Correct mouse-wheel speed
-  ;; ...and let's be honest, everyone uses it from time to time ;)
-  (setq mouse-wheel-scroll-amount '(1 ((shift) . 4) ((meta)) ((control)) ))
-  (setq mouse-wheel-progressive-speed nil)
-  ;; Scrolling cursor with mouse wheel (instead of frame)
-  ;; - if mouse-4/mouse-5 are not working try wheel-up/wheel-down
-  (global-set-key [mouse-4] '(lambda ()
-                               (interactive)
-                               (previous-line 1)))
-  (global-set-key [mouse-5] '(lambda ()
-                               (interactive)
-                               (forward-line 1)))
-
-  ;; ;; Load PATH (and append ~~/local/bin~)
-  ;; (use-package exec-path-from-shell
-  ;;   :ensure t)
-  ;; (when (memq window-system '(mac ns))
-  ;;   (exec-path-from-shell-copy-env "PYTHONPATH")
-  ;;   (exec-path-from-shell-initialize))
-
-  ;; Prefer UTF-8
-  (set-language-environment "UTF-8")
-  (prefer-coding-system 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-selection-coding-system 'utf-8)
-  (setq locale-coding-system 'utf-8)
-
-  ;; Tabs Setting
-  (setq-default tab-width 2)
-  (setq-default indent-tabs-mode nil)
-  (setq indent-line-function 'insert-tab)
-  (electric-indent-mode t)
+* Modules
 
 
-  ;; Shut off that annoying bell
-  (defun phd-bell ())
-  (setq ring-bell-function 'phd-bell)
-  (setq visible-bell nil)
+** s
 
-  ;; Backups
-  ;; - collect them in .config/emacs/backups
-  (defvar phd-backup-directory "~/.config/emacs/backups")
-  ;; - and if it doesn't exist, make it
-  (if (not (file-exists-p phd-backup-directory))
-      (make-directory phd-backup-directory t))
-  ;; - configure backup list
-  (setq backup-directory-alist `(("." . ,phd-backup-directory)))
-  ;; - configure backup saving behavior
-  (setq make-backup-files t
-        backup-by-copying t
-        version-control t
-        delete-old-versions t
-        delete-by-moving-to-trash t
-        kept-old-versions 5
-        kept-new-versions 10
-        auto-save-default t
-        auto-save-timeout 15
-        auto-save-interval 300)
+String manipulation module
 
-  ;; - configure backup deletion
-  (setq delete-by-moving-to-trash t
-        trash-directory "~/.local/share/Trash/files")
-  ;; trash-directory "~/.Trash")
-
-  ;; ispell - bundled with emacs by default since v24
-  ;; - i/aspell on most systems, but hunspell more commonly used
-  (use-package ispell
-    :init
-    (setq ispell-program-name "/usr/bin/aspell")
-    :config
-    (when (executable-find "hunspell")
-      (setq-default ispell-program-name "hunspell")))
-
-  ;; Clipboard settings
-  (setq
-   select-enable-clipboard t
-   select-enable-primary t
-   save-interprogram-paste-before-kill t
-   require-final-newline t)
-
-  ;; Save frame position history
-  (if (< emacs-major-version 25)
-      (progn
-        (require 'saveplace)
-        (setq-default save-place t))
-    (save-place-mode t))
-
-  ;; In the case file names match for different buffers
-  (if (< emacs-major-version 25)
-      (require 'uniquify))
-  (setq uniquify-buffer-name-style 'forward)
-
-#+END_SRC
+#+begin_src emacs-lisp
+  (use-package s
+    :ensure t)
+#+end_src
 
 
-* GUI
+** f
 
-Settings specific to GUI mode.
-Does not take effect when executed in a terminal.
+File system module
 
-#+BEGIN_SRC emacs-lisp
-
-  (defun new-frame-setup (&optional frame)
-    (when (display-graphic-p frame)
-
-      (message "New frame in window system")
-      ;; no new frames when opening with Finder/Explorer
-      (setq pop-up-frames nil)
-
-      ;; hide bars
-      (tool-bar-mode -1)
-      (scroll-bar-mode -1)
-      (menu-bar-mode -1) ;; if inside window, might be nice to keep
-      )
-    )
-
-  (add-hook 'after-init-hook 'new-frame-setup)
-  (add-hook 'after-make-frame-functions 'new-frame-setup)
-
-#+END_SRC
-
-
-* Terminal window
-
-Settings specific to terminal mode.
-Does not take effect when executed in a separate window.
-
-#+BEGIN_SRC emacs-lisp
-  (defun new-term-setup (&optional frame)
-    (unless (display-graphic-p frame)
-      ;; hide bars
-      (tool-bar-mode -1)
-      (scroll-bar-mode -1)
-      (menu-bar-mode -1)
-
-      ;; activate mouse mode
-      (xterm-mouse-mode t)
-      (mouse-wheel-mode t)
-      )
-    )
-  (add-hook 'after-init-hook 'new-term-setup)
-  ;; (add-hook 'terminal-init-xterm-hook 'new-term-setup)
-
-  ;; ;; In case of keyboard craziness
-  ;; ;; Very specific to terminal in use...
-  ;; (defun phd-terminal-keys ()
-  ;;   (define-key input-decode-map "\e\eOA" [M-up]))
-  ;; (add-hook 'terminal-init-xterm-hook 'phd-terminal-keys)
-
-
-#+END_SRC
+#+begin_src emacs-lisp
+  (use-package f
+    :ensure t)
+#+end_src
 
 
 * Functions
 
-A few useful functions that can be activated with Meta-x.
+Modified buffer splitting (don't load the same buffer when splitting frames)
 
-#+BEGIN_SRC emacs-lisp
-  ;; Get name of the face of the object the cursor is on
-  (defun what-face (pos)
-    "The name of the face on which the cursor currently is"
-    (interactive "d")
-    (let ((face (or (get-char-property (point) 'read-face-name)
-                    (get-char-property (point) 'face))))
-      (if face
-          (message "Face: %s" face)
-        (message "No face at %d" pos))))
+#+begin_src emacs-lisp
 
-  ;; Indent all
-  (defun phd-iwb ()
-    "Indent whole buffer"
-    (interactive "P")
-    (delete-trailing-whitespace)
-    (indent-region (point-min) (point-max) nil)
-    (untabify (point-min) (point-max)))
-  (global-set-key (kbd "C-c <tab>") 'phd-iwb)
-
-  ;; Kill all buffers
-  (defun phd-nuke-all-buffers ()
-    "Kill all buffers"
+  (defun phd/vsplit-last-buffer ()
+    "Split the current buffer vertically and switch to the next."
     (interactive)
-    (mapc 'kill-buffer (buffer-list))
-    (delete-other-windows))
+    (split-window-vertically)
+    (other-window 1 nil)
+    (switch-to-next-buffer))
 
-  ;; Eval and replace - very useful for formulas
-  (defun phd-eval-and-replace ()
+  (defun phd/hsplit-last-buffer ()
+    "Split the current buffer horizontally and switch to the next."
+    (interactive)
+    (split-window-horizontally)
+    (other-window 1 nil)
+    (switch-to-next-buffer))
+
+#+end_src
+
+
+Custom, interactive movement functions
+
+#+begin_src emacs-lisp
+
+  (defun phd/hydra-relinum/on ()
+    "Activate relative line numbers in the current buffer."
+    (interactive)
+    (display-line-numbers-mode 1)
+    (setq display-line-numbers 'relative))
+
+  (defun phd/hydra-relinum/off ()
+    "Deactivate relative line numbers in the current buffer."
+    (interactive)
+    (display-line-numbers-mode -1))
+
+  (defun phd/hydra-nxtln (&optional arg)
+    "Move cursor down ARG lines"
+    (interactive "P")
+    (setq this-command 'next-line)
+    (next-line arg))
+
+  (defun phd/hydra-prevln (&optional arg)
+    "Move cursor up ARG lines"
+    (interactive "P")
+    (setq this-command 'previous-line)
+    (previous-line arg))
+
+  (defun phd/hydra-nxtchar (&optional arg)
+    "Move cursor to the right by ARG characters"
+    (interactive "P")
+    (forward-char arg))
+
+  (defun phd/hydra-prevchar (&optional arg)
+    "Move cursor to the left by ARG characters"
+    (interactive "P")
+    (backward-char arg))
+
+#+end_src
+
+
+Evaluate & replace lisp code snippets, useful for scratch buffer math
+
+#+begin_src emacs-lisp
+
+  (defun phd/eval-and-replace ()
     "Replace the preceding sexp with its value."
     (interactive)
     (backward-kill-sexp)
@@ -321,179 +216,201 @@ A few useful functions that can be activated with Meta-x.
       (error (message "Invalid expression")
              (insert (current-kill 0)))))
 
-  (global-set-key (kbd "C-c C-e") 'phd-eval-and-replace)
+#+end_src
 
 
-  ;; Don't load the same buffer when splitting frames
-  (defun phd-vsplit-last-buffer ()
-    (interactive)
-    (split-window-vertically)
-    (other-window 1 nil)
-    (switch-to-next-buffer))
+A few useful functions that can be activated with Meta-x.
 
-  (defun phd-hsplit-last-buffer ()
-    (interactive)
-    (split-window-horizontally)
-    (other-window 1 nil)
-    (switch-to-next-buffer))
+#+begin_src emacs-lisp
 
-  (global-set-key (kbd "C-x 2") 'phd-vsplit-last-buffer)
-  (global-set-key (kbd "C-x 3") 'phd-hsplit-last-buffer)
+  (defun what-face (pos)
+    "The name of the face at POS on which the cursor is currently placed."
+    (interactive "d")
+    (let ((face (or (get-char-property (point) 'read-face-name)
+                    (get-char-property (point) 'face))))
+      (if face
+          (message "Face: %s" face)
+        (message "No face at %d" pos))))
 
-  (defun phd-hydra-relinum/on ()
-    (interactive)
-    (display-line-numbers-mode 1)
-    (setq display-line-numbers 'relative))
-
-  (defun phd-hydra-relinum/off ()
-    (interactive)
-    (display-line-numbers-mode -1))
-
-  (defun phd-hydra-nxtln (&optional arg)
-    "Move cursor down N lines"
+  (defun phd/iwb ()
+    "Indent the whole buffer."
     (interactive "P")
-    ;; (message "The nxtln argument %s" arg)
-    (forward-line arg))
+    (delete-trailing-whitespace)
+    (indent-region (point-min) (point-max) nil)
+    (untabify (point-min) (point-max)))
 
-  (defun phd-hydra-prevln (&optional arg)
-    "Move cursor up N lines"
-    (interactive "P")
-    ;; (message "The prevln argument %s" arg)
-    (previous-line arg)
-    )
+  (defun phd/nuke-all-buffers ()
+    "Kill all buffers."
+    (interactive)
+    (mapc 'kill-buffer (buffer-list))
+    (delete-other-windows))
 
-  (defun phd-hydra-nxtchar (&optional arg)
-    "Move cursor to the right by N characters"
-    (interactive "P")
-    ;; (message "The nxtchar argument %s" arg)
-    (forward-char arg)
-    )
-
-  (defun phd-hydra-prevchar (&optional arg)
-    "Move cursor to the left by N characters"
-    (interactive "P")
-    ;; (message "The prevchar argument %s" arg)
-    (backward-char arg)
-    )
-
-#+END_SRC
+#+end_src
 
 
-* Agility
+* Hydra, Ivy & Co.
+
+
+** Hydras
 
 The vast majority of packages are designed to speed up your workflow
 by adding features which allow you to move inside a file more quickly
-in one way or another.
-Of course, this is almost always connected to searches.
-Here, a few of such packages are configured.
+in one way or another.  Of course, this is almost always connected to
+shortcuts, searches, or completions.  Here, hydra and associated
+packages are configured. For more exemplary "hydras", see
+[[https://github.com/abo-abo/hydra][https://github.com/abo-abo/hydra]].
 
-#+BEGIN_SRC emacs-lisp
-  ;; Go back to indentation instead of beginning of line
-  (global-set-key (kbd "C-a") 'back-to-indentation)
+#+begin_src emacs-lisp
 
-  ;; Efficiently move up or down
-  (global-set-key (kbd "<M-up>") 'backward-paragraph)
-  (global-set-key (kbd "<M-down>") 'forward-paragraph)
+    (defun phd/hydra-hint-toggle (name body)
+      (interactive "P")
+      (let ((cv (hydra-get-property name :verbosity)))
+        (if (eq cv 2)
+            (hydra-set-property name :verbosity 0)
+          (hydra-set-property name :verbosity 2))
+        body)
+      )
 
-  ;; For orientation
-  ;; - highlight current cursor line position
-  (global-hl-line-mode nil)
+#+end_src
 
-  ;; Hydra
-  ;; see https://github.com/abo-abo/hydra for some cool hydras
+#+begin_src emacs-lisp
+
   (use-package hydra
     :ensure t
     :init
-    (global-set-key
-     (kbd "C-x h")
-     (defhydra toggle (:color pink)
-       "toggle"
-       ("a" abbrev-mode "abbrev")
-       ("s" flyspell-mode "flyspell")
-       ("f" auto-fill-mode "fill")
-       ("x" rainbow-mode "rainbow")
-       ("c" rainbow-delimiters-mode "rainbow-paren")
-       ("w" whitespace-mode "whitespace")
-       ("e" electric-indent-mode "indent")
-       ;;("d" toggle-debug-on-error "debug")
-       ;;("c" fci-mode "fCi")
-       ;;("t" treemacs "treemacs")
-       ("h" help "help")
-       ("q" nil "cancel")
-       ("C-x h" nil "cancel")
-       ))
-    (global-set-key
-     (kbd "C-x j")
-     (defhydra goto-mv
-       (:color pink :pre phd-hydra-relinum/on :post phd-hydra-relinum/off)
-       "goto-mv"
-       ("x" goto-line "goto-line")
-       ("j" phd-hydra-nxtln "↓")
-       ("k" phd-hydra-prevln "↑")
-       ("l" phd-hydra-nxtchar  "→")
-       ("h" phd-hydra-prevchar  "←")
-       ("C-j" forward-paragraph  "↓↓")
-       ("C-k" backward-paragraph  "↑↑")
-       ("C-l" right-word  "→→")
-       ("C-h" left-word  "←←")
-       ("C-M-j" drag-stuff-down "drag-↓")
-       ("C-M-k" drag-stuff-up "drag-↑")
-       ("C-x l" next-buffer "buffer-→")
-       ("C-x h" previous-buffer "buffer-←")
-       ("a" back-to-indentation "←-line")
-       ("e" move-end-of-line "→-line")
-       ("r" recenter-top-bottom "recenter")
-       ("s" swiper "swiper")
-       ("d d" kill-line "kill-ln")
-       (";" comment-dwim-2 "comment")
-       ("SPC" set-mark-command "mark")
-       ;; ()
-       ("w" kill-ring-save "save")
-       ("y" yank "yank")
-       ("g" keyboard-quit "quit")
-       ("q" nil "cancel")
-       ("C-x j" nil "cancel")
-       ("C-x C-j" nil "cancel")
-       ))
-    )
-  (global-set-key (kbd "C-x C-j") 'goto-mv/body)
+    (defhydra phd/hydra-toggler (:color pink)
+      "toggle"
+      ("a" abbrev-mode "abbrev")
+      ("s" flyspell-mode "flyspell")
+      ("f" auto-fill-mode "fill")
+      ("x" rainbow-mode "rainbow")
+      ("c" rainbow-delimiters-mode "rainbow-paren")
+      ("w" whitespace-mode "whitespace")
+      ("e" electric-indent-mode "indent")
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-toggler 'phd/hydra-toggler/body) "hint")
+      ("h" help "help")
+      ("q" nil "cancel")
+      ("Q" nil)
+      ("C-g" nil)
+      ("C-x h" nil))
+    (defhydra phd/hydra-goto-mv
+      (:color pink :pre phd/hydra-relinum/on :post phd/hydra-relinum/off)
+      "goto-mv"
+      ("j" phd/hydra-nxtln "↓")
+      ("k" phd/hydra-prevln "↑")
+      ("l" phd/hydra-nxtchar "→")
+      ("h" phd/hydra-prevchar "←")
+      ("x" goto-line "goto-line")
+      ("C-j" forward-paragraph "↓↓")
+      ("C-k" backward-paragraph "↑↑")
+      ("C-l" right-word "→→")
+      ("C-h" left-word "←←")
+      ("C-M-j" drag-stuff-down "drag-↓")
+      ("C-M-k" drag-stuff-up "drag-↑")
+      ("C-x l" next-buffer "buffer-→")
+      ("C-x h" previous-buffer "buffer-←")
+      ("a" back-to-indentation "←-line")
+      ("e" move-end-of-line "→-line")
+      ("r" recenter-top-bottom "recenter")
+      ("s" swiper "swiper")
+      ("d d" kill-line "kill-ln")
+      (";" comment-dwim-2 "comment")
+      ("SPC" set-mark-command "mark")
+      ("w" kill-ring-save "save")
+      ("y" yank "yank")
+      ("g" keyboard-quit "quit")
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-goto-mv 'phd/hydra-goto-mv/body) "hint")
+      ("q" nil "cancel")
+      ("Q" nil)
+      ("C-g" nil)
+      ("C-x j" nil)
+      ("C-x C-j" nil))
+    (defhydra phd/hydra-flycheck (:color blue :hint none)
+      "
+      ^
+      ^Flycheck^          ^Errors^            ^Checker^
+      ^────────^──────────^──────^────────────^───────^─────
+      _q_ quit            _<_ previous        _?_ describe
+      _M_ manual          _>_ next            _d_ disable
+      _!_ verify setup    _f_ check           _m_ mode
+      ^^                  _l_ list            _s_ select
+      _v_ hint            ^^                  ^^
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("<" flycheck-previous-error :color pink)
+      (">" flycheck-next-error :color pink)
+      ("?" flycheck-describe-checker)
+      ("M" flycheck-manual)
+      ("d" flycheck-disable-checker)
+      ("f" flycheck-buffer)
+      ("l" flycheck-list-errors)
+      ("m" flycheck-mode)
+      ("s" flycheck-select-checker)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-flycheck 'phd/hydra-flycheck/body) :exit nil)
+      ("!" flycheck-verify-setup))
+    :config
+    (hydra-set-property 'phd/hydra-toggler :verbosity 2)
+    (hydra-set-property 'phd/hydra-goto-mv :verbosity 0))
 
-  ;; ;; Ivy - deprecated
-  ;; (use-package ivy
-  ;;   :ensure t
-  ;;   :diminish (ivy-mode)
-  ;;   ;; :bind (("C-x b" . ivy-switch-buffer))
-  ;;   ;; :config
-  ;;   ;; (ivy-mode 1)
-  ;;   ;; (setq ivy-use-virtual-buffers t)
-  ;;   ;; (setq ivy-count-format "%d/%d ")
-  ;;   ;; (setq ivy-display-style 'fancy)
-  ;;   )
+#+end_src
 
-  ;; Ivy-hydra (ivy almost entirely replaced my helm usage)
+
+** Ivy enhancements
+
+We enhance the minibuffer completion with three packages:
+
+- ~ivy~: a generic, efficient, and customizable completion mechanism
+- ~counsel~: ivy-enhanced versions of common Emacs commands
+- ~swiper~:  ivy-enhanced alternative to isearch
+
+
+*** Ivy
+
+#+begin_src emacs-lisp
+
   (use-package ivy-hydra
     :ensure t
-    :defer t)
+    :defer t
+    :init (ivy-mode 1)
+    :config (setq ivy-use-virtual-buffers t)
+    )
 
-  ;; Counsel - common ivy-enhanced emacs commands
+#+end_src
+
+
+*** Counsel
+
+General ivy-minibuffer controls and common counsel command
+replacements.  I typically search with lowercase letters only, and use
+uppercase characters for ivy control.
+
+#+begin_src emacs-lisp
+
   (use-package counsel
     :ensure t
-    :bind
-    (("M-x" . counsel-M-x)
-     ("M-y" . counsel-yank-pop)
-     :map ivy-minibuffer-map
-     ("J" . ivy-next-line)
-     ("K" . ivy-previous-line)
-     ("C-j" . ivy-next-line)
-     ("C-k" . ivy-previous-line)
-     ("Q" . minibuffer-keyboard-quit)
-     ("C-q" . minibuffer-keyboard-quit)
-     :map swiper-map
-     ("Q" . minibuffer-keyboard-quit)
-     ("C-q" . minibuffer-keyboard-quit))
+    :bind* (("M-x"     . counsel-M-x)
+            ("M-y"     . counsel-yank-pop)
+            ("C-x C-f" . counsel-find-file)
+            ("C-x b"   . counsel-switch-buffer)
+            ("C-x C-b" . counsel-ibuffer)
+            ("C-c i u" . counsel-unicode-char)
+            ("M-i"     . counsel-imenu)
+            ("C-c g"   . counsel-git)
+            ("C-c j"   . counsel-git-grep)
+            ("C-c l"   . counsel-locate)
+            :map ivy-minibuffer-map
+            ("J"   . ivy-next-line)
+            ("K"   . ivy-previous-line)
+            ;;("C-j" . ivy-next-line)
+            ;;("C-k" . ivy-previous-line)
+            ("Q"   . minibuffer-keyboard-quit)
+            ("C-q" . minibuffer-keyboard-quit)
+            :map swiper-map
+            ("Q" . minibuffer-keyboard-quit)
+            ("C-q" . minibuffer-keyboard-quit))
     :config
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
     (define-key read-expression-map (kbd "C-r")
       #'counsel-expression-history)
     (ivy-set-actions
@@ -508,241 +425,415 @@ Here, a few of such packages are configured.
               (ivy--reset-state ivy-last))
         "kill")
        ("j" ivy--switch-buffer-other-window-action
-        "other window")))
-    )
+        "other window"))))
 
-  ;; ;; Swiper - ivy-enhanced alter
-  ;; native for isearch
+#+end_src
+
+
+*** Swiper
+
+#+begin_src emacs-lisp
+
   (use-package swiper
     :pin melpa-stable
     :diminish ivy-mode
     :ensure t
-    :bind*
-    (("C-s" . swiper)
-     ("C-c C-r" . ivy-resume)
-     ("C-x C-f" . counsel-find-file)
-     ("C-c i u" . counsel-unicode-char)
-     ("M-i" . counsel-imenu)
-     ("C-c g" . counsel-git)
-     ("C-c j" . counsel-git-grep)
-     ("C-c k" . counsel-ag)
-     ("C-c l" . counsel-locate)))
+    :bind* ("C-s" . swiper))
 
-  ;; Avy; alternative to ace-jump-mode
+#+end_src
+
+
+** Avy
+
+Ace-jump alternative, similar to vim-easymotion: enables jumping to
+visible text using a char-based decision tree
+
+#+begin_src emacs-lisp
+
   (use-package avy
     :ensure t
     :bind
     ("M-s" . avy-goto-word-1))
 
-  ;; Ace-window - awesome when supercharged; see ace-window-keys.png
-  (use-package ace-window
+#+end_src
+
+
+** Ace-window
+
+Hydra-enhanced window manager
+
+#+begin_src emacs-lisp
+
+                (use-package ace-window
+                  :ensure t
+                  :defer t
+                  :bind ("C-x o" . ace-window)
+                  :config
+                  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
+                        aw-dispatch-always t
+                        aw-dispatch-alist
+                        '((?x aw-delete-window "Ace - Delete Window")
+                          (?c aw-swap-window "Ace - Swap Window")
+                          (?n aw-flip-window "Ace - Flip Window")
+                          (?\- aw-split-window-vert "Ace - V-Split Window")
+                          (?\| aw-split-window-horz "Ace - H-Split Window")
+                          (?m delete-other-windows "Ace - Maximize Window")
+                          (?g delete-other-windows "Ace - Delete Window")
+                          (?b balance-windows "Ace - Balance Windows")
+                          (?v aw-show-dispatch-help)
+                          ;; ?w hydra-window-size/body
+                          ;; ?o hydra-window-scroll/body
+                          ;; ?\; hydra-window-frame/body
+                          ))
+                  (when (package-installed-p 'hydra)
+                    ;; Window
+                    (defhydra hydra-window-size (:color red)
+                      "Windows size"
+                      ("h" shrink-window-horizontally "shrink horizontal")
+                      ("j" shrink-window "shrink vertical")
+                      ("k" enlarge-window "enlarge vertical")
+                      ("l" enlarge-window-horizontally "enlarge horizontal")
+                      ("q" nil "cancel" :exit t)
+                      ("Q" nil :exit t)
+                      ("C-g" nil :exit t))
+                    ;; Frame
+                    (defhydra hydra-window-frame (:color red)
+                      "Frame"
+                      ("f" make-frame "new frame")
+                      ("x" delete-frame "delete frame")
+                      ("q" nil "cancel" :exit t)
+                      ("Q" nil :exit t)
+                      ("C-g" nil :exit t))
+                    ;; Scrolling
+                    (defhydra hydra-window-scroll (:color red)
+                      "Scroll other window"
+                      ("n" scroll-other-window "scroll")
+                      ("p" scroll-other-window-down "scroll down")
+                      ("q" nil "cancel" :exit t)
+                      ("Q" nil :exit t)
+                      ("C-g" nil :exit t))
+                    ;; add to dispatch list
+                    (add-to-list
+                     'aw-dispatch-alist '(?w hydra-window-size/body) t)
+                    (add-to-list
+                     'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
+                    (add-to-list
+                     'aw-dispatch-alist '(?\; hydra-window-frame/body) t))
+                  )
+
+#+end_src
+
+
+** Multiple cursors
+
+#+begin_src emacs-lisp
+
+  (use-package multiple-cursors
     :ensure t
-    :defer 1
-    :bind
-    ("C-x o" . ace-window)
+    :bind (("M-SPC"         . set-rectangular-region-anchor)
+           ("C-c ,"         . mc/edit-lines)
+           ("C->"           . mc/mark-next-like-this)
+           ("C-<"           . mc/mark-previous-like-this)
+           ("C-c C-<"       . mc/mark-all-like-this)
+           ("<C-M-mouse-1>" . mc/add-cursor-on-click)
+           ("M-m"           . phd/hydra-mc/body))
+    :init
+    (defvar mc/cmds-to-run-for-all)
+    (defvar mc/cmds-to-run-once)
     :config
-    (set-face-attribute 'aw-leading-char-face nil
-                        :foreground "deep sky blue"
-                        :weight 'bold
-                        :height 2.0)
-    (set-face-attribute 'aw-mode-line-face nil
-                        :inherit 'mode-line-buffer-id
-                        :foreground "lawn green")
-    (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
-          ;; aw-leading-char-style 'path
-          aw-dispatch-always t
-          aw-dispatch-alist
-          '((?x aw-delete-window "Ace - Delete Window")
-            (?c aw-swap-window "Ace - Swap Window")
-            (?n aw-flip-window)
-            (?v aw-split-window-vert "Ace - Split Vert Window")
-            (?h aw-split-window-horz "Ace - Split Horz Window")
-            (?m delete-other-windows "Ace - Maximize Window")
-            (?g delete-other-windows)
-            (?b balance-windows)
-            ))
     (when (package-installed-p 'hydra)
-      ;; Window
-      (defhydra hydra-window-size (:color red)
-        "Windows size"
-        ("h" shrink-window-horizontally "shrink horizontal")
-        ("j" shrink-window "shrink vertical")
-        ("k" enlarge-window "enlarge vertical")
-        ("l" enlarge-window-horizontally "enlarge horizontal"))
-      ;; Frame
-      (defhydra hydra-window-frame (:color red)
-        "Frame"
-        ("f" make-frame "new frame")
-        ("x" delete-frame "delete frame"))
-      ;; Scrolling
-      (defhydra hydra-window-scroll (:color red)
-        "Scroll other window"
-        ("n" scroll-other-window "scroll")
-        ("p" scroll-other-window-down "scroll down"))
-      ;; add to dispatch list
-      (add-to-list
-       'aw-dispatch-alist '(?w hydra-window-size/body) t)
-      (add-to-list
-       'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
-      (add-to-list
-       'aw-dispatch-alist '(?\; hydra-window-frame/body) t))
-    ;; (ace-window-display-mode t)
+      (defun phd/hydra-mc-exit ()
+        "Exit hydra and disable multiple-cursors-mode"
+        (interactive)
+        (mc/keyboard-quit)
+        (phd/hydra-mc/nil))
+      (defhydra phd/hydra-mc (:color pink :hint none)
+        "
+        _N_ext           _P_revious^^          Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
+        ------------------------------------------------------------------
+        [_j_]^^ Next     [_k_]   Previous    [_l_] Edit lines  [_0_] Insert numbers
+        [_J_]^^ Skip     [_K_]   Skip        [_a_] Mark all    [_I_] Insert letters
+        [_M-j_] Unmark^^ [_M-k_] Unmark      [_s_] Search      [_q_] Quit
+        [_|_]^^ Align with input CHAR^^      [_x_] Mark more   [Click] Cursor at point"
+        ("l" mc/edit-lines)
+        ("a" mc/mark-all-like-this-dwim :exit t)
+        ("n" mc/mark-next-like-this)
+        ("N" mc/skip-to-next-like-this)
+        ("M-n" mc/unmark-next-like-this)
+        ("p" mc/mark-previous-like-this)
+        ("P" mc/skip-to-previous-like-this)
+        ("M-p" mc/unmark-previous-like-this)
+        ("j" mc/mark-next-lines)
+        ("J" mc/skip-to-next-like-this)
+        ("M-j" mc/unmark-next-like-this)
+        ("k" mc/mark-previous-like-this)
+        ("K" mc/skip-to-previous-like-this)
+        ("M-k" mc/unmark-previous-like-this)
+        ("|" mc/vertical-align)
+        ("0" mc/insert-numbers :exit t)
+        ("I" mc/insert-letters :exit t)
+        ("s" mc/mark-all-in-region-regexp :exit t)
+        ("r" mc/mark-sgml-tag-pair :exit t)
+        ("x" mc/mark-more-like-this-extended)
+        ("q" phd/hydra-mc-exit :exit t)
+        ("Q" nil :exit t)
+        ("C-g" phd/hydra-mc-exit :exit t)
+        ("<mouse-1>" mc/add-cursor-on-click)
+        ("<down-mouse-1>" ignore)
+        ("<drag-mouse-1>" ignore)))
     )
-#+END_SRC
+
+#+end_src
 
 
 * Editing
 
-Settings to improve editing speed...
 
-** Brackets and parentheses
-*** For any coding that uses parentheses
-#+BEGIN_SRC emacs-lisp
-  (show-paren-mode t)
-#+END_SRC
+** Comment
 
-*** Auto close bracket insertion
-#+BEGIN_SRC emacs-lisp
-  (electric-pair-mode t)
-#+END_SRC
+Do What I Mean when commenting
 
+#+begin_src emacs-lisp
 
-** A few enhancement of default commands
-
-
-#+BEGIN_SRC emacs-lisp
-  ;; - instead of dabbrev-expand
-  (global-set-key (kbd "M-.") 'hippie-expand)
-  ;; rest of the enhancements is done with Counsel
-
-  ;; Commenting
   (use-package comment-dwim-2
     :ensure t
-    :bind
-    ("M-/" . comment-dwim-2))
+    :bind ("M-/" . comment-dwim-2))
 
-  ;; Deletes all the whitespace when you hit backspace or delete
-  (normal-erase-is-backspace-mode 0)
-  (global-set-key (kbd "M-h") 'help-command)
-  (use-package hungry-delete
+#+end_src
+
+
+** Delete
+
+#+begin_src emacs-lisp
+
+(use-package hungry-delete
     :ensure t
-    :bind
-    ("C-h" . hungry-delete-backward)
-    )
+    :bind ("<C-backspace>" . hungry-delete-backward))
 
-  ;; Company - Modern autocomplete [**Comp**lete-**any**thing]
+#+end_src
+
+
+** Select
+
+#+begin_src emacs-lisp
+
+  (use-package expand-region
+    :ensure t
+    :bind ("C-M-SPC" . er/expand-region))
+
+#+end_src
+
+
+** Drag
+
+#+begin_src emacs-lisp
+
+  (use-package drag-stuff
+    :ensure t
+    :bind (("<C-M-up>"   . drag-stuff-up)
+           ("<C-M-down>" . drag-stuff-down)))
+
+#+end_src
+
+
+** Complete
+
+Modern auto-complete [*Comp*lete-*any*thing]
+
+#+begin_src emacs-lisp
+
   (use-package company
     :ensure t
     :defer 5
-    :bind
-    ("C-c ." . company-complete)
+    :bind ("C-." . company-complete)
     :config
     (add-hook 'after-init-hook 'global-company-mode))
 
-  ;; Expand-region selection; alternatively use 'mark-sexp
-  (use-package expand-region
-    :ensure t
-    :bind
-    (([?\C-\M- ] . er/expand-region)
-     ))
-
-  ;; Drag-stuff - simply moves entire lines
-  (use-package drag-stuff
-    :ensure t
-    :bind
-    (("<C-M-up>" . drag-stuff-up)
-     ("<C-M-down>" . drag-stuff-down)))
-
-  ;; Multiple cursors
-  ;; (use-package multiple-cursors
-  ;;   :ensure t
-  ;;   :bind
-  ;;   (("M-SPC" . set-rectangular-region-anchor)Z
-  ;;    ("C-c ," . mc/edit-lines)
-  ;;    ("C->" . mc/mark-next-like-this)
-  ;;    ("C-<" . mc/mark-previous-like-this)
-  ;;    ("C-c C-<"  . mc/mark-all-like-this)
-  ;;    ("<C-M-mouse-1>" . mc/add-cursor-on-click)
-  ;;    ("M-m"   . hydra-mc/body)
-  ;;    ("C-x m" . hydra-mc/body))
-  ;;   :config
-  ;;   (defhydra hydra-mc (:hint nil)
-  ;;     "
-  ;;     ^Up^            ^Down^        ^Miscellaneous^
-  ;;     -----------------------------------------------------------
-  ;;     [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
-  ;;     [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
-  ;;     [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit
-  ;;     "
-  ;;     ("l"   mc/edit-lines :exit t)
-  ;;     ("a"   mc/mark-all-like-this-dwim :exit t)
-  ;;     ("n"   mc/mark-next-like-this)
-  ;;     ("N"   mc/skip-to-next-like-this)
-  ;;     ("M-n" mc/unmark-next-like-this)
-  ;;     ("p"   mc/mark-previous-like-this)
-  ;;     ("P"   mc/skip-to-previous-like-this)
-  ;;     ("M-p" mc/unmark-previous-like-this)
-  ;;     ("g" mc/mark-all-in-region-regexp :exit t)
-  ;;     ("r"   mc/mark-sgml-tag-pairexit t)
-  ;;     ("x"   mc/mark-more-like-this-extended)
-  ;;     ("q"   nil)
-  ;;     ("<mouse-1>" mc/add-cursor-on-click)
-  ;;     ("<down-mouse-1>" ignore)
-  ;;     ("<drag-mouse-1>" ignore))
-  ;;   )
-
-#+END_SRC
+#+end_src
 
 
 * Coding
 
-Adding support for some programming languages or global coding behaviour...
 
-#+BEGIN_SRC emacs-lisp
-  ;; Global
-  ;; - Error checking; might have to turn that one off again :S
-  (use-package flycheck
+** Language modes
+
+
+*** Cython
+
+#+begin_src emacs-lisp
+  (use-package cython-mode
+    :ensure t)
+#+end_src
+
+
+*** Haskell
+
+#+begin_src emacs-lisp
+  (use-package haskell-mode
     :ensure t
-    :init
-    (setq-default flycheck-flake8-maximum-line-length 99)
-    (setq-default flycheck-disabled-checkers '(python-pylint))
-    (global-flycheck-mode t)
-    )
+    :interpreter ("ghc" . haskell-mode))
+#+end_src
 
-  ;; - Snippets
-  (use-package yasnippet
+
+*** Scala
+
+#+begin_src emacs-lisp
+  (use-package scala-mode
+    :ensure t
+    :interpreter ("scala" . scala-mode))
+#+end_src
+
+
+*** Markdown
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :defer t
+    :config
+    (custom-set-variables '(markdown-command "/usr/bin/pandoc")))
+#+end_src
+
+
+*** YAML
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :defer t)
+#+end_src
+
+
+*** HTML
+
+#+begin_src emacs-lisp
+
+  (use-package web-mode
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+    (setq web-mode-ac-sources-alist
+          '(("css" . (ac-source-css-property))
+            ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
+    (defun my-web-mode-hook ()
+      "Hooks for Web mode."
+      (setq web-mode-enable-auto-closing t)
+      (setq web-mode-enable-auto-quoting t)
+      (setq web-mode-markup-indent-offset 2))
+    (add-hook 'web-mode-hook 'my-web-mode-hook))
+
+#+end_src
+
+
+*** CSS & Co.
+
+#+begin_src emacs-lisp
+  (use-package less-css-mode
+    :ensure t
+    :defer t)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package scss-mode
+    :ensure t
+    :defer t
+    :config (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode)))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package sass-mode
+    :ensure t
+    :defer t
+    :config (add-to-list 'auto-mode-alist '("\\.sass\\'" . sass-mode)))
+#+end_src
+
+
+** Dev envs
+
+
+*** Python
+
+The ~elpy~ configuration will use these quoted variables
+
+#+begin_src emacs-lisp
+  (setq python-shell-completion-native-enable t)
+  (setq py-python-command "python3")
+  (setq python-shell-interpreter "python3")
+#+end_src
+
+
+**** elpy
+
+#+begin_src emacs-lisp
+
+  (use-package elpy
     :ensure t
     :defer t
     :init
-    (yas-global-mode 1)
-    )
+    (setq elpy-rpc-python-command python-shell-interpreter)
+    (advice-add 'python-mode :before 'elpy-enable)
+    :config
+    (add-hook 'elpy-mode-hook
+              (lambda () (highlight-indentation-mode -1)))
+    (eval-after-load "elpy"
+      '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
+         (define-key elpy-mode-map (kbd key) nil)))
+    (when (load "flycheck" t t)
+      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+      (add-hook 'elpy-mode-hook 'flycheck-mode)))
 
-  (use-package yasnippet-snippets
+#+end_src
+
+Switch virtualenvs using ~M-x pyvenv-workon~. This requires exporting
+the ~WORKON_HOME~ environment variable in your ~.bashrc~ (or
+equivalent rc-file). By default, ~pipenv~ installs all its virtualenvs
+in ~~/.local/share/virtualenvs~
+
+#+begin_src bash :tangle no
+export WORKON_HOME="${HOME}/.local/share/virtualenvs"
+#+end_src
+
+Also be sure to install the necessary libraries via ~M-x elpy-config~
+within emacs or via pip in the current virtualenv:
+
+#+begin_src shell :tangle no
+  pip install jedi
+  pip install flake8
+  pip install importmagic
+  pip install autopep8
+  pip instal yapf
+#+end_src
+
+
+**** company-jedi
+
+#+begin_src emacs-lisp
+
+  (use-package company-jedi
     :ensure t
-    :defer t)
+    :config
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (setq jedi:complete-on-dot t)
+    (setq jedi:use-shortcuts t)
+    (defun phd/python-mode-hook ()
+      (add-to-list 'company-backends 'company-jedi))
+    (add-hook 'python-mode-hook 'phd/python-mode-hook))
 
-  ;; - Highlight parentheses for emacs-lisp
-  (use-package highlight-parentheses
-    :ensure t
-    ;;:diminish highlight-parentheses-mode
-    )
-  (global-highlight-parentheses-mode)
+#+end_src
 
-  ;;
-  (use-package rainbow-delimiters
-    :ensure t
-    )
 
-  ;; - String manipulation
-  (use-package s
-    :ensure t)
+*** Clojure
 
-  ;; - Cider
+~cider~ extends emacs with support for interactive programming in
+clojure
+
+#+begin_src emacs-lisp
+
   (use-package cider
     :ensure t
     :pin melpa-stable
-    :bind
-    (("M-r" . cider-namespace-refresh))
+    :bind (:map cider-mode-map
+                ("M-r" . cider-namespace-refresh))
     :config
     (add-hook 'cider-repl-mode-hook #'company-mode)
     (add-hook 'cider-mode-hook #'company-mode)
@@ -751,90 +842,141 @@ Adding support for some programming languages or global coding behaviour...
     (setq cider-repl-use-pretty-printing t)
     (setq cider-repl-display-help-banner nil))
 
-
-  ;; Python
-  (setq python-shell-completion-native-enable t)
-  (setq py-python-command "python3")
-  (setq python-shell-interpreter "python3")
-
-  ;; - company auto-complete
-  (use-package company-jedi
-    :ensure t
-    :init
-    (defun phd-python-mode-hook ()
-      (add-to-list 'company-backends 'company-jedi))
-    (add-hook 'python-mode-hook 'phd-python-mode-hook))
-#+END_SRC
-
-Be sure to install the necessary libraries via ~pip~ or ~M-x elpy-config~ within emacs:
-
-#+BEGIN_SRC shell :tangle no
-  pip install jedi
-  pip install flake8
-  pip install importmagic
-  pip install autopep8
-  pip instal yapf
-#+END_SRC
-
-Moreover, make sure to add your directory of virtual environments to ~custom.el~, e.g.
-#+BEGIN_SRC emacs-lisp :tangle no
-  (custom-set-variables
-   '(python-environment-directory "~/.local/share/virtualenvs"))
-#+END_SRC
-
-Now, elpy can get to work...
-
-#+BEGIN_SRC emacs-lisp
-  ;; ;; mighty python dev-env
-  (use-package elpy
-    :ensure t
-    :defer t
-    :init
-    (setq elpy-rpc-python-command python-shell-interpreter)
-    (advice-add 'python-mode :before 'elpy-enable)
-    :config
-    (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
-    (eval-after-load "elpy"
-      '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>"))
-         (define-key elpy-mode-map (kbd key) nil)))
-    (when (load "flycheck" t t)
-      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-      (add-hook 'elpy-mode-hook 'flycheck-mode))
-    )
-#+END_SRC
-
-
-#+BEGIN_SRC emacs-lisp
-  ;; - Cython
-  (use-package cython-mode
-    :ensure t)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  ;; - Scala
-  (use-package scala-mode
-    :ensure t
-    :interpreter
-    ("scala" . scala-mode))
-#+END_SRC
-
-#+begin_src emacs-lisp
-  (use-package haskell-mode
-    :ensure t
-    :interpreter 
-    ("ghc" . haskell-mode))
 #+end_src
 
 
-* Project management
+** Syntax helpers
 
-Setting up packages for project management and version control,
-e.g. magit, projectile, perspective, etc.
 
-#+BEGIN_SRC emacs-lisp
-  ;; Extensive file system package
-  (use-package f
+*** flycheck
+
+#+begin_src emacs-lisp
+
+  (use-package flycheck
+    :ensure t
+    :init
+    (setq-default flycheck-flake8-maximum-line-length 99)
+    (setq-default flycheck-disabled-checkers '(python-pylint))
+    (global-flycheck-mode t))
+
+#+end_src
+
+
+** Utilities
+
+
+*** highlight-parentheses
+
+#+begin_src emacs-lisp
+
+  (use-package highlight-parentheses
+    :ensure t
+    :config (global-highlight-parentheses-mode))
+
+#+end_src
+
+
+*** rainbow-delimiters
+
+#+begin_src emacs-lisp
+
+  (use-package rainbow-delimiters
     :ensure t)
+
+#+end_src
+
+
+*** rainbow-mode
+
+#+begin_src emacs-lisp
+  (use-package rainbow-mode
+    :ensure t)
+#+end_src
+
+
+*** yasnippets
+
+
+Install snippet system
+
+#+begin_src emacs-lisp
+
+  (use-package yasnippet
+    :ensure t
+    :config
+    (setq yas-snippet-dirs '("~/.config/emacs/snippets"))
+    (add-hook 'org-mode-hook #'yas-minor-mode)
+    (add-hook 'web-mode-hook #'yas-minor-mode)
+    (add-hook 'sh-mode-hook #'yas-minor-mode)
+    (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
+    (add-hook 'haskell-mode-hook #'yas-minor-mode)
+    (add-hook 'python-mode-hook #'yas-minor-mode)
+    )
+
+#+end_src
+
+with some snippets
+
+#+begin_src emacs-lisp
+
+  (use-package yasnippet-snippets
+    :ensure t
+    :after yasnippet
+    :config
+    (yas-reload-all))
+
+#+end_src
+
+
+** Project management
+
+
+*** magit
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t
+    :bind ("C-c m" . magit-status))
+
+#+end_src
+
+
+*** projectile
+
+Often visited projects can be added to ~projectile~ with
+~projectile-add-known-project~
+
+#+begin_src emacs-lisp
+
+  (use-package projectile
+    :ensure t
+    :defer t
+    :bind (:map projectile-mode-map
+                ("C-c p" . projectile-command-map))
+    :config
+    (setq projectile-known-projects-file "~/.config/emacs/projectile-bookmarks.eld")
+    (setq projectile-completion-system 'ivy)
+    (setq projectile-indexing-method 'native)
+    (projectile-mode t))
+
+#+end_src
+
+The counsel-extension adds a few more commands to the projectile
+command map
+
+#+begin_src emacs-lisp
+
+  (use-package counsel-projectile
+    :ensure t
+    :config
+    (counsel-projectile-mode))
+
+#+end_src
+
+
+*** treemacs (tangle no)
+
+#+begin_src emacs-lisp :tangle no
 
   (use-package treemacs
     :ensure t
@@ -893,144 +1035,41 @@ e.g. magit, projectile, perspective, etc.
           ("C-x t C-t" . treemacs-find-file)
           ("C-x t M-t" . treemacs-find-tag)))
 
+#+end_src
+
+
+#+begin_src emacs-lisp :tangle no
+
   (use-package treemacs-projectile
     :ensure t
     :defer t
     :after treemacs projectile)
 
-  ;; Magit
-  (use-package magit
-    :ensure t
-    :bind ("C-c m" . magit-status))
-
-  ;; Projectile
-  (use-package projectile
-    :ensure t
-    :defer t
-    :config
-    (projectile-global-mode)
-    (setq projectile-completion-system 'ivy))
-
-  ;; Counsel projectile - ivy-extensions to projectile
-  (use-package counsel-projectile
-    :ensure t
-    :config
-    (counsel-projectile-mode))
-
-  (use-package perspeen
-    :ensure t
-    ;; :init
-    ;; (setq perspeen-use-tab t)
-    :config
-    (perspeen-mode)
-    ;; :bind
-    ;; (("C-x <left>" . perspeen-tab-prev)
-    ;; ("C-x <right>" . perspeen-tab-next))
-    )
-#+END_SRC
+#+end_src
 
 
-* Webbing, Marking up and -down, Org
+* Markup
 
-Loading markup and -down...
 
-** HTML
-#+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :ensure t
-    :config
-    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-    (setq web-mode-engines-alist
-          '(("django" . "\\.html\\'")))
-    (setq web-mode-ac-sources-alist
-          '(("css" . (ac-source-css-property))
-            ("html" . (ac-source-words-in-buffer ac-source-abbrev))))
-    (defun my-web-mode-hook ()
-      "Hooks for Web mode."
-      (setq web-mode-enable-auto-closing t)
-      (setq web-mode-enable-auto-quoting t)
-      (setq web-mode-markup-indent-offset 2))
-    (add-hook 'web-mode-hook  'my-web-mode-hook)
-    )
+** htmlize
 
-  ;; HTML export
-  (use-package htmlize
+For converting source code to HTML. Especially nice for preserving syntax
+colouring of org-mode src-blocks in exported HTML code.
+
+#+begin_src emacs-lisp
+(use-package htmlize
     :ensure t
     :defer t)
-
-  ;; - Emmet for super fast web-dev
-  (use-package emmet-mode
-    :ensure t
-    :defer t
-    :config
-    (add-hook 'sgml-mode-hook 'emmet-mode)
-    ;; (add-hook 'css-mode-hook  'emmet-mode)
-    (add-hook 'clojure-mode-hook 'emmet-mode))
-
-  ;; CSS & Co.
-  (use-package less-css-mode
-    :ensure t
-    :defer t)
-
-  (use-package scss-mode
-    :ensure t
-    :defer t
-    :config
-    (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
-    )
-
-  (use-package sass-mode
-    :ensure t
-    :defer t
-    :config
-    (add-to-list 'auto-mode-alist '("\\.sass\\'" . sass-mode))
-    )
-
-  ;; Markup languages
-  (use-package yaml-mode
-    :ensure t
-    :defer t)
-
-  ;; Markdown mode
-  (use-package markdown-mode
-    :ensure t
-    :defer t
-    :config
-    (custom-set-variables '(markdown-command
-                            "/usr/bin/pandoc"))
-    )
-#+END_SRC
+#+end_src
 
 
-** Orgmode
+** org-mode
 
-Exports
-#+BEGIN_SRC emacs-lisp
-  ;; (eval-after-load "org-indent" '(diminish 'org-indent-mode))
-  (eval-after-load "org" '(require 'ox-md nil t))
-  (eval-after-load "org" '(require 'ox-gfm nil t))
 
-  (defun my-md-src-block (src-block contents info)
-    "Transcode a SRC-BLOCK element from Org to Markdown.
-    CONTENTS is nil. INFO is a plist used as a communication 
-    channel."
-    (if (not (org-export-read-attribute :attr_md src-block :language))
-        (org-export-with-backend 'md src-block contents info)
-      (org-export-with-backend 'html src-block contents info))
-    )
+*** org
 
-  (org-export-define-derived-backend 'my-md 'md
-    :translate-alist '((src-block . my-md-src-block)))
-  ;; for now eval (org-export-to-buffer 'my-md "*Org MY-MD Export*")
-  ;; and save the buffer as file... working on self-installing an item
-  ;; in the export dispatcher menu
+#+begin_src emacs-lisp
 
-  (use-package ox-gfm
-    :ensure t)
-#+END_SRC
-
-Orgmode
-#+BEGIN_SRC emacs-lisp
   (use-package org
     :ensure t
     :config
@@ -1039,106 +1078,107 @@ Orgmode
     (setq markdown-fontify-code-blocks-natively t)
     (org-babel-do-load-languages
      'org-babel-load-languages
-     '((python . t)))
-    )
+     '((emacs-lisp . t)
+       (shell      . t)
+       (haskell    . t)
+       (python     . t))))
 
-  (use-package org-tempo
-    :ensure nil
-    :after org)
-#+END_SRC
+#+end_src
 
-Org bullets
-#+BEGIN_SRC emacs-lisp
+
+**** org-bullets
+
+#+begin_src emacs-lisp
   (use-package org-bullets
     :ensure t
+    :after org
     :commands (org-bullets-mode)
-    :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-    )
-#+END_SRC
-
-Youtube embedding
-#+BEGIN_SRC emacs-lisp
-  (defvar yt-iframe-format
-    ;; You may want to change your width and height.
-    (concat "<iframe"
-            " src=\"https://www.youtube.com/embed/%s?rel=0&amp;showinfo=0&amp;loop=1\""
-            " width=\"%s\""
-            " height=\"%s\""
-            " allow=\"autoplay; encrypted-media\""
-            " frameborder=\"0\""
-            " allowfullscreen>%s</iframe>"))
+    :init
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+end_src
 
 
-  (org-add-link-type
-   "yt"
-   (lambda (handle)
-     (browse-url
-      (concat "https://www.youtube.com/embed/"
-              handle)))
-   (lambda (path desc backend)
-     (let* ((f (split-string path ","))
-            (path (nth 0 f))
-            (yt-width (or (nth 1 f) "440"))
-            (yt-height (or (nth 2 f) "335"))
-            )
-       (cl-case backend
-         (html (format yt-iframe-format
-                       path yt-width yt-height (or desc "")))
-         (latex (format "\href{%s}{%s}"
-                        path (or desc "video")))
-         )
-       )
-     ))
-#+END_SRC
+**** org-reveal
 
-Giphy embedding
-#+BEGIN_SRC emacs-lisp
-  (defvar giphy-iframe-format
-    ;; You may want to change your width and height.
-    (concat "<iframe"
-            " src=\"https://giphy.com/embed/%s\""
-            " width=\"%s\""
-            " height=\"%s\""
-            " frameborder=\"0\""
-            " allowfullscreen>%s</iframe>"))
-
-
-  (org-add-link-type
-   "giphy"
-   (lambda (handle)
-     (browse-url
-      (concat "https://giphy.com/embed/"
-              handle)))
-   (lambda (path desc backend)
-     (let* ((f (split-string path ","))
-            (path (nth 0 f))
-            (giphy-width (or (nth 1 f) "440"))
-            (giphy-height (or (nth 2 f) "335"))
-            )
-       (cl-case backend
-         (html (format giphy-iframe-format
-                       path giphy-width giphy-height (or desc "")))
-         (latex (format "\href{%s}{%s}"
-                        path (or desc "video")))
-         )
-       )
-     ))
-#+END_SRC
-
-Reveal presentations
-#+BEGIN_SRC emacs-lisp
-  (setq org-reveal-root (concat "file://" (expand-file-name "~/forks/reveal.js")))
+#+begin_src emacs-lisp
+  (setq org-reveal-root (concat "file://" (expand-file-name "~/local/reveal.js")))
   (setq org-reveal-mathjax t)
+#+end_src
+
+
+
+*** Exports
+
+
+**** ox-md
+
+#+begin_src emacs-lisp
+  (use-package ox-md
+    :ensure nil
+    :after org)
+#+end_src
+
+
+**** my-md
+
+Custom markdown export backend with html-formatted src-block export when
+marked with ~#+ATTR_MD: :language t~
+
+#+begin_src emacs-lisp
+
+  (defun my-md-src-block (src-block contents info)
+    "Transcode a SRC-BLOCK element from Org to Markdown.
+    CONTENTS is nil. INFO is a plist used as a communication 
+    channel."
+    (if (not (org-export-read-attribute :attr_md src-block :language))
+        (org-export-with-backend 'md src-block contents info)
+      (org-export-with-backend 'html src-block contents info)))
+
+  (org-export-define-derived-backend 'my-md 'md
+    :translate-alist '((src-block . my-md-src-block)))
+
+#+end_src
+
+For now use ~M-:~ to evaluate
+
+#+begin_src emacs-lisp :tangle no
+  (org-export-to-buffer 'my-md "*Org MY-MD Export*")
+#+end_src
+
+this will create a buffer with the export which can be saved to file.
+
+
+**** ox-gfm
+
+#+begin_src emacs-lisp
+  (use-package ox-gfm
+    :ensure t
+    :after org)
+#+end_src
+
+
+**** ox-reveal
+
+#+begin_src emacs-lisp
   (use-package ox-reveal
     :ensure t
-    ;;:defer t
-    ;;:config (require 'ox-reveal)
-    )
-#+END_SRC
+    :after org)
+#+end_src
 
 
-Custom org extensions
-#+BEGIN_SRC emacs-lisp
+**** TODO Custom hooks
+
+Convert custom canvas expression in org-export with backend ~html~ and
+~reveal~
+
+TODO:
+- ‘beginning-of-buffer’ is for interactive use only; use ‘(goto-char
+  (point-min))’ instead.
+- ‘replace-regexp’ is for interactive use only; use
+  ‘re-search-forward’ and ‘replace-match’ instead.
+
+#+begin_src emacs-lisp :tangle no
+
   (defun org-export-canvas (backend)
     "Replace @canvas{descr|id} to <canvas> html text in current buffer"
     (when (or (equal backend 'html) (equal backend 'reveal))
@@ -1149,44 +1189,206 @@ Custom org extensions
                         ))))
 
   (add-hook 'org-export-before-parsing-hook 'org-export-canvas)
-#+END_SRC
+
+#+end_src
+
+
+**** Custom links
+
+
+***** Youtube embeddings
+
+#+begin_src emacs-lisp
+
+  (defvar yt-iframe-format
+    ;; You may want to change your width and height.
+    (concat "<iframe"
+            " src=\"https://www.youtube.com/embed/%s?rel=0&amp;showinfo=0&amp;loop=1\""
+            " width=\"%s\""
+            " height=\"%s\""
+            " allow=\"autoplay; encrypted-media\""
+            " frameborder=\"0\""
+            " allowfullscreen>%s</iframe>"))
+
+  (org-link-set-parameters
+   "yt"
+   :follow (lambda (handle)
+             (browse-url
+              (concat "https://www.youtube.com/embed/"
+                      handle)))
+   :export (lambda (path desc backend)
+             (let* ((f (split-string path ","))
+                    (path (nth 0 f))
+                    (yt-width (or (nth 1 f) "440"))
+                    (yt-height (or (nth 2 f) "335"))
+                    )
+               (cl-case backend
+                 (html (format yt-iframe-format
+                               path yt-width yt-height (or desc "")))
+                 (latex (format "\href{%s}{%s}"
+                                path (or desc "video"))))))
+   )
+
+
+  ;; (org-add-link-type
+  ;;  "yt"
+  ;;  (lambda (handle)
+  ;;    (browse-url
+  ;;     (concat "https://www.youtube.com/embed/"
+  ;;             handle)))
+  ;;  (lambda (path desc backend)
+  ;;    (let* ((f (split-string path ","))
+  ;;           (path (nth 0 f))
+  ;;           (yt-width (or (nth 1 f) "440"))
+  ;;           (yt-height (or (nth 2 f) "335"))
+  ;;           )
+  ;;      (cl-case backend
+  ;;        (html (format yt-iframe-format
+  ;;                      path yt-width yt-height (or desc "")))
+  ;;        (latex (format "\href{%s}{%s}"
+  ;;                       path (or desc "video")))
+  ;;        )
+  ;;      )
+  ;;    ))
+
+#+end_src
+
+
+***** Giphy embeddings
+
+#+begin_src emacs-lisp
+
+  (defvar giphy-iframe-format
+    ;; You may want to change your width and height.
+    (concat "<iframe"
+            " src=\"https://giphy.com/embed/%s\""
+            " width=\"%s\""
+            " height=\"%s\""
+            " frameborder=\"0\""
+            " allowfullscreen>%s</iframe>"))
+
+  (org-link-set-parameters
+   "giphy"
+   :follow (lambda (handle)
+             (browse-url
+              (concat "https://giphy.com/embed/"
+                      handle)))
+   :export (lambda (path desc backend)
+             (let* ((f (split-string path ","))
+                    (path (nth 0 f))
+                    (giphy-width (or (nth 1 f) "440"))
+                    (giphy-height (or (nth 2 f) "335"))
+                    )
+               (cl-case backend
+                 (html (format giphy-iframe-format
+                               path giphy-width giphy-height (or desc "")))
+                 (latex (format "\href{%s}{%s}"
+                                path (or desc "video"))))))
+   )
+
+  ;; (org-add-link-type
+  ;;  "giphy"
+  ;;  (lambda (handle)
+  ;;    (browse-url
+  ;;     (concat "https://giphy.com/embed/"
+  ;;             handle)))
+  ;;  (lambda (path desc backend)
+  ;;    (let* ((f (split-string path ","))
+  ;;           (path (nth 0 f))
+  ;;           (giphy-width (or (nth 1 f) "440"))
+  ;;           (giphy-height (or (nth 2 f) "335"))
+  ;;           )
+  ;;      (cl-case backend
+  ;;        (html (format giphy-iframe-format
+  ;;                      path giphy-width giphy-height (or desc "")))
+  ;;        (latex (format "\href{%s}{%s}"
+  ;;                       path (or desc "video")))
+  ;;        )
+  ;;      )
+  ;;    ))
+
+#+end_src
 
 
 ** LaTeX
 
-LaTeX stuff...
+AUCTeX is an integrated environment for writing input files for LaTeX
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package auctex
     :ensure t
     :defer t
+    :defines (TeX-view-program-selection)
     :config
     (require 'tex)
     (TeX-global-PDF-mode t)
-    )
+    (add-to-list 'TeX-view-program-selection
+                 '(output-pdf "Zathura")))
+#+end_src
 
-  (use-package latex-preview-pane
-    :ensure t
-    :defer t
+
+* Shells
+
+
+** vterm
+
+#+begin_src emacs-lisp
+
+  (use-package vterm
+    :commands vterm
+    :defines (term-prompt-regexp
+              vterm-shell
+              vterm-max-scrollback)
     :config
-    (latex-preview-pane-enable))
-#+END_SRC
+    (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")
+    (setq vterm-shell "bash")
+    (setq vterm-max-scrollback 10000))
 
+#+end_src
+
+
+** TODO eshell
 
 
 * Mail
 
-#+BEGIN_SRC emacs-lisp
-  (use-package pass
-   :ensure t
-   :config
-   (setf epg-pinentry-mode 'loopback)
-   (auth-source-pass-enable)
-   (setq auth-sources '(password-store "~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
-   )
-#+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+** mu4e
+
+#+begin_src emacs-lisp
+
+  (use-package phd-mu4e-setup
+    :ensure nil
+    :load-path "~/local/phd-mu4e-setup/"
+    :bind (("C-x m"   . mu4e)
+           ("C-x C-m" . mu4e-compose-new)
+           ("C-x M-m" . mu4e-update-mail-and-index)))
+
+#+end_src
+
+
+** Password management
+
+Use UNIX pass instead of authinfo
+
+#+begin_src emacs-lisp
+
+  (use-package pass
+    :ensure t
+    :config
+    (setf epg-pinentry-mode 'loopback)
+    (auth-source-pass-enable)
+    (setq auth-sources '(password-store "~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
+
+#+end_src
+
+
+** org-mime
+
+Use org-mode to write html content in mails
+
+#+begin_src emacs-lisp
+
   (use-package org-mime
     :ensure t
     :hook ((message-mode . (lambda ()
@@ -1196,543 +1398,426 @@ LaTeX stuff...
     :config
     (setq org-mime-export-options '(:section-numbers nil
                                     :with-author nil
-                                    :with-toc nil))
-    )
-#+END_SRC
+                                    :with-toc nil)))
 
-#+BEGIN_SRC emacs-lisp
-  (use-package phd-mu4e-setup
-    :ensure nil
-    :load-path "~/local/phd-mu4e-setup/"
-    :bind (("C-x m" . mu4e)
-           ("C-x C-m" . mu4e-compose-new))
-    :config
-    (mu4e t))
-#+END_SRC
+#+end_src
 
 
 * Helpers
 
 Settings for a few helping features.
 
-#+BEGIN_SRC emacs-lisp
-  ;; Which-key - helper for incomplete keystrokes
+
+** which-key
+
+#+begin_src emacs-lisp
   (use-package which-key
     :ensure t
     :diminish which-key-mode
-    :config
-    (which-key-mode))
+    :config (which-key-mode))
+#+end_src
 
-  ;; Company doc pop-ups
+
+** company-quickhelp
+
+#+begin_src emacs-lisp
+
   (use-package company-quickhelp
     :ensure t
     :config
     (eval-after-load 'company
       '(define-key company-active-map
          (kbd "C-c h")
-         #'company-quickhelp-manual-begin))
-    ;; (company-quickhelp-mode 1)
+         #'company-quickhelp-manual-begin)))
+
+#+end_src
+
+
+* Basic settings
+
+Here, some default quirks of Emacs are corrected, to make it behave
+like we want it to. These settings modify the general behaviour and
+take global effect.
+
+
+** Behaviour
+
+
+*** Miscellaneous settings
+
+#+begin_src emacs-lisp
+  ;; Startup screen
+  (setq inhibit-startup-message t)
+
+  ;; Ask for y/n instead of yes/no
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  ;; For orientation
+  (global-hl-line-mode t)
+#+end_src
+
+
+*** Brackets
+
+#+begin_src emacs-lisp
+  ;; highlight pair
+  (show-paren-mode t)
+
+  ;; auto-close brackets
+  (electric-pair-mode t)
+  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+  (add-hook
+   'org-mode-hook
+   (lambda ()
+     (setq-local electric-pair-inhibit-predicate
+                 `(lambda (c) (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
+#+end_src
+
+
+*** Clipboard
+
+#+begin_src emacs-lisp
+(setq select-enable-clipboard t
+        select-enable-primary t
+        save-interprogram-paste-before-kill t
+        require-final-newline t)
+#+end_src
+
+
+*** Tabs
+
+#+begin_src emacs-lisp
+  (setq-default tab-width 2)
+  (setq-default indent-tabs-mode nil)
+  (setq indent-line-function 'insert-tab)
+  (electric-indent-mode t)
+#+end_src
+
+
+*** Unique buffers
+
+#+begin_src  emacs-lisp
+  (if (< emacs-major-version 25)
+      (require 'uniquify))
+  (setq uniquify-buffer-name-style 'forward)
+#+end_src
+
+
+*** Mouse-wheel speed
+
+#+begin_src emacs-lisp
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 4) ((meta)) ((control)) ))
+  (setq mouse-wheel-progressive-speed nil)
+#+end_src
+
+
+*** Silence bell
+
+#+begin_src emacs-lisp
+  (defun phd-bell ())
+  (setq ring-bell-function 'phd-bell
+        visible-bell nil)
+#+end_src
+
+
+** Keyboard shortcuts
+
+Regular remaps and bindings
+
+#+begin_src emacs-lisp
+
+    ;; Reload buffer
+    (global-set-key (kbd "<f5>") 'revert-buffer)
+
+    ;; Kill current buffer instead of any buffer
+    (global-set-key (kbd "C-x k") 'kill-this-buffer)
+
+    ;; Go back to indentation instead of beginning of line
+    (global-set-key (kbd "C-a") 'back-to-indentation)
+
+    ;; Efficiently move up or down
+    (global-set-key (kbd "<M-up>") 'backward-paragraph)
+    (global-set-key (kbd "<M-down>") 'forward-paragraph)
+
+    ;; Expand
+    (global-set-key (kbd "M-.") 'hippie-expand) 
+
+#+end_src
+
+
+Binding custom functions and hydras
+
+#+begin_src emacs-lisp
+
+  ;; Modified vertical/horizontal buffer splits
+  (global-set-key (kbd "C-x 2") 'phd/vsplit-last-buffer)
+  (global-set-key (kbd "C-x 3") 'phd/hsplit-last-buffer)
+
+  ;; Indent the entire buffer
+  (global-set-key (kbd "C-c <tab>") 'phd/iwb)
+
+  ;; Evaluate/replace lisp code... useful for scratch buffer math
+  (global-set-key (kbd "C-c C-e") 'phd/eval-and-replace)
+  (define-key lisp-interaction-mode-map (kbd "C-c e") 'eval-print-last-sexp)
+
+  ;; Hydra bindings
+  (global-set-key (kbd "C-x h")   'phd/hydra-toggler/body)
+  (global-set-key (kbd "C-x j")   'phd/hydra-goto-mv/body)
+  (global-set-key (kbd "C-x C-j") 'phd/hydra-goto-mv/body)
+  (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
+
+#+end_src
+
+
+** System language settings
+
+Prefer UTF-8 encodings
+
+#+begin_src emacs-lisp
+
+    ;; Prefer UTF-8
+    (set-language-environment "UTF-8")
+    (prefer-coding-system 'utf-8)
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (set-selection-coding-system 'utf-8)
+    (setq locale-coding-system 'utf-8)
+
+#+end_src
+
+
+Configure ispell spell checker which comes bundled with emacs by
+default since v24. It can use multiple programs:
+- ~aspell~ should be on most Linux systems, but seems to be no longer
+  maintained
+- ~hunspell~ is widely used, but has inferior capabilities
+
+#+begin_src emacs-lisp
+
+  (use-package ispell
+    :init
+    (setq ispell-program-name "/usr/bin/aspell")
+    :config
+    (when (executable-find "hunspell")
+      (setq-default ispell-program-name "hunspell")))
+
+#+end_src
+
+
+** Backup behaviour
+
+The default backup behaviour of emacs is quite annoying, as it
+duplicates/spams local folders. I much rather have emacs gather them
+in a dedicated directory.
+
+#+begin_src emacs-lisp
+
+  ;; collect them in .config/emacs/backups
+  (defvar phd-backup-directory "~/.config/emacs/backups")
+  ;; and if it doesn't exist, make it
+  (if (not (file-exists-p phd-backup-directory))
+      (make-directory phd-backup-directory t))
+  ;; configure backup list
+  (setq backup-directory-alist `(("." . ,phd-backup-directory)))
+  ;; configure backup saving behavior
+  (setq make-backup-files t
+        backup-by-copying t
+        version-control t
+        delete-old-versions t
+        delete-by-moving-to-trash t
+        kept-old-versions 5
+        kept-new-versions 10
+        auto-save-default t
+        auto-save-timeout 15
+        auto-save-interval 300)
+
+  ;; configure backup deletion
+  (setq delete-by-moving-to-trash t
+        trash-directory "~/.local/share/Trash/files")
+  ;; trash-directory "~/.Trash")
+
+  ;; save frame position history
+  (if (< emacs-major-version 25)
+      (progn
+        (require 'saveplace)
+        (setq-default save-place t))
+    (save-place-mode 1))
+
+#+end_src
+
+
+* GUI
+
+Settings specific to GUI mode.
+Does not take effect when executed in a terminal.
+
+#+begin_src emacs-lisp
+
+  (defun new-frame-setup (&optional frame)
+    (when (display-graphic-p frame)
+
+      (message "New frame in window system")
+      ;; no new frames when opening with Finder/Explorer
+      (setq pop-up-frames nil)
+
+      ;; hide bars
+      (tool-bar-mode -1)
+      (scroll-bar-mode -1)
+      (menu-bar-mode -1) ;; if inside window, might be nice to keep
+
+      ;; Scrolling cursor with mouse wheel (instead of frame)
+      (global-set-key (kbd "<mouse-4>") 'phd/hydra-prevln)
+      (global-set-key (kbd "<mouse-5>") 'phd/hydra-nxtln)
+
+      )
     )
 
-  ;; Command log mode to see what is being typed
-  (use-package command-log-mode
-    :ensure t
-    :defer t)
-#+END_SRC
+  (add-hook 'after-init-hook 'new-frame-setup)
+  (add-hook 'after-make-frame-functions 'new-frame-setup)
+
+#+end_src
 
 
-* External features
+* Terminal window
 
-Terminal emulator
+Settings specific to terminal mode.
+Does not take effect when executed in a separate window.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
+  (defun new-term-setup (&optional frame)
+    (unless (display-graphic-p frame)
 
-  (use-package esup
-    :ensure t
-    :defer t)
+      ;; hide bars
+      (tool-bar-mode -1)
+      (scroll-bar-mode -1)
+      (menu-bar-mode -1)
 
-  (use-package xterm-color
-    :ensure t)
+      ;; activate mouse mode
+      (xterm-mouse-mode t)
+      (mouse-wheel-mode t)
 
-  (require 'comint)
+      ;; Scrolling cursor with mouse wheel (instead of frame)
+      (global-set-key (kbd "<mouse-4>") 'phd/hydra-prevln)
+      (global-set-key (kbd "<mouse-5>") 'phd/hydra-nxtln)
 
-  (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+      )
+    )
+  (add-hook 'after-init-hook 'new-term-setup)
+  ;; (add-hook 'terminal-init-xterm-hook 'new-term-setup)
 
-  ;; (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
-  ;;        (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions)))
-#+END_SRC
-
-Some elips experiments...
-
-#+BEGIN_SRC emacs-lisp
-  ;; REST client
-  (use-package restclient
-    :ensure t
-    :defer t)
-
-  ;; HTTP requests
-  (use-package request
-    :ensure t
-    :defer t)
-#+END_SRC
+#+end_src
 
 
 * Styling
 
 All style settings are defined here...
 
-#+BEGIN_SRC emacs-lisp
-  ;; Set Font
-  (add-hook 'after-make-frame-functions (lambda (&optional frame)
-                                          (when (display-graphic-p frame)
-                                            (set-face-attribute 'default nil :font "Fira Mono-14")
-                                            ;; (set-face-attribute 'default nil :font "Roboto Mono-14")
-                                            )
-                                          )
-            )
 
-  ;; Load the custom theme
-  (add-hook 'after-init-hook (lambda ()
-                               (load-theme 'phd-dark t)))
+** Theme
 
-  (add-hook 'after-make-frame-functions (lambda (&optional frame)
-                                          (when (display-graphic-p frame)
-                                            (message "Loading theme 'phd-dark'")
-                                            (load-theme 'phd-dark t))))
+#+begin_src emacs-lisp
+  (add-hook 'after-init-hook
+            (lambda () (load-theme 'phd-dark t)))
+#+end_src
 
-  ;; Transparent background
-  ;; (set-frame-parameter (selected-frame) 'alpha '(95 . 50))
-  ;; (add-to-list 'default-frame-alist '(alpha . (95 . 50)))
 
-  ;; Gamma adjustment
-  ;; (setq default-frame-alist '((screen-gamma . 1.0)))
-  ;; (setq initial-frame-alist '((screen-gamma . 1.0)))
+*** Transparency
 
-  ;; Prettify symbols
-  (global-prettify-symbols-mode 1)
+#+begin_src emacs-lisp :tangle no
+  (set-frame-parameter (selected-frame) 'alpha '(95 . 50))
+  (add-to-list 'default-frame-alist '(alpha . (95 . 50)))
+#+end_src
 
-  ;; Mode for hex color visuals
-  (use-package rainbow-mode
-    :ensure t)
-#+END_SRC
+
+*** Gamma adjustment
+
+#+begin_src emacs-lisp :tangle no
+  (setq default-frame-alist '((screen-gamma . 1.0)))
+  (setq initial-frame-alist '((screen-gamma . 1.0)))
+#+end_src
+
+
+** Font
+
+#+begin_src emacs-lisp
+  (add-hook 'after-make-frame-functions
+            (lambda (&optional frame)
+              (when (display-graphic-p frame)
+                (set-face-attribute 'default nil :font "Fira Mono-14"))))
+#+end_src
+
+
+*** all-the-icons
 
 All-the-icons is pretty. Install the fonts first from
 https://github.com/domtronn/all-the-icons.el/tree/master/fonts
-#+BEGIN_SRC shell :exports none
+
+#+begin_src shell :exports none
   cd ~/Downloads
   git clone git@github.com:domtronn/all-the-icons.el.git
-#+END_SRC
+#+end_src
 
 ... and afterwards load the package:
 
-#+BEGIN_SRC emacs-lisp
-  ;; All the pretty icons
+#+begin_src emacs-lisp
   (use-package all-the-icons
     :ensure t)
-#+END_SRC
+#+end_src
+
+
+*** prettify-symbols
+
+#+begin_src emacs-lisp
+  (global-prettify-symbols-mode 1)
+#+end_src
+
 
 ** Modeline
-#+BEGIN_SRC emacs-lisp
-  (use-package powerline
-    :ensure t
-    :config
-    ;; for terminal mode
-    (unless window-system
-      (defun all-the-icons-octicon (&rest _) "" "")
-      (defun all-the-icons-faicon (&rest _) "" "")
-      (defun all-the-icons-fileicon (&rest _) "" "")
-      (defun all-the-icons-wicon (&rest _) "" "")
-      (defun all-the-icons-alltheicon (&rest _) "" ""))
-    ;; Vars
-    (defvar phd-modeline-height 30 "modeline height")
-    (defvar phd-modeline-bar-width 3 "modeline width")
-    ;; Faces
-    (defface phd-modeline-buffer-path
-      '((t (:inherit mode-line :bold t)))
-      "Face used for the dirname of the buffer path")
-    (defface phd-modeline-buffer-project
-      '((t (:inherit phd-modeline-buffer-path :bold nil)))
-      "Face used for the filename of the modeline buffer path")
-    (defface phd-modeline-buffer-modified
-      '((t (:inherit highlight :background nil)))
-      "Face used for the 'unsaved' symbol in the modeline")
-    (defface phd-modeline-buffer-major-mode
-      '((t (:inherit mode-line :bold t)))
-      "Face used for the major-mode segment in the modeline")
-    (defface phd-modeline-highlight
-      '((t (:inherit mode-line)))
-      "Face for bright segments of the modeline")
-    ;; - Git/VCS segment
-    (defface phd-modeline-info '((t (:inherit success)))
-      "Face for info-level messages in the modeline")
-    (defface phd-modeline-warning '((t (:inherit warning)))
-      "Face for warnings in the modeline")
-    (defface phd-modeline-error `((t (:inherit error)))
-      "Face for errors in the modeline")
-    ;; - Bar; TODO: check inherit colors
-    (defface phd-modeline-bar
-      '((t (:inherit highlight :foreground nil)))
-      "The face of the lhs on the modeline of an active window")
-    (defface phd-modeline-eldoc-bar
-      '((t (:inherit shadow :foreground nil)))
-      "The face of the lhs on the modeline when eldoc is active")
-    (defface phd-modeline-inactive-bar
-      '((t (:inherit mode-line-inactive)))
-      "The face of lhs on the modeline of an inactive window")
-    ;; Functions
-    (defun phd-ml-flycheck-count (state)
-      "Return flycheck information for the given error type STATE"
-      (when (flycheck-has-current-errors-p state)
-        (if (eq 'running flycheck-last-status-change) "?"
-          (cdr-safe (assq state (flycheck-count-errors
-                                 flycheck-current-errors))))))
-    (defun phd-make-xpm (color height width)
-      "Create an XPM bitmap"
-      (when window-system
-        (propertize
-         " " 'display
-         (let ((data nil)
-               (i 0))
-           (setq data (make-list height (make-list width 1)))
-           (pl/make-xpm "percent" color color (reverse data))))))
-    ;; - Root file
-    (defun phd-project-root (&optional strict-p)
-      "Get the path to the root of the project"
-      (let (projectile-require-project-root strict-p)
-        (projectile-project-root)))
-    (defun phd-buffer-path ()
-      "Gets the path to the buffer"
-      (if buffer-file-name
-          (let* ((default-directory
-                   (f-dirname buffer-file-name))
-                 (buffer-path (f-relative buffer-file-name
-                                          (phd-project-root)))
-                 (max-length (truncate (* (window-body-width) 0.4))
-                             ))
-            (when (and buffer-path (not (equal buffer-path ".")))
-              (if (> (length buffer-path) max-length)
-                  (let ((path (reverse (split-string
-                                        buffer-path "/" t)))
-                        (output ""))
-                    (when (and path (equal "" (car path)))
-                      (setq path (cdr path)))
-                    (while (and path (<= (length output)
-                                         (- max-length 4)))
-                      (setq output (concat (car path) "/" output))
-                      (setq path (cdr path)))
-                    (when path
-                      (setq output (concat "../" output)))
-                    (when (string-suffix-p "/" output)
-                      (setq output (substring output 0 -1)))
-                    output)
-                buffer-path)))
-        "%b"))
-    ;; - track the current window
-    (defsubst active () (eq (selected-window)
-                            powerline-selected-window))
-    ;; - Memoize for optimization
-    (pl/memoize 'phd-make-xpm)
-    (pl/memoize 'face-background)
-    (pl/memoize 'all-the-icons-octicon)
-    ;; - modeline segments
-    (defun *buffer-project ()
-      ""
-      (let ((face (if (active) 'phd-modeline-buffer-project)))
-        (concat (all-the-icons-octicon
-                 "file-directory"
-                 :face face
-                 :v-adjust -0.05
-                 :height 1.25)
-                (propertize (concat " " (abbreviate-file-name
-                                         (phd-project-root)))
-                            'face face))))
-    ;; - Buffer status
-    (defun *buffer-info ()
-      ""
-      (let ((all-the-icons-scale-factor 1.2)
-            (modified-p (buffer-modified-p)) faces)
-        (if (active)   (push 'phd-modeline-buffer-path faces))
-        (if modified-p (push 'phd-modeline-buffer-modified faces))
-        (concat (if buffer-read-only
-                    (concat (all-the-icons-octicon
-                             "lock"
-                             :face 'phd-modeline-warning
-                             :v-adjust -0.05)
-                            " ")
-                  (when modified-p
-                    (concat
-                     (all-the-icons-faicon
-                      "floppy-o"
-                      :face 'phd-modeline-buffer-modified
-                      :v-adjust -0.1)
-                     " ")))
-                (when (and buffer-file-name
-                           (not (file-exists-p buffer-file-name)))
-                  (concat (all-the-icons-octicon
-                           "circle-slash"
-                           :face 'phd-modeline-error
-                           :v-adjust -0.05)
-                          " "))
-                (propertize (phd-buffer-path)
-                            'face (if faces `(:inherit ,faces))))))
-    ;; - Buffer position
-    (defun *buffer-position ()
-      "Buffer position"
-      (let ((start (window-start))
-            (end (window-end))
-            (pend (point-max)))
-        (if (and (= start 1)
-                 (= end pend))
-            "All"
-          (cond ((= start 1) "@Top")
-                ((= end pend) "@Bot")
-                (t (format "@%d%%%%" (/ end 0.01 pend)))))))
-    ;; - Encoding
-    (defun *buffer-encoding ()
-      "The encoding and eol style of the buffer"
-      (concat (let ((eol-type (coding-system-eol-type
-                               buffer-file-coding-system)))
-                (cond ((eq eol-type 0) "LF  ")
-                      ((eq eol-type 1) "CRLF  ")
-                      ((eq eol-type 2) "CR  ")))
-              (let* ((sys (coding-system-plist
-                           buffer-file-coding-system))
-                     (sys-name (plist-get sys :name))
-                     (sys-cat (plist-get sys :category)))
-                (cond ((memq sys-cat '(coding-category-undecided
-                                       coding-category-utf-8))
-                       "UTF-8")
-                      (t (upcase (symbol-name sys-name)))))
-              "  "))
-    ;; - Modes
-    (defun *major-mode ()
-      "The major mode, process, environment and text-scale info."
-      (propertize
-       (concat (format-mode-line mode-name)
-               (if (stringp mode-line-process) mode-line-process)
-               (and (featurep 'face-remap)
-                    (/= text-scale-mode-amount 0)
-                    (format " (%+d)" text-scale-mode-amount)))
-       'face (if (active) 'phd-modeline-buffer-major-mode)))
-    ;; - Version control status
-    (defun *vc ()
-      "Displays the current branch, colored based on its state."
-      (when (and vc-mode buffer-file-name)
-        (let ((backend (vc-backend buffer-file-name))
-              (state   (vc-state buffer-file-name))
-              (face    'mode-line-inactive)
-              (active  (active))
-              (all-the-icons-scale-factor 1.0)
-              (all-the-icons-default-adjust -0.1))
-          (concat (propertize " " 'face 'variable-pitch)
-                  (cond ((memq state '(edited added))
-                         (if active (setq face 'phd-modeline-info))
-                         (all-the-icons-octicon
-                          "git-branch"
-                          :face face
-                          :height 1.2
-                          :v-adjust -0.05))
-                        ((eq state 'needs-merge)
-                         (if active
-                             (setq face 'phd-modeline-info))
-                         (all-the-icons-octicon
-                          "git-merge"
-                          :face face))
-                        ((eq state 'needs-update)
-                         (if active
-                             (setq face 'phd-modeline-warning))
-                         (all-the-icons-octicon
-                          "arrow-down"
-                          :face face))
-                        ((memq state
-                               '(removed conflict unregistered))
-                         (if active
-                             (setq face 'phd-modeline-error))
-                         (all-the-icons-octicon "alert" :face face))
-                        (t
-                         (if active (setq face 'mode-line))
-                         (all-the-icons-octicon
-                          "git-branch"
-                          :face face
-                          :height 1.2
-                          :v-adjust -0.05)))
-                  " "
-                  (propertize
-                   (substring vc-mode
-                              (+ (if (eq backend 'Hg) 2 3) 2))
-                   'face (if active face))
-                  "  "
-                  (propertize
-                   " " 'face 'variable-pitch)))))
-    ;; - Flycheck
-    (defvar-local phd--flycheck-err-cache nil "")
-    (defvar-local phd--flycheck-cache nil "")
-    (defun *flycheck ()
-      "Persistent and cached flycheck indicators in the modeline"
-      (when (and (featurep 'flycheck) flycheck-mode)
-        (if (or flycheck-current-errors
-                (eq 'running flycheck-last-status-change))
-            (or
-             (and
-              (or
-               (eq phd--flycheck-err-cache
-                   phd--flycheck-cache)
-               (memq flycheck-last-status-change
-                     '(running not-checked)))
-              (if (eq flycheck-last-status-change 'running)
-                  (concat " "
-                          (all-the-icons-octicon
-                           "ellipsis"
-                           :face 'font-lock-doc-face
-                           :height 1.1
-                           :v-adjust 0)
-                          " ")
-                phd--flycheck-cache))
-             (and (setq phd--flycheck-err-cache
-                        flycheck-current-errors)
-                  (setq phd--flycheck-cache
-                        (let ((fw (phd-ml-flycheck-count
-                                   'warning))
-                              (fe (phd-ml-flycheck-count
-                                   'error)))
-                          (concat (if (or fe fw) "  ")
-                                  (if fe (concat
-                                          (all-the-icons-octicon
-                                           "circle-slash"
-                                           :face 'phd-modeline-error
-                                           :height 1.0
-                                           :v-adjust 0)
-                                          (propertize
-                                           " " 'face
-                                           'variable-pitch)
-                                          (propertize
-                                           (format "%d" fe) 'face
-                                           'phd-modeline-error)
-                                          " "
-                                          ))
-                                  (if fw (concat
-                                          (all-the-icons-octicon
-                                           "alert"
-                                           :face
-                                           'phd-modeline-warning
-                                           :height 0.9
-                                           :v-adjust 0)
-                                          (propertize
-                                           " "
-                                           'face
-                                           'variable-pitch)
-                                          (propertize
-                                           (format "%d" fw)
-                                           'face
-                                           'phd-modeline-warning)
-                                          " "
-                                          ))
-                                  (if (or fe fw)
-                                      "  "
-                                    (when (active)
-                                      (all-the-icons-octicon
-                                       "check"
-                                       :height 1.2
-                                       :v-adjust -0.06))))))))
-          (concat
-           "  "
-           (all-the-icons-octicon "check"
-                                  :face (if (active)
-                                            'phd-modeline-info)
-                                  :height 1.2
-                                  :v-adjust -0.06)
-           " "))))
-    ;; - Selection
-    (defun *selection-info ()
-      "Information about the current selection"
-      (when (and (active) evil-visual-state-p)
-        (concat
-         " "
-         (propertize
-          (let ((reg-beg (region-beginning))
-                (reg-end (region-end))
-                (evil (eq 'visual evil-state)))
-            (let ((lines (count-lines
-                          reg-beg (min (1+ reg-end) (point-max))))
-                  (chars (- (1+ reg-end) reg-beg))
-                  (cols (1+ (abs (- (evil-column reg-end)
-                                    (evil-column reg-beg))))))
-              (cond
-               ;; rectangle selection
-               ((or (bound-and-true-p rectangle-mark-mode)
-                    (and evil (eq 'block evil-visual-selection)))
-                (format " %dx%dB " lines (if evil cols (1- cols))))
-               ;; line selection
-               ((or (> lines 1) (eq 'line evil-visual-selection))
-                (if (and (eq evil-state 'visual)
-                         (eq evil-this-type 'line))
-                    (format " %dL " lines)
-                  (format " %dC %dL " chars lines)))
-               (t (format " %dC " (if evil chars (1- chars)))))))
-          'face 'phd-modeline-highlight))))
-    ;; - Macro recording
-    (defun *macro-recording ()
-      "Display current macro being recorded"
-      (when (and (active) defining-kbd-macro)
-        (let ((sep (propertize " " 'face 'phd-modeline-panel)))
-          (concat sep
-                  (propertize (char-to-string evil-this-macro)
-                              'face 'phd-modeline-panel)
-                  sep
-                  (all-the-icons-octicon "triangle-right"
-                                         :face 'phd-modeline-panel
-                                         :v-adjust -0.05)
-                  sep))))
-    ;; - Media info
-    (defun *media-info ()
-      (cond ((eq major-mode 'image-mode)
-             (let ((size (image-size
-                          (image-get-display-property) :pixels)))
-               (format "  %dx%d  " (car size) (cdr size))))))
 
-    ;; modeline
-    (defun phd-modeline (&optional id)
-      `(:eval
-        (let* (;; (meta (concat (*) (*)))
-               (lhs (list (phd-make-xpm
-                           (face-background
-                            (if (active)
-                                'phd-modeline-bar
-                              'phd-modeline-inactive-bar))
-                           phd-modeline-height
-                           phd-modeline-bar-width)
-                          " "
-                          ,(cond ((eq id 'scratch)
-                                  '(*buffer-project))
-                                 ((eq id 'media)
-                                  '(*media-info))
-                                 (t
-                                  '(list (*buffer-info)
-                                         " L:%l/C:%c "
-                                         (*buffer-position)
-                                         (*flycheck)
-                                         )))))
-               (rhs ,(if id
-                         '(list (*major-mode))
-                       '(list (*major-mode)
-                              " "
-                              ;; (when perspeen-current-ws perspeen-modestring)
-                              "  "
-                              (*vc)
-                              (*buffer-encoding)
-                              )))
-               (mid (propertize
-                     " " 'display
-                     `((space
-                        :align-to
-                        (- (+ right right-fringe right-margin)
-                           ,(1+ (string-width
-                                 (format-mode-line rhs)))))))))
-          (list lhs mid rhs))))
-    ;; Activate/set as default
-    (setq-default mode-line-format (phd-modeline))
-    ;; (add-hook image-mode-hook
-    ;;            (setq mode-line-format (phd-modeline 'media)))
-    )
-#+END_SRC
+For a long time, I used the ~powerline~ emacs package to customize my
+modeline. However, it turns out that the powerline and my
+customizations caused emacs to slow down noticeably (at least, I think
+so... after switching to my own implementation, I noticed a speed up).
+
+So, I decided to use emacs' built-in ~mode-line~ and apply a light
+customization myself.
+
+#+begin_src emacs-lisp
+
+  (use-package phd-modeline
+    :ensure nil
+    :load-path "~/local/phd-modeline/"
+    :after all-the-icons
+    :hook (after-init . phd-modeline-mode)
+    :bind (("C-x |" . phd-modeline-mode))
+    :config
+    (require 'phd-mu4e-setup)
+    (setq phd-modeline-mu4e-unread-query phd-mu4e-inbox-query)
+    (phd-modeline-column-mode t)
+    (phd-modeline-mail-mode t)
+    (setq phd-modeline-format
+          (list
+           '(:eval (phd-modeline-bar))
+           '(:eval (phd-modeline-whitespace))
+           '(:eval (phd-modeline-buffer-lock-icon))
+           '(:eval (phd-modeline-buffer-name))
+           '(:eval (phd-modeline-buffer-modified-icon))
+           '(:eval (phd-modeline-whitespace))
+           '(:eval (phd-modeline-buffer-position))
+           '(:eval (phd-modeline-media-info))
+           '(:eval (phd-modeline-whitespace))
+           '(:eval (phd-modeline-flycheck-status))
+           '(:eval (phd-modeline-whitespace 4))
+           '(:eval (phd-modeline-vc-icon 1 1 1))
+           '(:eval (phd-modeline-vc-status))
+           '(:eval (phd-modeline-whitespace 4))
+           '(:eval (phd-modeline-mail-icon))
+           '(:eval (phd-modeline-mail-status))
+           '(:eval (phd-modeline-whitespace))
+           '(:eval (phd-modeline-space-between 4))
+           '(:eval (phd-modeline-mode-icon))
+           '(:eval (phd-modeline-whitespace))
+           '(:eval (phd-modeline-major-mode))
+           '(:eval (phd-modeline-whitespace)))))
+
+#+end_src

@@ -350,9 +350,19 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** System tools
-    Bash tab completion, xorg utilities, and system tray applets
+    Bash tab completion, spell checkers, and locate utils
     #+begin_src shell
-      sudo pacman -S bash-completion man-db xdotool xscreensaver network-manager-applet blueman volumeicon
+      sudo pacman -S bash-completion man-db mlocate hunspell hunspell-en_us
+    #+end_src
+
+    Xorg utilities
+    #+begin_src shell
+      xdotool xscreensaver
+    #+end_src
+
+    System tray applets
+    #+begin_src shell
+      network-manager-applet blueman volumeicon
     #+end_src
 
 *** Disk utilities
@@ -375,7 +385,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Dev tools
     Languages: lisp, haskell, rust, ruby, LaTeX
     #+begin_src shell
-      sudo pacman -S emacs vim ghc ghc-static rust ruby rubygems texlive-most texlive-lang
+      sudo pacman -S emacs vim cmake ghc ghc-static rust ruby rubygems texlive-most texlive-lang
     #+end_src
 
 *** Web packages

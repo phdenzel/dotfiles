@@ -9,40 +9,44 @@
   )
 
 (defvar phd-dark-color-palette
-  (let* ((256color  (eq (display-color-cells (selected-frame)) 256))
-         (colors `(("fg"        .  (if ,256color "#C6C6C6" "#BDC3CE"))
-                   ("fg-b"      .  (if ,256color "#D0D0D0" "#DDE3EE"))
-                   ("fg-bb"     .  (if ,256color "#DADADA" "#EDF3FE"))
+  (let* ((colors `(("fg"        .  "#BDC3CE")
+                   ("fg-b"      .  "#DDE3EE")
+                   ("fg-bb"     .  "#EDF3FE")
                    ("bg"        .  "#303033")
-                   ("bg-b"      .  (if ,256color "#3A3A3A" "#404850"))
-                   ("bg-bb"     .  (if ,256color "#444444" "#3A3C3F"))
-                   ("white"     .  (if ,256color "#CCCCCC" "#DFDFDF"))
-                   ("grey"      .  (if ,256color "#666666" "#5B6268"))
-                   ("grey-b"    .  (if ,256color "#999999" "#8A8A8A"))
-                   ("grey-d"    .  (if ,256color "#444444" "#464858"))
+                   ("bg-d"      .  "#2B2B2F")
+                   ("bg-b"      .  "#404850")
+                   ("bg-bb"     .  "#3A3C3F")
+                   ("white"     .  "#DFDFDF")
+                   ("white-b"   .  "#EDF3FE")
+                   ("grey"      .  "#5B6268")
+                   ("grey-b"    .  "#8A8A8A")
+                   ("grey-d"    .  "#464858")
+                   ("black"     .  "#181E26")
                    
-                   ("black"     .  (if ,256color "#000000" "#181E26"))
-                   ("red"       .  (if ,256color "#FF5F5F" "#FF6D6B"))
+                   ("red"       .  "#FF6D6B")
                    ("red-d"     .  "#D7005F")
                    ("red-dd"    .  "#D70000")
-                   ("green"     .  (if ,256color "#00AF87" "#44BC84"))
-                   ("green-d"   .  (if ,256color "#5FAF87" "#3DAA77"))
+                   ("green"     .  "#44BC84")
+                   ("green-d"   .  "#3DAA77")
                    ("green-b"   .  "#00AF5F")
                    ("green-bb"  .  "#00AF87")
                    ("yellow"    .  "#FFD787")
-                   ("orange"    .  (if ,256color "#FFAF5F" "#FDB760"))
+                   ("orange"    .  "#FDB760")
+                   ("orange-b"  .  "#F69927")
                    ("orange-d"  .  "#FF5F00")
-                   ("blue"      .  (if ,256color "#5F87FF" "#5F8AF7"))
-                   ("blue-d"    .  (if ,256color "#005f87" "#1F5582"))
-                   ("blue-dd"   .  (if ,256color "#0000FF" "#3723B7"))
-                   ("violet"    .  (if ,256color "#AFAFD7" "#A9A1E1"))
+                   ("blue"      .  "#5F8AF7")
+                   ("blue-b"    .  "#5F5FFF")
+                   ("blue-d"    .  "#1F5582")
+                   ("blue-dd"   .  "#3723B7")
+                   ("violet"    .  "#A9A1E1")
                    ("purple"    .  "#8787FF")
-                   ("magenta"   .  (if ,256color "#FF0087" "#E83A82"))
-                   ("cyan"      .  (if ,256color "#5FD7FF" "#46D9FF"))
-                   ("teal"      .  (if ,256color "#5FAFAF" "#4DB5BD"))
-                   
-                   ("gui-font"      . "Inconsolata")
-                   ("terminal-font" . "Fira Mono")
+                   ("magenta"   .  "#E83A82")
+                   ("magenta-d" .  "#FF0087")
+                   ("cyan"      .  "#46D9FF")
+                   ("teal"      .  "#4DB5BD")
+                                      
+                   ("gui-font"      . "Fira Mono-13")
+                   ("terminal-font" . "Fira Mono-11")
                    )))
     colors)
   "Color palette alist for the phd-dark theme.")
@@ -61,16 +65,16 @@
   'phd-dark
 
   ;; Global
-  `(default             ((t (:background ,bg :foreground ,fg))))
+  `(default             ((t (:background ,bg :foreground ,fg :font ,gui-font))))
   `(cursor              ((t (:background ,blue))))
   `(fixed-pitch         ((t (:family ,terminal-font))))
   `(variable-pitch      ((t (:family ,gui-font))))
-  `(escape-glyph        ((t (:foreground ,orange-d))))
+  `(escape-glyph        ((t (:foreground ,orange-b))))
   `(minibuffer-prompt   ((t (:foreground ,teal))))
   `(highlight           ((t (:background ,grey-d)))) ;; :foreground ,fg))))
   `(hl-line             ((t (:inherit highlight))))
   `(region              ((t (:background ,magenta :foreground ,fg))))
-  `(fringe              ((t (:inherit (default) :foreground ,grey))))
+  `(fringe              ((t (:inherit default :foreground ,grey))))
   `(shadow              ((t (:foreground ,grey-b))))
   `(secondary-selection ((t (:background ,blue :foreground ,fg))))
   `(lazy-highlight      ((t (:inherit secondary-selection))))
@@ -87,12 +91,16 @@
                                         :foreground ,violet))))
   `(button              ((t (:inherit link))))
   `(error               ((t (:foreground ,red-d))))
-  `(warning             ((t (:foreground ,orange-d))))
+  `(warning             ((t (:foreground ,orange-b))))
   `(success             ((t (:foreground ,green-b))))
+
+  ;; Customize group
+  `(custom-state        ((t (:foreground ,green))))
+  `(widget-field        ((t (:background ,grey-d))))
 
   ;; Font-locks
   `(font-lock-builtin-face           ((t (:foreground ,cyan))))
-  `(font-lock-preprocessor-face      ((t (:inherit (font-lock-builtin-face)))))
+  `(font-lock-preprocessor-face      ((t (:inherit font-lock-builtin-face))))
   `(font-lock-constant-face          ((t (:foreground ,purple))))
   `(font-lock-function-name-face     ((t (:foreground ,blue))))
   `(font-lock-keyword-face           ((t (:foreground ,magenta))))
@@ -105,9 +113,14 @@
   `(font-lock-comment-delimiter-face ((t (:inherit font-lock-comment-face))))
   `(font-lock-negation-char-face     ((t nil)))
   `(font-lock-preprocessor-char-face ((t nil)))
-  `(font-lock-warning-face           ((t (:inherit (warning)))))
+  `(font-lock-warning-face           ((t (:inherit warning))))
   `(font-lock-regexp-grouping-backslash ((t (:inherit (bold)))))
   `(font-lock-regexp-grouping-construct ((t (:inherit (bold)))))
+
+  ;; Org mode
+  `(org-block               ((t (:background ,bg-d))))
+  `(org-block-background    ((t (:background ,bg-d))))
+  `(org-code                ((t (:inherit org-block))))
 
   ;; Latex
   `(font-latex-sedate-face       ((t (:foreground ,magenta))))
@@ -119,23 +132,31 @@
   `(font-latex-warning-face ((t (:foreground ,blue))))
 
   ;; Mode-line
-  `(mode-line                ((t (:background ,bg-bb :foreground ,fg-bb))))
-  `(mode-line-inactive       ((t (:background ,bg-b :foreground ,fg-bb))))
-  `(mode-line-emphasis       ((t (:bold t))))
-  `(mode-line-buffer-id      ((t (:bold t))))
-  `(persp-selected-face      ((t (:foreground ,purple))))
+  `(mode-line                ((t (:background ,bg-bb :foreground ,fg-b))))
+  `(mode-line-highlight      ((t (:background ,bg-bb :foreground ,fg-bb))))
+  `(mode-line-inactive       ((t (:background ,bg-d :foreground ,fg))))
+  `(mode-line-emphasis       ((t nil)))
+  `(mode-line-buffer-id      ((t nil)))
   `(header-line              ((t (:inherit mode-line))))
-  `(powerline-active1        ((t (:inherit mode-line))))
-  `(powerline-active2        ((t (:inherit mode-line))))
-  `(powerline-inactive1      ((t (:inherit mode-line-inactive))))
-  `(powerline-inactive2      ((t (:inherit mode-line-inactive))))
-  `(phd-modeline-buffer-path       ((t (:foreground ,teal))))
-  `(phd-modeline-buffer-project    ((t (:foreground ,fg))))
-  `(phd-modeline-buffer-modified   ((t (:foreground ,blue))))
-  `(phd-modeline-buffer-major-mode ((t (:foreground ,blue))))
-  `(phd-modeline-highlight         ((t (:foreground ,blue))))
-  `(phd-modeline-bar               ((t (:background ,blue))))
-  `(phd-modeline-eldoc-bar         ((t (:background ,yellow))))
+
+  `(phd-modeline-buffer-name-face       ((t (:foreground ,teal))))
+  `(phd-modeline-buffer-modified-face   ((t (:foreground ,blue))))
+  `(phd-modeline-buffer-read-only-face  ((t (:foreground ,magenta))))
+  `(phd-modeline-buffer-line-face       ((t (:foreground ,fg-b))))
+  `(phd-modeline-buffer-column-face     ((t (:foreground ,fg-b))))
+  `(phd-modeline-buffer-percentage-face ((t (:foreground ,fg-b))))
+  `(phd-modeline-mode-face              ((t (:foreground ,blue))))
+  `(phd-modeline-flycheck-success-face  ((t (:foreground ,green-d))))
+  `(phd-modeline-flycheck-warning-face  ((t (:foreground ,orange-b))))
+  `(phd-modeline-flycheck-error-face    ((t (:foreground ,red-d))))
+  `(phd-modeline-vc-icon-face           ((t (:foreground ,magenta))))
+  `(phd-modeline-vc-branch-face         ((t (:foreground ,orange))))
+  `(phd-modeline-vc-status-face         ((t (:foreground ,purple))))
+  `(phd-modeline-mail-icon-face         ((t (:foreground ,green-d))))
+  `(phd-modeline-mail-status-face       ((t (:foreground ,fg))))
+  `(phd-modeline-inactive-face          ((t (:inherit 'mode-line-inactive))))
+  `(phd-modeline-bar-face               ((t (:foreground ,teal :background ,bg-bb))))
+  
 
   ;; Perspeen
   `(perspeen-tab--header-line-active  ((t (:background ,blue :inherit mode-line))))
@@ -146,11 +167,28 @@
   `(isearch-fail             ((t (:inherit highlight))))
   `(yas-field-highlight-face ((t (:inherit match))))
 
+  ;; Swiper
+  `(swiper-line-face      ((t (:background ,blue :foreground ,black))))
+  `(swiper-match-face-1   ((t (:background ,black :foreground ,grey))))
+  `(swiper-match-face-2   ((t (:background ,orange :foreground ,black
+                                           :bold t))))
+  `(swiper-match-face-3   ((t (:background ,magenta :foreground ,black
+                                           :bold t))))
+  `(swiper-match-face-4   ((t (:background ,green :foreground ,black
+                                           :bold t))))
+
+  ;; 
+
   ;; Avy
-  `(avy-lead-face      ((t (:background ,violet :foreground ,bg))))
-  `(avy-lead-face-0    ((t (:background ,magenta :foreground ,fg))))
-  `(avy-lead-face-1    ((t (:background ,blue :foreground ,fg))))
-  `(avy-lead-face-2    ((t (:background ,orange :foreground ,fg))))
+  `(avy-lead-face      ((t (:background ,orange :foreground ,bg))))
+  `(avy-lead-face-0    ((t (:background ,red :foreground ,bg))))
+  `(avy-lead-face-1    ((t (:background ,green-bb :foreground ,bg))))
+  `(avy-lead-face-2    ((t (:background ,blue :foreground ,fg))))
+
+  ;; Ace-window
+  `(aw-leading-char-face             ((t (:foreground ,teal :bold t :height 2.0))))
+  `(aw-minibuffer-leading-char-face  ((t (:foreground ,teal :bold t :height 2.0))))
+  `(aw-mode-line-face                ((t (:foreground ,green-bb :bold t))))
 
   ;; Company
   `(company-tooltip                  ((t (:inherit tooltip))))
@@ -185,16 +223,6 @@
   ;; `(flyspell-incorrect ((t (:underline (:style wave :color ,red)
   ;;                                      :inherit unspecified))))
 
-  ;; Swiper
-  `(swiper-line-face      ((t (:background ,blue :foreground ,black))))
-  `(swiper-match-face-1   ((t (:background ,black :foreground ,grey))))
-  `(swiper-match-face-2   ((t (:background ,orange :foreground ,black
-                                           :bold t))))
-  `(swiper-match-face-3   ((t (:background ,magenta :foreground ,black
-                                           :bold t))))
-  `(swiper-match-face-4   ((t (:background ,green :foreground ,black
-                                           :bold t))))
-
   ;; Highlight-indentation
   `(highlight-indentation-face                ((t (:background ,bg-b))))
   `(highlight-indentation-current-column-mode ((t (:background ,bg-b))))
@@ -213,6 +241,18 @@
 
   ;; Bash
   `(sh-quoted-exec          ((t (:foreground ,violet))))
+
+  ;; vterm
+  `(vterm                 ((t (:foreground ,fg :background ,bg))))
+  `(vterm-color-default   ((t (:inherit default))))
+  `(vterm-color-black     ((t (:foreground ,black :background ,grey-d))))
+  `(vterm-color-red       ((t (:foreground ,red :background ,red-d))))
+  `(vterm-color-green     ((t (:foreground ,green :background ,green-bb))))
+  `(vterm-color-yellow    ((t (:foreground ,yellow :background ,orange))))
+  `(vterm-color-blue      ((t (:foreground ,blue :background ,blue-b))))
+  `(vterm-color-magenta   ((t (:foreground ,magenta :background ,magenta-d))))
+  `(vterm-color-cyan      ((t (:foreground ,teal :background ,cyan))))
+  `(vterm-color-white     ((t (:foreground ,white :background ,white-b))))
 
   ;; message
   `(message-header-name        ((t (:foreground ,blue :bold t))))
@@ -241,7 +281,7 @@
   `(gnus-cite-4                ((t (:foreground ,grey))))
   `(gnus-cite-5                ((t (:foreground ,violet))))
   `(gnus-cite-6                ((t (:foreground ,purple))))
-  `(gnus-cite-7                ((t (:foreground ,blue-dd))))
+  `(gnus-cite-7                ((t (:foreground ,blue-b))))
   `(gnus-cite-8                ((t (:foreground ,grey))))
   `(gnus-cite-9                ((t (:foreground ,violet))))
   `(gnus-cite-10               ((t (:foreground ,purple))))
@@ -277,7 +317,7 @@
   `(mu4e-cited-4-face                 ((t (:foreground ,grey))))
   `(mu4e-cited-5-face                 ((t (:foreground ,violet))))
   `(mu4e-cited-6-face                 ((t (:foreground ,purple))))
-  `(mu4e-cited-7-face                 ((t (:foreground ,blue-dd))))
+  `(mu4e-cited-7-face                 ((t (:foreground ,blue-b))))
   
   ))
 

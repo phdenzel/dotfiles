@@ -37,7 +37,7 @@ EXCLUDES=(
 )
 
 if [ "$1" == "--emacs" ]; then
-    # Copy .emacs.d to its rightful place
+    # Copy .config/emacs to its rightful place
     echo "Installing emacs configs in $CONF_HOME/emacs"    
     if [ ! -d "$CONF_HOME/emacs" ]; then
 	      cp -r .config/emacs $CONF_HOME/emacs

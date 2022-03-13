@@ -1,0 +1,10 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("phd-emacs.org"
+ (filename . "~/.config/emacs/phd-emacs.org")
+ (front-context-string . "\n              (")
+ (rear-context-string . "nil \"Show flags\"")
+ (position . 45620))
+)

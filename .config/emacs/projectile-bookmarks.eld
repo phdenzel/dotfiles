@@ -1,14 +1,1 @@
-("~/dotfiles/"
- "~/.config/emacs/"
- "~/local/licht/"
- "~/local/xmobar_wttr/"
- "~/local/phd-mu4e-setup/"
- "~/local/phd-modeline/"
- "~/phdenzel.github.io/"
- "~/Documents/PhDCV/"
- "~/conjuncture/"
- "~/abrase/"
- "~/deep-gesture/"
- "~/fabular/"
- "~/dotfiles/.config/xmobar/xmobarconf/"
- "~/local/dmenu/")
+("~/local/phd-modeline/" "~/local/xmobar_wttr/" "~/local/licht/" "~/dotfiles/" "~/local/phd-mu4e-setup/" "~/local/phd-theme-mailspring/" "~/phdenzel.github.io/" "~/Documents/PhDCV/" "~/conjuncture/" "~/abrase/" "~/deep-gesture/" "~/fabular/" "~/dotfiles/.config/xmobar/xmobarconf/" "~/local/dmenu/")

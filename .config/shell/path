@@ -1,5 +1,5 @@
-#!/bin/bash
-####################################################### Bash path
+# -*- mode: Shell-script;-*-
+####################################################### Shell path
 # LOCAL BINARIES
 export PATH="$HOME/local/bin:${PATH}"
 export PATH="${PATH}:$HOME/.local/bin"

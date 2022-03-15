@@ -1,0 +1,82 @@
+# -*- mode: Shell-script;-*-
+####################################################### General shell exports
+# XDG
+export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
+
+# Language settings
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
+
+# Programs
+export TERMINAL="alacritty"
+export EMACS="emacs"
+export EMACSCLIENT="emacsclient"
+export EMACS_SERVER_FILE="${XDG_CONFIG_HOME}/emacs/server/server"
+export EMACS_SOCKET_NAME="${XDG_CONFIG_HOME}/emacs/server/server"
+export ALTERNATE_EDITOR=""
+export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
+export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
+export PAGER="less"
+export BROWSER="brave"
+
+# GTK
+export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc-2.0"
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+# XMonad
+export XMONAD_CONFIG_DIR="${XDG_CONFIG_HOME}/xmonad"
+export XMONAD_DATA_DIR="${XDG_CONFIG_HOME}/xmonad"
+export XMONAD_CACHE_DIR="${XDG_CONFIG_HOME}/xmonad"
+
+# Shell command configs
+export INPUTRC="${XDG_CONFIG_HOME}/gnu/inputrc"
+export SCREENRC="${XDG_CONFIG_HOME}/gnu/screenrc"
+export WGETRC="${XDG_CONFIG_HOME}/gnu/wgetrc"
+export CURL_HOME="${XDG_CONFIG_HOME}/curl"
+
+# Less settings
+export LESS_TERMCAP_mb="$blue$bold"
+export LESS_TERMCAP_md="$blue$bold"
+export LESS_TERMCAP_me="$reset"
+export LESS_TERMCAP_so="$magenta"
+export LESS_TERMCAP_se="$reset"
+export LESS_TERMCAP_us="$br_yellow$underline"
+
+# Grep settings
+export GREP_COLORS="ms=01;38;5;013:mc=01;38;5;013:sl=:cx=:fn=00;38;5;004:ln=00;38;5;010:bn=00;38;5;010:se=00;38;5;011"
+
+# GPG
+export GPG_TTY=$(tty)
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+
+
+### Programming environments
+# C Compilers
+#export CC=gcc-6
+#export CXX=g++-6
+
+# Python
+export PYTHONIOENCODING='UTF-8'
+
+# OpenMP
+export GOMP_STACKSIZE=16384
+
+# Mono
+export MONO_GAC_PREFIX="/usr/local"
+
+# BOOST
+export BOOST_ROOT="$HOME/local/boost/boost"
+
+# XERCES-C
+export XERCES_LIBS="-L$HOME/local/xerces/build/lib"
+export XERCES_CFLAGS="-I$HOME/local/xerces/build/include"
+
+# UDUNITS
+export UDUNITS_LIBS="-L$HOME/local/udunits/build/lib"
+export UDUNITS_CFLAGS="-I$HOME/local/udunits/build/include"
+
+# CFITSIO
+export CFITSIO_LIBS="-L$HOME/local/cfitsio/build/lib"
+export CFITSIO_CFLAGS="-I$HOME/local/cfitsio/build/include"

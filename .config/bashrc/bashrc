@@ -2,10 +2,8 @@
 ####################################################### bashrc
 
 ####################################################### Source the dotfiles
-# Note: - color variables are defined in .exports; thus every command
-#         using colors has to be sourced/executed thereafter
-#       - use 'xauto' to automatically start xorg-server when logging in
-for file in ${XDG_CONFIG_HOME:=$HOME/.config}/bashrc/{path,exports,prompt,functions,aliases}; do
+# Note: use shell/xauto to automatically start xorg-server when logging in
+for file in ${XDG_CONFIG_HOME:=$HOME/.config}/{shell/path,shell/colors,shell/exports,bashrc/exports,bashrc/prompt,shell/functions,shell/aliases}; do
     [ -r "$file" ] && [ -f "$file" ] && . "$file"
 done;
 unset file;
@@ -75,7 +73,7 @@ _upinfo () {
 
 
 ####################################################### Welcome Screen
-clear
+# clear
 echo -e "${magenta}+++++++++++++++++++++++++++++++++${reset}${bold} W E L C O M E ${reset}${magenta}++++++++++++++++++++++++++++++++"; echo "";
 sleep 0.5s;
 command -v neofetch &> /dev/null && neofetch || _hostinfo;

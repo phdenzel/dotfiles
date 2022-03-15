@@ -1,4 +1,4 @@
-#!/bin/bash
+# -*- mode: Shell-script;-*-
 ####################################################### aliases
 ### set LSCOLORS first
 # `ls` command

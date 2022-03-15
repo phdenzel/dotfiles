@@ -58,3 +58,4 @@ Terminal=false
 Categories=Utility;" > $DESKTOP_FILE
 
 ln -s -f $CURA_LATEST_FILE $HOME/local/bin/cura
+chmod +x $CURA_LATEST_FILE

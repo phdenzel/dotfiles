@@ -346,7 +346,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** File managers
     GUI and terminal-based file managers
     #+begin_src shell
-      sudo pacman -S pcmanfm ranger
+      sudo pacman -S pcmanfm ranger highlight
     #+end_src
 
 *** System tools
@@ -357,12 +357,12 @@ process a bit. For this, simply run the ~arch.sh~ install script
 
     Xorg utilities
     #+begin_src shell
-      xdotool xscreensaver
+      sudo pacman -S xdotool xscreensaver
     #+end_src
 
     System tray applets
     #+begin_src shell
-      network-manager-applet blueman volumeicon
+      sudo pacman -S network-manager-applet blueman volumeicon
     #+end_src
 
 *** Disk utilities
@@ -370,6 +370,18 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+begin_src shell
       sudo pacman -S arch-install-scripts gptfdisk dust zip unzip rsync cronie htop
     #+end_src
+
+*** Android utilities
+    To connect with an Android system, we need the MTP protocol
+    #+begin_src emacs-lisp
+      sudo pacman -S mtpfs gvfs-mtp
+    #+end_src
+
+    For Android 4+ devices, additionally install
+    #+begin_src emacs-lisp
+      yay -S jmtpfs
+    #+end_src
+
 
 *** Backup utilities
     Timeshift integrates well with btrfs, and dropbox

@@ -1,0 +1,50 @@
+# -*- mode: Shell-script;-*-
+################################################## Shell color palette
+### Color palette (no export, color variables restricted to current shell)
+if tput setaf 1 &> /dev/null; then
+    tput sgr0; # reset
+    bold=$(tput bold);
+    underline=$(tput smul);
+    underline_reset=$(tput rmul);
+    reset=$(tput sgr0);
+    # Custom color palette (see .dircolors)
+    black=$(tput setaf 0);
+    red=$(tput setaf 1);
+    green=$(tput setaf 2);
+    yellow=$(tput setaf 3);
+    blue=$(tput setaf 4);
+    magenta=$(tput setaf 5);
+    cyan=$(tput setaf 6);
+    white=$(tput setaf 7);
+    purple=$(tput setaf 105);
+    br_black=$(tput setaf 8);
+    br_red=$(tput setaf 9);
+    br_green=$(tput setaf 10);
+    br_yellow=$(tput setaf 11);
+    br_blue=$(tput setaf 12);
+    br_magenta=$(tput setaf 13);
+    br_cyan=$(tput setaf 14);
+    br_white=$(tput setaf 15);
+    br_purple=$(tput setaf 99);
+else
+    bold='';
+    reset="\e[0m";
+    black="\e[1;38;5;000m";
+    red="\e[1;38;5;001m";
+    green="\e[1;38;5;002m";
+    yellow="\e[1;38;5;003m";
+    blue="\e[1;38;5;004m";
+    magenta="\e[1;38;5;005m";
+    cyan="\e[1;38;5;006m";
+    white="\e[1;38;5;007m";
+    purple="\e[1;38;5;105m";
+    br_black="\e[1;38;5;008m";
+    br_red="\e[1;38;5;009m";
+    br_green="\e[1;38;5;010m";
+    br_yellow="\e[1;38;5;011m";
+    br_blue="\e[1;38;5;012m";
+    br_magenta="\e[1;38;5;013m";
+    br_cyan="\e[1;38;5;014m"
+    br_white="\e[1;38;5;015m"
+    br_purple="\e[1;38;5;099m";
+fi;

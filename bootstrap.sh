@@ -55,10 +55,12 @@ elif [ "$1" == "--bin" ]; then
     ln -s -f $BOOTSTRAP_PATH/bin/* ${HOME}/local/bin/
 elif [ "$1" == "--themes" ]; then
     echo "Installing gtk/qt theme: phd-dark"
-    rsync -ahv .themes/ $HOME/.themes/
+    rsync --exclude ".themes/phd-dark-highlight.theme" -ahv .themes/ $HOME/.themes/
     rsync -ahv .icons/ $HOME/.icons/
     rsync -ahv .config/gtk-3.0/ $CONF_HOME/gtk-3.0/
     rsync -ahv .config/qt5ct/ $CONF_HOME/qt5ct/
+    sudo mkdir -p /usr/share/highlight/themes
+    sudo cp .themes/phd-dark-highlight.theme /usr/share/highlight/themes/phd-dark.theme
 elif [ "$1" == "--dry-run" ]; then
     echo "Installation dry-run"
     rsync "${EXCLUDES[@]}" --dry-run -avh . ~;

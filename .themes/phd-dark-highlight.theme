@@ -1,0 +1,43 @@
+Description="phd-dark"
+
+-- Theme handcrafted by phdenzel, based on "phd-dark.el"
+
+Categories = {"dark"}
+
+Default        = { Colour="#bdc3ce" }
+Canvas         = { Colour="#303033" }
+Number         = { Colour="#8787ff" }
+Escape         = { Colour="#f69927" }
+String         = { Colour="#44bc84" }
+StringPreProc  = { Colour="#00af87" }
+LineComment    = { Colour="#8a8a8a" }
+BlockComment   = LineComment
+PreProcessor   = { Colour="#a9a1e1" }
+LineNum        = { Colour="#464858" }
+Operator       = { Colour="#5f5fff" }
+Interpolation  = { Colour="#fdb760" }
+
+Keywords = {
+  { Colour= "#e83a82" },
+  { Colour= "#ffd787" },
+  { Colour= "#46d9ff" },
+  { Colour= "#5f8af7" },
+  { Colour= "#f69927" },
+  { Colour= "#5f8af7" },
+}
+
+-- new LSP based elements:
+
+SemanticTokenTypes  = {
+  { Type = 'keyword', Style = Keywords[1] },
+  { Type = 'type', Style = Keywords[2] },
+  { Type = 'function', Style = Keywords[4] },
+  { Type = 'method', Style = Keywords[4] },
+  { Type = 'class', Style =  Keywords[1] },
+  { Type = 'struct', Style = Keywords[2] },
+  { Type = 'parameter', Style = Keywords[6] },
+  { Type = 'variable', Style = Keywords[5] },
+  { Type = 'number', Style = Number },
+  { Type = 'regexp', Style = String },
+  { Type = 'operator', Style = Operator },
+}

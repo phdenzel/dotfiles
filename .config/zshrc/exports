@@ -15,3 +15,6 @@ fi;
 export HISTFILE="${XDG_CONFIG_HOME}/zshrc/histfile"
 export HISTSIZE=65536
 export SAVEHIST=$HISTSIZE
+
+# Cache
+# zstyle ':completion:*' cache-path ${XDG_CACHE_HOME}/zsh/zcompcache

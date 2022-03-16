@@ -1,8 +1,7 @@
 #!/bin/bash
 ####################################################### Bash prompt
 # Function that returns git branch name and status
-# in the colors whcih can be given as arguments
-git2prompt () { # {1}: path separator + branch color; {2}: status sign color
+git2prompt () {
     local sign='';
     local gitBranch='';
     # Check if cwd is Git repository
@@ -52,9 +51,7 @@ fi;
 # Is the user logged in on an SSHHOST ?
 if [[ "${SSH_TTY}" ]]; then
     hostColor="${bold}${purple}"
-    # hostColor="${bold}${blue}"
 else
-    # hostColor="${purple}"
     hostColor="${blue}"
 fi;
 

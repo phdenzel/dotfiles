@@ -21,19 +21,18 @@ unsetopt beep nomatch
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/phdenzel/.zshrc'
+# zstyle :compinstall filename '/home/phdenzel/.zshrc'
+zstyle :compinstall filename '${HOME}/.config/zshrc/zshrc'
 
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-
 # History
 # - ignore duplicates
-setopt HIST_IGNORE_ALL_DUPS
 # - ignore commands starting with spaces
-setopt HIST_IGNORE_SPACE
 # - remove blank lines
-setopt HIST_REDUCE_BLANKS
 # - append to history immediately
-setopt INC_APPEND_HISTORY
+# - share history with other sessions
+setopt hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
+setopt inc_append_history share_history

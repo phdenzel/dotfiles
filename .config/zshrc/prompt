@@ -1,0 +1,34 @@
+#!/bin/zsh
+####################################################### Zsh prompt
+
+# Is the USER logged in as root ?
+if [[ "${USER}" == "root" ]]; then
+    userColor="${red}";
+else
+    userColor="${magenta}";
+fi;
+
+# Is the user logged in on an SSHHOST ?
+if [[ "${SSH_TTY}" ]]; then
+    hostColor="${bold}${purple}"
+else
+    hostColor="${blue}"
+fi;
+
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git*' formats "#%F${br_yellow}%b%f %F${purple}[%c%u]%f"
+zstyle ':vcs_info:git*' stagedstr "+"
+zstyle ':vcs_info:git*' unstagedstr "!"
+
+setopt prompt_subst
+PROMPT=''
+PROMPT+='%F${userColor}%n%f'    # username
+PROMPT+='@'
+PROMPT+='%F${hostColor}%M%f'    # host
+PROMPT+=':'
+PROMPT+='%F${green}%~%f'        # working directory
+PROMPT+='${vcs_info_msg_0_}\$ ' # version control

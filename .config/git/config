@@ -1,6 +1,6 @@
 [core]
-  excludesfile = ~/.gitignore  # global gitignores
-  attributesfile = ~/.gitattributes  # global gitattributes
+  excludesfile = ~/.config/git/ignore        # global gitignores
+  attributesfile = ~/.config/git/attributes  # global gitattributes
   trustctime = false  # make git rebase safer
 
 [alias]

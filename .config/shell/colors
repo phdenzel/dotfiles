@@ -1,5 +1,7 @@
 # -*- mode: Shell-script;-*-
-################################################## Shell color palette
+################################################## Shell colors
+command -v dircolors > /dev/null 2>&1 && eval `dircolors -b ${XDG_CONFIG_HOME}/dircolors/dircolors`
+
 ### Color palette (no export, color variables restricted to current shell)
 if tput setaf 1 &> /dev/null; then
     tput sgr0; # reset

@@ -1,34 +1,48 @@
 #!/bin/zsh
-####################################################### Zsh prompt
+################################################################ Z-shell prompt
 
-# Is the USER logged in as root ?
-if [[ "${USER}" == "root" ]]; then
-    userColor="${red}";
-else
-    userColor="${magenta}";
-fi;
-
-# Is the user logged in on an SSHHOST ?
+### Formats
+zusername_format='%(!.%F{1}%n%f.%F{5}%n%f)'
 if [[ "${SSH_TTY}" ]]; then
-    hostColor="${bold}${purple}"
+    zhostname_format='%B%F{12}%M%f%b'
 else
-    hostColor="${blue}"
+    zhostname_format='%F{4}%M%f'
 fi;
+zpath_format='%F{2}%~%f'
+zendian_format='%(?.$.%F{5}$%f) '
 
+### git integration
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git*' formats "#%F${br_yellow}%b%f %F${purple}[%c%u]%f"
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:git*' formats "#%F{11}%b%f%F{105}%m%f"
 zstyle ':vcs_info:git*' stagedstr "+"
 zstyle ':vcs_info:git*' unstagedstr "!"
+zstyle ':vcs_info:git*+set-message:*' hooks git-status-signs
+function +vi-git-status-signs() {
+    # Signify git-status in misc (%m)
+    # using staged/unstaged status (%c%u) and additional custom checks
+    local status_sign
+    status_sign=""
+    # Staged file
+    status_sign+=${hook_com[staged]}
+    # Unstaged file
+    status_sign+=${hook_com[unstaged]}
+    # Untracked files
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+           git status --porcelain | grep '??' &>/dev/null; then
+        status_sign+='?'
+    fi
+    # Write to misc
+    [ -n "${status_sign}" ] && hook_com[misc]="[${status_sign}]"
+}
 
+### Definition
 setopt prompt_subst
-PROMPT=''
-PROMPT+='%F${userColor}%n%f'    # username
-PROMPT+='@'
-PROMPT+='%F${hostColor}%M%f'    # host
-PROMPT+=':'
-PROMPT+='%F${green}%~%f'        # working directory
-PROMPT+='${vcs_info_msg_0_}\$ ' # version control
+PROMPT='${zusername_format}@${zhostname_format}:${zpath_format}${vcs_info_msg_0_}${zendian_format}'
+
+PS2="%F{11}→%f ";
+export PS2;

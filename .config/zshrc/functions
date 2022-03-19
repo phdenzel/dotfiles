@@ -1,0 +1,90 @@
+#!/bin/zsh
+####################################################### Z-shell functions
+function zsh_add_file() {
+    # Source the input file(s). The files are searched in ZDOTDIR (-z) or
+    # SHELLDOTDIR (-s), and if they are not found, it is assumed the input
+    # is an absolute path.
+    while [ $# -ge 1 ]; do
+        local -a d
+        # directory argument
+        case "$1" in
+            -s)
+                d="$SHELLDOTDIR/"
+                shift
+                ;;
+            -z) d="$ZDOTDIR/"
+                shift
+                ;;
+            -h|--help)
+                echo "Usage: zsh_add_file [-z|-s|-h|--help] <filename(s)>"
+                echo ""
+                echo "A function to source Z-shell dotfiles "
+                echo "from ZDOTDIR (-z) or SHELLDOTDIR (-s)."
+                echo ""
+                exit 1
+                ;;
+            *)
+                d=""
+                ;;
+        esac;
+        # check for existence of files and source
+        if [ -f "$d$1" ] && [ -r "$d$1" ]; then
+            # echo "$d$1"
+            source "$d$1"
+        elif [ -f "$ZDOTDIR/$1" ] && [ -r "$ZDOTDIR/$1" ]; then
+            # echo "$ZDOTDIR/$1"
+            source "$ZDOTDIR/$1"
+        elif [ -f "$SHELLDOTDIR/$1" ] && [ -r "$SHELLDOTDIR/$1" ]; then
+            # echo "$SHELLDOTDIR/$1"
+            source "$SHELLDOTDIR/$1"
+        elif [ -f "$1" ] && [ -r "$1" ]; then
+            # echo "$1"
+            source "$1"
+        fi;
+        shift
+    done;
+}
+
+function zsh_add_plugin() {
+    PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
+    
+    if [ -d "$ZPLUGINDIR/$PLUGIN_NAME" ]; then
+        zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh" || \
+        zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.zsh"
+    else
+        git clone "https://github.com/$1.git" "$ZPLUGINDIR/$PLUGIN_NAME"
+    fi
+}
+
+
+function welcome_screen() {
+    echo -n "${magenta}+++++++++++++++++++++++++++++++++${reset}${bold} W E L C O M E ";
+    echo "${reset}${magenta}++++++++++++++++++++++++++++++++${reset}\n";
+    #sleep 0.1s;
+    command -v neofetch &> /dev/null && neofetch || {
+            echo "${br_yellow}Host: \t\t\t\t ${blue}${HOST}"
+            echo "${br_yellow}Operating System: \t\t${blue}" `uname -s`
+            echo "${br_yellow}Kernel Information: \t\t${blue}" `uname -mr`
+            echo -n "${br_yellow}Hello${magenta}" `whoami`
+            echo "${br_yellow} today is: \t${blue}" `date`;
+            echo "${reset}\n"
+        };
+    cal -3;
+    # Mounted
+    echo -n "${green}"
+    echo "-------------------------------- Mounted Drives --------------------------------";
+    df -h -x tmpfs -x devtmpfs --output=source,target,fstype,size,used,pcent,avail;
+    echo -n "${reset}";
+    # Memory info
+    echo -n "${br_yellow}"
+    echo "------------------------------ Memory Information ------------------------------";
+    command -v free &> /dev/null && free -th;
+    echo -ne "${reset}";
+    # Uptime
+    echo -n "${blue}"
+    echo "------------------------------------ Uptime ------------------------------------";
+    echo -n "Uptime for: ${HOST} is ";
+    uptime | awk /'up/ {print $3,$4,$5,$6,$7,$8,$9,$10}';
+    echo -n "${reset}"
+    echo "";
+}

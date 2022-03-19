@@ -79,7 +79,8 @@ live_config_reload: true
 
 # Shell
 shell:
-  program: /bin/bash  # /bin/zsh
+  #program: /bin/bash
+  program: /bin/zsh
 #  args:
 #    - --login
 

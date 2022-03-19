@@ -1,7 +1,7 @@
-# -*- mode: Shell-script;-*-
-####################################################### zsh exports
+#!/bin/zsh
+############################################################### Z-shell exports
 
-# Term
+### Term
 # if infocmp alacritty-direct >/dev/null 2>&1; then
 #     export TERM='alacritty-direct';
 if infocmp xterm-256color >/dev/null 2>&1; then
@@ -10,9 +10,10 @@ elif [[ $COLORTERM = gnome-* && $TERM = xterm* ]] && infocmp gnome-256color >/de
 	  export TERM='gnome-256color';
 fi;
 
-# History
+### History
 # Increase zsh history size to 16^4 entries
 export HISTFILE="${XDG_CONFIG_HOME}/zshrc/histfile"
+export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
 export HISTSIZE=65536
 export SAVEHIST=$HISTSIZE
 

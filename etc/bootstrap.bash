@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 ####################################################### Bootstrap for dotfiles
 # ATTENTION: This may overwrite some preexisting dotfiles in your home folder!
 #            It is advisable to make a backup first...
@@ -73,10 +73,10 @@ else
         ln -s $(pwd)/.config/xmobar/xmobarconf $CONF_HOME/xmobar/
     fi;
     while true; do
-	      read -q "?Source the new .zshrc file? [y/N] " answ
+	      read -p "Source the new .bashrc file? [y/N] " answ
         echo ""
 	      case $answ in
-		        [Yy]* ) source $CONF_HOME/zshrc/.zshrc; break;;
+		        [Yy]* ) source ~/.bashrc; break;;
 		        * ) break;;
 	      esac;
     done;

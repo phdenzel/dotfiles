@@ -1,24 +1,34 @@
 # phdenzel's dotfiles
 
-This is my collection of configuration files for a UNIX-based operating system; a backup of settings, of sorts.
+This is my collection of configuration files for a UNIX-based operating system; a backup of settings, of sorts. In particular, it features configurations for XMonad, Emacs, zsh (and/or bash).
 
-Usually, these **dotfiles** are placed in the home folder where the according program looks for them, and overwrites potentially unwanted default settings. So be careful when installing!  
-I started this repo for macOS in order to make it feel more like Linux (tested on *macOS Sierra 10.12.2* and *macos High Sierra 10.13.1*), however these days, I'm back on Linux (tested on *Pop!_OS* and *Arch*). I am currently (slowly) working on conditionals to automatically make everything completely compatible from the 'git-go', so to speak... but for now all user-specifics are have to be manually modified in `.config/USERINFO` and copied into `~/.config/USERINFO`.
+Usually, these **dotfiles** are placed in the home folder (when possible in `~/.config/`) where the according program looks for them, and overwrites potentially unwanted default settings. So be careful when installing!  
+I started this repo for macOS in order to make it feel more like Linux (back when *macOS Sierra 10.12.2* and *macOS High Sierra 10.13.1* were the latest versions). These days however, I'm back on Linux (*Arch* and *Pop!_OS*). I am currently (slowly) working on conditionals to automatically make everything completely compatible from the 'git-go', so to speak... but for now all user-specifics are have to be manually modified in `USERINFO` and copied into `~/.config/USERINFO`.
 
 The repository can be cloned wherever you want; a natural place would be `~/dotfiles`, i.e. the home folder.
 
 **Warning**: Use with caution! Check the files first before installing; especially all scripts in `installers/`.
-The files in `etc/` are probably no use to anyone except me, but I included them anyways, just in case somebody wants to change them for their own use.
+The files in `etc/` and `utils/` are probably no use to anyone except me, but I included them anyways, just in case somebody wants to change them for their own use.
 
 ### Example
 ![Screenshot of my shell prompt](imgs/screenshot.png)
   
 ### Install
 
-To install the dotfiles simply type:
+Before installation, make sure you have `zsh` installed, on e.g. Arch
+Linux
 
 ```bash
-source bootstrap.sh
+sudo pacman -S zsh
+chsh -s /bin/zsh
+```
+
+If you rather want `bash` as your main shell, you have to run the `etc/bootstrap.bash` rather than `bootstrap.sh`.
+
+To install the dotfiles simply run:
+
+```bash
+./bootstrap.sh
 ```
 while in `dotfiles`.
 
@@ -27,8 +37,7 @@ Optionally, it is possible to run `bootstrap.sh` with flags, e.g. `--bin`, `--em
 ```bash
 ./bootstrap.sh --bin
 ```
-installs a `~/local/bin/` directory (which will be added to the environment `$PATH`) and links all the executables
-in `bin/` to it.
+installs a `~/local/bin/` directory (which will be added to the environment `$PATH`) and links all the executables in `bin/` to it.
 
 Additionally, you can run:
 
@@ -40,7 +49,7 @@ which installs an emacs configuration: `.config/emacs` to the `$HOME` folder,
 or
 
 ```bash
-source bootstrap.sh --themes
+./bootstrap.sh --themes
 ```
 
 which installs:
@@ -49,8 +58,8 @@ which installs:
 * an icon theme: `phd-dark`
 
 
-### Bash scripts:
-Moreover, the repository holds several bash scripts, although they aren't strictly speaking dotfiles. Nevertheless, it's quite useful to be able to clone a single repository onto a new machine and run only a handful of commands that install all your settings and libraries at once.
+### Shell scripts:
+Moreover, the repository holds several shell scripts, although they aren't strictly speaking dotfiles. Nevertheless, it's quite useful to be able to clone a single repository onto a new machine and run only a handful of commands that install all your settings and libraries at once.
 *Again, go through the files first and make sure you know what they are doing, before installing*.
 
 * `arch_iso.sh` - downloads the latest iso of the arch installer

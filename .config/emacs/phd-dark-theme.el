@@ -93,6 +93,8 @@
   `(error               ((t (:foreground ,red-d))))
   `(warning             ((t (:foreground ,orange-b))))
   `(success             ((t (:foreground ,green-b))))
+  `(show-paren-match    ((t (:background ,blue :foreground ,black))))
+  `(show-paren-mismatch ((t (:background ,orange :foreground ,black))))
 
   ;; Customize group
   `(custom-state        ((t (:foreground ,green))))

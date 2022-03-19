@@ -1,38 +1,105 @@
 #!/bin/zsh
-####################################################### zshrc
+#################################################### Z-shell main configuration
+[ -z "$ZDOTDIR" ] && export ZDOTDIR="${XDG_CONFIG_HOME:=$HOME/.config}/zshrc"
+[ -z "$SHELLDOTDIR" ] && export SHELLDOTDIR="${XDG_CONFIG_HOME:=$HOME/.config}/shell"
+[ -z "$ZPLUGINDIR" ] && export ZPLUGINDIR="$ZDOTDIR/plugins"
+mkdir -p "$ZPLUGINDIR"
+[ -f "$ZDOTDIR/functions" ] && source "$ZDOTDIR/functions"
 
-####################################################### Source the dotfiles
-# Note: use shell/xauto to automatically start xorg-server when logging in
-for file in ${XDG_CONFIG_HOME:=$HOME/.config}/{shell/path,shell/colors,shell/exports,zshrc/exports,zshrc/prompt,shell/functions,shell/aliases}; do
-    [ -r "$file" ] && [ -f "$file" ] && . "$file"
-done;
-unset file;
+#################################################### Source the dotfiles
+zsh_add_file "path"
+zsh_add_file "colors"
+zsh_add_file -s "exports" -z "exports"
+zsh_add_file "prompt"
+zsh_add_file -s "functions"
+zsh_add_file "aliases"
+#zsh_add_file xauto  # automatically start xorg-server when logging in
+zsh_add_file "$HOME/local/bin/resolution_tty"
 
-for file in ${HOME}/local/bin/resolution_tty; do
-    [ -r "$file" ] && [ -f "$file" ] && . "$file"
-done;
-unset file;
+#################################################### Plugins
+zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+zsh_add_file "plugins/zsh-syntax-highlighting-config"
+zsh_add_plugin "zsh-users/zsh-autosuggestions"
+zsh_add_file "plugins/zsh-autosuggestions-config"
+
+#################################################### General settings
+### Expansions & Globbing
+# change directories given path alone
+# use extended set of globbing operators
+# allow comments
+# ignore errors if filename pattern has no matches
+setopt auto_cd extended_glob interactive_comments
+unsetopt nomatch
 
 
-####################################################### General settings
-# Lines configured by zsh-newuser-install
-setopt autocd extendedglob notify
-unsetopt beep nomatch
-bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-# zstyle :compinstall filename '/home/phdenzel/.zshrc'
-zstyle :compinstall filename '${HOME}/.config/zshrc/zshrc'
+### Job control
+# immediately report status of jobs in bg
+# no beepand don't freeze terminal on C-s
+setopt notify
+unsetopt beep
+stty stop undef
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
 
-# History
-# - ignore duplicates
-# - ignore commands starting with spaces
-# - remove blank lines
-# - append to history immediately
-# - share history with other sessions
+### History
+# remove blank lines, ignore duplicates, and commands starting with spaces
+# append to history immediately, shared amongst sessions
 setopt hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
 setopt inc_append_history share_history
+
+
+### Completions
+autoload -Uz compinit
+compinit -i
+_comp_options+=(globdots)
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' completer _expand _extensions _correct _complete _approximate
+zstyle ':completion:*:*:*:*:descriptions' format '%F{11}# %d %f'
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' squeeze-slashes true
+# zstyle ':completion:*' file-sort all
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' verbose yes
+
+setopt menu_complete complete_in_word list_packed auto_param_slash
+
+
+### Keymaps
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+
+# Programs
+bindkey -s '\ed' 'ranger^M'
+
+# Emacs-style keybindings
+bindkey -e
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^p" up-line-or-beginning-search
+bindkey "^n" down-line-or-beginning-search
+bindkey "^[[1;5D" backward-word # C-left
+bindkey "^[[1;3D" backward-word # M-left
+bindkey "^[[1;5C" forward-word  # C-right
+bindkey "^[[1;3C" forward-word  # M-right
+
+# evil history navigation
+bindkey "^h" vi-backward-char
+bindkey "^l" vi-forward-char
+bindkey "\eh" vi-backward-word
+bindkey "\el" vi-forward-word
+bindkey "\ek" up-line-or-beginning-search
+bindkey "\ej" down-line-or-beginning-search
+
+# evil menu navigation
+zmodload zsh/complist
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'a' vi-backward-char
+bindkey -M menuselect 'e' vi-forward-char
+
+
+### Welcome
+welcome_screen;

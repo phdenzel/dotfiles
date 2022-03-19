@@ -4,7 +4,6 @@
 # `ls` command
 LS="ls"
 LSCOLORFLAG="--color"
-eval `dircolors -b ${XDG_CONFIG_HOME}/dircolors/dircolors`
 # always use color
 alias ls="$LS $LSCOLORFLAG"
 alias sl="ls"  # stupid typos!!!
@@ -32,7 +31,6 @@ alias cddb="cd ~/Dropbox"
 ### Command shortcuts
 alias h="history"
 alias j="jobs"
-alias sudo='sudo ' # sudoing for aliases
 # OS-dependent aliases
 # 'emacsw' launches in window mode; for terminal-mode use 'emacs'
 alias emacsw='/usr/bin/emacs'

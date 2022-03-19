@@ -1,0 +1,68 @@
+#!/bin/zsh
+############################## Z-shell syntax highlighting plugin configuration
+# github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
+
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets regexp)
+#ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets line pattern regexp root)
+
+### Main
+ZSH_HIGHLIGHT_STYLES[default]='fg=15'
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=default'
+# black/grey
+ZSH_HIGHLIGHT_STYLES[comment]='fg=244'
+# green
+ZSH_HIGHLIGHT_STYLES[alias]='fg=10'
+ZSH_HIGHLIGHT_STYLES[global-alias]='fg=10'
+ZSH_HIGHLIGHT_STYLES[path]='fg=10,underline'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=10,bold,underline'
+ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=10,underline'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=2'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=2'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=10'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=10'
+# yellow
+ZSH_HIGHLIGHT_STYLES[assign]='fg=3'
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=3'
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument-unclosed]='fg=3'
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=11'
+# blue
+ZSH_HIGHLIGHT_STYLES[function]='fg=4'
+ZSH_HIGHLIGHT_STYLES[command]='fg=4'
+ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=4'
+ZSH_HIGHLIGHT_STYLES[arg0]='fg=4'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=4'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=12'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-unclosed]='fg=12'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]='fg=12'
+# magenta
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=5'
+ZSH_HIGHLIGHT_STYLES[redirection]='fg=5'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=5'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=5'
+# teal/cyan
+ZSH_HIGHLIGHT_STYLES[command-substitution]='fg=6'
+ZSH_HIGHLIGHT_STYLES[command-substitution-unquoted]='fg=6'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=6'
+ZSH_HIGHLIGHT_STYLES[arithmetic-expansion]='fg=6'
+ZSH_HIGHLIGHT_STYLES[command-substitution-quoted]='fg=6'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=14'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=14'
+
+### Brackets (blue, cyan, green, yellow)
+ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]='fg=0,bold,bg=5'
+ZSH_HIGHLIGHT_STYLES[bracket-error]='fg=9'
+ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=4,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=14,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=10,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=11,bold'
+
+### Regexp
+ZSH_HIGHLIGHT_REGEXP+=('\brm*(\s-+\w*|\w+)' fg=5)
+ZSH_HIGHLIGHT_REGEXP+=('\bexit\b' fg=5)
+ZSH_HIGHLIGHT_REGEXP+=('\blogout\b' fg=5)
+ZSH_HIGHLIGHT_REGEXP+=('\bsudo\b' fg=11)
+
+
+### Typesetting
+typeset -A ZSH_HIGHLIGHT_STYLES
+typeset -A ZSH_HIGHLIGHT_REGEXP

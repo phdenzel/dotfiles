@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/zsh
 ####################################################### Bootstrap for dotfiles
 # ATTENTION: This may overwrite some preexisting dotfiles in your home folder!
 #            It is advisable to make a backup first...
-# To be SOURCED or EXECUTED in the dotfiles directory
+# To be EXECUTED in the dotfiles directory
 # Usage:
-# . bootstrap.sh
-# ./bootstrap.sh --emacs      : install the emacs config files.
+# ./bootstrap.sh
+#                --emacs      : install the emacs config files.
 #                --emacs-sync : sync the emacs config files.
 #                --bin        : link the binary files (symlinks in ~/local/bin).
 #                --themes     : install custom gtk/qt appearance and icon theme
@@ -36,7 +36,7 @@ EXCLUDES=(
     --exclude ".editorconfig"
 )
 
-if [ "$1" == "--emacs" ]; then
+if [ "$1" = "--emacs" ]; then
     # Copy .config/emacs to its rightful place
     echo "Installing emacs configs in $CONF_HOME/emacs"    
     if [ ! -d "$CONF_HOME/emacs" ]; then
@@ -46,14 +46,14 @@ if [ "$1" == "--emacs" ]; then
 	      cp -r .config/emacs $CONF_HOME/
 	      echo "$CONF_HOME/emacs directory already existed and has been backed up to $CONF_HOME/emacs.bak"
     fi;
-elif [ "$1" == "--emacs-sync" ]; then
+elif [ "$1" = "--emacs-sync" ]; then
     rsync -ahv .config/emacs/ $CONF_HOME/emacs/
-elif [ "$1" == "--bin" ]; then
+elif [ "$1" = "--bin" ]; then
     # Link the binaries to ~/local/bin/
     echo "Installing ~/local/bin/ symlink binaries"
     mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
     ln -s -f $BOOTSTRAP_PATH/bin/* ${HOME}/local/bin/
-elif [ "$1" == "--themes" ]; then
+elif [ "$1" = "--themes" ]; then
     echo "Installing gtk/qt theme: phd-dark"
     rsync --exclude ".themes/phd-dark-highlight.theme" -ahv .themes/ $HOME/.themes/
     rsync -ahv .icons/ $HOME/.icons/
@@ -61,7 +61,7 @@ elif [ "$1" == "--themes" ]; then
     rsync -ahv .config/qt5ct/ $CONF_HOME/qt5ct/
     sudo mkdir -p /usr/share/highlight/themes
     sudo cp .themes/phd-dark-highlight.theme /usr/share/highlight/themes/phd-dark.theme
-elif [ "$1" == "--dry-run" ]; then
+elif [ "$1" = "--dry-run" ]; then
     echo "Installation dry-run"
     rsync "${EXCLUDES[@]}" --dry-run -avh . ~;
     exit 0
@@ -73,10 +73,11 @@ else
         ln -s $(pwd)/.config/xmobar/xmobarconf $CONF_HOME/xmobar/
     fi;
     while true; do
-	read -p "Source the new .bashrc file? [y/N] " answ
-	case $answ in
-		[Yy]* ) source $HOME/.bashrc; break;;
-		* ) break;;
-	esac;
+	      read -q "?Source the new .bashrc file? [y/N] " answ
+        echo ""
+	      case $answ in
+		        [Yy]* ) source $CONF_HOME/zshrc/.zshrc; break;;
+		        * ) break;;
+	      esac;
     done;
 fi;

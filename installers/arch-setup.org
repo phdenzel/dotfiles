@@ -152,7 +152,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
      ./bootstrap.sh --themes
      gsettings set org.gnome.desktop.interface gtk-theme phd-dark
 
-     source bootstrap.sh
+     ./bootstrap.sh
    #+end_src
 
    Some applications (such as ~timeshift-gtk~) need ~sudo~ priviliges,
@@ -350,6 +350,11 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** System tools
+    Z-shell
+    #+begin_src shell
+      sudo pacman -S zsh
+    #+end_src
+    
     Bash tab completion, spell checkers, and locate utils
     #+begin_src shell
       sudo pacman -S bash-completion man-db mlocate hunspell hunspell-en_us

@@ -51,7 +51,7 @@ export LESS_TERMCAP_us="$br_yellow$underline"
 export GREP_COLORS="ms=01;38;5;013:mc=01;38;5;013:sl=:cx=:fn=00;38;5;004:ln=00;38;5;010:bn=00;38;5;010:se=00;38;5;011"
 
 # BAT settings
-export BAT_CONFIG_PATH="${XDG_CONFIG_HOME}/bat/conf"
+export BAT_CONFIG_PATH="${XDG_CONFIG_HOME}/bat/config"
 
 # GPG
 export GPG_TTY=$(tty)

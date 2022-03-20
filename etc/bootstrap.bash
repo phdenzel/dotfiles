@@ -61,6 +61,11 @@ elif [ "$1" = "--themes" ]; then
     rsync -ahv .config/qt5ct/ $CONF_HOME/qt5ct/
     sudo mkdir -p /usr/share/highlight/themes
     sudo cp .themes/phd-dark-highlight.theme /usr/share/highlight/themes/phd-dark.theme
+    if command -v bat &> /dev/null; then
+        mkdir -p "$(bat --config-dir)/themes"
+        ln -s $HOME/.themes/phd-dark.tmTheme $(bat --config-dir)/themes/
+        bat cache --build
+    fi;
 elif [ "$1" = "--dry-run" ]; then
     echo "Installation dry-run"
     rsync "${EXCLUDES[@]}" --dry-run -avh . ~;

@@ -27,9 +27,11 @@ export PATH="${PATH}:$GOPATH/bin"
 
 # Ruby Gems
 export GEM_HOME="$HOME/.gem"
-for f in $(ls -dr $GEM_HOME/ruby/*/bin); do
-    export PATH="${PATH}:$f"
-done;
+if [ -x $GEM_HOME/ruby ]; then
+    for f in $(ls -dr $GEM_HOME/ruby/*/bin); do
+        export PATH="${PATH}:$f"
+    done;
+fi;
 
 # Node/npm
 export PATH="${PATH}:$HOME/.npm_global/bin"

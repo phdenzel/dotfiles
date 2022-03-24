@@ -412,9 +412,9 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** Networking tools
-    Tools for network discovery and security auditing
+    VPN, tools for network discovery and security auditing
     #+begin_src emacs-lisp
-      sudo pacman -S nmap
+      sudo pacman -S wireguard-tools nmap
     #+end_src
 
 *** Web packages

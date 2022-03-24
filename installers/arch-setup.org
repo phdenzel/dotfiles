@@ -394,7 +394,6 @@ process a bit. For this, simply run the ~arch.sh~ install script
       yay -S jmtpfs
     #+end_src
 
-
 *** Backup utilities
     Timeshift integrates well with btrfs, and dropbox
     #+begin_src shell
@@ -410,6 +409,12 @@ process a bit. For this, simply run the ~arch.sh~ install script
     Languages: lisp, haskell, rust, ruby, LaTeX
     #+begin_src shell
       sudo pacman -S emacs vim cmake ghc ghc-static rust ruby rubygems texlive-most texlive-lang
+    #+end_src
+
+*** Networking tools
+    Tools for network discovery and security auditing
+    #+begin_src emacs-lisp
+      sudo pacman -S nmap
     #+end_src
 
 *** Web packages

@@ -53,9 +53,9 @@ compinit -i
 _comp_options+=(globdots)
 
 zstyle ':completion:*' menu select
-zstyle ':completion:*' completer _expand _extensions _correct _complete _approximate
+zstyle ':completion:*' completer _complete _expand _extensions _approximate
 zstyle ':completion:*:*:*:*:descriptions' format '%F{11}# %d %f'
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[.-]=* r:|=* l:|=*'
 zstyle ':completion:*' squeeze-slashes true
 # zstyle ':completion:*' file-sort all
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}

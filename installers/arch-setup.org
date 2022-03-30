@@ -346,7 +346,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** File managers
     GUI and terminal-based file managers
     #+begin_src shell
-      sudo pacman -S pcmanfm ranger highlight
+      sudo pacman -S pcmanfm gvfs udisks2 xarchiver ranger highlight
     #+end_src
 
 *** System tools
@@ -385,12 +385,12 @@ process a bit. For this, simply run the ~arch.sh~ install script
 
 *** Android utilities
     To connect with an Android system, we need the MTP protocol
-    #+begin_src emacs-lisp
+    #+begin_src shell
       sudo pacman -S mtpfs gvfs-mtp
     #+end_src
 
     For Android 4+ devices, additionally install
-    #+begin_src emacs-lisp
+    #+begin_src shell
       yay -S jmtpfs
     #+end_src
 
@@ -413,7 +413,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 
 *** Networking tools
     VPN, tools for network discovery and security auditing
-    #+begin_src emacs-lisp
+    #+begin_src shell
       sudo pacman -S wireguard-tools nmap
     #+end_src
 
@@ -422,6 +422,47 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+begin_src shell
       sudo pacman -S git wget curl transmission-cli transmission-gtk lynx w3m
     #+end_src
+
+*** TODO LAMP/LEMP stack
+
+    For L*A*MP: install Apache
+    #+begin_src shell
+      sudo pacman -S apache php-apache
+    #+end_src
+
+    For L*E*MP: install nginx
+    #+begin_src shell
+      sudo pacman -S nginx
+    #+end_src
+
+    MariaDB install
+    #+begin_src shell
+      sudo pacman -S mariadb mariadb-clients libmariadbclient
+    #+end_src
+
+    MariaDB configuration
+    #+begin_src shell
+      sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+      sudo systemctl enable --now mysqld
+      sudo mysql_secure_installation
+    #+end_src
+
+    Create database with
+    #+begin_src shell
+      sudo mysql -u root -p
+    #+end_src
+
+    Install PHP
+    #+begin_src shell
+      sudo pacman -S php php-cgi php-gd
+    #+end_src
+
+    Some more packages for security etc.
+    #+begin_src shell
+      sudo pacman -S fail2ban
+    #+end_src
+
+
 
 *** Mail (mu4e and mbsync)
     It is always nice to have an alternate way of reading emails
@@ -502,6 +543,12 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+begin_src shell
       sudo sed -i 's/keyboard/consolefont keyboard/' /etc/mkinitcpio.conf
       sudo mkinitcpio -P
+    #+end_src
+
+*** Device software
+    Software for the GK6X keyboard
+    #+begin_src shell
+      yay -S gk6x-bin
     #+end_src
 
 *** Virtualization

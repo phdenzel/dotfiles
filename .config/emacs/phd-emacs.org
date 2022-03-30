@@ -1457,6 +1457,14 @@ take global effect.
 #+end_src
 
 
+*** Dired
+
+#+begin_src emacs-lisp
+  (put 'dired-find-alternate-file 'disabled nil)
+
+#+end_src
+
+
 *** Brackets
 
 #+begin_src emacs-lisp
@@ -1542,6 +1550,20 @@ Regular remaps and bindings
     ;; Expand
     (global-set-key (kbd "M-.") 'hippie-expand) 
 
+#+end_src
+
+
+Dired bindings
+
+#+begin_src emacs-lisp
+  ;; evil movement
+  (define-key dired-mode-map "j" 'dired-next-line)
+  (define-key dired-mode-map "k" 'dired-previous-line)
+  (define-key dired-mode-map "h" 'left-char)
+  (define-key dired-mode-map "l" 'right-char)
+  ;; change behaviour of Enter -> a (doesn't open in new buffer)
+  (define-key dired-mode-map (kbd "<return>") 'dired-find-alternate-file)
+  ;; (define-key dired-mode-map "a" 'dired-find-file)
 #+end_src
 
 

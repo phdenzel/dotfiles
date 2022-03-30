@@ -1,0 +1,61 @@
+#!/bin/bash
+
+ARGS=()
+SAVE_TO_CLIPBOARD=1
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            echo "Usage: passgen [-h|--help|-n|--no-clip] [LENGTH:32] [# SPECIAL CHARACTERS:LENGTH/5]"
+            echo ""
+            echo "       Generate a random password and save it to the clipboard"
+            echo ""
+            echo -e "       -h, --help\t Show this help list"
+            echo -e "       -n, --noclip"
+            echo ""
+            exit 0
+            ;;
+        -n|--no-clip)
+            SAVE_TO_CLIPBOARD=0
+            shift
+            ;;
+        -*|--*)
+            echo "Unknown option $1"
+            exit 1
+            ;;
+        *)
+            ARGS+=($1)
+            shift # past argument
+            ;;
+    esac
+done
+# length of new password
+PASS_LENGTH=${ARGS[0]:-32}
+# maximum number of special characters
+PASS_SPECIAL=${ARGS[1]:-$(( $PASS_LENGTH / 5 ))}
+# special symbol set
+[ -z $SYMBOLS ] && SYMBOLS="(){}[]:;,\.<>?!@#$%^&*"
+N_SYMBOLS=${#SYMBOLS}
+
+# echo $PASS_LENGTH $PASS_SPECIAL $N_SYMBOLS $SAVE_TO_CLIPBOARD
+
+# generate password
+PASSWORD_ORIG=$(openssl rand -base64 $PASS_LENGTH)
+PASSWORD_ORIG=${PASSWORD_ORIG:0:$PASS_LENGTH}
+SPECIAL_ORIG=$((`echo "$PASSWORD_ORIG" | sed 's/[^+|^/|^=]//g' | wc -c` - 1 ))
+PASSWORD=""
+
+for i in $(seq 0 $(($PASS_LENGTH-1)) ); do
+    CHANCE=$(($RANDOM % 10 < 5))
+    if [ "$CHANCE" -eq "1" ]; then
+        if [ "$SPECIAL_ORIG" -lt "$PASS_SPECIAL" ]; then
+            PASSWORD+="${SYMBOLS:$(( $RANDOM % $N_SYMBOLS )):1}"
+            SPECIAL_ORIG=$(($SPECIAL_ORIG + 1))
+        fi;
+    fi;
+    PASSWORD+="${PASSWORD_ORIG:$i:1}"
+done
+
+
+echo -n $PASSWORD | xclip
+echo -n $PASSWORD | xclip -sel clip
+echo $PASSWORD

@@ -9,4 +9,4 @@ yay -S alacritty-git brave-bin mailspring jmtpfs timeshift dropbox mu enpass-bin
 # No X graphics
 # sudo pacman -S openssh rsync pkgconf emacs python-pip python-pipenv ranger highlight zsh fzf bat exa zoxide fd ripgrep dust bash-completion man-db hunspell hunspell-en_us arch-install-scripts gptfdisk zip unzip rsync cronie htop vim cmake rust ruby rubygems wireguard-tools nmap git wget curl transmission-cli lynx w3m nginx mariadb mariadb-clients libmariadbclient php php-cgi php-gd fail2ban openssl isync pass pass-otp zbar colordiff xclip xsel terminus-font ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome
 
-# yay alacritty-git timeshift mu ttf-all-the-icons ttf-weather-icons
+# yay timeshift ttf-all-the-icons ttf-weather-icons

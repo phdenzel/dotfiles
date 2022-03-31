@@ -2,23 +2,28 @@
 #+TITLE: Arch install
 #+OPTIONS: num:nil
 
-These are my personal notes on conventions I typically use for an arch
-install.  Everything here, I've previously tested and implemented
-myself at some point.  Nevertheless, arch has a rolling release scheme
-and thus, is constantly changing.  Always consult the installation
-guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] when in doubt, or for troubleshooting.
+These are my personal notes on conventions I typically use for an Arch
+linux install.  Everything here, I've previously tested and
+implemented myself at some point.  Nevertheless, Arch has a rolling
+release scheme and thus, is constantly changing.  Always consult the
+installation guide on the [[https://wiki.archlinux.org/title/installation_guide][Arch wiki]] when in doubt, or for
+troubleshooting.
 
 
 *** My current setup
 
-    I'm currently using arch on my
-    - main desktop machine
+    I'm currently using Arch linux on my
+    - main desktop
       - Asus Strix Z270E
       - Intel i7-7700K(8)@4.5GHz
       - Nvidia GTX 1080Ti
-      - btrfs/luks encryption setup
+      - btrfs setup
     - MacBookPro 13" (2016)
       - btrfs/luks encryption setup
+    - Home server
+      - ASRock X570M Pro4
+      - AMD Ryzen 7 5700G(16)@3.8GHz
+      - btrfs setup
 
 
 * Create a bootable medium
@@ -51,6 +56,7 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
       sudo bsdtar -x -f archlinux-2022.01.01-x86_64.iso -C /mnt
       sudo fatlabel /dev/sde1 ARCH_202201
     #+end_src
+
 
 * Right after boot
 
@@ -412,7 +418,9 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
   Note: if stability is of utmost importance, the linux-lts kernel is
   the way to go. For steam and other high-performance tasks the
   linux-zen kernel is optimal. If at some later point another kernel
-  is needed, it is always possible to install another alongside.
+  is needed, it is always possible to install another alongside the
+  first one, so I recommend sticking with the standard linux kernel
+  for now.
 
   #+begin_src shell
     pacstrap /mnt base linux linux-firmware intel-ucode git vim btrfs-progs
@@ -518,11 +526,21 @@ guide on the [[https://wiki.archlinux.org/title/installation_guide][arch wiki]] 
 
 * Package installs
 
-  Once you have set up your host machine, install all necessary packages.
-  Pick and choose what you need...
+  Once you have set up your host machine, install all necessary
+  packages. You will add to it later on, but these are the (almost)
+  bare minimum to have a operational system. Pick and choose what you
+  need...
 
   #+begin_src shell
     pacman -S grub grub-btrfs efibootmgr dosfstools mtools dialog base-devel linux-headers bash-completion xdg-utils git networkmanager wireless_tools wpa_supplicant openssh bluez bluez-utils blueman alsa-utils pulseaudio pulseaudio-bluetooth pavucontrol cups
+  #+end_src
+
+  On server setups for example, you usually have neither audio, wifi,
+  nor bluetooth, so the following picks are typically enough to get
+  going...
+
+  #+begin_src shell
+    pacman -S grub grub-btrfs efibootmgr dosfstools mtools dialog base-devel linux-headers bash-completion xdg-utils git networkmanager openssh
   #+end_src
 
 

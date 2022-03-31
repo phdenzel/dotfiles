@@ -1,7 +1,7 @@
 # -*- mode: Shell-script;-*-
 ####################################################### Shell functions
 # Determine size of a file or total size of a directory
-function fs() {
+fs() {
 	if du -b /dev/null > /dev/null 2>&1; then
 		local arg=-sbh;
 	else
@@ -14,7 +14,7 @@ function fs() {
 	fi;
 }
 # UTF-8 encode a unicode string
-function escape() {
+escape() {
 	printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u);
 	# print a new line unless there is a pipe to another program
 	if [ -t 1 ]; then
@@ -22,7 +22,7 @@ function escape() {
 	fi;
 }
 # Decode Unicode escape sequences
-function unidecode() {
+unidecode() {
 	perl -e "binmode(STDOUT, ':utf8'); print \"$@\"";
 	# print a new line unless there is a pipe to another program
 	if [ -t 1 ]; then
@@ -30,14 +30,23 @@ function unidecode() {
 	fi;
 }
 # Get a character’s Unicode code point
-function codepoint() {
+codepoint() {
 	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))";
 	# print a new line unless there is a pipe to another program
 	if [ -t 1 ]; then
 		echo "";
 	fi;
 }
-# # Start Emacsclient connection in the background
-# function ew() {
-#     emacsclient -c --alternate-editor="" "$@" &
-# }
+
+# Fuzzy-find magic
+open_with_fzf() {
+    fd -t f -H -I | fzf -m --preview="xdg-mime query default {}" | xargs -ro -d "\n" xdg-open 2>&-
+}
+
+cd_with_fzf() {
+    cd $HOME && cd "$(fd -t d | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)"
+}
+
+pacs() {
+    sudo pacman -Syy $(pacman -Ssq | fzf -m --preview="pacman -Si {}" --preview-window=:hidden --bind=space:toggle-preview)
+}

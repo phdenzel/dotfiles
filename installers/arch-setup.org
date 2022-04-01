@@ -159,7 +159,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
    and thus can't use locally installed themes. Therefore, we need to
    copy them to the respective directories in ~/usr/share/~
    #+begin_src shell
-     sudo cp -r .themes/phd-dark /usr/share/themes/
+     sudo ln -s $HOME/.themes/phd-dark /usr/share/themes/phd-dark
      sudo ln -s $HOME/.config/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
      sudo ln -s $HOME/.config/gtk-2.0/gtkrc-2.0 /etc/gtk-2.0/gtkrc
    #+end_src
@@ -377,6 +377,13 @@ process a bit. For this, simply run the ~arch.sh~ install script
       sudo pacman -S network-manager-applet blueman volumeicon
     #+end_src
 
+    For keeping the clock running (NTP client)
+    #+begin_src shell
+      sudo pacman -S chrony
+      sudo systemctl enable --now chronyd.service
+    #+end_src
+
+
 *** Disk utilities
     File system tabulator, disk formatter/analyser, and various compression, copy, and job control programs
     #+begin_src shell
@@ -395,15 +402,28 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** Backup utilities
-    Timeshift integrates well with btrfs, and dropbox
+    Timeshift seems to integrate well with btrfs, however after using
+    it for a while, I found it simply a bit too buggy for a backup
+    program. I also dislike snapper, because of how it stores its
+    snapshots all over the place (in @{subvols}/.snapshots).
+
+    So, these days I'm manually backing up my subvolumes. For more
+    infos have a look at my dotfiles/bin/btrsnap script.
+
+*** Cloud folders
+
+    Dropbox has very little space for free, but it's still good.
     #+begin_src shell
-      yay -S timeshift dropbox
+      yay -S dropbox
     #+end_src
 
     Once you're in your graphical environment, set up dropbox using
     #+begin_src shell
       dropbox start -i
     #+end_src
+
+    For a better self-hosted solution, set up a LAMP or LEMP stack and
+    install ~nextcloud~ (see below).
 
 *** Dev tools
     Languages: lisp, haskell, rust, ruby, LaTeX
@@ -414,7 +434,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Networking tools
     VPN, tools for network discovery and security auditing
     #+begin_src shell
-      sudo pacman -S wireguard-tools nmap
+      sudo pacman -S firewalld wireguard-tools nmap
     #+end_src
 
 *** Web packages
@@ -454,7 +474,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 
     Install PHP
     #+begin_src shell
-      sudo pacman -S php php-cgi php-gd
+      sudo pacman -S php php-gd php-cgi php-fpm php-intl
     #+end_src
 
     Some more packages for security etc.

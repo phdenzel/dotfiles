@@ -4,10 +4,14 @@
 # 
 # This programs works with optional flags and environment variables:
 #     BTRSNAP_CONF, BTRSNAP_LOG, BTRSNAP_BASEDIR, BTRSNAP_SRC, BTRSNAP_TARGET,
-#     BTRSNAP_MODE, BTRSNAP_TIMEFORMAT, BTRSNAP_WARNINGS
+#     BTRSNAP_MODE, BTRSNAP_WRITABLE, BTRSNAP_TIMEFORMAT, BTRSNAP_WARNINGS
 # Recommended use:
 #     Export BTRSNAP_CONF in your .bashrc pointing to an existing file where
 #     you configure btrsnap to your specifications.
+# TODO:
+#     - add indices to snapshots for ease-of-input
+#     - add readable/writeable status to log/listing
+#     - finish the rest
 
 PROGNAME=$(basename $0)
 
@@ -19,6 +23,7 @@ BTRSNAP_LOG=${BTRSNAP_LOG:-".$PROGNAME/$PROGNAME.log"}
 BTRSNAP_SRC=${BTRSNAP_SRC:-'/'}
 BTRSNAP_TARGET=${BTRSNAP_TARGET:-"root"}
 BTRSNAP_MODE=${BTRSNAP_MODE:-"manual"}
+BTRSNAP_WRITABLE=${BTRSNAP_WRITABLE:-0}
 BTRSNAP_TIMEFORMAT=${BTRSNAP_TIMEFORMAT:-"+%y%m%dT%H:%M:%S.%2N"}
 BTRSNAP_WARNINGS=${BTRSNAP_WARNINGS:-1}
 DRY_RUN=${DRY_RUN:-0}
@@ -38,6 +43,9 @@ sub_help() {
     echo ""
     echo "    l(ist) [options]"
     echo "        - List all snapshots (and corrects logs if they are out-of-date)"
+    echo ""
+    echo "    i(nfo) <snapshot>"
+    echo "        - Print info about specific snapshot (alias for btrfs subvol show)"
     echo ""
     echo "    c(reate) [options] <src> [target]"
     echo "        - Create a snapshot in the target directory"
@@ -106,6 +114,9 @@ create_help() {
     echo ""
     echo "-b, --basedir <path>"
     echo "               Change the $PROGNAME base directory (default: $BTRSNAP_BASEDIR')"
+    echo ""
+    echo "-w, --writable"
+    echo "               Make the snapshot writable"
     echo ""
     echo "-f, --format <format>"
     echo "               Specify the time-format of the snapshot"
@@ -357,6 +368,16 @@ sub_l() {
 }
 
 
+### btrsnap info
+sub_info() {
+    btrfs subvolume show "$1";
+}
+
+sub_i() {
+    sub_info "$@";
+}
+
+
 ### btrsnap create
 sub_create() {    
     # Parse subcommand options and arguments
@@ -381,6 +402,10 @@ sub_create() {
                 else
                     BTRSNAP_BASEDIR="$1"
                 fi
+                shift
+                ;;
+            "-w" | "--writable")
+                BTRSNAP_WRITABLE=1
                 shift
                 ;;
             "-f" | "--format")
@@ -427,6 +452,7 @@ sub_create() {
     [[ ! $BTRSNAP_TARGET = /* ]] && BTRSNAP_TARGET=$BTRSNAP_BASEDIR/$BTRSNAP_TARGET
     BTRSNAP_TARGET=$BTRSNAP_TARGET/$BTRSNAP_TITLE
     BTRSNAP_ENTRY="$BTRSNAP_TARGET --- $BTRSNAP_SRC --- $BTRSNAP_STARTTIME --- $BTRSNAP_MODE --- $BTRSNAP_MESSAGE"
+    [ "$BTRSNAP_WRITABLE" -eq 0 ] && FLAGS="-r" || FLAGS=""
     # Print out info
     [ "$VERBOSE" -eq 1 ] && echo -e "Config:\t$BTRSNAP_CONF"
     [ "$VERBOSE" -eq 1 ] && echo -e "Log:   \t$BTRSNAP_LOG"
@@ -446,7 +472,7 @@ sub_create() {
         mkdir -p "$(dirname $BTRSNAP_LOG)" && touch $BTRSNAP_LOG
     mkdir -p "$(dirname $BTRSNAP_TARGET)";
     # Create snapshot
-    btrfs subvolume snapshot $BTRSNAP_SRC $BTRSNAP_TARGET 2>&1 1>/dev/null
+    btrfs subvolume snapshot $FLAGS $BTRSNAP_SRC $BTRSNAP_TARGET 2>&1 1>/dev/null
     echo "$BTRSNAP_ENTRY" >> $BTRSNAP_LOG
 }
 

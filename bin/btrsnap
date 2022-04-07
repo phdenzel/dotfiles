@@ -30,7 +30,8 @@ DRY_RUN=${DRY_RUN:-0}
 VERBOSE=${VERBOSE:-0}
 
 # Constants
-BTRSNAP_LOG_COLUMNS='Snapshot,Source,Time,Mode,Description'
+BTRSNAP_LOG_COLUMNS='#,Snapshot,Source,Time,Flags,Mode,Description'
+
 
 
 ### Help functions
@@ -41,23 +42,26 @@ sub_help() {
     echo "    e(nv)"
     echo "        - Print all environment variables"
     echo ""
-    echo "    l(ist) [options]"
+    echo "    l(ist) [options] <source>"
     echo "        - List all snapshots (and corrects logs if they are out-of-date)"
     echo ""
-    echo "    i(nfo) <snapshot>"
+    echo "    i(nfo) [options] [snapshot]"
     echo "        - Print info about specific snapshot (alias for btrfs subvol show)"
     echo ""
-    echo "    c(reate) [options] <src> [target]"
+    echo "    c(reate) [options] [src] [target]"
     echo "        - Create a snapshot in the target directory"
     echo ""
-    echo "    d(iff) <snapshot-a> [snapshot-b]: NotYetImplemented"
+    echo "    d(iff) [options] [snapshot-a] [snapshot-b]"
     echo "        - Show diffs between two snapshots"
+    echo ""
+    echo "    r(e)m(ove) [options] [snapshot]"
+    echo "        - Delete targeted snapshots"
+    echo ""
+    echo "    s(crub) [options] [target]: NotYetImplemented"
+    echo "        - Scrub/remove unimportant snapshots"
     echo ""
     echo "    u(ndo) <snapshot> <file>: NotYetImplemented"
     echo "        - Undo changes to a specific file from a snapshot"
-    echo ""
-    echo "    s(crub) [options]: NotYetImplemented"
-    echo "        - Clean up snapshots"
     echo ""
     echo "    r(estore) [options]: NotYetImplemented"
     echo "        - Restore the filesystem to a former snapshot"
@@ -84,6 +88,8 @@ list_help() {
     echo ""
     echo "-v, --verbose  Print action info to the command-line"
     echo ""
+    echo "-n, --dry-run  Run command, but perform no actions"
+    echo ""
     echo "-s, --simple   Print the list simply, with paths only"
     echo ""
     echo "-t, --table    Print the list in table mode"
@@ -97,6 +103,24 @@ list_help() {
     echo "--mode <integer>"
     echo "               Mode in which the snapshot is created"
     echo "               0:manual; 1:hourly; 2:daily; 3:monthly; 4:yearly"
+    echo ""
+}
+
+info_help() {
+    echo "Usage: $PROGNAME-info [options] <source>"
+    echo ""
+    echo "Show info of any btrfs <subvolume> (default: '/') or <snapshot index>"
+    echo "(wrapper for btrfs subvolume show)"
+    echo ""
+    echo "-h, --help     Display this help text"
+    echo ""
+    echo "-v, --verbose  Print action info to the command-line"
+    echo ""
+    echo "-n, --dry-run  Run command, but perform no actions"
+    echo ""
+    echo "-b, --basedir <path>"
+    echo "               Change the $PROGNAME base directory (default: $BTRSNAP_BASEDIR')"
+    echo ""
     echo ""
 }
 
@@ -143,6 +167,24 @@ diff_help() {
     echo ""
     echo "-v, --verbose  Print action info to the command-line"
     echo ""
+    echo "-f, --file     Show line changes of a specific file in the snapshots"
+    echo ""
+    echo "-b, --basedir <path>"
+    echo "               Change the $PROGNAME base directory (default: $BTRSNAP_BASEDIR')"
+    echo ""
+}
+
+remove_help() {
+    echo "Usage: $PROGNAME-remove [options] [snapshot]"
+    echo ""
+    echo "Delete targeted snapshot"
+    echo ""
+    echo "-h, --help     Display this help text"
+    echo ""
+    echo "-v, --verbose  Print action info to the command-line"
+    echo ""
+    echo "-n, --dry-run  Run command, but perform no actions"
+    echo ""
     echo "-b, --basedir <path>"
     echo "               Change the $PROGNAME base directory (default: $BTRSNAP_BASEDIR')"
     echo ""
@@ -156,23 +198,57 @@ is-btrfs-subvolume() {
     btrfs subvolume show $1 &>/dev/null;
 }
 
+btrsnap-alist() {
+    # Usage: declare -A <alist-name> && btrsnap-alist <alist-name>
+    # Note: Do not use alist as <alist-name>!
+    local data
+    declare -n alist="$1"
+    [ ! -f  $BTRSNAP_LOG ] && return 0
+    data="$(cat $BTRSNAP_LOG)"
+    btrsnap_paths=($(echo "$data" | awk -F' --- ' '{print $1}'))
+    N="${#btrsnap_paths[@]}"
+    for i in $(seq 1 $N); do
+        alist["$i"]="${btrsnap_paths[$((i-1))]}"
+    done
+}
+
+reverse-alist() {
+    # Usage: declare -A <revlist-name> && reverse-alist <revlist-name> <alist-name>
+    # Note: Do not use revlist as <revlist-name>!
+    declare -n revlist="$1"
+    declare -n alist="$2"
+    for i in "${!alist[@]}"; do
+        revlist["${alist[$i]}"]="$i"
+    done
+}
+
 
 ### Log functions
+load-logs() {
+    # Args: BTRSNAP_LOG
+    BTRSNAP_LOG="$1"
+    declare -A snapshots && btrsnap-alist snapshots
+    declare -A snapshot_index && reverse-alist snapshot_index snapshots
+    while IFS='' read -r line; do
+        path=$(echo "$line" | awk -F' --- ' '{print $1}')
+        index="${snapshot_index[$path]}"
+        echo "$index --- $line"
+    done < "$BTRSNAP_LOG"
+}
+
 validate-logs() {
     # Check if logs have snapshot entries which already have been deleted
     # and amend any missing entries
     # Args: LOG_DATA, CONTROL
     # Sets: LOG_DATA, is_deleted, is_healed
     local data
-    LOG_DATA="$1"
-    CONTROL="$2"
     # delete non-existent logs, issue a warning, and rewrite log file
-    data=($(echo "$LOG_DATA" | \
-                awk -F ' --- ' -v delta=0 -v ctlFile="$CONTROL" \
-                    '{if (ctlFile ~ substr($1,2)) {print "\\n"$0} else {delta=1}}
-                     END{print "\\n"delta}'))
-    LOG_DATA=$(echo -e "${data[@]:0:${#data[@]}-1}")
-    is_deleted=$(echo -e "${data[-1]: -1}")
+    data="$(echo "$1" | \
+                awk -F ' --- ' -v delta=0 -v ctlFile="$2" \
+                    '{if (ctlFile ~ substr($1,2)) {print $0} else {delta=1}}
+                     END{print delta}')"
+    LOG_DATA=$(echo -e "${data[@]:0:${#data[@]}-2}")
+    is_deleted=$(echo -e "${data[@]: -1}")
     [ "$is_deleted" -eq 1 ] && [ "$BTRSNAP_WARNINGS" -eq 1 ] && \
         echo "Warning! Some entries in $BTRSNAP_LOG don't exist anymore." &&
         echo "Purging the logs..."
@@ -181,7 +257,7 @@ validate-logs() {
     }
     # write unknown snapshots to log file and issue a warning
     is_healed=0
-    heal-logs "$LOG_DATA" "$CONTROL"  # sets LOG_DATA, is_healed
+    heal-logs "$LOG_DATA" "$2"  # sets LOG_DATA, is_healed
     [ "$is_healed" -eq 1 ] && [ "$BTRSNAP_WARNINGS" -eq 1 ] && \
         echo "Warning! There are snapshots missing in the logs." &&
         echo "Trying to amend missing entries..."
@@ -195,13 +271,12 @@ heal-logs() {
     # Args: LOG_DATA, CONTROL
     # Sets: LOG_DATA, is_healed
     logs=""
-    CONTROL="$2"
     snapshots=($(echo "$2" | awk -F 'path' '/path/{gsub(/@/,"/"); print $2}'))
     is_healed=0
     # go through all snapshots and amend log entries if necessary
-    for s in ${snapshots[@]}; do
+    for s in "${snapshots[@]}"; do
         if [[ $1 == *$s* ]]; then
-            entry="$(echo "$LOG_DATA" | grep "${s}" )"
+            entry="$(echo "$1" | grep "$s" )"
             logs+="\n$entry"
         else
             is_healed=1
@@ -218,9 +293,13 @@ heal-logs() {
                         awk -F'time:' \
                             '/Creation time/{gsub(/^[ \t\r\n]+/,"",$2); 
                                              print $2}')"
+            sflags="$(echo "$info" | \
+                        awk -F'Flags:' \
+                            '/Flags/{gsub(/^[ \t\r\n]+/,"",$2); 
+                                     if ($2=="readonly") {print "r"} else {print "rw"}}')"
             smode="manual"
             sdescription="External snapshot"
-            logs+="\n$spath --- $sroot --- $stime --- $smode --- $sdescription"
+            logs+="\n$spath --- $sroot --- $stime --- $sflags --- $smode --- $sdescription"
         fi
     done;
     LOG_DATA="$(echo -e "${logs[@]:2}")"
@@ -228,49 +307,59 @@ heal-logs() {
 
 filter-logs() {
     # Filter logs according to requested output format and selected mode
-    # Args: LOG_DATA, OUTPUT_FORMAT, MODE
+    # Args: LOG_DATA, BTRSNAP_SRC, OUTPUT_FORMAT, WRITABLE, MODE
     # Sets: LOG_DATA
-    LOG_DATA="$1"
     # replace separator with single character comma
-    LOG_DATA="$(echo "${LOG_DATA}" | \
+    LOG_DATA="$(echo "$1" | \
                 awk -F' --- ' \
                     '{fmt="%s"; for(i=2;i<=NF;i++){fmt=fmt",%s"}; fmt=fmt"\n";
-                      printf(fmt, $1, $2, $3, $4, $5)}')"
+                      printf(fmt, $1, $2, $3, $4, $5, $6, $7)}')"
+    # source filter
+    LOG_DATA="$(echo "${LOG_DATA}" | \
+                   awk -F',' -v source="$2"\
+                       '{if ($3==source) {print $0}}')"
     # --simple
-    [ "$OUTPUT_FORMAT" -lt 0 ] && \
-        LOG_DATA="$(echo "${LOG_DATA}" | awk -F',' '{printf("%s\n", $1)}')" && \
+    [ "$3" -lt 0 ] && \
+        LOG_DATA="$(echo "${LOG_DATA}" | awk -F',' '{printf("%s\n", $2)}')" && \
         BTRSNAP_LOG_COLUMNS=''
+    # --readonly
+    [ "$4" -eq 0 ] &&
+        LOG_DATA="$(echo "${LOG_DATA}" | \
+                    awk -F',' \
+                        '{if ($5=="r") {print $0} }')"
     # --mode filter
     [ "$BTRSNAP_MODE" = 'all' ] ||
         LOG_DATA="$(echo "${LOG_DATA}" | \
-                    awk -F',' -v mode="$BTRSNAP_MODE" \
-                        '{if ($4==mode) {print $0} }')"
+                    awk -F',' -v mode="$5" \
+                        '{if ($6==mode) {print $0} }')"
 }
 
 print-logs() {
     # Print the log data in the specified format
     # Args: LOG_DATA, OUTPUT_FORMAT
-    WIDTH=$((4*3+1+$(echo "$1" | wc -L)))
     HEIGHT="$(echo "$1" | wc -l)"
-    HEADER=""
-    FOOTER=""
+    HEADER_LINE=0
+    FOOTER_LINE=0
+    LINE=""
     TITLES="--table-columns=${BTRSNAP_LOG_COLUMNS}"
     [ "$2" -lt 0 ] && OUTPUT_SEP=" " && TITLES=""
     case $2 in
         0)
-            OUTPUT_SEP=" "
+            OUTPUT_SEP="  "
             ;;
         1)
             OUTPUT_SEP=" │ "
-            HEADER=$(printf '─%.0s' $(seq 1 ${WIDTH}))
-            FOOTER=$(printf '─%.0s' $(seq 1 ${WIDTH}))
+            HEADER_LINE=1
+            FOOTER_LINE=1
             ;;
     esac
     OUTPUT="$(echo "$1" | column -t -s ',' -o "$OUTPUT_SEP" $TITLES)"
+    WIDTH="$(echo "$OUTPUT" | wc -L)"
+    [ "$WIDTH" -gt 1 ] && LINE="$(printf '─%.0s' $(seq 1 ${WIDTH}))"
     # print out data
-    [ "$HEADER" ] && echo "$HEADER"
+    [ "$HEADER_LINE" -eq 1 ] && echo "$LINE"
     echo "$OUTPUT"
-    [ "$FOOTER" ] && echo "$FOOTER"
+    [ "$FOOTER_LINE" -eq 1 ] && echo "$LINE"
 }
 
 
@@ -297,6 +386,7 @@ sub_e() {
 ### btrsnap list
 sub_list() {
     OUTPUT_FORMAT=0
+    BTRSNAP_WRITABLE=1
     BTRSNAP_MODE="all"
     # Parse subcommand options and arguments
     while [[ $# -gt 0 ]]; do
@@ -309,16 +399,20 @@ sub_list() {
                 VERBOSE=1
                 shift
                 ;;
+            "-n" | "--dry-run")
+                DRY_RUN=1
+                shift
+                ;;
             "-s" | "--simple")
                 OUTPUT_FORMAT=-1
                 shift
                 ;;
-            "-c" | "--column")
-                OUTPUT_FORMAT=0
-                shift
-                ;;
             "-t" | "--table")
                 OUTPUT_FORMAT=1
+                shift
+                ;;
+            "-c" | "--column")
+                OUTPUT_FORMAT=0
                 shift
                 ;;
             "-b" | "--basedir")
@@ -328,6 +422,10 @@ sub_list() {
                 else
                     BTRSNAP_BASEDIR="$1"
                 fi
+                shift
+                ;;
+            "-r" | "--readonly")
+                BTRSNAP_WRITABLE=0
                 shift
                 ;;
             "--mode")
@@ -355,12 +453,18 @@ sub_list() {
     # print out info
     [ "$VERBOSE" -eq 1 ] && echo -e "Config:\t$BTRSNAP_CONF"
     [ "$VERBOSE" -eq 1 ] && echo -e "Log:   \t$BTRSNAP_LOG"
+    # create files if necessary
+    [ ! -f "$BTRSNAP_CONF" ] && \
+        mkdir -p "$(dirname $BTRSNAP_CONF)" && touch $BTRSNAP_CONF
+    [ ! -f "$BTRSNAP_LOG" ] && \
+        mkdir -p "$(dirname $BTRSNAP_LOG)" && touch $BTRSNAP_LOG
     # validate, filter, and print logs
-    CONTROL="$(btrfs subvolume list -s $BTRSNAP_SRC)"
+    CONTROL="$(btrfs subvolume list -s /)"
     LOG_DATA="$(cat $BTRSNAP_LOG)"
-    validate-logs "${LOG_DATA}" "${CONTROL}"
-    filter-logs "${LOG_DATA}" $OUTPUT_FORMAT $BTRSNAP_MODE
-    print-logs "${LOG_DATA}" $OUTPUT_FORMAT
+    validate-logs "$LOG_DATA" "$CONTROL"
+    LOG_DATA="$(load-logs $BTRSNAP_LOG)"
+    filter-logs "$LOG_DATA" "$BTRSNAP_SRC" "$OUTPUT_FORMAT" "$BTRSNAP_WRITABLE" "$BTRSNAP_MODE"
+    print-logs "$LOG_DATA" "$OUTPUT_FORMAT"
 }
 
 sub_l() {
@@ -370,7 +474,48 @@ sub_l() {
 
 ### btrsnap info
 sub_info() {
-    btrfs subvolume show "$1";
+    # Parse subcommand options and arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            "-h" | "--help")
+                info_help
+                exit 0
+                ;;
+            "-v" | "--verbose")
+                VERBOSE=1
+                shift
+                ;;
+            "-n" | "--dry-run")
+                DRY_RUN=1
+                shift
+                ;;
+            "-b" | "--basedir")
+                shift
+                if [[ ! $1 = /* ]]; then
+                    BTRSNAP_BASEDIR=$(pwd)/$1
+                else
+                    BTRSNAP_BASEDIR="$1"
+                fi
+                shift
+                ;;
+            *)
+                ARG="$1"
+                shift
+                ;;
+        esac
+    done
+    # sanatize defaults
+    [[ ! $BTRSNAP_CONF = /* ]] && [ ! -f "$BTRSNAP_CONF" ] && \
+        BTRSNAP_CONF=$BTRSNAP_BASEDIR/$BTRSNAP_CONF
+    [[ ! $BTRSNAP_LOG = /* ]] && [ ! -f "$BTRSNAP_LOG" ] && \
+        BTRSNAP_LOG=$BTRSNAP_BASEDIR/$BTRSNAP_LOG
+    # print out info
+    [ "$VERBOSE" -eq 1 ] && echo -e "Config:\t$BTRSNAP_CONF"
+    [ "$VERBOSE" -eq 1 ] && echo -e "Log:   \t$BTRSNAP_LOG"
+    [ -z "$ARG" ] && ARG='/'
+    declare -A snapshots && btrsnap-alist snapshots
+    [ "${snapshots[$ARG]}" ] && ARG="${snapshots[$ARG]}"
+    btrfs subvolume show "$ARG";
 }
 
 sub_i() {
@@ -451,8 +596,9 @@ sub_create() {
     [ -z "$BTRSNAP_MESSAGE" ] && BTRSNAP_MESSAGE=""
     [[ ! $BTRSNAP_TARGET = /* ]] && BTRSNAP_TARGET=$BTRSNAP_BASEDIR/$BTRSNAP_TARGET
     BTRSNAP_TARGET=$BTRSNAP_TARGET/$BTRSNAP_TITLE
-    BTRSNAP_ENTRY="$BTRSNAP_TARGET --- $BTRSNAP_SRC --- $BTRSNAP_STARTTIME --- $BTRSNAP_MODE --- $BTRSNAP_MESSAGE"
     [ "$BTRSNAP_WRITABLE" -eq 0 ] && FLAGS="-r" || FLAGS=""
+     [ "$BTRSNAP_WRITABLE" -eq 0 ] && BTRSNAP_RW="r" || BTRSNAP_RW="rw"
+    BTRSNAP_ENTRY="$BTRSNAP_TARGET --- $BTRSNAP_SRC --- $BTRSNAP_STARTTIME --- $BTRSNAP_RW --- $BTRSNAP_MODE --- $BTRSNAP_MESSAGE"
     # Print out info
     [ "$VERBOSE" -eq 1 ] && echo -e "Config:\t$BTRSNAP_CONF"
     [ "$VERBOSE" -eq 1 ] && echo -e "Log:   \t$BTRSNAP_LOG"
@@ -483,6 +629,7 @@ sub_c() {
 
 ### btrsnap diff
 sub_diff() {
+    B_IS_CURRENT=0
     # Parse subcommand options and arguments
     while [[ $# -gt 0 ]]; do
         case $1 in
@@ -492,6 +639,11 @@ sub_diff() {
                 ;;
             "-v" | "--verbose")
                 VERBOSE=1
+                shift
+                ;;
+            "-f" | "--file")
+                shift
+                FILE_QUERY=$1
                 shift
                 ;;
             "-b" | "--basedir")
@@ -504,18 +656,112 @@ sub_diff() {
                 shift
                 ;;
             *)
-                BTRSNAP_SRC=${1:-'/'}
+                SNAPSHOT_A=${1:-'/'}
                 shift
-                BTRSNAP_TARGET=${1:-"current"}
+                SNAPSHOT_B=${1:-"0"}
                 shift
                 ;;
         esac
     done
-    # btrfs send --no-data -p $SHAPSHOT_OLD $SHAPSHOT_NEW | btrfs receive --dump | grep ^update_extent
+    # sanatize defaults
+    [[ ! $BTRSNAP_CONF = /* ]] && [ ! -f "$BTRSNAP_CONF" ] && BTRSNAP_CONF=$BTRSNAP_BASEDIR/$BTRSNAP_CONF
+    [[ ! $BTRSNAP_LOG = /* ]] && [ ! -f "$BTRSNAP_LOG" ] && BTRSNAP_LOG=$BTRSNAP_BASEDIR/$BTRSNAP_LOG
+    # handle input as index
+    declare -A snapshots && btrsnap-alist snapshots
+    indices=("${!snapshots[@]}")
+    [ -z "$SNAPSHOT_A" ] && SNAPSHOT_A="${indices[0]}"
+    [ -z "$SNAPSHOT_B" ] && SNAPSHOT_B=0
+    [ "$SNAPSHOT_B" -eq 0 ] && B_IS_CURRENT=1
+    [ "${snapshots[$SNAPSHOT_A]}" ] && SNAPSHOT_A="${snapshots[$SNAPSHOT_A]}"
+    [ "${snapshots[$SNAPSHOT_B]}" ] && SNAPSHOT_B="${snapshots[$SNAPSHOT_B]}"
+    # resolve absolute paths & create snapshot of current status
+    [[ ! $SNAPSHOT_A = /* ]] && SNAPSHOT_A="$BTRSNAP_BASEDIR/$SNAPSHOT_A"
+    if [ "$B_IS_CURRENT" -eq 1 ]; then
+        SNAPSHOT_B="$BTRSNAP_BASEDIR/current"
+        btrfs subvolume snapshot -r / "$SNAPSHOT_B" 2>&1 1>/dev/null;
+    else
+        [[ ! $SNAPSHOT_B = /* ]] && SNAPSHOT_B="$BTRSNAP_BASEDIR/$SNAPSHOT_B";
+    fi
+    # show file diff or snapshot diff
+    if [ "$FILE_QUERY" ]; then
+        echo "diff \"$SNAPSHOT_A/$FILE_QUERY\" \"$SNAPSHOT_B/$FILE_QUERY\""
+        diff "$SNAPSHOT_A/$FILE_QUERY" "$SNAPSHOT_B/$FILE_QUERY";
+    else
+        btrfs send --no-data -p "$SNAPSHOT_A" "$SNAPSHOT_B" | \
+            btrfs receive --dump | grep update_extent
+    fi;
+    # clean up
+    [ "$B_IS_CURRENT" -eq 1 ] && \
+        btrfs subvolume delete "$SNAPSHOT_B" 2>&1 1>/dev/null;
 }
 
 sub_d() {
     sub_diff "$@";
+}
+
+
+### btrsnap remove
+sub_remove() {
+    BTRSNAP_TARGET=""
+    # Parse subcommand options and arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            "-h" | "--help")
+                remove_help
+                exit 0
+                ;;
+            "-v" | "--verbose")
+                VERBOSE=1
+                shift
+                ;;
+            "-n" | "--dry-run")
+                DRY_RUN=1
+                shift
+                ;;
+            "-b" | "--basedir")
+                shift
+                if [[ ! $1 = /* ]]; then
+                    BTRSNAP_BASEDIR=$(pwd)/$1
+                else
+                    BTRSNAP_BASEDIR="$1"
+                fi
+                shift
+                ;;
+            *)
+                BTRSNAP_TARGET=$1
+                shift
+                ;;
+        esac
+    done
+    # Sanatize defaults
+    [[ ! $BTRSNAP_CONF = /* ]] && [ ! -f "$BTRSNAP_CONF" ] && BTRSNAP_CONF=$BTRSNAP_BASEDIR/$BTRSNAP_CONF
+    [[ ! $BTRSNAP_LOG = /* ]] && [ ! -f "$BTRSNAP_LOG" ] && BTRSNAP_LOG=$BTRSNAP_BASEDIR/$BTRSNAP_LOG
+    declare -A snapshots && btrsnap-alist snapshots
+    indices=("${!snapshots[@]}")
+    [ -z "$BTRSNAP_TARGET" ] || [ "$BTRSNAP_TARGET" -eq -1 ] && BTRSNAP_TARGET="${indices[0]}"
+    [ "${snapshots[$BTRSNAP_TARGET]}" ] && BTRSNAP_TARGET="${snapshots[$BTRSNAP_TARGET]}"
+    [[ ! $BTRSNAP_TARGET = /* ]] && BTRSNAP_TARGET=$BTRSNAP_BASEDIR/$BTRSNAP_TARGET
+    # Print out info
+    [ "$VERBOSE" -eq 1 ] && echo -e "Config:\t$BTRSNAP_CONF"
+    [ "$VERBOSE" -eq 1 ] && echo -e "Log:   \t$BTRSNAP_LOG"
+    echo -e "btrsnap-remove:\t$BTRSNAP_TARGET"
+    # Validate info
+    is-btrfs-subvolume $BTRSNAP_TARGET || {
+        echo "btrfs subvolume $BTRSNAP_TARGET doesn't exist!";
+        exit 1;
+    }
+    # Actions!
+    [ "$DRY_RUN" -eq 1 ] && return 0
+    # Create paths and/or files if necessary
+    [ ! -f "$BTRSNAP_LOG" ] && \
+        mkdir -p "$(dirname $BTRSNAP_LOG)" && touch $BTRSNAP_LOG
+    # Delete snapshot
+    btrfs subvolume delete $BTRSNAP_TARGET 2>&1 1>/dev/null
+    sed -i "\|$BTRSNAP_TARGET|d" "$BTRSNAP_LOG"
+}
+
+sub_rm() {
+    sub_remove "$@";
 }
 
 

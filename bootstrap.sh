@@ -4,7 +4,7 @@
 #            It is advisable to make a backup first...
 # To be EXECUTED in the dotfiles directory
 # Usage:
-# ./bootstrap.sh
+# ./bootstrap.sh [--dry-run]  : install most dotfiles in XDG_CONFIG_HOME
 #                --emacs      : install the emacs config files.
 #                --emacs-sync : sync the emacs config files.
 #                --bin        : link the binary files (symlinks in ~/local/bin).
@@ -38,7 +38,7 @@ EXCLUDES=(
 
 if [ "$1" = "--emacs" ]; then
     # Copy .config/emacs to its rightful place
-    echo "Installing emacs configs in $CONF_HOME/emacs"    
+    echo "Installing emacs configs in $CONF_HOME/emacs"
     if [ ! -d "$CONF_HOME/emacs" ]; then
 	      cp -r .config/emacs $CONF_HOME/emacs
     else
@@ -46,6 +46,15 @@ if [ "$1" = "--emacs" ]; then
 	      cp -r .config/emacs $CONF_HOME/
 	      echo "$CONF_HOME/emacs directory already existed and has been backed up to $CONF_HOME/emacs.bak"
     fi;
+    if [ ! -d "$HOME/local/phd-modeline" ]; then
+        git clone git@github.com:phdenzel/phd-modeline.git $HOME/local/phd-modeline
+    fi
+    if [ ! -d "$HOME/local/phd-dashboard" ]; then
+        git clone git@github.com:phdenzel/phd-dashboard.git $HOME/local/phd-dashboard
+    fi
+    if [ ! -d "$HOME/local/phd-mu4e-setup" ]; then
+        git clone git@github.com:phdenzel/phd-mu4e-setup.git $HOME/local/phd-mu4e-setup
+    fi
 elif [ "$1" = "--emacs-sync" ]; then
     rsync -ahv .config/emacs/ $CONF_HOME/emacs/
 elif [ "$1" = "--bin" ]; then

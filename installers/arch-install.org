@@ -243,11 +243,11 @@ troubleshooting.
     mistakes which could lead to serious data loss).
 
     #+begin_src shell
-      mkfs.fat -F 32 /dev/sda1
-      mkswap /dev/sda2
+      mkfs.fat -F 32 -n ESP /dev/sda1
+      mkswap -L SWAP /dev/sda2
       swapon /dev/sda2
-      mkfs.ext4 /dev/sda3
-      mkfs.ext4 /dev/sda4
+      mkfs.ext4 -L ROOT /dev/sda3
+      mkfs.ext4 -L HOME /dev/sda4
     #+end_src
 
     Once formatted, create the directories and mount them
@@ -337,8 +337,8 @@ troubleshooting.
       cd
       umount /mnt
 
-      mkdir -p /mnt/{boot,home,var,tmp,snapshots}  # or /mnt{efi,home,var,tmp,snapshots}
       mount -o noatime,compress=zstd,space_cache=v2,discard=async,subvol=@ /dev/sda3 /mnt
+      mkdir -p /mnt/{boot,home,var,tmp,snapshots}  # or /mnt{efi,home,var,tmp,snapshots}
       mount -o noatime,compress=zstd,space_cache=v2,discard=async,subvol=@home /dev/sda3 /mnt/home
       mount -o noatime,compress=zstd,space_cache=v2,discard=async,subvol=@var /dev/sda3 /mnt/var
       mount -o noatime,compress=zstd,space_cache=v2,discard=async,subvol=@tmp /dev/sda3 /mnt/tmp
@@ -473,7 +473,7 @@ troubleshooting.
       hwclock --systohc  # generates /etc/adjtime
 
       # locale
-      sed -i '177s/.//' /etc/locale.gen  # uncomments en_US.UTF-8 UTF-8
+      sed -i '178s/.//' /etc/locale.gen  # uncomments en_US.UTF-8 UTF-8
       locale-gen
       echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
@@ -555,7 +555,7 @@ troubleshooting.
       useradd -m phdenzel
       passwd phdenzel
       usermod -aG wheel,audio,video,optical,storage,kvm phdenzel
-      echo "phdenzel ALL=(ALL) ALL" >> /etc/sudoers.d/phdenzel
+      echo "phdenzel ALL=(ALL:ALL) ALL" >> /etc/sudoers.d/phdenzel
     #+end_src
 
 
@@ -564,7 +564,7 @@ troubleshooting.
   Install the boot loader of your choice. In my case, I like ~grub~ ;)
 
   #+begin_src shell
-    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+    grub-install --target=x86_64-efi --efi-directory=/boot --boot-directory=/boot --bootloader-id=GRUB
     grub-mkconfig -o /boot/grub/grub.cfg
   #+end_src
 

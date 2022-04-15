@@ -256,7 +256,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = (composeAll . concat $
                 -- class-based management
-                [ [className =? c <||> title =?
+                [ [className =? -- c <||> title =?
                                 c --> doShift (myWorkspaces !! 0) | c <- mywmShifts ]
                 , [className =? c --> doShift (myWorkspaces !! 1) | c <- myttyShifts]
                 , [className =? c --> doShift (myWorkspaces !! 2) | c <- mydevShifts]

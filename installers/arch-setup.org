@@ -383,7 +383,6 @@ process a bit. For this, simply run the ~arch.sh~ install script
       sudo systemctl enable --now chronyd.service
     #+end_src
 
-
 *** Disk utilities
     File system tabulator, disk formatter/analyser, and various compression, copy, and job control programs
     #+begin_src shell
@@ -434,7 +433,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Networking tools
     VPN, tools for network discovery and security auditing
     #+begin_src shell
-      sudo pacman -S firewalld wireguard-tools nmap
+      sudo pacman -S firewalld fail2ban wireguard-tools nmap
     #+end_src
 
 *** Web packages
@@ -476,13 +475,6 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+begin_src shell
       sudo pacman -S php php-gd php-cgi php-fpm php-intl
     #+end_src
-
-    Some more packages for security etc.
-    #+begin_src shell
-      sudo pacman -S fail2ban
-    #+end_src
-
-
 
 *** Mail (mu4e and mbsync)
     It is always nice to have an alternate way of reading emails

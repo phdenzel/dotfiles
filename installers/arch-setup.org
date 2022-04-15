@@ -80,27 +80,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
     grub-mkconfig -o /efi/grub/grub.cfg
   #+end_src
 
-
-*** Optional: GRUB configuration
-
-  Additionally, I like to change the font in GRUB
-  #+begin_src shell
-    sudo grub-mkfont -o /efi/grub/fonts/ter-32b.pf2 /usr/share/fonts/misc/ter-u32b.otb
-  #+end_src
-
-  Once the font is created, add the following line to the
-  ~/etc/defaults/grub~
-  #+begin_src conf
-    GRUB_FONT=/efi/grub/fonts/ter-32b.pf2
-  #+end_src
-
-  Again, once you're done modifying your GRUB settings, regenerate the
-  GRUB configuration
-  #+begin_src shell
-    grub-mkconfig -o /efi/grub/grub.cfg
-  #+end_src
-
-
+  
 ** SSH keys
 
    Generate an SSH key
@@ -108,7 +88,11 @@ process a bit. For this, simply run the ~arch.sh~ install script
      sudo pacman -S openssh
      ssh-keygen -t ed25519 -C "phdenzel@gmail.com"
    #+end_src
-   and copy the public key to all trusted hosts.
+   and copy the public key to all trusted hosts, e.g.
+
+   #+begin_src shell
+     ssh-copy-id phdenzel@ygdrasil
+   #+end_src
 
 
 ** Install AUR helper
@@ -476,6 +460,8 @@ process a bit. For this, simply run the ~arch.sh~ install script
       sudo pacman -S php php-gd php-cgi php-fpm php-intl
     #+end_src
 
+*** TODO Nextcloud
+
 *** Mail (mu4e and mbsync)
     It is always nice to have an alternate way of reading emails
     #+begin_src shell
@@ -556,6 +542,24 @@ process a bit. For this, simply run the ~arch.sh~ install script
       sudo sed -i 's/keyboard/consolefont keyboard/' /etc/mkinitcpio.conf
       sudo mkinitcpio -P
     #+end_src
+
+**** Optional: GRUB fonts
+
+  Additionally, I like to change the font in GRUB to the same font I use in the tty
+  #+begin_src shell
+    sudo grub-mkfont -o /efi/grub/fonts/ter-32b.pf2 /usr/share/fonts/misc/ter-u32b.otb
+  #+end_src
+
+  Once the font is created, add the following line to ~/etc/defaults/grub~
+  #+begin_src conf
+    GRUB_FONT=/efi/grub/fonts/ter-32b.pf2
+  #+end_src
+
+  Again, once you're done modifying your GRUB settings, regenerate the
+  GRUB configuration
+  #+begin_src shell
+    grub-mkconfig -o /efi/grub/grub.cfg
+  #+end_src
 
 *** Device software
     Software for the GK6X keyboard

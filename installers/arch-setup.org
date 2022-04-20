@@ -90,9 +90,9 @@ process a bit. For this, simply run the ~arch.sh~ install script
    #+end_src
    and copy the public key to all trusted hosts, e.g.
 
-   #+begin_src shell
-     ssh-copy-id phdenzel@ygdrasil
-   #+end_src
+#+begin_src shell
+  ssh-copy-id user@hostname
+#+end_src
 
 
 ** Install AUR helper
@@ -415,9 +415,9 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** Networking tools
-    VPN, tools for network discovery and security auditing
+    VPN, tools for network control, discovery and security auditing
     #+begin_src shell
-      sudo pacman -S firewalld fail2ban wireguard-tools nmap
+      sudo pacman -S ethtool wol firewalld fail2ban wireguard-tools nmap
     #+end_src
 
 *** Web packages

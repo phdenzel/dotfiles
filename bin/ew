@@ -1,2 +1,1 @@
-#!/bin/bash
-emacsclient -c --alternate-editor="" "$@" &
+emacs-window

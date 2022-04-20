@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if [ "${EUID:-$(id -u)}" -ne 0 ]; then
+    echo "Please run enable-wol with sudo priviliges"
+    exit 1
+fi
+
+INTERFACE_ID=$(ip a | awk -F': ' '/^[0-9]: e/{print $2}')
+MAC_ADDRESS=$(ip link show "$INTERFACE_ID" | awk -F' ' '/link\/ether/{print $2}')
+ethtool -s "$INTERFACE_ID" wol g
+echo "ethtool:"
+ethtool "$INTERFACE_ID" | grep "Wake-on:"
+echo "Addressable via MAC:"
+echo -e "\t${MAC_ADDRESS}"
+
+echo "Writing /etc/systemd/system/wol@.service"
+touch /etc/systemd/system/wol@.service
+cat <<EOF > /etc/systemd/system/wol@.service
+[Unit]
+Description=Configure Wake-on-LAN for %i
+Requires=network.target
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ethtool -s %i wol g
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+echo "Systemd enable wol@$INTERFACE_ID.service"
+systemctl enable wol@$INTERFACE_ID.service
+systemctl start wol@$INTERFACE_ID.service

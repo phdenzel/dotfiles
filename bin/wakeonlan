@@ -1,0 +1,4 @@
+#!/bin/bash
+[ -z "$1" ] && echo "Usage: wakeonlan <device-name>" && exit 1
+MAC_ADDRESS="$(pass "mac/$1" | head -1)"
+wol "$MAC_ADDRESS"

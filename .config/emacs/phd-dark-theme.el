@@ -242,6 +242,7 @@
                                                        :inverse-video t))))
 
   ;; Bash
+  `(sh-heredoc              ((t (:foreground ,violet))))
   `(sh-quoted-exec          ((t (:foreground ,violet))))
 
   ;; vterm

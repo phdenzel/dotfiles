@@ -390,8 +390,8 @@ process a bit. For this, simply run the ~arch.sh~ install script
     program. I also dislike snapper, because of how it stores its
     snapshots all over the place (in @{subvols}/.snapshots).
 
-    So, these days I'm manually backing up my subvolumes. For more
-    infos have a look at my dotfiles/bin/btrsnap script.
+    So, these days I'm backing up my subvolumes with my own automated
+    scripts. For more infos have a look at my [[https://github.com/phdenzel/btrsnap][btrsnap]] repository.
 
 *** Cloud folders
 
@@ -417,8 +417,65 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Networking tools
     VPN, tools for network control, discovery and security auditing
     #+begin_src shell
-      sudo pacman -S ethtool wol firewalld fail2ban wireguard-tools nmap
+      sudo pacman -S ethtool wol nfs-utils firewalld fail2ban wireguard-tools nmap
     #+end_src
+    
+    #+begin_src shell
+      sudo systemctl enable --now fail2ban
+      sudo systemctl enable --now firewalld.service
+      sudo firewall-cmd --set-default-zone=home
+    #+end_src
+
+**** Optional: NFS
+
+    NFS allows you to expose folders to other machines on the network.
+    For this we only need ~nfs-utils~. Add the folders you want to
+    expose to ~/etc/exports~, e.g.
+
+    #+begin_src conf
+      /data/backups   *(rw,sync)
+    #+end_src
+    For more infos on exporting see [[https://man.archlinux.org/man/exports.5][man/exports.5]].
+
+    After editing the ~/etc/exports~ file, you need to run ~sudo
+    exportfs -arv~ to update the nfs entries. The service is enabled
+    with
+    #+begin_src shell
+      sudo systemctl enable --now nfs-server
+    #+end_src
+
+    If you're running a firewall, you have to open TCP and UDP ports
+    111, 2049, and 20048. In firewalld you can accomplish this by
+    adding services for nfs, mountd and rpc-bind
+    #+begin_src shell
+      sudo firewall-cmd --add-service nfs
+      sudo firewall-cmd --add-service nfs --permanent
+      sudo firewall-cmd --add-service mountd
+      sudo firewall-cmd --add-service mountd --permanent
+      sudo firewall-cmd --add-service rpc-bind
+      sudo firewall-cmd --add-service rpc-bind --permanent
+    #+end_src
+
+    On the client-side you can then discover the shared folders using
+    #+begin_src shell
+      showmount -e <hostname|server-ip>
+    #+end_src
+
+    and mount them with
+
+    #+begin_src shell
+      sudo mkdir -p /nfs/backups
+      sudo mount -t nfs 192.168.xx.xx:/data/backups /nfs/backups
+    #+end_src
+
+    To permanently mount the nfs shares, add them to your /etc/fstab file
+    #+begin_src conf
+      hostname:/data/backups  /nfs/backups  nfs4  rw,sync,_netdev,addr=192.168.xx.xx  0 0
+    #+end_src
+
+
+    If you have any issues, check if you assigned the correct
+    ownership/permissions to the nfs folders.
 
 *** Web packages
     Version control, data transfer, text-based browser programs
@@ -499,7 +556,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Media programs
     Office suite, document viewer, music and media players
     #+begin_src shell
-      sudo pacman -S libreoffice-still zathura zathura-pdf-mupdf calibre lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly mpv celluloid
+      sudo pacman -S libreoffice-still zathura zathura-pdf-mupdf calibre lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly mpv celluloid mkvtoolnix-cli perl-image-exiftool
     #+end_src
 
     and the spotify client
@@ -598,6 +655,12 @@ process a bit. For this, simply run the ~arch.sh~ install script
         </ip>
       </network>
     #+end_src
+
+    If you're using firewalld, make sure to enable the libvirt service in the libvirt zone:
+    #+begin_src shell
+      sudo firewall-cmd --add-service libvirt --zone=libvirt
+    #+end_src
+
 
 
 * Maintenance

@@ -15,7 +15,7 @@ fi
 xrandr \
     --output "${XOUTPUT}" \
     --mode "${RESOLUTION_W}x${RESOLUTION_H}" \
-    --scale "${RESOLUTION_SCALE}"
+    --scale "${RESOLUTION_SCALE}" \
     --dpi "${RESOLUTION_DPI}" \
     --primary
 

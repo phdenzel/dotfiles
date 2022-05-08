@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: org-header
+# key: hr
+# --
+#+AUTHOR: phdenzel
+#+TITLE: $1
+#+DATE: `(format-time-string "%Y-%m-%d %a")`
+#+OPTIONS: author:nil title:t date:nil timestamp:nil toc:nil num:nil \n:nil
+$0

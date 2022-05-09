@@ -881,33 +881,323 @@ server {
     stack.
 
     If you haven't done so, start MariaDB and create a database and a
-    user with all priviliges.
+    user with all priviliges (as shown in the example of the LAMP/LEMP
+    section). Also, don't forget to start and enable the ~mariadb.service~
+    #+begin_src shell
+      sudo systemctl start mariadb
+      sudo systemctl enable mariadb
+    #+end_src
 
     Once the LEMP stack has been installed and set up, we create a
     configuration file for nginx ~/etc/nginx/conf.d/nextcloud.conf~
     #+begin_src conf
+      # Custom configuration based on official nginx configuration
+      # https://docs.nextcloud.com/server/stable/admin_manual/installation/nginx.html#nextcloud-in-the-webroot-of-nginx
+      server {
+          listen       80;
+          listen	 [::]:80;
+          server_name  nextcloud.home;
 
+          #charset koi8-r;
+          #access_log  logs/host.access.log  main;
+
+          # set upload size and timeout
+          client_max_body_size 512M;
+          client_body_timeout 300s;
+          fastcgi_buffers 64 4K;
+
+          # enable gzip
+          gzip on;
+          gzip_vary on;
+          gzip_comp_level 4;
+          gzip_min_length 256;
+          gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+          gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/wasm application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
+          # Security / XSS Mitigation Headers
+          add_header Referrer-Policy "no-referrer" always;
+          add_header X-Frame-Options "SAMEORIGIN" always;
+          add_header X-XSS-Protection "1; mode=block" always;
+          add_header X-Content-Type-Options "nosniff" always;
+          add_header X-Robots-Tag "none" always;
+          add_header X-Download-Options "noopen" always;
+          add_header X-Permitted-Cross-Domain-Policies "none" always;
+          # hide information leak
+          fastcgi_hide_header X-Powered-By;
+
+          # path to the nextcloud installation
+          root /usr/share/webapps/nextcloud/;
+          # fallback handling directories
+          index index.php index.html /index.php$request_uri;
+
+          # handle Microsoft DAV clients
+          location = / {
+              if ( $http_user_agent ~ ^DavClnt ) {
+                  return 302 /remote.php/webdav/$is_args$args;
+              }
+            }
+
+          # enable automated access
+          location = /robots.txt {
+              allow all;
+              log_not_found off;
+              access_log off;
+          }
+
+          # well-known URIs
+          location ^~ /.well-known {
+
+              location = /.well-known/carddav {
+                  return 301 $scheme://$host/remote.php/dav/; }
+              location = /.well-known/caldav {
+                  return 301 $scheme://$host/remote.php/dav/; }
+
+              location /.well-known/acme-challenge {
+                  try_files $uri $uri/ =404; }
+              location /.well-known/pki-validation {
+                  try_files $uri $uri/ =404; }
+
+              # Let Nextcloud's API for `/.well-known` URIs handle all other
+              # requests by passing them to the front-end controller.
+              return 301 /index.php$request_uri;
+          }
+
+          # hide certain paths from clients
+          location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)(?:$|/) {
+              deny all; }
+          location ~ ^/(?:\.|autotest|occ|issue|indie|db_|console) {
+              deny all; }
+
+
+          # PHP block (should come before all blocks handling static assets)
+          location ~ \.php(?:$|/) {
+              # legacy support
+              rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|oc[ms]-provider\/.+|.+\/richdocumentscode\/proxy) /index.php$request_uri;
+
+              fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+              set $path_info $fastcgi_path_info;	
+
+              include fastcgi_params;
+              try_files $fastcgi_script_name =404;
+
+              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+              fastcgi_param PATH_INFO $path_info;
+              #fastcgi_param HTTPS on;
+
+              # avoid sending the security headers twice
+              fastcgi_param modHeadersAvailable true;
+              fastcgi_param front_controller_active true;
+
+              fastcgi_pass unix:/run/php-fpm/nextcloud.sock;
+
+              fastcgi_intercept_errors on;
+              fastcgi_request_buffering off;
+
+              fastcgi_max_temp_file_size 0;
+          }
+
+          #
+          location ~ \.(?:css|js|svg|gif|png|jpg|ico|wasm|tflite|map)$ {
+              try_files $uri /index.php$request_uri;
+              expires 6M;
+              #add_header Cache-Control "public, max-age=15778463, $asset_immutable";
+              # don't log access to assets
+              access_log off;
+
+              location ~ \.wasm$ {
+                  default_type application/wasm;
+              }
+          }
+
+          location ~ \.woff2?$ {
+              try_files $uri /index.php$request_uri;
+              # cache-control policy
+              expires 7d;
+              # don't log access to assets
+              access_log off;
+          }
+
+          location /remote {
+              return 301 /remote.php$request_uri;
+          }
+
+          location / {
+              try_files $uri $uri/ /index.php$request_uri;
+          }
+      }
     #+end_src
 
-    If you haven't done so copy the default ~/etc/php/php.ini~ to
+    If you haven't done so, copy the default ~/etc/php/php.ini~ to
     ~/etc/webapps/nextcloud/php.ini~. Make a few configuration changes
     #+begin_src conf
+      ;open_basedir = /var/lib/nextcloud/data:/var/lib/nextcloud/apps:/tmp:/usr/share/webapps/nextcloud:/etc/webapps/nextcloud:/data/nextcloud:/dev/urandom:/usr/lib/php/modules:/var/log/nextcloud:/proc/meminfo
       max_execution_time = 360
       memory_limit = 512M
-      upload_max_filesize = 256M
       post_max_size = 256M
-      extension = bcmath
-      extension = bz2
-      extension = exif
-      extension = gd
-      extension = iconv
-      extension = imagick
-      extension = intl
-      extension = pdo_mysql
+      upload_max_filesize = 256M
+      extension=bcmath
+      extension=bz2
+      extension=exif
+      extension=gd
+      extension=iconv
+      extension=imagick
+      extension=intl
+      extension=pdo_mysql
       date.timezone = Europe/Zurich
-      open_basedir = /var/lib/nextcloud/data:/var/lib/nextcloud/apps:/tmp:/usr/share/webapps/nextcloud:/etc/webapps/nextcloud:/data/nextcloud:/dev/urandom:/usr/lib/php/modules:/var/log/nextcloud:/proc/meminfo
     #+end_src
 
+    Make sure the Nextcloud dedicated ~php.ini~ is actually used, by
+    setting the environment variable ~NEXTCLOUD_PHP_CONFIG~
+    #+begin_src shell
+      export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
+    #+end_src
+
+    As a privacy and security precaution also create the dedicated
+    directory for session data
+    #+begin_src shell
+      install --owner=nextcloud --group=nextcloud --mode=700 -d /var/lib/nextcloud/sessions
+    #+end_src
+
+    There are a few application servers compatible with nextcloud, I
+    usually choose ~php-fpm~, but feel free to consult the Arch wiki
+    for other options. Begin with copying the ~/etc/php/php.ini~ to a
+    dedicated ~/etc/php/php-fpm.ini~ file (make sure it is owned and
+    only writeable by root). Here we set the Zend OPcache by
+    uncommenting the following lines
+    #+begin_src conf
+      zend_extension=opcache
+      opcache.enable=1
+      opcache.memory_consumption=128
+      opcache.interned_strings_buffer=8
+      opcache.max_accelerated_files=10000
+      opcache.revalidate_freq=1
+      opcache.save_comments=1
+    #+end_src
+
+    Finally set up a pool file for php-fpm in
+    ~/etc/php/php-fpm.d/nextcloud.conf~ (again, make sure it is owned
+    and only writeable by root). It is responsible for spawning
+    dedicated processes for the Nextcloud application. Make sure the
+    ~php_value[...]~ and ~php_flag[...]~ correspond to the settings in
+    ~/etc/webapps/nextcloud/php.ini~ or they might be overwritten unintendedly
+    #+begin_src conf
+      [nextcloud]
+      user = nextcloud
+      group = nextcloud
+
+      listen = /run/php-fpm/nextcloud.sock
+      listen.owner = nextcloud
+      listen.group = http
+      listen.mode = 0660
+
+      pm = dynamic
+      pm.max_children = 8
+      pm.start_servers = 2
+      pm.min_spare_servers = 1
+      pm.max_spare_servers = 3
+
+      access.log = /var/log/php-fpm/$pool.access.log
+      access.format = "%{%Y-%m-%dT%H:%M:%S%z}t %R: \"%m %r%Q%q\" %s %f %{milli}d %{kilo}M %C%%"
+
+      chdir = /usr/share/webapps/$pool
+      env[HOSTNAME] = $HOSTNAME
+      env[PATH] = /usr/local/bin:/usr/bin
+      env[TMP] = /tmp
+      env[TMPDIR] = /tmp
+      env[TEMP] = /tmp
+
+      php_value[date.timezone] = Europe/Zurich
+      #php_value[open_basedir] = /var/lib/$pool:/tmp:/usr/share/webapps/$pool:/etc/webapps/$pool:/data/$pool:/dev/urandom:/usr/lib/php/modules:/var/log/$pool:/proc/meminfo
+
+      php_value[session.save_path] = /var/lib/$pool/sessions
+      php_value[session.gc_maxlifetime] = 21600
+      php_value[session.gc_divisor] = 500
+      php_value[session.gc_probability] = 1
+
+      php_flag[expose_php] = false
+      php_value[post_max_size] = 256M
+      php_value[upload_max_filesize] = 256M
+
+      php_flag[output_buffering] = 4096
+      php_value[max_input_time] = 60
+      php_value[max_execution_time] = 360
+
+      php_value[memory_limit] = 512M
+
+      php_value[apc.ttl] = 7200
+      php_flag[apc.enable_cli] = 1
+
+      php_value[extension] = bcmath
+      php_value[extension] = bz2
+      php_value[extension] = exif
+      php_value[extension] = gd
+      php_value[extension] = gmp
+      php_value[extension] = iconv
+      php_value[extension] = imagick
+      php_value[extension] = intl
+      php_value[extension] = pdo_mysql
+      php_value[extension] = zip
+    #+end_src
+
+    The application server is run as a systemd service. To make the
+    configurations take, we need to override the default command run
+    by systemd by means of a drop-in file
+    ~/etc/systemd/system/php-fpm.service.d/override.conf~
+    #+begin_src conf
+      [Service]
+      ExecStart=
+      ExecStart=/usr/bin/php-fpm --nodaemonize --fpm-config /etc/php/php-fpm.conf --php-ini /etc/php/php-fpm.ini
+      ReadWritePaths=/usr/share/webapps/nextcloud
+      ReadWritePaths=/var/lib/nextcloud
+      ReadWritePaths=/etc/webapps/nextcloud/config
+
+      ReadWritePaths=/data/nextcloud
+    #+end_src
+
+    The access log might not exist, so when you try to start the
+    php-fpm service with ~sudo systemctl start php-fpm~ and you get an
+    error, try
+    #+begin_src shell
+      sudo mkdir /var/log/php-fpm
+    #+end_src
+
+    And finally start and enable the service with
+    #+begin_src shell
+      sudo systemctl start php-fpm
+      sudo systemctl enable php-fpm
+    #+end_src
+
+    In this example, I've created another ~/data~ partition and a
+    folder ~/data/nextcloud~ on it, which will act as data directory
+    for nextcloud, additionally we have to create a few folders in
+    nextcloud's installation directory.
+    #+begin_src shell
+      sudo mkdir -p /data/nextcloud
+      sudo chmod 770 /data/nextcloud
+      sudo chown nextcloud:nextcloud /data/nextcloud
+
+      sudo mkdir -p /usr/share/webapps/nextcloud/{apps,data}
+      sudo chmod 755 /usr/share/webapps/nextcloud/{apps,data}
+      sudo chown nextcloud:nextcloud /usr/share/webapps/nextcloud/{apps,data}
+    #+end_src
+
+    This should be enough for you to visit your nextcloud domain and
+    continue the setup on the web server.
+
+    Should you have problems with adding phone numbers to your
+    accounts, you probably have to add ~default_phone_region~ to your
+    ~/etc/webapps/nextcloud/config/config.php~
+    #+begin_src conf
+      <?php
+      $CONFIG = array (
+        ...
+        'default_phone_region' => 'CH',
+        ...
+        );
+    #+end_src
+
+*** TODO Mail server
+    
 *** Mail (mu4e and mbsync)
     It is always nice to have an alternate way of reading emails
     #+begin_src shell

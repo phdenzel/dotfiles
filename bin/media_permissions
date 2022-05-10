@@ -1,0 +1,4 @@
+#!/bin/bash
+
+find /data/media -type d \( ! -path "/data/media/.Trash*" \) -exec sudo chmod -v 777 {} \;
+find /data/media -type f -exec sudo chmod -v 664 {} \;

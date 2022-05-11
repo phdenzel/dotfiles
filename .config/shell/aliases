@@ -1,5 +1,6 @@
 # -*- mode: Shell-script;-*-
 ####################################################### aliases
+alias sudo='sudo '
 ### set LSCOLORS first
 # `ls` command
 if command -v exa &> /dev/null; then

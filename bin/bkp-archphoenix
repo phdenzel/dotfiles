@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Defaults
+SSH_HOST=phdenzel@ygdrasil
+BKPDIR=/data/backups/archphoenix
+FLAGS=av
+
+
+# parse options
+while [ $# -ge 1 ]; do
+    case "$1" in
+        -d|--drive-name)
+            BKPDIR="$2"
+            shift # past argument
+            ;;
+        -n|--dry-run)
+            FLAGS=avn
+            ;;
+        -h|--help)
+            echo "Usage: bkp-archphoenix []"
+            echo "                       [-n|--dry-run] [--help]"
+            echo ""
+            echo "A program to backup important files to my server"
+            exit 1
+            ;;
+        *)
+            # unknown option
+            ;;
+    esac
+    shift # past argument or value
+done
+
+
+echo -e "Target Backup directory:\t $BKPDIR"
+echo -e "Flags:\t -$FLAGS"
+
+# sync etc
+for f in /etc/{fstab,hostname,hosts,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist,pacman.d/hooks/nvidia.hook}; do
+    [ -e $f ] && echo -e "\n# Backing up $f";
+    [ -e $f ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
+    [ -e $f ] && rsync -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
+done
+for f in /etc/firewalld/firewalld.conf; do
+    [ -e $f ] && echo -e "\n# Backing up $f";
+    [ -e $f ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
+    [ -e $f ] && sudo rsync -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
+done
+
+
+# sync home
+for f in /home/phdenzel/{.gnupg/,.ssh/}; do
+    [ -e $f ] && echo -e "\n# Backing up $f";
+    origin="$f"
+    if [[ "$f" =~ ^\.* ]]; then
+        bname=$(basename "$f")
+        dname=$(dirname "$f")
+        f="$dname/${bname:1}"
+    fi
+    [ -e $origin ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
+    [ -e $origin ] && rsync -$FLAGS $origin $SSH_HOST:$BKPDIR/$f
+done

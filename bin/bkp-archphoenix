@@ -35,7 +35,7 @@ echo -e "Target Backup directory:\t $BKPDIR"
 echo -e "Flags:\t -$FLAGS"
 
 # sync etc
-for f in /etc/{fstab,hostname,hosts,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist,pacman.d/hooks/nvidia.hook}; do
+for f in /etc/{fstab,hostname,hosts,mkinitcpio.conf,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist,pacman.d/hooks/nvidia.hook}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
     [ -e $f ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
     [ -e $f ] && rsync -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"

@@ -17,6 +17,8 @@
   ac = !git add -A && git commit -avm
   aml = !git add -A && git commit --amend --no-edit
   undo = reset HEAD~
+  ex = update-index --assume-unchanged
+  nex = update-index --no-assume-unchanged
 
 [color]
   # Use colors in Git command outputs to the terminal where possible

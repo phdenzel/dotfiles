@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Defaults
-SSH_HOST=phdenzel@ygdrasil
-BKPDIR=/data/backups/archphoenix
-FLAGS=av
+BKPDIR=/data/backups/ygdrasil
+FLAGS=avh
 
 
 # parse options
@@ -14,7 +13,7 @@ while [ $# -ge 1 ]; do
             shift # past argument
             ;;
         -n|--dry-run)
-            FLAGS=avn
+            FLAGS=avhn
             ;;
         -h|--help)
             echo "Usage: bkp-archphoenix []"
@@ -35,20 +34,20 @@ echo -e "Target Backup directory:\t $BKPDIR"
 echo -e "Flags:\t -$FLAGS"
 
 # sync etc
-for f in /etc/{fstab,hostname,hosts,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist,pacman.d/hooks/nvidia.hook}; do
+for f in /etc/{fstab,exports,hostname,hosts,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist,dnsmasq.conf,dnsmasq.d/home.conf,php,nginx,webapps}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
-    [ -e $f ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
-    [ -e $f ] && rsync -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
+    [ -e $f ] && mkdir -p $BKPDIR$(dirname $f)
+    [ -e $f ] && rsync -$FLAGS $f $BKPDIR/"$(dirname $f)"
 done
-for f in /etc/firewalld/firewalld.conf; do
+for f in /etc/{firewalld/firewalld.conf,wireguard}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
-    [ -e $f ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
-    [ -e $f ] && sudo rsync -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
+    [ -e $f ] && mkdir -p $BKPDIR$(dirname $f)
+    [ -e $f ] && sudo rsync -$FLAGS $f $BKPDIR/"$(dirname $f)"
 done
 
 
 # sync home
-for f in /home/phdenzel/{.gnupg/,.ssh/}; do
+for f in /home/phdenzel/{.gnupg/,.ssh/,wireguard.conf/,nextcloud.conf/,jellyfin.conf/}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
     origin="$f"
     bname=$(basename "$f")
@@ -56,6 +55,6 @@ for f in /home/phdenzel/{.gnupg/,.ssh/}; do
     if [[ "$bname" == .?* ]]; then
         f="$dname/${bname:1}"
     fi
-    [ -e $origin ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
-    [ -e $origin ] && rsync -$FLAGS $origin $SSH_HOST:$BKPDIR/$f
+    [ -e $origin ] && mkdir -p $BKPDIR$(dirname $f)
+    [ -e $origin ] && rsync -$FLAGS $origin $BKPDIR/$f
 done

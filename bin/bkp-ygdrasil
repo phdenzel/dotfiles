@@ -34,7 +34,7 @@ echo -e "Target Backup directory:\t $BKPDIR"
 echo -e "Flags:\t -$FLAGS"
 
 # sync etc
-for f in /etc/{fstab,exports,hostname,hosts,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist,dnsmasq.conf,dnsmasq.d/home.conf,php,nginx,webapps}; do
+for f in /etc/{fstab,exports,hostname,hosts,mkinitcpio.conf,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist,dnsmasq.conf,dnsmasq.d/home.conf,php,nginx,webapps}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
     [ -e $f ] && mkdir -p $BKPDIR$(dirname $f)
     [ -e $f ] && rsync -$FLAGS $f $BKPDIR/"$(dirname $f)"

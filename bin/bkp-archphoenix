@@ -48,7 +48,7 @@ done
 
 
 # sync home
-for f in /home/phdenzel/{.gnupg/,.ssh/}; do
+for f in /home/phdenzel/{.gnupg/,.ssh/,Documents,org}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
     origin="$f"
     bname=$(basename "$f")

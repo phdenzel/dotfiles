@@ -68,29 +68,29 @@ echo -e "Flags:\t -$FLAGS"
 if [ ! -z "$DOCS_DIR" ]; then
     [ -e "$DOCS_DIR" ] && echo -e "\n# Backing up $DOCS_DIR"
     [ -e "$DOCS_DIR" ] && [ ! -z "$SSH_HOST" ] && ssh $SSH_HOST "mkdir -p $BKP_DIR/$MACHINE/$(dirname "$DOCS_DIR")"
-    [ -e "$DOCS_DIR" ] && rsync -$FLAGS "$DOCS_DIR" "$SSH_HOST:$BKP_DIR/$MACHINE/$DOCS_DIR"    
+    [ -e "$DOCS_DIR" ] && rsync -$FLAGS "$DOCS_DIR" "$SSH_HOST:$BKP_DIR/$MACHINE/$(dirname "$DOCS_DIR")"
 fi
 
 if [ ! -z "$MAIL_DIR" ]; then
     [ -e "$MAIL_DIR" ] && echo -e "\n# Backing up $MAIL_DIR"
-    [ -e "$MAIL_DIR" ] && [ ! -z "$SSH_HOST" ] && rsync -$FLAGS "$MAIL_DIR" "$SSH_HOST:$BKP_DIR/$(basename "$MAIL_DIR")"
+    [ -e "$MAIL_DIR" ] && [ ! -z "$SSH_HOST" ] && rsync -$FLAGS "$MAIL_DIR" "$SSH_HOST:$BKP_DIR"
 fi
 
 if [ ! -z "$PICTURES_DIR" ]; then
     [ -e "$PICTURES_DIR" ] && echo -e "\n# Backing up $PICTURES_DIR"
-    [ -e "$PICTURES_DIR" ] && [ ! -z "$SSH_HOST" ] && rsync -$FLAGS "$PICTURES_DIR" "$SSH_HOST:$BKP_DIR/$(basename "$PICTURES_DIR")"
+    [ -e "$PICTURES_DIR" ] && [ ! -z "$SSH_HOST" ] && rsync -$FLAGS "$PICTURES_DIR" "$SSH_HOST:$BKP_DIR"
 fi
 
 if [ ! -z "$MUSIC_DIR" ]; then
     [ -e "$MUSIC_DIR" ] && echo -e "\n# Backing up $MUSIC_DIR"
-    [ -e "$MUSIC_DIR" ] && [ ! -z "$SSH_HOST" ] && rsync -$FLAGS "$MUSIC_DIR" "$SSH_HOST:$BKP_DIR/$(basename "$MUSIC_DIR")"
+    [ -e "$MUSIC_DIR" ] && [ ! -z "$SSH_HOST" ] && rsync -$FLAGS "$MUSIC_DIR" "$SSH_HOST:$BKP_DIR"
     
 fi
 
 if [ ! -z "$ORG_DIR" ]; then
     [ -e "$ORG_DIR" ] && echo -e "\n# Backing up $ORG_DIR"
     [ -e "$ORG_DIR" ] && [ ! -z "$SSH_HOST" ] && ssh $SSH_HOST "mkdir -p $BKP_DIR/$MACHINE/$(dirname "$ORG_DIR")"
-    [ -e "$ORG_DIR" ] && rsync -$FLAGS "$ORG_DIR" "$SSH_HOST:$BKP_DIR/$MACHINE/$ORG_DIR"
+    [ -e "$ORG_DIR" ] && rsync -$FLAGS "$ORG_DIR" "$SSH_HOST:$BKP_DIR/$MACHINE/$(dirname "$ORG_DIR")"
 fi
 
 # sync etc

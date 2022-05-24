@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Defaults
+SSH_HOST=phdenzel@ygdrasil
+TARGET_DIR=/data/documents
+FLAGS=av
+
+
+# parse options
+while [ $# -ge 1 ]; do
+    case "$1" in
+        -d|--drive-name)
+            TARGET_DIR="$2"
+            shift # past argument
+            ;;
+        -s|--ssh-host)
+            SSH_HOST="$2"
+            shift
+            ;;
+        -n|--dry-run)
+            FLAGS=avn
+            ;;
+        -h|--help)
+            echo "Usage: sync-docs [directory]"
+            echo "                 [-s|--ssh-host] [-n|--dry-run] [--help]"
+            echo ""
+            echo "A program to sync documents to my server"
+            exit 1
+            ;;
+        *)
+            # unknown option
+            ;;
+    esac
+    shift # past argument or value
+done
+
+
+echo -e "Target directory:\t $TARGET_DIR"
+echo -e "Flags:\t -$FLAGS"
+
+
+# sync selected directories
+for f in /home/phdenzel/Documents/{comics/,family/,finances/,manuals/}; do
+    [ -e $f ] && echo -e "\n# Backing up $f";
+    origin="$f"
+    bname=$(basename "$f")
+    dname=$(dirname "$f")
+    if [[ "$bname" == .?* ]]; then
+        f="$dname/${bname:1}"
+    fi
+    [ -e $origin ] && ssh $SSH_HOST "mkdir -p $TARGET_DIR/$(basename $f)"
+    [ -e $origin ] && rsync -$FLAGS $origin $SSH_HOST:$TARGET_DIR/"$(basename $f)"
+done

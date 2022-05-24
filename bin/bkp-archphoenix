@@ -13,12 +13,15 @@ while [ $# -ge 1 ]; do
             BKPDIR="$2"
             shift # past argument
             ;;
+        -s|--ssh-host)
+            SSH_HOST="$2"
+            shift
+            ;;
         -n|--dry-run)
             FLAGS=avn
             ;;
         -h|--help)
-            echo "Usage: bkp-archphoenix []"
-            echo "                       [-n|--dry-run] [--help]"
+            echo "Usage: bkp-archphoenix [-s|--ssh-host] [-n|--dry-run] [--help]"
             echo ""
             echo "A program to backup important files to my server"
             exit 1
@@ -48,7 +51,7 @@ done
 
 
 # sync home
-for f in /home/phdenzel/{.gnupg/,.ssh/,Documents,org}; do
+for f in /home/phdenzel/{.gnupg/,.ssh/,Documents/,org/}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
     origin="$f"
     bname=$(basename "$f")

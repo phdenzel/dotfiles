@@ -334,6 +334,12 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 *** System tools
+
+    Systemd components
+    #+begin_src shell
+      sudo pacman -S systemd-resolvconf
+    #+end_src
+
     Z-shell, fuzzy-finder
     #+begin_src shell
       sudo pacman -S zsh fzf

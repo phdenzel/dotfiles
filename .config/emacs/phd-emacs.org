@@ -1081,7 +1081,8 @@ colouring of org-mode src-blocks in exported HTML code.
      '((emacs-lisp . t)
        (shell      . t)
        (haskell    . t)
-       (python     . t))))
+       (python     . t)
+       (dot        . t))))
 
 #+end_src
 
@@ -1103,6 +1104,19 @@ colouring of org-mode src-blocks in exported HTML code.
 #+begin_src emacs-lisp
   (setq org-reveal-root (concat "file://" (expand-file-name "~/local/reveal.js")))
   (setq org-reveal-mathjax t)
+#+end_src
+
+
+**** org-toc
+
+#+begin_src emacs-lisp
+  (use-package toc-org
+    :ensure t
+    :after org
+    :init
+    (add-hook 'org-mode-hook 'toc-org-mode)
+    :config
+    (define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point))
 #+end_src
 
 

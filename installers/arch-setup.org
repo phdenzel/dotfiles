@@ -3,9 +3,9 @@
 #+OPTIONS: num:nil
 #+OPTIONS: toc:4
 
-Once you have a clean install of arch linux and verified that your
-network service is up and running, we can go ahead an setup and
-customize arch to our liking.
+Once you have a clean install of Arch Linux and verified that your
+network service is up and running, we can go ahead with the setup and
+customize Arch to our liking.
 
 The following explains what I usually install and in what order.  You
 can also simply install all packages beforehand, and skip the
@@ -13,6 +13,48 @@ individual package installs below, which could speed up the setup
 process a bit. For this, simply run the ~arch.sh~ install script
 (after the AUR helper install).
 
+
+* Table of Contents :TOC@4:
+- [[#setup][Setup]]
+  - [[#drivers][Drivers]]
+  - [[#ssh-keys][SSH keys]]
+  - [[#install-aur-helper][Install AUR helper]]
+  - [[#dotfiles][Dotfiles]]
+      - [[#optional-neofetch][Optional: ~neofetch~]]
+      - [[#optional-gui-for-theming][Optional: GUI for theming]]
+  - [[#xmonad--xmobar][XMonad & xmobar]]
+  - [[#dmenu][dmenu]]
+  - [[#more-suckless-tools][More suckless tools]]
+    - [[#optional-xmobar_wttr---an-xmobar-addon][Optional: xmobar_wttr - an xmobar addon]]
+    - [[#optional-licht---hue-lights-controller-applet][Optional: licht - Hue lights controller applet]]
+    - [[#optional-display-manager][Optional: display manager]]
+  - [[#basic-programs][Basic programs]]
+    - [[#file-managers][File managers]]
+    - [[#system-tools][System tools]]
+    - [[#disk-utilities][Disk utilities]]
+    - [[#android-utilities][Android utilities]]
+    - [[#backup-utilities][Backup utilities]]
+    - [[#cloud-folders][Cloud folders]]
+    - [[#dev-tools][Dev tools]]
+    - [[#web-packages][Web packages]]
+    - [[#networking-tools][Networking tools]]
+    - [[#lamplemp-stack][LAMP/LEMP stack]]
+      - [[#optional-dnsmasq-dns-setup][Optional: dnsmasq DNS setup]]
+      - [[#optional-nginx-setup][Optional: NGINX setup]]
+      - [[#optional-nfs][Optional: NFS]]
+    - [[#jellyfin][Jellyfin]]
+    - [[#nextcloud][Nextcloud]]
+    - [[#mail-server][Mail server]]
+    - [[#mail-mu4e-and-mbsync][Mail (mu4e and mbsync)]]
+    - [[#password-utilities][Password utilities]]
+    - [[#utilities][Utilities]]
+    - [[#media-programs][Media programs]]
+    - [[#graphics][Graphics]]
+    - [[#fonts][Fonts]]
+      - [[#optional-grub-fonts][Optional: GRUB fonts]]
+    - [[#device-software][Device software]]
+    - [[#virtualization][Virtualization]]
+- [[#maintenance][Maintenance]]
 
 * Setup
 

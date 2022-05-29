@@ -1,6 +1,7 @@
 #+AUTHOR: Philipp Denzel
 #+TITLE: Arch setup
 #+OPTIONS: num:nil
+#+OPTIONS: toc:4
 
 Once you have a clean install of arch linux and verified that your
 network service is up and running, we can go ahead an setup and

@@ -1,3 +1,0 @@
-#!/bin/bash
-
-$(dart $HOME/forks/dart-sass/bin/sass.dart $@)

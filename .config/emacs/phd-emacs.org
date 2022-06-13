@@ -804,6 +804,17 @@ within emacs or via pip in the current virtualenv:
   pip instal yapf
 #+end_src
 
+**** ein (emacs-ipython-notebook)
+
+#+begin_src emacs-lisp
+
+  (use-package ein
+    :ensure t
+    :config
+    (setq ein:output-area-inlined-images t))
+
+#+end_src
+
 
 **** company-jedi
 
@@ -1069,7 +1080,6 @@ colouring of org-mode src-blocks in exported HTML code.
 *** org
 
 #+begin_src emacs-lisp
-
   (use-package org
     :ensure t
     :config
@@ -1083,7 +1093,6 @@ colouring of org-mode src-blocks in exported HTML code.
        (haskell    . t)
        (python     . t)
        (dot        . t))))
-
 #+end_src
 
 
@@ -1115,13 +1124,19 @@ colouring of org-mode src-blocks in exported HTML code.
     :after org
     :init
     (add-hook 'org-mode-hook 'toc-org-mode)
-    :config
-    (define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point))
+    ;; :config
+    ;; (define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point)
+    )
 #+end_src
 
 
 
 *** Exports
+
+Automatically execute source code blocks during exports
+#+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate nil)
+#+end_src
 
 
 **** ox-md

@@ -425,7 +425,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Android utilities
     To connect with an Android system, we need the MTP protocol
     #+begin_src shell
-      sudo pacman -S mtpfs gvfs-mtp
+      sudo pacman -S mtpfs gvfs-mtp gvfs-gphoto2
     #+end_src
 
     For Android 4+ devices, additionally install

@@ -460,7 +460,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Dev tools
     Languages: lisp, haskell, rust, ruby, LaTeX
     #+begin_src shell
-      sudo pacman -S emacs vim cmake ghc ghc-static rust ruby rubygems texlive-most texlive-lang
+      sudo pacman -S emacs vim cmake pyenv ghc ghc-static rust ruby rubygems texlive-most texlive-lang
     #+end_src
 
     Installing jekyll (my preferred dev tool for static websites and blogs)
@@ -1254,7 +1254,40 @@ server {
     #+end_src
 
     #+begin_src shell
-      yay -S mu
+      yay -S mu cyrus-sasl-xoauth2-git oauth2token
+    #+end_src
+
+    For registering a Microsoft IMAP account in isync, use
+    ~oauth2token~.  For this create a directory in
+    ~~/.config/oauth2token/microsoft~ and create the files
+    ~config.json~ and ~scopes.json~
+
+    #+begin_src conf
+      // config.json
+      {
+          "web": {
+              "client_id": "08162f7c-0fd2-4200-a84a-f25a4db0b584",
+              "client_secret": "TxRBilcHdC6WGBee]fs?QR:SJ8nI[g82",
+              "auth_uri": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+              "token_uri": "https://login.microsoftonline.com/common/oauth2/v2.0/token"
+          }
+      }
+    #+end_src
+
+    #+begin_src conf
+      // scopes.json
+      ["https://outlook.office.com/POP.AccessAsUser.All", "https://outlook.office.com/IMAP.AccessAsUser.All", "https://outlook.office.com/SMTP.Send"]
+    #+end_src
+
+    Then you can register an account with the provider
+
+    #+begin_src shell
+      oauth2create microsoft <my_account_name>
+    #+end_src
+
+    Once registered, you can receive OAuth2 tokens using
+    #+begin_src shell
+      oauth2get microsoft <my_account_name>
     #+end_src
 
 *** Password utilities

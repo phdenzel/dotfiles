@@ -1257,10 +1257,24 @@ server {
       yay -S mu cyrus-sasl-xoauth2-git oauth2token
     #+end_src
 
-    For registering a Microsoft IMAP account in isync, use
-    ~oauth2token~.  For this create a directory in
-    ~~/.config/oauth2token/microsoft~ and create the files
-    ~config.json~ and ~scopes.json~
+    For registering a Microsoft IMAP account in isync, use ~oauth2ms~
+    or ~oauth2token~.
+
+    For ~oauth2ms~, clone my fork and install the program locally
+
+    #+begin_src shell
+      cd ~/local
+      git clone git@github.com:phdenzel/oauth2ms.git
+      cd oauth2ms
+      make config && make install
+    #+end_src
+
+    Now by running ~oauth2ms [--encode-xoauth2]~, you're able to
+    authenticate and fetch OAuth2 tokens.
+
+    Alternatively, install ~oauth2token~ from the AUR and create a
+    directory in ~~/.config/oauth2token/microsoft~ and create the
+    files ~config.json~ and ~scopes.json~
 
     #+begin_src conf
       // config.json
@@ -1279,7 +1293,8 @@ server {
       ["https://outlook.office.com/POP.AccessAsUser.All", "https://outlook.office.com/IMAP.AccessAsUser.All", "https://outlook.office.com/SMTP.Send"]
     #+end_src
 
-    Then you can register an account with the provider
+    Then you can register an account with the provider ~microsoft~ for
+    which you created the configurations (see above).
 
     #+begin_src shell
       oauth2create microsoft <my_account_name>

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+oauth2ms &> /dev/null;
+
+echo -e "$(cat ~/.local/share/oauth2ms/credentials.bin)" | awk '/RefreshToken/ {getline; if (/secret/) {print $0}}' | awk -F'\\\\"' '{print $4}'

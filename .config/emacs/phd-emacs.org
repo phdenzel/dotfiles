@@ -1411,6 +1411,11 @@ Use UNIX pass instead of authinfo
 
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package auth-source-xoauth2
+    :ensure t)
+#+end_src
+
 
 ** org-mime
 

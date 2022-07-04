@@ -54,6 +54,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
       - [[#optional-grub-fonts][Optional: GRUB fonts]]
     - [[#device-software][Device software]]
     - [[#virtualization][Virtualization]]
+    - [[#software-for-work][Software for work]]
 - [[#maintenance][Maintenance]]
 
 * Setup
@@ -1435,6 +1436,14 @@ server {
     If you're using firewalld, make sure to enable the libvirt service in the libvirt zone:
     #+begin_src shell
       sudo firewall-cmd --add-service libvirt --zone=libvirt
+    #+end_src
+
+*** Software for work
+
+    Sometimes you simply have to install non-opensource software for work...
+    such as Slack, MS Teams, or Webex.
+    #+begin_src shell
+      yay -S slack-desktop teams webex-bin
     #+end_src
 
 

@@ -461,7 +461,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Dev tools
     Languages: lisp, haskell, rust, ruby, LaTeX
     #+begin_src shell
-      sudo pacman -S emacs vim cmake pyenv ghc ghc-static rust ruby rubygems texlive-most texlive-lang
+      sudo pacman -S emacs vim cmake docker pyenv ghc ghc-static rust ruby rubygems texlive-most texlive-lang
     #+end_src
 
     Installing jekyll (my preferred dev tool for static websites and blogs)
@@ -1443,8 +1443,13 @@ server {
     Sometimes you simply have to install non-opensource software for work...
     such as Slack, MS Teams, or Webex.
     #+begin_src shell
-      yay -S slack-desktop teams webex-bin
+      yay -S slack-desktop teams webex-bin openconnect-sso
     #+end_src
+
+    #+begin_src shell
+      sudo pacman -S openconnect networkmanager-openconnect
+    #+end_src
+
 
 
 

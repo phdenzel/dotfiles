@@ -33,7 +33,7 @@ schemes:
       focused_match:
         foreground: '#464858'
         background: '#FDB760'
-      bar:
+      colors.footer_bar:
         background: '#464858'
         foreground: '#4DB5BD'
     normal:

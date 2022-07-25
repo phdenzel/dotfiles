@@ -689,9 +689,11 @@ troubleshooting.
       echo "cryptomount -u 266584bed7b711eb8c76c3eef48c7257"
     #+end_src
 
-    and regenerate the grub configuration
+    don't forget to make ~/etc/grub.d/01_header~ executable, and
+    regenerate the grub configuration
 
     #+begin_src shell
+      chmod a+x /etc/grub.d/01_header
       grub-mkconfig -o /efi/grub/grub.cfg
     #+end_src
 

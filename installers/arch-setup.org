@@ -241,7 +241,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
      stack upgrade
      git clone git@github.com:xmonad/xmonad.git
      git clone git@github.com:xmonad/xmonad-contrib.git
-     git clone git@github.com:jaor/xmobar.git
+     git clone https://codeberg.org/xmobar/xmobar.git
      stack init
      cp ~/dotfiles/.config/xmonad/stack.yml stack.yml
      stack install

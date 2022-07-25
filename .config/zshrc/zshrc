@@ -14,7 +14,7 @@ zsh_add_file "prompt"
 zsh_add_file -s "functions"
 zsh_add_file "aliases"
 #zsh_add_file xauto  # automatically start xorg-server when logging in
-zsh_add_file "$HOME/local/bin/resolution_tty"
+#zsh_add_file "$HOME/local/bin/resolution_tty"
 
 #################################################### Plugins
 zsh_add_plugin "zsh-users/zsh-syntax-highlighting"

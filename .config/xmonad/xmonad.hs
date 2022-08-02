@@ -124,7 +124,7 @@ myStartupHook = do
   spawnOnce "resolution_2x11 &"                -- set screen resolution using xrandr
   spawnOnce "xsetroot -cursor_name left_ptr &" -- set cursor
   spawnOnce "xset r rate 180 50 &"             -- increase scroll speed
-  spawnOnce "xrgb -merge ~/.Xresources &"      -- load x resources
+  spawnOnce "xrdb -merge ~/.Xresources &"      -- load x resources
   spawnOnce "xmodmap ~/.Xmodmap &"             -- load x modmap
   spawnOnce "picom &"                          -- start compositor
   spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper

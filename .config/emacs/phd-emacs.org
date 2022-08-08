@@ -116,6 +116,23 @@ substantially.
 Thus all packages should be loaded with 'use-package'.
 
 
+** Quelpa
+
+To build packages on-the-fly and directly from source on github,
+quelpa can be used and integrated with use-package.
+
+#+begin_src emacs-lisp
+  (use-package quelpa
+    :ensure t)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package quelpa-use-package
+    :ensure t)
+#+end_src
+
+
+
 * Modules
 
 
@@ -723,6 +740,39 @@ Modern auto-complete [*Comp*lete-*any*thing]
     (add-hook 'web-mode-hook 'my-web-mode-hook))
 
 #+end_src
+
+
+*** Javascript 
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+    )
+#+end_src
+
+For jsdoc, we first need to install a few dependencies
+
+#+begin_src emacs-lisp
+  (use-package tree-sitter
+    :ensure t)
+
+  (use-package tree-sitter-langs
+    :ensure t)
+#+end_src
+
+
+#+begin_src emacs-lisp
+  (use-package jsdoc
+    :ensure t
+    :quelpa (jsdoc
+             :fetcher github
+             :repo "isamert/jsdoc.el")
+    :config
+    :hook (js-mode . tree-sitter-mode))
+#+end_src
+
+
 
 
 *** CSS & Co.
@@ -1398,7 +1448,7 @@ AUCTeX is an integrated environment for writing input files for LaTeX
 
 ** Password management
 
-Use UNIX pass instead of authinfo
+Use UNIX pass instead of authinfo (but keep other methods as backup)
 
 #+begin_src emacs-lisp
 

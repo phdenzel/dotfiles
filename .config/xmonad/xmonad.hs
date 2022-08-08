@@ -421,6 +421,13 @@ myKeymap =
   , ("M-S-<Return>" , namedScratchpadAction myScratchPads "terminal")
   , ("M-S-y"        , namedScratchpadAction myScratchPads "calculator")
   , ("M-S-d"        , namedScratchpadAction myScratchPads "ranger")
+
+  -- Multimedia Keys
+  , ("<XF86MonBrightnessUp>"   , spawn "xbacklight -inc 5")
+  , ("<XF86MonBrightnessDown>" , spawn "xbacklight -dec 5")
+  , ("<XF86AudioMute>"         , spawn "amixer_toggle")
+  , ("<XF86AudioLowerVolume>"  , spawn "amixer set Master 5%- unmute")
+  , ("<XF86AudioRaiseVolume>"  , spawn "amixer set Master 5%+ unmute")
   ]
   where
     nonNSP = anyWS :&: ignoringWSs [scratchpadWorkspaceTag]

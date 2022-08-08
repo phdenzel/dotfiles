@@ -1,0 +1,28 @@
+#!/bin/sh
+USERINFO_FILE="${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO"
+if [ -f "$USERINFO_FILE" ]; then
+   . $USERINFO_FILE
+else
+    RESOLUTION_W="1920"
+    RESOLUTION_H="1080"
+    RESOLUTION_DEPTH="32"
+    RESOLUTION_SCALE="1"
+    RESOLUTION_DPI="200"
+    XOUTPUT="HDMI1"
+    RESOLUTION_W2="1920"
+    RESOLUTION_H2="1080"
+    RESOLUTION_DEPTH2="32"
+    RESOLUTION_SCALE2="1"
+    RESOLUTION_DPI2="200"
+    XOUTPUT2="HDMI2"
+fi
+
+xrandr \
+    --output "${XOUTPUT}" \
+    --auto \
+    --primary
+
+xrandr \
+  --output "${XOUTPUT2}" \
+  --auto \
+  --above "${XOUTPUT}"

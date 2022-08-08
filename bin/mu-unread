@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mu find "(maildir:/Gmail/Inbox OR maildir:/Hispeed/INBOX OR maildir:/Outlook/Inbox) AND flag:unread" 2>/dev/null | wc -l
+mu find "(maildir:/Gmail/Inbox OR maildir:/Hispeed/INBOX OR maildir:/Outlook/Inbox OR maildir:/iCloud/Inbox OR maildir:/ZHAW/Inbox) AND flag:unread" 2>/dev/null | wc -l

@@ -4,12 +4,12 @@
 SSH_HOST=phdenzel@ygdrasil
 BKPDIR=/data/backups/archphoenix
 FLAGS=av
-
+DDFLAGS=""
 
 # parse options
 while [ $# -ge 1 ]; do
     case "$1" in
-        -d|--drive-name)
+        -b|--bkp-dir)
             BKPDIR="$2"
             shift # past argument
             ;;
@@ -20,8 +20,11 @@ while [ $# -ge 1 ]; do
         -n|--dry-run)
             FLAGS=avn
             ;;
+        -d|--delete)
+            DDFLAGS=--delete
+            ;;
         -h|--help)
-            echo "Usage: bkp-archphoenix [-s|--ssh-host] [-n|--dry-run] [--help]"
+            echo "Usage: bkp-archphoenix [-b|--bkp-dir] [-s|--ssh-host] [-n|--dry-run] [-d|--delete] [--help]"
             echo ""
             echo "A program to backup important files to my server"
             exit 1
@@ -35,18 +38,18 @@ done
 
 
 echo -e "Target Backup directory:\t $BKPDIR"
-echo -e "Flags:\t -$FLAGS"
+echo -e "Flags:\t $DDFLAGS -$FLAGS"
 
 # sync etc
-for f in /etc/{fstab,hostname,hosts,mkinitcpio.conf,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist,pacman.d/hooks/nvidia.hook}; do
+for f in /etc/{fstab,hostname,hosts,mkinitcpio.conf,default/grub,default/grub-btrfs/config,pacman.d/mirrorlist}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
     [ -e $f ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
-    [ -e $f ] && rsync -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
+    [ -e $f ] && rsync $DDFLAGS -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
 done
-for f in /etc/firewalld/firewalld.conf; do
+for f in {/etc/firewalld/firewalld.conf,pacman.d/hooks/nvidia.hook}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
-    [ -e $f ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
-    [ -e $f ] && sudo rsync -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
+    [ -e $f ] && ssh $SSH_HOST "sudo mkdir -p $BKPDIR$(dirname $f)"
+    [ -e $f ] && rsync --rsync-path="sudo rsync" $DDFLAGS -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
 done
 
 
@@ -60,5 +63,5 @@ for f in /home/phdenzel/{.gnupg/,.ssh/,Documents/,org/}; do
         f="$dname/${bname:1}"
     fi
     [ -e $origin ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
-    [ -e $origin ] && rsync -$FLAGS $origin $SSH_HOST:$BKPDIR/$f
+    [ -e $origin ] && rsync $DDFLAGS -$FLAGS $origin $SSH_HOST:$BKPDIR/$f
 done

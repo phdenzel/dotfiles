@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# amixer toggle is not working so...
+
+MasterStatus=$(amixer get Master | tail -n 1 | awk -F' ' '{print $NF}')
+if [ "$MasterStatus" = "[on]" ]; then
+    amixer set Master mute;
+    amixer set Speaker mute;
+    amixer set Headphone mute;
+else
+    amixer set Master unmute;
+    amixer set Speaker unmute;
+    amixer set Headphone unmute;
+fi;

@@ -133,6 +133,18 @@
   `(font-latex-math-face ((t (:foreground ,orange))))
   `(font-latex-warning-face ((t (:foreground ,blue))))
 
+  ;; JS2
+  `(js2-external-variable         ((t (:foreground ,yellow))))
+  `(js2-function-param            ((t (:foreground ,violet))))
+  `(js2-instance-member           ((t (:foreground ,teal))))
+  `(js2-jsdoc-html-tag-delimiter  ((t (:foreground ,green))))
+  `(js2-jsdoc-html-tag-name       ((t (:foreground ,yellow))))
+  `(js2-jsdoc-tag                 ((t (:foreground ,purple))))
+  `(js2-jsdoc-type                ((t (:foreground ,teal))))
+  `(js2-jsdoc-value               ((t (:foreground ,violet))))
+  `(js2-error                     ((t (:underline (:style wave :color ,red-d)))))
+  `(js2-warning                   ((t (:underline (:style wave :color ,orange-b)))))
+
   ;; Mode-line
   `(mode-line                ((t (:background ,bg-bb :foreground ,fg-b))))
   `(mode-line-highlight      ((t (:background ,bg-bb :foreground ,fg-bb))))

@@ -1246,6 +1246,22 @@ server {
         );
     #+end_src
 
+    A system like Nextcloud sometimes requires tasks to be done on a
+    regular basis without the need for user interaction or hindering
+    Nextcloud performance. There are three ways to achive automatic
+    maintanence with Nextcloud: AJAX, Webcron, cron.
+
+    I prefer cron, and on archlinux (with on systemd) this is easily
+    achieved:
+
+    - first make sure to switch to cron in the Nextcloud settings
+    - then start the systemd timer service with
+
+    #+begin_src shell
+      sudo systemctl enable --now nextcloud-cron.timer
+    #+end_src
+
+
 *** TODO Mail server
     
 *** Mail (mu4e and mbsync)

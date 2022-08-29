@@ -1158,6 +1158,14 @@ colouring of org-mode src-blocks in exported HTML code.
 #+end_src
 
 
+**** org-ref
+
+#+begin_src emacs-lisp
+  (use-package org-ref
+    :ensure t)
+#+end_src
+
+
 **** org-reveal
 
 #+begin_src emacs-lisp

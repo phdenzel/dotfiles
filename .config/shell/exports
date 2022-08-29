@@ -75,17 +75,21 @@ export GOMP_STACKSIZE=16384
 # Mono
 export MONO_GAC_PREFIX="/usr/local"
 
-# BOOST
-export BOOST_ROOT="$HOME/local/boost/boost"
+# # BOOST
+# export BOOST_ROOT="$HOME/local/boost/boost"
 
-# XERCES-C
-export XERCES_LIBS="-L$HOME/local/xerces/build/lib"
-export XERCES_CFLAGS="-I$HOME/local/xerces/build/include"
+# # XERCES-C
+# export XERCES_LIBS="-L$HOME/local/xerces/build/lib"
+# export XERCES_CFLAGS="-I$HOME/local/xerces/build/include"
 
-# UDUNITS
-export UDUNITS_LIBS="-L$HOME/local/udunits/build/lib"
-export UDUNITS_CFLAGS="-I$HOME/local/udunits/build/include"
+# # UDUNITS
+# export UDUNITS_LIBS="-L$HOME/local/udunits/build/lib"
+# export UDUNITS_CFLAGS="-I$HOME/local/udunits/build/include"
 
-# CFITSIO
-export CFITSIO_LIBS="-L$HOME/local/cfitsio/build/lib"
-export CFITSIO_CFLAGS="-I$HOME/local/cfitsio/build/include"
+# # CFITSIO
+# export CFITSIO_LIBS="-L$HOME/local/cfitsio/build/lib"
+# export CFITSIO_CFLAGS="-I$HOME/local/cfitsio/build/include"
+
+# OSKAR
+export OSKAR_INC_DIR="/usr/local/include"
+export OSKAR_LIB_DIR="/usr/local/lib"

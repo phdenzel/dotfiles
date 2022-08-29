@@ -9,6 +9,11 @@ else
     RESOLUTION_SCALE="1"
     RESOLUTION_DPI="200"
     XOUTPUT="HDMI1"
+    RESOLUTION_W2="1920"
+    RESOLUTION_H2="1080"
+    RESOLUTION_DEPTH2="32"
+    RESOLUTION_SCALE2="1"
+    RESOLUTION_DPI2="200"
     XOUTPUT2="HDMI2"
 fi
 
@@ -20,9 +25,9 @@ xrandr \
     --primary
 
 xrandr \
-  --output "${XOUTPUT2}" \
-  --mode "${RESOLUTION_W}x${RESOLUTION_H}" \
-  --scale "${RESOLUTION_SCALE}" \
-  --dpi "${RESOLUTION_DPI}" \
-  --pos "${RESOLUTION_W}x0" \
-  --right-of "${XOUTPUT}"
+    --output "${XOUTPUT2}" \
+    --mode "${RESOLUTION_W2}x${RESOLUTION_H2}" \
+    --scale "${RESOLUTION_SCALE2}" \
+    --dpi "${RESOLUTION_DPI2}" \
+    --pos "${RESOLUTION_W2}x0" \
+    --above "${XOUTPUT}"

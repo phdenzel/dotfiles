@@ -1,0 +1,2 @@
+#!/bin/bash
+openconnect-sso -s ras.zhaw.ch -u denp@zhaw.ch

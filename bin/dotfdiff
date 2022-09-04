@@ -1,0 +1,105 @@
+#!/bin/bash
+
+ARGS=()
+MAXDEPTH=3
+NOCOLOR=0
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            echo "Usage: dotfdiff [options] filename"
+            echo "   Options:"
+            echo "                [-h|--help]"
+            echo "                [-n|--nocolor][-d|--maxdepth]"
+            echo "                [-f|--dotfiles][-c|--config][--dfconfig]"
+            echo ""
+            echo -e "       -h, --help     \tShow this help list."
+            echo -e "       -n, --nocolor  \tSkip colordiff."
+            echo -e "       -d, --maxdepth \tChange maxdepth search for find."
+            echo -e "       -f, --dotfiles \tThe path to the dotfiles directory."
+            echo -e "       -c, --config   \tThe path to the .config directory."
+            echo -e "       -b, --bin      \tThe path to the local bin directory."
+            echo -e "       --dfconfig     \tThe path to the dotfiles directory."
+            echo ""
+            exit 0
+            ;;
+        -n|--nocolor)
+            NOCOLOR=1
+            ;;
+        -d|--maxdepth)
+            MAXDEPTH=$2
+            shift
+            ;;
+        -f|--dotfiles)
+            DOTFILES_DIR="$2"
+            shift
+            ;;
+        -c|--config)
+            CONFIG_DIR="$2"
+            shift
+            ;;
+        -b|--bin)
+            BIN_DIR="$2"
+            shift
+            ;;
+        --dfconfig)
+            DOTFILES_CONFIG_DIR="$2"
+            shift
+            ;;
+        -*|--*)
+            echo "Unknown option $1"
+            exit 1
+            ;;
+        *)
+            ARGS+=($1)
+            ;;
+    esac
+    shift
+done
+
+
+# default locations
+[ -z $DOTFILES_DIR ] && DOTFILES_DIR=$(find $HOME -maxdepth $MAXDEPTH -type d -name "dotfiles" | head -n 1)
+[ -z $DOTFILES_CONFIG_DIR ] && DOTFILES_CONFIG_DIR="${DOTFILES_DIR}/.config"
+[ -z $DOTFILES_BIN_DIR ] && DOTFILES_BIN_DIR="${DOTFILES_DIR}/bin"
+[ -z $CONFIG_DIR ] && CONFIG_DIR=$(find $HOME -maxdepth $MAXDEPTH -type d -name ".config" ! -path "*dotfiles*" | head -n 1)
+[ -z $BIN_DIR ] && BIN_DIR=$(find $HOME -maxdepth $MAXDEPTH -type d -name "bin" | head -n 1)
+
+# echo "$MAXDEPTH"
+# echo "$DOTFILES_DIR"
+# echo "$DOTFILES_CONFIG_DIR"
+# echo "$DOTFILES_BIN_DIR"
+# echo "$CONFIG_DIR"
+# echo "$BIN_DIR"
+# echo "$ARGS"
+
+# if defaults fail, exit
+[ ! -d "$DOTFILES_DIR" ] && echo "Couldn't find the dotfiles directory."
+[ ! -d "$DOTFILES_CONFIG_DIR" ] && echo "Couldn't find .config in dotfiles."
+[ ! -d "$DOTFILES_BIN_DIR" ] && echo "Couldn't find .config in dotfiles."
+[ ! -d "$CONFIG_DIR" ] && echo "Couldn't find .config in $HOME."
+[ ! -d "$BIN_DIR" ] && echo "Couldn't find bin in $HOME."
+
+
+
+for i in ${ARGS[@]}; do
+    dffile=$(find $DOTFILES_CONFIG_DIR -maxdepth $MAXDEPTH -path \*$i)
+    homefile=$(find $CONFIG_DIR -maxdepth $MAXDEPTH -path \*$i)
+    if [ -f "$homefile" ] && [ -f "$dffile" ]; then
+        echo $i
+        if [ "$NOCOLOR" -eq "0" ]; then
+            diff -u "$dffile" "$homefile" | colordiff
+        else
+            diff -u "$dffile" "$homefile"
+        fi
+    fi
+    dffile=$(find $DOTFILES_BIN_DIR -maxdepth $MAXDEPTH -path \*$i)
+    homefile=$(find $BIN_DIR -maxdepth $MAXDEPTH -path \*$i)
+    if [ -f "$homefile" ] && [ -f "$dffile" ]; then
+        echo $i
+        if [ "$NOCOLOR" -eq "0" ]; then
+            diff -u "$dffile" "$homefile" | colordiff
+        else
+            diff -u "$dffile" "$homefile"
+        fi
+    fi
+done

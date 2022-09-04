@@ -87,11 +87,12 @@ myModMask = mod4Mask  -- Super-mod4Mask | L-Alt-mod1Mask | R-Alt-mod3Mask
 
 -------------------- Main
 main :: IO ()
-main = do
-  xmonad $
-    ewmhFullscreen . ewmh . docks $
-    dynamicSBs xmobarSpawn myConfigs
-
+main = xmonad
+       . ewmhFullscreen
+       . ewmh
+       . docks
+       $ dynamicSBs xmobarSpawn
+       $ myConfigs
 
 myConfigs = def
     -- simple stuff
@@ -121,7 +122,7 @@ myConfigs = def
 myStartupHook :: X()
 myStartupHook = do
   spawn     "killall trayer"
-  spawnOnce "resolution_2x11 &"                -- set screen resolution using xrandr
+  spawnOnce "resolution_2xauto &"              -- set screen resolution using xrandr
   spawnOnce "xsetroot -cursor_name left_ptr &" -- set cursor
   spawnOnce "xset r rate 180 50 &"             -- increase scroll speed
   spawnOnce "xrdb -merge ~/.Xresources &"      -- load x resources
@@ -130,7 +131,7 @@ myStartupHook = do
   spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper
   spawnOnce "xscreensaver -no-splash &"        -- xscreensaver daemon
   spawnOnce "/usr/bin/emacs --daemon &"        -- Emacs daemon
-  spawn     ("sleep 2 && trayer --edge top --align right --widthtype request "
+  spawn     ("sleep 1 && trayer --edge top --align right --widthtype request "
              ++ "--padding 6 --SetDockType true --SetPartialStrut true "
              ++ "--expand true --transparent true --alpha 0 --height 28 "
              ++ "--iconspacing 12 "
@@ -344,7 +345,7 @@ xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 1") (pur
 xmobarSpawn :: ScreenId -> IO StatusBarConfig
 xmobarSpawn 0 = pure $ xmobar
 xmobarSpawn 1 = pure $ xmobar2
-xmobarSpawn _ = mempty  -- every additional monitor doesn't have a statusbar
+-- xmobarSpawn _ = mempty  -- every additional monitor doesn't have a statusbar
 
 
 -------------------- Logging
@@ -431,6 +432,7 @@ myKeymap =
   ]
   where
     nonNSP = anyWS :&: ignoringWSs [scratchpadWorkspaceTag]
+
 
 defaultKeymap conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
   [((m .|. modm, k), windows $ f i)

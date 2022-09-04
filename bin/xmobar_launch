@@ -1,0 +1,4 @@
+#!/bin/bash
+pkill xmobar;
+xmobar ~/.config/xmobar/xmobarrc -x 0 &;
+xmobar ~/.config/xmobar/xmobarrc2 -x 1 &;

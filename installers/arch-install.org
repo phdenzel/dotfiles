@@ -554,7 +554,7 @@ troubleshooting.
     #+begin_src shell
       useradd -m phdenzel
       passwd phdenzel
-      usermod -aG wheel,audio,video,optical,storage,kvm phdenzel
+      usermod -aG wheel,audio,video,optical,storage,input phdenzel
       echo "phdenzel ALL=(ALL:ALL) ALL" >> /etc/sudoers.d/phdenzel
     #+end_src
 

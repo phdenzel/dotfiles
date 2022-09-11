@@ -1421,32 +1421,19 @@ server {
     I prefer ~virt-manager~ much over ~virtualbox~ (see ~arch_vm.sh~
     for easy initialization of VMs)
     #+begin_src shell
-      sudo pacman -S virt-manager qemu qemu-arch-extra edk2-ovmf vde2 bridge-utils  # ebtables dnsmasq openbsd-netcat
+      sudo pacman -S virt-manager virt-viewer qemu qemu-arch-extra edk2-ovmf vde2 ebtables dnsmasq dmidecode bridge-utils openbsd-netcat
       sudo systemctl enable --now libvirtd.service
     #+end_src
 
-    For some linux distros, the default virtual network doesn't work
+    Add your user to the new groups to be able to authenticate
     #+begin_src shell
-      sudo virsh net-define br10.xml
-      sudo virsh net-start br10
-      sudo virsh net-autostart br10
+      sudo usermod -aG kvm,libvirt phdenzel
     #+end_src
-    where
-    #+begin_src xml
-      <network>
-        <name>br10</name>
-        <forward mode='nat'>
-          <nat>
-            <port start='1024' end='65535'/>
-          </nat>
-        </forward>
-        <bridge name='br10' stp='on' delay='0'/>
-        <ip address='192.168.30.1' netmask='255.255.255.0'>
-          <dhcp>
-            <range start='192.168.30.50' end='192.168.30.200'/>
-          </dhcp>
-        </ip>
-      </network>
+
+    For some linux distros, the default virtual network start automatically
+    #+begin_src shell
+      sudo virsh net-start default
+      sudo virsh net-autostart default
     #+end_src
 
     If you're using firewalld, make sure to enable the libvirt service in the libvirt zone:

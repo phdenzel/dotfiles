@@ -1,0 +1,2 @@
+#!/bin/bash
+sshfs archphoenix:/home/phdenzel/Music /Users/phdenzel/Host/Music

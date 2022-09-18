@@ -1,0 +1,6 @@
+#!/bin/bash
+VMDIR="$(dirname $PWD/$0)"
+# Link the binaries to ~/local/bin/
+echo "Installing ~/local/bin/ symlink binaries"
+mkdir -p ${HOME}/local/bin/  # don't forget to add to PATH
+ln -s -f ${VMDIR}/mount_* ${HOME}/local/bin/

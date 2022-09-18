@@ -1,4 +1,4 @@
 #!/bin/bash
-./mount_music
-./mount_pictures
-./mount_books
+mount_music
+mount_pictures
+mount_books

@@ -30,6 +30,7 @@ EXCLUDES=(
     --exclude ".config/qt5ct/"
     --exclude ".config/xmonad/stack.yaml"
     --exclude ".config/xmobar/xmobarconf/"
+    --exclude "vms/"
     --exclude "LICENSE"
     --exclude "README.md"
     --exclude ".themes/phd-dark.tmTheme"

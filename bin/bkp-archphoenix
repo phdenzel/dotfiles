@@ -46,7 +46,7 @@ for f in /etc/{fstab,hostname,hosts,mkinitcpio.conf,default/grub,default/grub-bt
     [ -e $f ] && ssh $SSH_HOST "mkdir -p $BKPDIR$(dirname $f)"
     [ -e $f ] && rsync $DDFLAGS -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"
 done
-for f in {/etc/firewalld/firewalld.conf,pacman.d/hooks/nvidia.hook}; do
+for f in /etc/{firewalld/firewalld.conf,pacman.d/hooks/nvidia.hook,sudoers.d/phdenzel}; do
     [ -e $f ] && echo -e "\n# Backing up $f";
     [ -e $f ] && ssh $SSH_HOST "sudo mkdir -p $BKPDIR$(dirname $f)"
     [ -e $f ] && rsync --rsync-path="sudo rsync" $DDFLAGS -$FLAGS $f $SSH_HOST:$BKPDIR/"$(dirname $f)"

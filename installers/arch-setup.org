@@ -374,7 +374,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** File managers
     GUI and terminal-based file managers
     #+begin_src shell
-      sudo pacman -S pcmanfm gvfs udisks2 xarchiver ranger highlight
+      sudo pacman -S pcmanfm gvfs udisks2 xarchiver ranger ueberzug highlight
     #+end_src
 
 *** System tools
@@ -479,7 +479,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Networking tools
     VPN, tools for network control, discovery and security auditing
     #+begin_src shell
-      sudo pacman -S ethtool wol nfs-utils firewalld fail2ban nginx dnsmasq wireguard-tools nmap
+      sudo pacman -S ethtool wol nfs-utils samba sshfs firewalld fail2ban nginx dnsmasq wireguard-tools nmap
     #+end_src
 
     Enable all services
@@ -1421,7 +1421,7 @@ server {
     I prefer ~virt-manager~ much over ~virtualbox~ (see ~arch_vm.sh~
     for easy initialization of VMs)
     #+begin_src shell
-      sudo pacman -S virt-manager virt-viewer qemu qemu-arch-extra edk2-ovmf vde2 ebtables dnsmasq dmidecode bridge-utils openbsd-netcat
+      sudo pacman -S virt-manager qemu-full edk2-ovmf vde2 ebtables dnsmasq dmidecode bridge-utils openbsd-netcat libguestfs
       sudo systemctl enable --now libvirtd.service
     #+end_src
 

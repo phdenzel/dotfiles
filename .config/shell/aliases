@@ -50,14 +50,6 @@ if [ -f ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO ]; then
 else
 	SSHUSER=$(whoami)
 fi;
-SSHFLAG="-2Y"
-SSHREDIRECT="-2Yt"
-# Home network
-alias diskstation="ssh $SSHFLAG admin@192.168.178.39"
-alias homematic="ssh root@192.168.178.41"
-alias stryx="ssh ${SSHUSER}@stryx"
-alias hawk="ssh pi@hawk"
-alias raven="ssh pi@raven"
 # SLURM clusters
 alias mj="squeue -u ${SSHUSER}"
 alias aj="squeue"

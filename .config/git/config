@@ -14,6 +14,7 @@
   rau = remote add upstream
   fu = git fetch upstream
   c = commit -avm
+  cm = commit -m
   ac = !git add -A && git commit -avm
   aml = !git add -A && git commit --amend --no-edit
   undo = reset HEAD~

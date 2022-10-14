@@ -122,13 +122,13 @@ To build packages on-the-fly and directly from source on github,
 quelpa can be used and integrated with use-package.
 
 #+begin_src emacs-lisp
-  (use-package quelpa
-    :ensure t)
+;;  (use-package quelpa
+;;    :ensure t)
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package quelpa-use-package
-    :ensure t)
+;;  (use-package quelpa-use-package
+;;    :ensure t)
 #+end_src
 
 
@@ -692,6 +692,15 @@ Modern auto-complete [*Comp*lete-*any*thing]
 #+end_src
 
 
+*** Rust
+
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :ensure t)
+#+end_src
+
+
+
 *** Scala
 
 #+begin_src emacs-lisp
@@ -765,11 +774,12 @@ For jsdoc, we first need to install a few dependencies
 #+begin_src emacs-lisp
   (use-package jsdoc
     :ensure t
-    :quelpa (jsdoc
-             :fetcher github
-             :repo "isamert/jsdoc.el")
+    ;;:quelpa (jsdoc
+    ;;         :fetcher github
+    ;;         :repo "isamert/jsdoc.el")
     :config
-    :hook (js-mode . tree-sitter-mode))
+    :hook (js-mode . tree-sitter-mode)
+    )
 #+end_src
 
 
@@ -1161,8 +1171,8 @@ colouring of org-mode src-blocks in exported HTML code.
 **** org-ref
 
 #+begin_src emacs-lisp
-  (use-package org-ref
-    :ensure t)
+;;  (use-package org-ref
+;;    :ensure t)
 #+end_src
 
 
@@ -1857,7 +1867,11 @@ All style settings are defined here...
   (add-hook 'after-make-frame-functions
             (lambda (&optional frame)
               (when (display-graphic-p frame)
-                (set-face-attribute 'default nil :font "Fira Mono-14"))))
+                ;; (set-face-attribute 'default nil :font "Fira Mono-14"))))
+                ;; (set-face-attribute 'default nil :font "Roboto Mono-13"))))
+                ;; (set-face-attribute 'default nil :font "JetBrains Mono-14"))))
+                (set-face-attribute 'default nil :font "JetBrains Mono-14"))))
+
 #+end_src
 
 

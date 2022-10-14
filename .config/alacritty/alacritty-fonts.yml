@@ -151,6 +151,32 @@ schemes:
     #  y: 0
     #use_thin_strokes: true  # macOS only
 
+  ### Inconsolata ###
+  jetbrains: &jetbrains
+    # Styles
+    normal:
+      family: JetBrains Mono
+      style: Regular
+    bold:
+      family: JetBrains Mono
+      style: Bold
+    italic:
+      family: JetBrains Mono
+      style: Italic
+    bold_italic:
+      family: JetBrains Mono
+      style: Bold Italic
+    # Point size
+    size: 11
+    # Offset is the extra space around each character.
+    offset:
+      x: 0
+      y: 0
+    #glyph_offset:
+    #  x: 0
+    #  y: 0
+    #use_thin_strokes: true  # macOS only
+
   ### Exo-2 ###
   exo-2: &exo-2
     # Styles
@@ -179,5 +205,5 @@ schemes:
 
 # Themes:
 # | fira-mono | fira-mono-nf | source-code-pro | ubuntu  | hack | inconsolata
-# | exo-2
-font: *fira-mono
+# | jetbrains | exo-2 |
+font: *jetbrains

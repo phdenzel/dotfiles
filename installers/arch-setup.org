@@ -459,9 +459,9 @@ process a bit. For this, simply run the ~arch.sh~ install script
     install ~nextcloud~ (see below).
 
 *** Dev tools
-    Languages: lisp, haskell, rust, ruby, LaTeX
+    Languages: lisp, haskell, cuda, rust, ruby, LaTeX
     #+begin_src shell
-      sudo pacman -S emacs vim cmake docker pyenv ghc ghc-static rust ruby rubygems texlive-most texlive-lang gobject-introspection tk
+      sudo pacman -S emacs vim base-devel cmake docker pyenv ghc ghc-static cuda cuda-tools cudnn rust ruby rubygems texlive-most texlive-lang gobject-introspection tk
     #+end_src
 
     Installing jekyll (my preferred dev tool for static websites and blogs)
@@ -1349,7 +1349,7 @@ server {
 *** Media programs
     Office suite, document viewer, music and media players
     #+begin_src shell
-      sudo pacman -S libreoffice-still zathura zathura-pdf-mupdf calibre lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly mpv celluloid mkvtoolnix-cli perl-image-exiftool
+      sudo pacman -S kdenlive breeze libreoffice-still zathura zathura-pdf-mupdf calibre lollypop easytag gst-plugins-base gst-plugins-good gst-plugin-ugly mpv celluloid mkvtoolnix-cli perl-image-exiftool
     #+end_src
 
     and the spotify client
@@ -1366,7 +1366,7 @@ server {
 
 *** Fonts
     #+begin_src shell
-      sudo pacman -S terminus-font ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome
+      sudo pacman -S terminus-font ttf-dejavu ttf-fira-mono ttf-fira-sans ttf-roboto ttf-roboto-mono adobe-source-code-pro-fonts adobe-source-sans-fonts ttf-hack ttf-jetbrains-mono ttf-inconsolata ttf-ubuntu-font-family ttf-font-awesome
     #+end_src
 
     #+begin_src shell

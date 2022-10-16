@@ -927,7 +927,9 @@ clojure
     :ensure t
     :init
     (setq-default flycheck-flake8-maximum-line-length 99)
-    (setq-default flycheck-disabled-checkers '(python-pylint))
+    (setq-default flycheck-disabled-checkers '(python-pylint
+                                               rust-cargo
+                                               rust))
     (global-flycheck-mode t))
 
 #+end_src

@@ -461,7 +461,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Dev tools
     Languages: lisp, haskell, cuda, rust, ruby, LaTeX
     #+begin_src shell
-      sudo pacman -S emacs vim base-devel cmake docker pyenv ghc ghc-static cuda cuda-tools cudnn rust ruby rubygems texlive-most texlive-lang gobject-introspection tk
+      sudo pacman -S emacs vim base-devel gdb cmake docker pyenv ghc ghc-static cuda cuda-tools cudnn rust ruby rubygems texlive-most texlive-lang gobject-introspection tk
     #+end_src
 
     Installing jekyll (my preferred dev tool for static websites and blogs)
@@ -479,7 +479,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Networking tools
     VPN, tools for network control, discovery and security auditing
     #+begin_src shell
-      sudo pacman -S ethtool wol nfs-utils samba sshfs firewalld fail2ban nginx dnsmasq wireguard-tools nmap
+      sudo pacman -S ethtool wol nfs-utils samba sshfs rclone firewalld fail2ban nginx dnsmasq wireguard-tools nmap
     #+end_src
 
     Enable all services

@@ -1,7 +1,8 @@
 #!/bin/bash
-
-cd ~/local/
-git clone git://git.savannah.gnu.org/emacs.git
+mkdir -p $HOME/local
+cd $HOME/local
+git clone https://git.savannah.gnu.org/git/texinfo.git
+git clone https://git.savannah.gnu.org/emacs.git
 cd emacs/
 ./autogen.sh
 if [ $OS == "Darwin" ]; then

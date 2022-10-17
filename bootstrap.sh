@@ -83,6 +83,7 @@ elif [ "$1" = "--dry-run" ]; then
 else
     echo "Installing dotfiles to $HOME and $CONF_HOME"
     rsync "${EXCLUDES[@]}" -avh . ~;
+    chmod 700 ~/.gnupg
     git submodule update
     if [ ! -d $CONF_HOME/xmobar/xmobarconf ]; then
         ln -s $(pwd)/.config/xmobar/xmobarconf $CONF_HOME/xmobar/

@@ -1,0 +1,6 @@
+#!/bin/bash
+if (`ip a show wg0 &>/dev/null`); then
+    wg-quick down wg0
+else
+    wg-quick up wg0
+fi

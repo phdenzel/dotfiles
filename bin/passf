@@ -1,0 +1,51 @@
+#!/bin/bash
+
+PASS_FIELDS=()
+SAVE_TO_CLIPBOARD=1
+PRINT_PASS=0
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            echo "Usage: passf [-h|--help|-n|--no-clip] field"
+            echo ""
+            echo "       Filter pass output for single field"
+            echo ""
+            echo -e "       -h, --help\t Show this help list"
+            echo -e "       -n, --noclip"
+            echo ""
+            exit 0
+            ;;
+        -n|--no-clip)
+            SAVE_TO_CLIPBOARD=0
+            shift
+            ;;
+        -p|--print)
+            PRINT_PASS=1
+            shift
+            ;;
+        -*|--*)
+            echo "Unknown option $1"
+            exit 1
+            ;;
+        *)
+            PASS_FIELDS+=($1)
+            shift # past argument
+            ;;
+    esac
+done
+
+PASS_PIPE=""
+if [ -p /dev/stdin ]; then
+    PASS_PIPE=$(cat)
+fi
+
+if [ ! -z "$PASS_PIPE" ]; then
+    for f in ${PASS_FIELDS[@]}; do
+        passfield=$(echo "$PASS_PIPE" | grep $f | cut -d':' -f2 | xargs)
+        [[ $SAVE_TO_CLIPBOARD -eq 1 ]] && echo "$passfield" | xargs | xclip
+        [[ $SAVE_TO_CLIPBOARD -eq 1 ]] && echo "$passfield" | xargs | xclip -sel clip
+        [[ $PRINT_PASS -eq 1 ]] && echo "$passfield"
+    done
+fi;
+
+exit 0

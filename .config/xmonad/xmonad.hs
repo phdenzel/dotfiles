@@ -136,8 +136,9 @@ myStartupHook = do
              ++ "--expand true --transparent true --alpha 0 --height 28 "
              ++ "--iconspacing 12 "
              ++ colorTrayer
-             ++ "&"
+             ++ " &"
             )
+  spawnOnce "dunst &"
   spawn     "blueman-applet"
   spawn     "nm-applet"
   spawnOnce "volumeicon"
@@ -417,6 +418,9 @@ myKeymap =
   , ("M-\\"         , spawn myBrowser)
   , ("M-="          , unGrab *> spawn "scrot")
   , ("M-S-="        , unGrab *> spawn "scrot -s")
+  , ("M-s"          , spawn "tagr")
+  , ("M-C-s"        , spawn "tagr -c")
+  , ("M-M1-s"       , spawn "tagr -a")
 
   -- Scratchpads
   , ("M-S-<Return>" , namedScratchpadAction myScratchPads "terminal")

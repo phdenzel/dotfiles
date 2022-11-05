@@ -396,7 +396,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
     
-    Bash tab completion, spell checkers, and locate utils
+    Bash tab completion, spell checkers, locate utils, etc.
     #+begin_src shell
       sudo pacman -S bash-completion man-db mlocate hunspell hunspell-en_us
     #+end_src
@@ -1262,6 +1262,19 @@ server {
     #+end_src
 
 
+    You can also mount your Nextcloud files using WebDAV on your local
+    linux machine. For this you need to install ~davfs2~ from the AUR:
+
+    #+begin_src shell
+      yay -S davfs2
+    #+end_src
+
+    This enables you to mount your Nextcloud files folder in your
+    file system table (~/etc/fstab~):
+    #+begin_src shell
+      davs://nextcloud.home/remote.php/dav/files/phdenzel/
+    #+end_src
+
 *** TODO Mail server
     
 *** Mail (mu4e and mbsync)
@@ -1341,9 +1354,9 @@ server {
     #+end_src
 
 *** Utilities
-    Calculator, clipboard, and screenshot programs
+    Notification services, calculator, clipboard, and screenshot programs
     #+begin_src shell
-      sudo pacman -S colordiff qalculate-gtk xclip xsel scrot
+      sudo pacman -S libnotify dunst colordiff qalculate-gtk xclip xsel scrot
     #+end_src
 
 *** Media programs

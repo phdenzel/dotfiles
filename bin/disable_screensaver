@@ -1,0 +1,4 @@
+#!/bin/bash
+
+xscreensaver-command -deactivate
+xset s off -dpms

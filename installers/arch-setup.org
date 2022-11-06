@@ -1269,11 +1269,49 @@ server {
       yay -S davfs2
     #+end_src
 
-    This enables you to mount your Nextcloud files folder in your
-    file system table (~/etc/fstab~):
+    Depending on your linux distro and davfs2 version, you need to add
+    yourself to the ~davfs2~ group (or in my case to the ~network~) group:
     #+begin_src shell
-      davs://nextcloud.home/remote.php/dav/files/phdenzel/
+      sudo usermod -aG network phdenzel
     #+end_src
+    Afterwards, log out and back in for these settings to take effect.
+
+    This enables you to auto-mount your Nextcloud files folder from
+    your file system table ~/etc/fstab~ (change ~auto~ to ~noauto~ for
+    manual mounts):
+    #+begin_src shell
+      https://nextcloud.home/remote.php/dav/files/phdenzel/ /home/phdenzel/Nextcloud davfs rw,user,auto 0 0
+    #+end_src
+
+    For auto-logins you have to store your credentials in your local home folder
+    #+begin_src shell
+      mkdir ~/Nextcloud
+      mkdir ~/.davfs2
+      sudo cp /etc/davfs2/secrets ~/.davfs2/secrets
+      sudo chown phdenzel:phdenzel ~/.davfs2/secrets
+      sudo chmod 600 ~/.davfs2/secrets
+    #+end_src
+
+    In the ~~/.davfs2/secrets~ file, you can add the WebDAV remote
+    (old-style) or mount point as reference for your credentials:
+
+    #+begin_src shell
+      cat << EOF | sudo tee -a ~/.davfs2/secrets
+
+      # personal Nextcloud credentials
+      /home/phdenzel/Nextcloud phdenzel "this\should#be!my_password"
+      # Old style
+      #https://nextcloud.home/remote.php/dav/files/phdenzel/ phdenzel "this\should#be!my_password"
+      EOF
+    #+end_src
+
+    To test mounting and unmounting, reload your new fstab
+    #+begin_src shell
+      sudo systemctl daemon-reload
+      mount ~/Nextcloud
+      umount ~/Nextcloud
+    #+end_src
+
 
 *** TODO Mail server
     

@@ -1312,6 +1312,18 @@ server {
       umount ~/Nextcloud
     #+end_src
 
+    If you have problems with your (self-signed) server certificate,
+    or you get the message ~warning: the server does not support
+    locks~, you need to add the following to your
+    ~/etc/davfs2/davfs2.conf~:
+
+    #+begin_src conf
+      trust_server_cert	/etc/davfs2/certs/ygdrasil.crt
+      use_locks   0
+    #+end_src
+    Any server certificates (here ygdrasil.crt) have to be copied to
+    ~/etc/davfs2/certs/~.
+
 
 *** TODO Mail server
     

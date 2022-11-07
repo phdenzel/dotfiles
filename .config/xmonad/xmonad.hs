@@ -346,7 +346,7 @@ xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 1") (pur
 xmobarSpawn :: ScreenId -> IO StatusBarConfig
 xmobarSpawn 0 = pure $ xmobar
 xmobarSpawn 1 = pure $ xmobar2
--- xmobarSpawn _ = mempty  -- every additional monitor doesn't have a statusbar
+xmobarSpawn _ = mempty  -- every additional monitor doesn't have a statusbar
 
 
 -------------------- Logging
@@ -433,6 +433,7 @@ myKeymap =
   , ("<XF86AudioMute>"         , spawn "amixer_toggle")
   , ("<XF86AudioLowerVolume>"  , spawn "amixer set Master 5%- unmute")
   , ("<XF86AudioRaiseVolume>"  , spawn "amixer set Master 5%+ unmute")
+  , ("<XF86Display>"           , spawn "resolution_2xauto")
   ]
   where
     nonNSP = anyWS :&: ignoringWSs [scratchpadWorkspaceTag]

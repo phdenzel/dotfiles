@@ -76,11 +76,11 @@ figure.subplot.hspace: 0.2
 
 # Font sizes
 axes.formatter.use_mathtext: True
-axes.titlesize: xx-large
-axes.labelsize: xx-large
-xtick.labelsize: xx-large
-ytick.labelsize: xx-large
-legend.fontsize: xx-large
+axes.titlesize: small
+axes.labelsize: small
+xtick.labelsize: small
+ytick.labelsize: small
+legend.fontsize: small
 
 
 # Ticking

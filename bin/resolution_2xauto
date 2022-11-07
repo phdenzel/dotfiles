@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 USERINFO_FILE="${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO"
 if [ -f "$USERINFO_FILE" ]; then
    . $USERINFO_FILE
@@ -25,6 +25,6 @@ xrandr \
 xrandr \
   --output "${XOUTPUT2}" \
   --auto \
-  --right-of "${XOUTPUT}"
+  --above "${XOUTPUT}"
 
 ~/.config/feh/fehbg

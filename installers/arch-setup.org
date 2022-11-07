@@ -479,7 +479,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Networking tools
     VPN, tools for network control, discovery and security auditing
     #+begin_src shell
-      sudo pacman -S ethtool wol nfs-utils samba sshfs rclone firewalld fail2ban nginx dnsmasq wireguard-tools nmap
+      sudo pacman -S usbutils ethtool wol nfs-utils samba sshfs rclone firewalld fail2ban nginx dnsmasq wireguard-tools nmap
     #+end_src
 
     Enable all services

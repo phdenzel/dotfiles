@@ -396,7 +396,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
     
-    Bash tab completion, spell checkers, and locate utils
+    Bash tab completion, spell checkers, locate utils, etc.
     #+begin_src shell
       sudo pacman -S bash-completion man-db mlocate hunspell hunspell-en_us
     #+end_src
@@ -1262,6 +1262,69 @@ server {
     #+end_src
 
 
+    You can also mount your Nextcloud files using WebDAV on your local
+    linux machine. For this you need to install ~davfs2~ from the AUR:
+
+    #+begin_src shell
+      yay -S davfs2
+    #+end_src
+
+    Depending on your linux distro and davfs2 version, you need to add
+    yourself to the ~davfs2~ group (or in my case to the ~network~) group:
+    #+begin_src shell
+      sudo usermod -aG network phdenzel
+    #+end_src
+    Afterwards, log out and back in for these settings to take effect.
+
+    This enables you to auto-mount your Nextcloud files folder from
+    your file system table ~/etc/fstab~ (change ~auto~ to ~noauto~ for
+    manual mounts):
+    #+begin_src shell
+      https://nextcloud.home/remote.php/dav/files/phdenzel/ /home/phdenzel/Nextcloud davfs rw,user,auto 0 0
+    #+end_src
+
+    For auto-logins you have to store your credentials in your local home folder
+    #+begin_src shell
+      mkdir ~/Nextcloud
+      mkdir ~/.davfs2
+      sudo cp /etc/davfs2/secrets ~/.davfs2/secrets
+      sudo chown phdenzel:phdenzel ~/.davfs2/secrets
+      sudo chmod 600 ~/.davfs2/secrets
+    #+end_src
+
+    In the ~~/.davfs2/secrets~ file, you can add the WebDAV remote
+    (old-style) or mount point as reference for your credentials:
+
+    #+begin_src shell
+      cat << EOF | sudo tee -a ~/.davfs2/secrets
+
+      # personal Nextcloud credentials
+      /home/phdenzel/Nextcloud phdenzel "this\should#be!my_password"
+      # Old style
+      #https://nextcloud.home/remote.php/dav/files/phdenzel/ phdenzel "this\should#be!my_password"
+      EOF
+    #+end_src
+
+    To test mounting and unmounting, reload your new fstab
+    #+begin_src shell
+      sudo systemctl daemon-reload
+      mount ~/Nextcloud
+      umount ~/Nextcloud
+    #+end_src
+
+    If you have problems with your (self-signed) server certificate,
+    or you get the message ~warning: the server does not support
+    locks~, you need to add the following to your
+    ~/etc/davfs2/davfs2.conf~:
+
+    #+begin_src conf
+      trust_server_cert	/etc/davfs2/certs/ygdrasil.crt
+      use_locks   0
+    #+end_src
+    Any server certificates (here ygdrasil.crt) have to be copied to
+    ~/etc/davfs2/certs/~.
+
+
 *** TODO Mail server
     
 *** Mail (mu4e and mbsync)
@@ -1341,9 +1404,9 @@ server {
     #+end_src
 
 *** Utilities
-    Calculator, clipboard, and screenshot programs
+    Notification services, calculator, clipboard, and screenshot programs
     #+begin_src shell
-      sudo pacman -S colordiff qalculate-gtk xclip xsel scrot
+      sudo pacman -S libnotify dunst colordiff qalculate-gtk xclip xsel scrot
     #+end_src
 
 *** Media programs

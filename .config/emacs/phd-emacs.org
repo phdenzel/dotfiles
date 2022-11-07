@@ -915,6 +915,15 @@ clojure
 
 #+end_src
 
+*** Docker
+
+Add support for Dockerfile editing
+
+#+begin_src emacs-lisp
+  (use-package dockerfile-mode
+    :ensure t)
+#+end_src
+
 
 ** Syntax helpers
 

@@ -1,0 +1,52 @@
+#!/bin/bash
+# Requires the rename command (part of the util-linux package)
+
+# Defaults
+SAR_TERM="$1"
+SAR_SEARCH=""
+SAR_REPLACE=""
+SAR_TARGET=""
+SKIP_S=0
+SKIP_R=0
+SKIP_T=0
+
+# parse options
+while [ $# -ge 1 ]; do
+    case "$1" in
+        -s|--search)
+            SAR_SEARCH="$2"
+            SKIP_S=1
+            shift # past argument
+            ;;
+        -r|--replace)
+            SAR_REPLACE="$2"
+            SKIP_R=1
+            shift # past argument
+            ;;
+        -t|--target)
+            SAR_TARGET="$2"
+            SKIP_T=1
+            shift # past argument
+            ;;
+        -h|--help)
+            echo "Usage: sar [-s|--search] [-r|--replace] [-t|--target] [--help]"
+            echo ""
+            echo "A program to recursively search and replace terms in all filenames in a directory"
+            exit 1
+            ;;
+        *)
+            [[ $SKIP_S -eq 0 ]] && SAR_SEARCH="$1" && shift;
+            [[ $SKIP_R -eq 0 ]] && SAR_REPLACE="$1" && shift;
+            [[ $SKIP_T -eq 0 ]] && SAR_TARGET="$1" && shift;
+            ;;
+    esac
+    shift # past argument or value
+done
+
+[ -z "$SAR_TARGET" ] && SAR_TARGET="$(pwd)"
+[ -z "$SAR_SEARCH" ] && exit 0
+
+# find "$SAR_TARGET" -type f -exec rename "$SAR_SEARCH" "$SAR_REPLACE" {} ';'
+fd . "$SAR_TARGET" -t f -x rename "$SAR_SEARCH" "$SAR_REPLACE"
+# find "$SAR_TARGET" -type d -exec rename "$SAR_SEARCH" "$SAR_REPLACE" {} ';'
+fd . "$SAR_TARGET" -t d -x rename "$SAR_SEARCH" "$SAR_REPLACE"

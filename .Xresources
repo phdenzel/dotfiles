@@ -6,6 +6,8 @@ Xft.autohint: true
 Xft.hintstyle: hintfull
 Xft.lcdfilter: lcdfilter
 
+Xcursor.size: 14
+
 XTerm*loginshell: true
 XTerm*renderFont: true
 XTerm*faceName: xft:Fira Mono:style=Regular:size=11, \

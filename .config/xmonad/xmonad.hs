@@ -122,11 +122,11 @@ myConfigs = def
 myStartupHook :: X()
 myStartupHook = do
   spawn     "killall trayer"
-  spawnOnce "resolution_2xauto &"              -- set screen resolution using xrandr
-  spawnOnce "xsetroot -cursor_name left_ptr &" -- set cursor
-  spawnOnce "xset r rate 180 50 &"             -- increase scroll speed
-  spawnOnce "xrdb -merge ~/.Xresources &"      -- load x resources
-  spawnOnce "xmodmap ~/.Xmodmap &"             -- load x modmap
+  spawnOnce "resolution_2xauto"                -- set screen resolution using xrandr
+  spawnOnce "xsetroot -cursor_name left_ptr"   -- set cursor
+  spawnOnce "xset r rate 180 50"               -- increase scroll speed
+  spawnOnce "xrdb -merge ~/.Xresources"        -- load x resources
+  spawnOnce "xmodmap ~/.Xmodmap"               -- load x modmap
   spawnOnce "picom &"                          -- start compositor
   spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper
   spawnOnce "xscreensaver -no-splash &"        -- xscreensaver daemon
@@ -245,7 +245,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
         l = 0.70 -w
 
     spawnRanger  = myTerminal ++ " --class ranger -t Ranger -e ranger"
-    findRanger   = className =? "ranger"
+    findRanger   = appName =? "ranger"
     manageRanger = customFloating $ W.RationalRect l t w h
       where
         h = 0.9
@@ -341,8 +341,8 @@ myXMobarPP = def
     hair = "<fn=1> </fn>"
 
 
-xmobar = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf++"-x 0") (pure myXMobarPP)
-xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 1") (pure myXMobarPP)
+xmobar = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf++"-x 1") (pure myXMobarPP)
+xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 0") (pure myXMobarPP)
 xmobarSpawn :: ScreenId -> IO StatusBarConfig
 xmobarSpawn 0 = pure $ xmobar
 xmobarSpawn 1 = pure $ xmobar2

@@ -1157,6 +1157,7 @@ colouring of org-mode src-blocks in exported HTML code.
     (setq org-src-fontify-natively t)
     (setq org-src-tab-acts-natively t)
     (setq markdown-fontify-code-blocks-natively t)
+    (define-key org-mode-map (kbd "C-c C-S-l") 'org-toggle-link-display)
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -1182,8 +1183,21 @@ colouring of org-mode src-blocks in exported HTML code.
 **** org-ref
 
 #+begin_src emacs-lisp
-;;  (use-package org-ref
-;;    :ensure t)
+  (use-package org-ref
+    :ensure t)
+#+end_src
+
+***** Dependencies
+
+#+begin_src emacs-lisp
+  (use-package helm-bibtex
+    :ensure t)
+
+  (use-package ivy-bibtex
+    :ensure t)
+
+  (use-package pdf-tools
+    :ensure t)
 #+end_src
 
 
@@ -1700,7 +1714,8 @@ Binding custom functions and hydras
   (global-set-key (kbd "C-x j")   'phd/hydra-goto-mv/body)
   (global-set-key (kbd "C-x C-j") 'phd/hydra-goto-mv/body)
   (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
-
+  (global-set-key (kbd "C-c r")   'org-ref-citation-hydra/body)
+  (global-set-key (kbd "C-c b")   'org-ref-bibtex-hydra/body)
 #+end_src
 
 

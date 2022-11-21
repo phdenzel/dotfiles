@@ -124,6 +124,12 @@
   `(org-block-background    ((t (:background ,bg-d))))
   `(org-code                ((t (:inherit org-block))))
 
+  ;; Org ref
+  `(org-ref-ref-face           ((t (:foreground ,purple))))
+  `(org-ref-cite-face          ((t (:foreground ,cyan))))
+  `(org-ref-label-face         ((t (:foreground ,green-bb))))
+  `(org-ref-bad-cite-key-face  ((t (:foreground ,magenta))))
+
   ;; Latex
   `(font-latex-sedate-face       ((t (:foreground ,magenta))))
   `(font-latex-sectioning-1-face ((t (:foreground ,purple))))

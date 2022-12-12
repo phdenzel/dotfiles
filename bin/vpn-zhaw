@@ -1,2 +1,2 @@
 #!/bin/bash
-openconnect-sso -s ras.zhaw.ch -u denp@zhaw.ch
+OPENSSL_CONF=~/.config/openconnect-sso/custom-ssl.conf openconnect-sso -s ras.zhaw.ch -u denp@zhaw.ch

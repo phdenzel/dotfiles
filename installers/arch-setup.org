@@ -461,7 +461,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Dev tools
     Languages: lisp, haskell, cuda, rust, ruby, LaTeX
     #+begin_src shell
-      sudo pacman -S emacs vim base-devel gdb cmake docker pyenv ghc ghc-static cuda cuda-tools cudnn rust ruby rubygems texlive-most texlive-lang gobject-introspection tk
+      sudo pacman -S emacs vim base-devel gdb cmake docker pyenv ghc ghc-static cuda cuda-tools cudnn rust rust-analyzer ruby rubygems texlive-most texlive-lang gobject-introspection tk
     #+end_src
 
     Installing jekyll (my preferred dev tool for static websites and blogs)

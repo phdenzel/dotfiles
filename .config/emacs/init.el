@@ -7,6 +7,7 @@
 
 ;;; Package archives
 (require 'package)
+;;; Code:
 (setq package-enable-at-startup nil)
 
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
@@ -45,10 +46,11 @@
 (setq server-socket-dir (expand-file-name "~/.config/emacs/server"))
 
 ;;; Attempt to speed up startup by allocating RAM for the garbage collector
-(setq gc-cons-threshold (* 1024 1024 1024))
-(add-hook 'after-init-hook
+(setq gc-cons-threshold most-positive-fixnum)
+;; Lower threshold to 16 MiB (default is 800kB)
+(add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (* 2 1024 1024))))
+            (setq gc-cons-threshold (expt 2 24))))
 (let ((file-name-handler-alist nil)) (expand-file-name "~/.config/emacs/init.el"))
 
 (add-hook 'emacs-startup-hook

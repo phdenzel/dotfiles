@@ -674,6 +674,17 @@ Modern auto-complete [*Comp*lete-*any*thing]
 
 ** Language modes
 
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :hook (;; add all your lsp enabled languages here
+           (rust-mode . lsp)
+           (lsp-mode . lsp-enable-which-key-integration))
+    :commands (lsp lsp-deferred))
+#+end_src
+
 
 *** Cython
 
@@ -762,7 +773,7 @@ Modern auto-complete [*Comp*lete-*any*thing]
 
 For jsdoc, we first need to install a few dependencies
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package tree-sitter
     :ensure t)
 
@@ -770,8 +781,7 @@ For jsdoc, we first need to install a few dependencies
     :ensure t)
 #+end_src
 
-
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package jsdoc
     :ensure t
     ;;:quelpa (jsdoc
@@ -936,9 +946,7 @@ Add support for Dockerfile editing
     :ensure t
     :init
     (setq-default flycheck-flake8-maximum-line-length 99)
-    (setq-default flycheck-disabled-checkers '(python-pylint
-                                               rust-cargo
-                                               rust))
+    (setq-default flycheck-disabled-checkers '(python-pylint))
     (global-flycheck-mode t))
 
 #+end_src
@@ -1633,6 +1641,10 @@ take global effect.
 
   ;; For orientation
   (global-hl-line-mode t)
+
+  ;; Increase max. subprocess read size for better performance (in LSP)
+  ;; default was 4K -> 1G
+  (setq read-process-output-max (* 1024 1024))
 #+end_src
 
 
@@ -2003,7 +2015,6 @@ My Custom dashboard functions
 #+end_src
 
 
-
 Create custom mode section
 
 #+begin_src emacs-lisp
@@ -2027,49 +2038,49 @@ My dashboard configuration
 
 #+begin_src emacs-lisp
 
-    (use-package dashboard
-      :ensure nil
-      :load-path "~/local/phd-dashboard/"
-      :config
-      (dashboard-setup-startup-hook)
-      (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-      ;; Banner & Appearance
-      (setq dashboard-center-content t
-            dashboard-startup-banner 'phdemacs
-            dashboard-set-heading-icons t
-            dashboard-set-file-icons t
-            dashboard-set-init-info nil)
-      (setq dashboard-items '((modes     . 5) (bookmarks . 5)
-                              (projects  . 5) (recents   . 3)))
-      ;; Functionality
-      (setq dashboard-modes-alist
-            '(("mu4e" . mu4e)
-              ("phd-modeline-mode" . phd-modeline-mode)))
-      (setq dashboard-mode-status-alist
-            '(("mu4e" . mu4e~proc-running-p)
-              ("phd-modeline-mode" . phd-modeline-mode)))
-      (setq dashboard-projects-switch-function
-            'counsel-projectile-switch-project-by-name)
-      ;; Navigator
-      (setq dashboard-set-navigator t
-            dashboard-navigator-buttons
-            `(((,(all-the-icons-octicon "mark-github"
-                                        :height 1.1
-                                        :v-adjust 0.0) nil "Browse homepage"
-                  phd-db/visit-dreamworld link))
-              ;; ---
-              (("★" nil "Show stars" phd-db/show-stars font-lock-keyword-face)
-               ;; ("?" "" "Help" (lambda (&rest _) (message "help")) default)
-               ("⚑" nil "Show flags" phd-db/show-flags font-lock-string-face))
-              ))
-      ;; Footer
-      (setq dashboard-footer-messages '("Deus Ex Machina!")
-            dashboard-footer-icon
-            (all-the-icons-octicon "dashboard"
-                                   :height 1.1
-                                   :v-adjust -0.05
-                                   :face 'font-lock-keyword-face))
-      )
+  (use-package dashboard
+    :ensure nil
+    :load-path "~/local/phd-dashboard/"
+    :config
+    (dashboard-setup-startup-hook)
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+    ;; Banner & Appearance
+    (setq dashboard-center-content t
+          dashboard-startup-banner 'phdemacs
+          dashboard-set-heading-icons t
+          dashboard-set-file-icons t
+          dashboard-set-init-info nil)
+    (setq dashboard-items '((modes     . 5) (bookmarks . 5)
+                            (projects  . 5) (recents   . 3)))
+    ;; Functionality
+    (setq dashboard-modes-alist
+          '(("mu4e" . mu4e)
+            ("phd-modeline-mode" . phd-modeline-mode)))
+    (setq dashboard-mode-status-alist
+          '(("mu4e" . mu4e~proc-running-p)
+            ("phd-modeline-mode" . phd-modeline-mode)))
+    (setq dashboard-projects-switch-function
+          'counsel-projectile-switch-project-by-name)
+    ;; Navigator
+    (setq dashboard-set-navigator t
+          dashboard-navigator-buttons
+          `(((,(all-the-icons-octicon "mark-github"
+                                      :height 1.1
+                                      :v-adjust 0.0) nil "Browse homepage"
+                phd-db/visit-dreamworld link))
+            ;; ---
+            (("★" nil "Show stars" phd-db/show-stars font-lock-keyword-face)
+             ;; ("?" "" "Help" (lambda (&rest _) (message "help")) default)
+             ("⚑" nil "Show flags" phd-db/show-flags font-lock-string-face))
+            ))
+    ;; Footer
+    (setq dashboard-footer-messages '("Deus Ex Machina!")
+          dashboard-footer-icon
+          (all-the-icons-octicon "dashboard"
+                                 :height 1.1
+                                 :v-adjust -0.05
+                                 :face 'font-lock-keyword-face))
+    )
 
 #+end_src
 
@@ -2082,18 +2093,19 @@ customizations caused emacs to slow down noticeably (at least, I think
 so... after switching to my own implementation, I noticed a speed up).
 
 So, I decided to use Emacs' built-in ~mode-line~ and apply a light
-customization myself.
+customization myself. That's all I need anyways...
 
 #+begin_src emacs-lisp
 
   (use-package phd-modeline
     :ensure nil
-    :load-path "~/local/phd-modeline/"
+    :load-path "~/local/phd-modeline"
     :after all-the-icons
     :hook (after-init . phd-modeline-mode)
     :bind (("C-x |" . phd-modeline-mode))
-    :config
+    :init
     (require 'phd-mu4e-setup)
+    :config
     (setq phd-modeline-mu4e-unread-query phd-mu4e-inbox-query)
     (phd-modeline-column-mode t)
     (phd-modeline-mail-mode t)
@@ -2120,6 +2132,7 @@ customization myself.
            '(:eval (phd-modeline-mode-icon))
            '(:eval (phd-modeline-whitespace))
            '(:eval (phd-modeline-major-mode))
-           '(:eval (phd-modeline-whitespace)))))
+           '(:eval (phd-modeline-whitespace))))
+    )
 
 #+end_src

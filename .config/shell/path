@@ -39,12 +39,12 @@ export PATH="${PATH}:$HOME/.npm_global/bin"
 # JAVA
 export PATH="${PATH}:$HOME/.jenv/bin"
 if command -v jenv &> /dev/null; then eval "$(jenv init -)"; fi
-# jenv enable-plugin export
-# jenv add /usr/lib/jvm/java-11-openjdk-amd64/
-# jenv add /usr/lib/jvm/java-8-openjdk-amd64/
-# jenv rehash
-# export CLASSPATH="$(jenv prefix)"
-export CLASSPATH="${CLASSPATH}:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar"
+jenv enable-plugin export  &> /dev/null
+jenv add /usr/lib/jvm/java-19-openjdk/ &> /dev/null
+jenv add /usr/lib/jvm/java-8-openjdk/ &> /dev/null
+jenv rehash &> /dev/null
+export CLASSPATH="$(jenv prefix)"
+# export CLASSPATH="${CLASSPATH}:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar"
 
 # HDF5
 if ls $HOME/local/hdf5 &> /dev/null; then

@@ -6,7 +6,7 @@
 # backend: TkAgg
 
 # Fonts
-text.color: 404048
+# text.color: 404048
 
 # text.usetex: true
 # text.latex.unicode: true
@@ -16,7 +16,7 @@ text.latex.preamble: \usepackage[cm]{sfmath},\usepackage{siunitx}
   #,\usepackage[T1]{fontenc}
   #,\usepackage{bm}
   #,\usepackage{euler}
-mathtext.fontset: cm  # stixsans
+mathtext.fontset: dejavusans # stixsans # cm
 mathtext.default: rm
 # mathtext.fallback_to_cm: True
 
@@ -46,6 +46,7 @@ patch.edgecolor: none
 legend.labelcolor: 50505d
 
 # for dark backgrounds
+text.color: b9b9bd
 legend.edgecolor: b9b9bd
 axes.edgecolor: b9b9bd
 axes.labelcolor: b9b9bd
@@ -53,6 +54,7 @@ xtick.color: b9b9bd
 ytick.color: b9b9bd
 
 # # for light backgrounds
+# text.color: 50505d
 # legend.edgecolor: 50505d
 # axes.edgecolor: 50505d
 # axes.labelcolor: 50505d

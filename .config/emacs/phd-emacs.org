@@ -115,22 +115,10 @@ This is done after the initialization, and thus can increase the startup
 substantially.
 Thus all packages should be loaded with 'use-package'.
 
-
-** Quelpa
-
-To build packages on-the-fly and directly from source on github,
-quelpa can be used and integrated with use-package.
-
 #+begin_src emacs-lisp
-;;  (use-package quelpa
-;;    :ensure t)
+  (straight-use-package 'use-package)
+  (setq straight-use-package-by-default t)
 #+end_src
-
-#+begin_src emacs-lisp
-;;  (use-package quelpa-use-package
-;;    :ensure t)
-#+end_src
-
 
 
 * Modules
@@ -141,8 +129,7 @@ quelpa can be used and integrated with use-package.
 String manipulation module
 
 #+begin_src emacs-lisp
-  (use-package s
-    :ensure t)
+  (use-package s)
 #+end_src
 
 
@@ -151,8 +138,15 @@ String manipulation module
 File system module
 
 #+begin_src emacs-lisp
-  (use-package f
-    :ensure t)
+  (use-package f)
+#+end_src
+
+** dash
+
+A modern list library for Emacs (required by the GitHub copilot package)
+
+#+begin_src emacs-lisp
+  (use-package dash)
 #+end_src
 
 
@@ -293,7 +287,6 @@ packages are configured. For more exemplary "hydras", see
 #+begin_src emacs-lisp
 
   (use-package hydra
-    :ensure t
     :init
     (defhydra phd/hydra-toggler (:color pink)
       "toggle"
@@ -388,7 +381,6 @@ We enhance the minibuffer completion with three packages:
 #+begin_src emacs-lisp
 
   (use-package ivy-hydra
-    :ensure t
     :defer t
     :init (ivy-mode 1)
     :config (setq ivy-use-virtual-buffers t)
@@ -406,7 +398,6 @@ uppercase characters for ivy control.
 #+begin_src emacs-lisp
 
   (use-package counsel
-    :ensure t
     :bind* (("M-x"     . counsel-M-x)
             ("M-y"     . counsel-yank-pop)
             ("C-x C-f" . counsel-find-file)
@@ -452,9 +443,7 @@ uppercase characters for ivy control.
 #+begin_src emacs-lisp
 
   (use-package swiper
-    :pin melpa-stable
     :diminish ivy-mode
-    :ensure t
     :bind* ("C-s" . swiper))
 
 #+end_src
@@ -468,7 +457,6 @@ visible text using a char-based decision tree
 #+begin_src emacs-lisp
 
   (use-package avy
-    :ensure t
     :bind
     ("M-s" . avy-goto-word-1))
 
@@ -481,62 +469,61 @@ Hydra-enhanced window manager
 
 #+begin_src emacs-lisp
 
-                (use-package ace-window
-                  :ensure t
-                  :defer t
-                  :bind ("C-x o" . ace-window)
-                  :config
-                  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
-                        aw-dispatch-always t
-                        aw-dispatch-alist
-                        '((?x aw-delete-window "Ace - Delete Window")
-                          (?c aw-swap-window "Ace - Swap Window")
-                          (?n aw-flip-window "Ace - Flip Window")
-                          (?\- aw-split-window-vert "Ace - V-Split Window")
-                          (?\| aw-split-window-horz "Ace - H-Split Window")
-                          (?m delete-other-windows "Ace - Maximize Window")
-                          (?g delete-other-windows "Ace - Delete Window")
-                          (?b balance-windows "Ace - Balance Windows")
-                          (?v aw-show-dispatch-help)
-                          ;; ?w hydra-window-size/body
-                          ;; ?o hydra-window-scroll/body
-                          ;; ?\; hydra-window-frame/body
-                          ))
-                  (when (package-installed-p 'hydra)
-                    ;; Window
-                    (defhydra hydra-window-size (:color red)
-                      "Windows size"
-                      ("h" shrink-window-horizontally "shrink horizontal")
-                      ("j" shrink-window "shrink vertical")
-                      ("k" enlarge-window "enlarge vertical")
-                      ("l" enlarge-window-horizontally "enlarge horizontal")
-                      ("q" nil "cancel" :exit t)
-                      ("Q" nil :exit t)
-                      ("C-g" nil :exit t))
-                    ;; Frame
-                    (defhydra hydra-window-frame (:color red)
-                      "Frame"
-                      ("f" make-frame "new frame")
-                      ("x" delete-frame "delete frame")
-                      ("q" nil "cancel" :exit t)
-                      ("Q" nil :exit t)
-                      ("C-g" nil :exit t))
-                    ;; Scrolling
-                    (defhydra hydra-window-scroll (:color red)
-                      "Scroll other window"
-                      ("n" scroll-other-window "scroll")
-                      ("p" scroll-other-window-down "scroll down")
-                      ("q" nil "cancel" :exit t)
-                      ("Q" nil :exit t)
-                      ("C-g" nil :exit t))
-                    ;; add to dispatch list
-                    (add-to-list
-                     'aw-dispatch-alist '(?w hydra-window-size/body) t)
-                    (add-to-list
-                     'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
-                    (add-to-list
-                     'aw-dispatch-alist '(?\; hydra-window-frame/body) t))
-                  )
+  (use-package ace-window
+    :defer t
+    :bind ("C-x o" . ace-window)
+    :config
+    (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
+          aw-dispatch-always t
+          aw-dispatch-alist
+          '((?x aw-delete-window "Ace - Delete Window")
+            (?c aw-swap-window "Ace - Swap Window")
+            (?n aw-flip-window "Ace - Flip Window")
+            (?\- aw-split-window-vert "Ace - V-Split Window")
+            (?\| aw-split-window-horz "Ace - H-Split Window")
+            (?m delete-other-windows "Ace - Maximize Window")
+            (?g delete-other-windows "Ace - Delete Window")
+            (?b balance-windows "Ace - Balance Windows")
+            (?v aw-show-dispatch-help)
+            ;; ?w hydra-window-size/body
+            ;; ?o hydra-window-scroll/body
+            ;; ?\; hydra-window-frame/body
+            ))
+    (when (package-installed-p 'hydra)
+      ;; Window
+      (defhydra hydra-window-size (:color red)
+        "Windows size"
+        ("h" shrink-window-horizontally "shrink horizontal")
+        ("j" shrink-window "shrink vertical")
+        ("k" enlarge-window "enlarge vertical")
+        ("l" enlarge-window-horizontally "enlarge horizontal")
+        ("q" nil "cancel" :exit t)
+        ("Q" nil :exit t)
+        ("C-g" nil :exit t))
+      ;; Frame
+      (defhydra hydra-window-frame (:color red)
+        "Frame"
+        ("f" make-frame "new frame")
+        ("x" delete-frame "delete frame")
+        ("q" nil "cancel" :exit t)
+        ("Q" nil :exit t)
+        ("C-g" nil :exit t))
+      ;; Scrolling
+      (defhydra hydra-window-scroll (:color red)
+        "Scroll other window"
+        ("n" scroll-other-window "scroll")
+        ("p" scroll-other-window-down "scroll down")
+        ("q" nil "cancel" :exit t)
+        ("Q" nil :exit t)
+        ("C-g" nil :exit t))
+      ;; add to dispatch list
+      (add-to-list
+       'aw-dispatch-alist '(?w hydra-window-size/body) t)
+      (add-to-list
+       'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
+      (add-to-list
+       'aw-dispatch-alist '(?\; hydra-window-frame/body) t))
+    )
 
 #+end_src
 
@@ -546,7 +533,6 @@ Hydra-enhanced window manager
 #+begin_src emacs-lisp
 
   (use-package multiple-cursors
-    :ensure t
     :bind (("M-SPC"         . set-rectangular-region-anchor)
            ("C-c ,"         . mc/edit-lines)
            ("C->"           . mc/mark-next-like-this)
@@ -613,7 +599,6 @@ Do What I Mean when commenting
 #+begin_src emacs-lisp
 
   (use-package comment-dwim-2
-    :ensure t
     :bind ("M-/" . comment-dwim-2))
 
 #+end_src
@@ -623,9 +608,8 @@ Do What I Mean when commenting
 
 #+begin_src emacs-lisp
 
-(use-package hungry-delete
-    :ensure t
-    :bind ("<C-backspace>" . hungry-delete-backward))
+  (use-package hungry-delete
+      :bind ("<C-backspace>" . hungry-delete-backward))
 
 #+end_src
 
@@ -635,7 +619,6 @@ Do What I Mean when commenting
 #+begin_src emacs-lisp
 
   (use-package expand-region
-    :ensure t
     :bind ("C-M-SPC" . er/expand-region))
 
 #+end_src
@@ -646,7 +629,6 @@ Do What I Mean when commenting
 #+begin_src emacs-lisp
 
   (use-package drag-stuff
-    :ensure t
     :bind (("<C-M-up>"   . drag-stuff-up)
            ("<C-M-down>" . drag-stuff-down)))
 
@@ -660,7 +642,6 @@ Modern auto-complete [*Comp*lete-*any*thing]
 #+begin_src emacs-lisp
 
   (use-package company
-    :ensure t
     :defer 5
     :bind ("C-." . company-complete)
     :config
@@ -675,39 +656,39 @@ Modern auto-complete [*Comp*lete-*any*thing]
 ** Language modes
 
 #+begin_src emacs-lisp
+
   (use-package lsp-mode
-    :ensure t
     :init
     (setq lsp-keymap-prefix "C-c l")
     :hook (;; add all your lsp enabled languages here
            (rust-mode . lsp)
            (lsp-mode . lsp-enable-which-key-integration))
     :commands (lsp lsp-deferred))
+  
 #+end_src
 
 
 *** Cython
 
 #+begin_src emacs-lisp
-  (use-package cython-mode
-    :ensure t)
+  (use-package cython-mode)
 #+end_src
 
 
 *** Haskell
 
 #+begin_src emacs-lisp
+
   (use-package haskell-mode
-    :ensure t
     :interpreter ("ghc" . haskell-mode))
+  
 #+end_src
 
 
 *** Rust
 
 #+begin_src emacs-lisp
-  (use-package rust-mode
-    :ensure t)
+  (use-package rust-mode)
 #+end_src
 
 
@@ -715,29 +696,32 @@ Modern auto-complete [*Comp*lete-*any*thing]
 *** Scala
 
 #+begin_src emacs-lisp
+
   (use-package scala-mode
-    :ensure t
     :interpreter ("scala" . scala-mode))
+  
 #+end_src
 
 
 *** Markdown
 
 #+begin_src emacs-lisp
+
   (use-package markdown-mode
-    :ensure t
     :defer t
     :config
     (custom-set-variables '(markdown-command "/usr/bin/pandoc")))
+  
 #+end_src
 
 
 *** YAML
 
 #+begin_src emacs-lisp
+
   (use-package yaml-mode
-    :ensure t
     :defer t)
+  
 #+end_src
 
 
@@ -746,7 +730,6 @@ Modern auto-complete [*Comp*lete-*any*thing]
 #+begin_src emacs-lisp
 
   (use-package web-mode
-    :ensure t
     :config
     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
     (setq web-mode-ac-sources-alist
@@ -762,34 +745,32 @@ Modern auto-complete [*Comp*lete-*any*thing]
 #+end_src
 
 
-*** Javascript 
+*** TODO Javascript 
 #+begin_src emacs-lisp
+
   (use-package js2-mode
-    :ensure t
     :config
-    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-    )
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+  
 #+end_src
 
 For jsdoc, we first need to install a few dependencies
 
 #+begin_src emacs-lisp :tangle no
-  (use-package tree-sitter
-    :ensure t)
-
-  (use-package tree-sitter-langs
-    :ensure t)
+  (use-package tree-sitter)
+  (use-package tree-sitter-langs)
 #+end_src
 
 #+begin_src emacs-lisp :tangle no
+
   (use-package jsdoc
-    :ensure t
     ;;:quelpa (jsdoc
     ;;         :fetcher github
     ;;         :repo "isamert/jsdoc.el")
     :config
     :hook (js-mode . tree-sitter-mode)
     )
+
 #+end_src
 
 
@@ -798,23 +779,26 @@ For jsdoc, we first need to install a few dependencies
 *** CSS & Co.
 
 #+begin_src emacs-lisp
+
   (use-package less-css-mode
-    :ensure t
     :defer t)
+  
 #+end_src
 
 #+begin_src emacs-lisp
+
   (use-package scss-mode
-    :ensure t
     :defer t
     :config (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode)))
+  
 #+end_src
 
 #+begin_src emacs-lisp
-(use-package sass-mode
-    :ensure t
+
+  (use-package sass-mode
     :defer t
     :config (add-to-list 'auto-mode-alist '("\\.sass\\'" . sass-mode)))
+  
 #+end_src
 
 
@@ -837,7 +821,6 @@ The ~elpy~ configuration will use these quoted variables
 #+begin_src emacs-lisp
 
   (use-package elpy
-    :ensure t
     :defer t
     :init
     (setq elpy-rpc-python-command python-shell-interpreter)
@@ -879,19 +862,16 @@ within emacs or via pip in the current virtualenv:
 #+begin_src emacs-lisp
 
   (use-package ein
-    :ensure t
     :config
     (setq ein:output-area-inlined-images t))
 
 #+end_src
-
 
 **** company-jedi
 
 #+begin_src emacs-lisp
 
   (use-package company-jedi
-    :ensure t
     :config
     (add-hook 'python-mode-hook 'jedi:setup)
     (setq jedi:complete-on-dot t)
@@ -902,7 +882,6 @@ within emacs or via pip in the current virtualenv:
 
 #+end_src
 
-
 *** Clojure
 
 ~cider~ extends emacs with support for interactive programming in
@@ -911,8 +890,6 @@ clojure
 #+begin_src emacs-lisp
 
   (use-package cider
-    :ensure t
-    :pin melpa-stable
     :bind (:map cider-mode-map
                 ("M-r" . cider-namespace-refresh))
     :config
@@ -930,8 +907,32 @@ clojure
 Add support for Dockerfile editing
 
 #+begin_src emacs-lisp
-  (use-package dockerfile-mode
-    :ensure t)
+  (use-package dockerfile-mode)
+#+end_src
+
+*** GitHub Copilot
+
+Install dependencies first (s and dash are already installed)
+
+#+begin_src emacs-lisp
+  (use-package editorconfig)
+#+end_src
+
+
+#+begin_src emacs-lisp
+
+  (use-package copilot
+    :straight (:host github
+               :repo "zerolfx/copilot.el"
+               :files ("dist" "*.el"))
+    :hook (prog-mode-hook . copilot-mode)
+    :bind (:map copilot-completion-map
+                ("S-TAB" . copilot-accept-completion-by-word)
+                ("C-<tab>" . copilot-accept-completion))
+    :after company
+    :config
+    (delq 'company-preview-if-just-one-frontend company-frontends))
+  
 #+end_src
 
 
@@ -943,7 +944,6 @@ Add support for Dockerfile editing
 #+begin_src emacs-lisp
 
   (use-package flycheck
-    :ensure t
     :init
     (setq-default flycheck-flake8-maximum-line-length 99)
     (setq-default flycheck-disabled-checkers '(python-pylint))
@@ -960,7 +960,6 @@ Add support for Dockerfile editing
 #+begin_src emacs-lisp
 
   (use-package highlight-parentheses
-    :ensure t
     :config (global-highlight-parentheses-mode))
 
 #+end_src
@@ -969,18 +968,14 @@ Add support for Dockerfile editing
 *** rainbow-delimiters
 
 #+begin_src emacs-lisp
-
-  (use-package rainbow-delimiters
-    :ensure t)
-
+  (use-package rainbow-delimiters)
 #+end_src
 
 
 *** rainbow-mode
 
 #+begin_src emacs-lisp
-  (use-package rainbow-mode
-    :ensure t)
+  (use-package rainbow-mode)
 #+end_src
 
 
@@ -992,7 +987,6 @@ Install snippet system
 #+begin_src emacs-lisp
 
   (use-package yasnippet
-    :ensure t
     :config
     (setq yas-snippet-dirs '("~/.config/emacs/snippets"))
     (add-hook 'org-mode-hook #'yas-minor-mode)
@@ -1010,7 +1004,6 @@ with some snippets
 #+begin_src emacs-lisp
 
   (use-package yasnippet-snippets
-    :ensure t
     :after yasnippet
     :config
     (yas-reload-all))
@@ -1025,7 +1018,6 @@ with some snippets
 
 #+begin_src emacs-lisp
   (use-package magit
-    :ensure t
     :bind ("C-c m" . magit-status))
 
 #+end_src
@@ -1039,7 +1031,6 @@ Often visited projects can be added to ~projectile~ with
 #+begin_src emacs-lisp
 
   (use-package projectile
-    :ensure t
     :defer t
     :bind (:map projectile-mode-map
                 ("C-c p" . projectile-command-map))
@@ -1057,7 +1048,6 @@ command map
 #+begin_src emacs-lisp
 
   (use-package counsel-projectile
-    :ensure t
     :config
     (counsel-projectile-mode))
 
@@ -1069,7 +1059,7 @@ command map
 #+begin_src emacs-lisp :tangle no
 
   (use-package treemacs
-    :ensure t
+    :straight nil
     :defer t
     :init
     (with-eval-after-load 'winum
@@ -1131,7 +1121,7 @@ command map
 #+begin_src emacs-lisp :tangle no
 
   (use-package treemacs-projectile
-    :ensure t
+    :straight nil
     :defer t
     :after treemacs projectile)
 
@@ -1147,9 +1137,10 @@ For converting source code to HTML. Especially nice for preserving syntax
 colouring of org-mode src-blocks in exported HTML code.
 
 #+begin_src emacs-lisp
-(use-package htmlize
-    :ensure t
+
+  (use-package htmlize
     :defer t)
+  
 #+end_src
 
 
@@ -1159,8 +1150,9 @@ colouring of org-mode src-blocks in exported HTML code.
 *** org
 
 #+begin_src emacs-lisp
+
   (use-package org
-    :ensure t
+    :straight nil
     :config
     (setq org-src-fontify-natively t)
     (setq org-src-tab-acts-natively t)
@@ -1173,45 +1165,49 @@ colouring of org-mode src-blocks in exported HTML code.
        (haskell    . t)
        (python     . t)
        (dot        . t))))
+  
 #+end_src
 
 
 **** org-bullets
 
 #+begin_src emacs-lisp
+
   (use-package org-bullets
-    :ensure t
     :after org
     :commands (org-bullets-mode)
     :init
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  
 #+end_src
 
 
 **** org-ref
 
 #+begin_src emacs-lisp
+
   (use-package org-ref
-    :ensure t)
+    :after (helm-bibtex ivy-bibtex pdf-tools))
+  
 #+end_src
 
 ***** Dependencies
 
 #+begin_src emacs-lisp
-  (use-package helm-bibtex
-    :ensure t)
 
-  (use-package ivy-bibtex
-    :ensure t)
+  (use-package helm-bibtex)
 
-  (use-package pdf-tools
-    :ensure t)
+  (use-package ivy-bibtex)
+
+  (use-package pdf-tools)
+
 #+end_src
 
 **** org-id (customization)
 
 #+begin_src emacs-lisp
   (use-package org-id
+    :straight nil
     :config
     (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
 
@@ -1273,13 +1269,13 @@ colouring of org-mode src-blocks in exported HTML code.
 
 #+begin_src emacs-lisp
   (use-package toc-org
-    :ensure t
     :after org
     :init
     (add-hook 'org-mode-hook 'toc-org-mode)
     ;; :config
     ;; (define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point)
     )
+  
 #+end_src
 
 
@@ -1295,9 +1291,11 @@ Automatically execute source code blocks during exports
 **** ox-md
 
 #+begin_src emacs-lisp
+
   (use-package ox-md
-    :ensure nil
+    :straight nil
     :after org)
+
 #+end_src
 
 
@@ -1333,18 +1331,20 @@ this will create a buffer with the export which can be saved to file.
 **** ox-gfm
 
 #+begin_src emacs-lisp
+
   (use-package ox-gfm
-    :ensure t
     :after org)
+
 #+end_src
 
 
 **** ox-reveal
 
 #+begin_src emacs-lisp
+
   (use-package ox-reveal
-    :ensure t
     :after org)
+  
 #+end_src
 
 
@@ -1497,8 +1497,8 @@ TODO:
 AUCTeX is an integrated environment for writing input files for LaTeX
 
 #+begin_src emacs-lisp
+
   (use-package auctex
-    :ensure t
     :defer t
     :defines (TeX-view-program-selection)
     :config
@@ -1506,6 +1506,7 @@ AUCTeX is an integrated environment for writing input files for LaTeX
     (TeX-global-PDF-mode t)
     (add-to-list 'TeX-view-program-selection
                  '(output-pdf "Zathura")))
+  
 #+end_src
 
 
@@ -1540,7 +1541,7 @@ AUCTeX is an integrated environment for writing input files for LaTeX
 #+begin_src emacs-lisp
 
   (use-package phd-mu4e-setup
-    :ensure nil
+    :straight nil
     :load-path "~/local/phd-mu4e-setup/"
     :bind (("C-x m"   . mu4e)
            ("C-x C-m" . mu4e-compose-new)
@@ -1556,7 +1557,6 @@ Use UNIX pass instead of authinfo (but keep other methods as backup)
 #+begin_src emacs-lisp
 
   (use-package pass
-    :ensure t
     :config
     (setf epg-pinentry-mode 'loopback)
     (auth-source-pass-enable)
@@ -1565,8 +1565,7 @@ Use UNIX pass instead of authinfo (but keep other methods as backup)
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package auth-source-xoauth2
-    :ensure t)
+  (use-package auth-source-xoauth2)
 #+end_src
 
 
@@ -1577,7 +1576,6 @@ Use org-mode to write html content in mails
 #+begin_src emacs-lisp
 
   (use-package org-mime
-    :ensure t
     :hook ((message-mode . (lambda ()
                              (local-set-key (kbd "C-c M-o") 'org-mime-htmlize)))
            (org-mode . (lambda ()
@@ -1598,10 +1596,11 @@ Settings for a few helping features.
 ** which-key
 
 #+begin_src emacs-lisp
+
   (use-package which-key
-    :ensure t
     :diminish which-key-mode
     :config (which-key-mode))
+  
 #+end_src
 
 
@@ -1610,7 +1609,6 @@ Settings for a few helping features.
 #+begin_src emacs-lisp
 
   (use-package company-quickhelp
-    :ensure t
     :config
     (eval-after-load 'company
       '(define-key company-active-map
@@ -1633,6 +1631,7 @@ take global effect.
 *** Miscellaneous settings
 
 #+begin_src emacs-lisp
+
   ;; Startup screen
   (setq inhibit-startup-message t)
 
@@ -1645,6 +1644,7 @@ take global effect.
   ;; Increase max. subprocess read size for better performance (in LSP)
   ;; default was 4K -> 1G
   (setq read-process-output-max (* 1024 1024))
+  
 #+end_src
 
 
@@ -1652,13 +1652,13 @@ take global effect.
 
 #+begin_src emacs-lisp
   (put 'dired-find-alternate-file 'disabled nil)
-
 #+end_src
 
 
 *** Brackets
 
 #+begin_src emacs-lisp
+
   ;; highlight pair
   (show-paren-mode t)
 
@@ -1670,52 +1670,63 @@ take global effect.
    (lambda ()
      (setq-local electric-pair-inhibit-predicate
                  `(lambda (c) (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
+  
 #+end_src
 
 
 *** Clipboard
 
 #+begin_src emacs-lisp
-(setq select-enable-clipboard t
+
+  (setq select-enable-clipboard t
         select-enable-primary t
         save-interprogram-paste-before-kill t
         require-final-newline t)
+  
 #+end_src
 
 
 *** Tabs
 
 #+begin_src emacs-lisp
+
   (setq-default tab-width 2)
   (setq-default indent-tabs-mode nil)
   (setq indent-line-function 'insert-tab)
   (electric-indent-mode t)
+  
 #+end_src
 
 
 *** Unique buffers
 
 #+begin_src  emacs-lisp
+
   (if (< emacs-major-version 25)
       (require 'uniquify))
   (setq uniquify-buffer-name-style 'forward)
+
 #+end_src
 
 
 *** Mouse-wheel speed
 
 #+begin_src emacs-lisp
+
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 4) ((meta)) ((control)) ))
   (setq mouse-wheel-progressive-speed nil)
+  
 #+end_src
 
 
 *** Silence bell
 
 #+begin_src emacs-lisp
+
   (defun phd-bell ())
   (setq ring-bell-function 'phd-bell
         visible-bell nil)
+  
 #+end_src
 
 
@@ -1747,6 +1758,7 @@ Regular remaps and bindings
 Dired bindings
 
 #+begin_src emacs-lisp
+
   ;; evil movement
   (define-key dired-mode-map "j" 'dired-next-line)
   (define-key dired-mode-map "k" 'dired-previous-line)
@@ -1755,6 +1767,7 @@ Dired bindings
   ;; change behaviour of Enter -> a (doesn't open in new buffer)
   (define-key dired-mode-map (kbd "<return>") 'dired-find-alternate-file)
   ;; (define-key dired-mode-map "a" 'dired-find-file)
+  
 #+end_src
 
 
@@ -1780,6 +1793,7 @@ Binding custom functions and hydras
   (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
   (global-set-key (kbd "C-c r")   'org-ref-citation-hydra/body)
   (global-set-key (kbd "C-c b")   'org-ref-bibtex-hydra/body)
+  
 #+end_src
 
 
@@ -1882,7 +1896,6 @@ Does not take effect when executed in a terminal.
       ;; Scrolling cursor with mouse wheel (instead of frame)
       (global-set-key (kbd "<mouse-4>") 'phd/hydra-prevln)
       (global-set-key (kbd "<mouse-5>") 'phd/hydra-nxtln)
-
       )
     )
 
@@ -1898,6 +1911,7 @@ Settings specific to terminal mode.
 Does not take effect when executed in a separate window.
 
 #+begin_src emacs-lisp
+
   (defun new-term-setup (&optional frame)
     (unless (display-graphic-p frame)
 
@@ -1913,9 +1927,9 @@ Does not take effect when executed in a separate window.
       ;; Scrolling cursor with mouse wheel (instead of frame)
       (global-set-key (kbd "<mouse-4>") 'phd/hydra-prevln)
       (global-set-key (kbd "<mouse-5>") 'phd/hydra-nxtln)
-
       )
     )
+  
   (add-hook 'after-init-hook 'new-term-setup)
   ;; (add-hook 'terminal-init-xterm-hook 'new-term-setup)
 
@@ -1930,30 +1944,37 @@ All style settings are defined here...
 ** Theme
 
 #+begin_src emacs-lisp
+
   (add-hook 'after-init-hook
             (lambda () (load-theme 'phd-dark t)))
+  
 #+end_src
 
 
 *** Transparency
 
 #+begin_src emacs-lisp :tangle no
+
   (set-frame-parameter (selected-frame) 'alpha '(95 . 50))
   (add-to-list 'default-frame-alist '(alpha . (95 . 50)))
+  
 #+end_src
 
 
 *** Gamma adjustment
 
 #+begin_src emacs-lisp :tangle no
+
   (setq default-frame-alist '((screen-gamma . 1.0)))
   (setq initial-frame-alist '((screen-gamma . 1.0)))
+  
 #+end_src
 
 
 ** Font
 
 #+begin_src emacs-lisp
+
   (add-hook 'after-make-frame-functions
             (lambda (&optional frame)
               (when (display-graphic-p frame)
@@ -1978,8 +1999,7 @@ https://github.com/domtronn/all-the-icons.el/tree/master/fonts
 ... and afterwards load the package:
 
 #+begin_src emacs-lisp
-  (use-package all-the-icons
-    :ensure t)
+  (use-package all-the-icons)
 #+end_src
 
 
@@ -1996,6 +2016,7 @@ https://github.com/domtronn/all-the-icons.el/tree/master/fonts
 My Custom dashboard functions
 
 #+begin_src emacs-lisp
+
   (defun phd-db/visit-dreamworld (&rest _)
     "Go to my https://github.com/phdenzel website."
     (interactive)
@@ -2004,20 +2025,20 @@ My Custom dashboard functions
   (defun phd-db/show-stars (&rest _)
     "Show stars"
     (interactive)
-    (message "stars")
-    )
+    (message "stars"))
 
   (defun phd-db/show-flags (&rest _)
     "Show flags"
     (interactive)
-    (message "flags")
-    )
+    (message "flags"))
+
 #+end_src
 
 
 Create custom mode section
 
 #+begin_src emacs-lisp
+
   (setq phd-db-modes (list 'mu4e))
 
   (defun phd-db/insert-modes (list-size)
@@ -2039,7 +2060,7 @@ My dashboard configuration
 #+begin_src emacs-lisp
 
   (use-package dashboard
-    :ensure nil
+    :straight nil
     :load-path "~/local/phd-dashboard/"
     :config
     (dashboard-setup-startup-hook)
@@ -2098,7 +2119,7 @@ customization myself. That's all I need anyways...
 #+begin_src emacs-lisp
 
   (use-package phd-modeline
-    :ensure nil
+    :straight nil
     :load-path "~/local/phd-modeline"
     :after all-the-icons
     :hook (after-init . phd-modeline-mode)

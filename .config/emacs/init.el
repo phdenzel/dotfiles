@@ -5,45 +5,13 @@
 ;;; Commentary:
 ;; This file is read when Emacs starts
 
-;;; Package archives
-(require 'package)
 ;;; Code:
-(setq package-enable-at-startup nil)
 
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+;;; General configs
+(defvar gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
-(defvar archive-gnu '("gnu" . "https://elpa.gnu.org/packages/"))
-(defvar archive-melpa '("melpa" . "https://melpa.org/packages/"))
-(defvar archive-melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
-;; (defvar marmalade '("marmalade" . "https://marmalade-repo.org/packages/"))
+(defvar server-socket-dir (expand-file-name "~/.config/emacs/server"))
 
-;; Problematic in earlier versions
-(when (> emacs-major-version 23)
-  ;; remove pre-installed HTTP gnu
-  (setq package-archives nil)
-  ;; add HTTPS archives
-  ;; (add-to-list 'package-archives marmalade t)
-  (add-to-list 'package-archives archive-melpa-stable t)
-  (add-to-list 'package-archives archive-melpa t)
-  (add-to-list 'package-archives archive-gnu t))
-
-;;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
-;; Refresh archives if not in cache
-(unless (and (file-exists-p "~/.config/emacs/elpa/archives/gnu")
-             (file-exists-p "~/.config/emacs/elpa/archives/melpa")
-             (file-exists-p "~/.config/emacs/elpa/archives/melpa-stable")
-             ;; (file-exists-p "~/.config/emacs/elpa/archives/marmalade")
-             )
-  (package-refresh-contents))
-
-;;; Configs
-
-(setq server-socket-dir (expand-file-name "~/.config/emacs/server"))
 
 ;;; Attempt to speed up startup by allocating RAM for the garbage collector
 (setq gc-cons-threshold most-positive-fixnum)
@@ -61,21 +29,32 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-;; Bootstrap use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+
+;;; straight.el
+;; Disable package.el
+(setq package-enable-at-startup nil)
+;; Bootstrap straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
 
 ;;; Load org configs
-(require 'org)
+(straight-use-package 'org)
 (org-babel-load-file (expand-file-name "~/.config/emacs/phd-emacs.org"))
+
 
 ;; Custom stuff in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file :noerror)
 
-;; Byte compile configs for speed-up
-(byte-recompile-directory (expand-file-name "~/.config/emacs") 0)
-
-;;(put 'dired-find-alternate-file 'disabled nil)
 ;;; init.el ends here

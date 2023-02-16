@@ -141,6 +141,7 @@ File system module
   (use-package f)
 #+end_src
 
+
 ** dash
 
 A modern list library for Emacs (required by the GitHub copilot package)
@@ -857,6 +858,7 @@ within emacs or via pip in the current virtualenv:
   pip instal yapf
 #+end_src
 
+
 **** ein (emacs-ipython-notebook)
 
 #+begin_src emacs-lisp
@@ -866,6 +868,7 @@ within emacs or via pip in the current virtualenv:
     (setq ein:output-area-inlined-images t))
 
 #+end_src
+
 
 **** company-jedi
 
@@ -881,6 +884,7 @@ within emacs or via pip in the current virtualenv:
     (add-hook 'python-mode-hook 'phd/python-mode-hook))
 
 #+end_src
+
 
 *** Clojure
 
@@ -902,6 +906,7 @@ clojure
 
 #+end_src
 
+
 *** Docker
 
 Add support for Dockerfile editing
@@ -909,6 +914,7 @@ Add support for Dockerfile editing
 #+begin_src emacs-lisp
   (use-package dockerfile-mode)
 #+end_src
+
 
 *** GitHub Copilot
 
@@ -1191,6 +1197,7 @@ colouring of org-mode src-blocks in exported HTML code.
   
 #+end_src
 
+
 ***** Dependencies
 
 #+begin_src emacs-lisp
@@ -1203,15 +1210,17 @@ colouring of org-mode src-blocks in exported HTML code.
 
 #+end_src
 
+
 **** org-id (customization)
 
 #+begin_src emacs-lisp
+
   (use-package org-id
     :straight nil
     :config
     (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
 
-  (defun phd/org-custom-id-get (&optional pom create prefix)
+  (defun phd/org-custom-uid-get (&optional pom create prefix)
     "Get the CUSTOM_ID property of the entry at point-or-marker POM.
      If POM is nil, refer to the entry at point. If the entry does
      not have an CUSTOM_ID, the function returns nil. However, when
@@ -1230,7 +1239,7 @@ colouring of org-mode src-blocks in exported HTML code.
           (org-id-add-location id (buffer-file-name (buffer-base-buffer)))
           id)))))
 
-  (defun phd/org-add-ids-to-headlines-in-file ()
+  (defun phd/org-add-uids-to-headlines-in-file ()
     "Add CUSTOM_ID properties to all headlines in the current
      file which do not already have one. Only adds ids if the
      `auto-id' option is set to `t' in the file somewhere, i.e.
@@ -1240,7 +1249,7 @@ colouring of org-mode src-blocks in exported HTML code.
       (widen)
       (goto-char (point-min))
       (when (re-search-forward "^#\\+OPTIONS:.*auto-id:t" (point-max) t)
-        (org-map-entries (lambda () (phd/org-custom-id-get (point) 'create))))))
+        (org-map-entries (lambda () (phd/org-custom-uid-get (point) 'create))))))
 
   ;; automatically add ids to saved org-mode headlines
   (add-hook 'org-mode-hook
@@ -1249,11 +1258,34 @@ colouring of org-mode src-blocks in exported HTML code.
                         (lambda ()
                           (when (and (eq major-mode 'org-mode)
                                      (eq buffer-read-only nil))
-                            (phd/org-add-ids-to-headlines-in-file))))))
+                            (phd/org-add-uids-to-headlines-in-file))))))
 
   (setq org-latex-prefer-user-labels t)
-#+end_src
 
+  (defun create-custom-id-from-heading (heading)
+    "Create a custom ID string from the given HEADING string.
+     The custom ID is created by converting the heading to lowercase,
+     substituting spaces for hyphens, and removing any non-alphanumeric characters."
+    (replace-regexp-in-string "[^[:alnum:]]" "-" (downcase heading)))
+
+  (defun prompt-for-custom-id ()
+    "Prompt the user for a CUSTOM_ID property, using the current
+     headline text as the default value."
+    (interactive)
+    (let ((headline (org-get-heading t t)))
+      (org-set-property "CUSTOM_ID" (create-custom-id-from-heading headline))))
+
+  (defun phd/org-custom-ids ()
+    "Run through the current org mode document recursively, stopping at each heading
+     and setting the CUSTOM_ID property based on the heading text."
+    (interactive)
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward org-heading-regexp nil t)
+        (prompt-for-custom-id)
+        (outline-next-heading))))
+
+#+end_src
 
 
 

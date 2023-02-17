@@ -245,7 +245,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
         l = 0.70 -w
 
     spawnRanger  = myTerminal ++ " --class ranger -t Ranger -e ranger"
-    findRanger   = className =? "ranger"
+    findRanger   = appName =? "ranger"
     manageRanger = customFloating $ W.RationalRect l t w h
       where
         h = 0.9
@@ -341,8 +341,8 @@ myXMobarPP = def
     hair = "<fn=1> </fn>"
 
 
-xmobar = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf++"-x 0") (pure myXMobarPP)
-xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 1") (pure myXMobarPP)
+xmobar = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf++"-x 1") (pure myXMobarPP)
+xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 0") (pure myXMobarPP)
 xmobarSpawn :: ScreenId -> IO StatusBarConfig
 xmobarSpawn 0 = pure $ xmobar
 xmobarSpawn 1 = pure $ xmobar2

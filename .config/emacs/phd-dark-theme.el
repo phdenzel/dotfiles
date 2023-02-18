@@ -153,6 +153,15 @@
   `(js2-error                     ((t (:underline (:style wave :color ,red-d)))))
   `(js2-warning                   ((t (:underline (:style wave :color ,orange-b)))))
 
+  ;; Tab-line
+  `(tab-line               ((t (:background ,bg-bb :foreground ,fg :height 120))))
+  `(tab-line-tab           ((t (:inherit tab-line :background ,bg))))
+  `(tab-line-tab-current   ((t (:inherit tab-line-tab :foreground ,teal))))
+  `(tab-line-tab-inactive  ((t (:inherit tab-line :foreground ,grey))))
+
+  `(tab-line-hightlight    ((t (:inherit tab-line :foreground ,bg-bb :background ,fg-bb))))
+  `(tab-line-tab-modified  ((t (:inherit tab-line-current :foreground ,blue))))
+
   ;; Mode-line
   `(mode-line                ((t (:background ,bg-bb :foreground ,fg-b))))
   `(mode-line-highlight      ((t (:background ,bg-bb :foreground ,fg-bb))))

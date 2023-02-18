@@ -158,8 +158,7 @@
   `(tab-line-tab           ((t (:inherit tab-line :background ,bg))))
   `(tab-line-tab-current   ((t (:inherit tab-line-tab :foreground ,teal))))
   `(tab-line-tab-inactive  ((t (:inherit tab-line :foreground ,grey))))
-
-  `(tab-line-hightlight    ((t (:inherit tab-line :foreground ,bg-bb :background ,fg-bb))))
+  `(tab-line-highlight    ((t (:inherit tab-line :foreground ,fg :background ,bg))))
   `(tab-line-tab-modified  ((t (:inherit tab-line-current :foreground ,blue))))
 
   ;; Mode-line

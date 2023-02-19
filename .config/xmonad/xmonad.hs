@@ -11,6 +11,7 @@ import qualified XMonad.StackSet as W
 
 -- Data
 import Data.Monoid
+import Data.Maybe (fromJust)
 import qualified Data.Map as M
 -- Hooks
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
@@ -38,6 +39,7 @@ import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.CycleWS (moveTo, shiftTo, nextScreen, prevScreen,
                                anyWS, ignoringWSs,
                                Direction1D(Next, Prev), WSType(WSIs, (:&:)))
+import XMonad.Actions.WindowGo (runOrRaise)
 import XMonad.Actions.WithAll (sinkAll, killAll)
 -- Utils
 -- import XMonad.Util.Dmenu
@@ -63,9 +65,9 @@ myTerminal = "alacritty"
 myBrowser  :: String
 myBrowser = "brave"
 myEmacs :: String
-myEmacs = "emacsclient -c --alternate-editor='emacs'"
+myEmacs = "emacsclient -c --alternate-editor='' "
 myEditor :: String
-myEditor = "emacsclient -c --alternate-editor='emacs'"
+myEditor = "emacsclient -c --alternate-editor='' "
 -- Style config
 myBorderWidth :: Dimension
 myBorderWidth = 2
@@ -149,12 +151,15 @@ myStartupHook = do
 
 -------------------- Workspaces
 myWorkspaces :: [WorkspaceId]
-myWorkspaces = ["wm", "tty", "dev", "web", "doc", "mu", "tx", "gx", "ls"]
+myWorkspaces = ["xm", "web", "tty", "dev", "doc", "mu", "tx", "gx", "ls"]
 -- myWorkspaces    = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 -- myWorkspaces = ["<fn=3>\xf036</fn>", "<fn=3>\xf120</fn>", "<fn=3>\xf121</fn>",
 --                 "<fn=3>\xf7a2</fn>", "<fn=3>\xf01c</fn>", "<fn=3>\xf1c0</fn>",
 --                 "<fn=3>\xf56b</fn>", "<fn=3>\xf441</fn>", "<fn=3>\xf038</fn>"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..]
+clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
+  where i = fromJust $ M.lookup ws myWorkspaceIndices
+
 
 myShowWNameTheme :: SWNConfig  -- for indicators when switching workspaces
 myShowWNameTheme = def
@@ -259,10 +264,10 @@ myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = (composeAll . concat $
                 -- class-based management
                 [ [className =? -- c <||> title =?
-                                c --> doShift (myWorkspaces !! 0) | c <- mywmShifts ]
-                , [className =? c --> doShift (myWorkspaces !! 1) | c <- myttyShifts]
-                , [className =? c --> doShift (myWorkspaces !! 2) | c <- mydevShifts]
-                , [className =? c --> doShift (myWorkspaces !! 3) | c <- mywebShifts]
+                                c --> doShift (myWorkspaces !! 0) | c <- myxmShifts ]
+                , [className =? c --> doShift (myWorkspaces !! 1) | c <- mywebShifts]
+                , [className =? c --> doShift (myWorkspaces !! 2) | c <- myttyShifts]
+                , [className =? c --> doShift (myWorkspaces !! 3) | c <- mydevShifts]
                 , [className =? c --> doShift (myWorkspaces !! 4) | c <- mydocShifts]
                 , [className =? c --> doShift (myWorkspaces !! 5) | c <- mymuShifts ]
                 , [className =? c --> doShift (myWorkspaces !! 6) | c <- mytxShifts ]
@@ -281,10 +286,10 @@ myManageHook = (composeAll . concat $
                <+> manageHook def
   where
     -- I only use these on laptops
-    mywmShifts  = [ "" ]
+    myxmShifts  = [ "" ]
+    mywebShifts = [ "" ]
     myttyShifts = [ "" ]
     mydevShifts = [ "" ]
-    mywebShifts = [ "" ]
     mydocShifts = [ "" ]
     mymuShifts  = [ "" ]
     mytxShifts  = [ "" ]
@@ -306,11 +311,11 @@ myXMobarPP = def
   --, ppWsSep   = wrap hair hair $ blue "/"
   -- focused workspace
   , ppCurrent = red . xmobarBorder "Bottom" redHex 5
-  , ppVisible = red
+  , ppVisible = red . clickable
   -- hidden workspace with windows
-  , ppHidden  = blue . xmobarBorder "Top" blueHex 3 . hideNSP
+  , ppHidden  = blue . xmobarBorder "Top" blueHex 3 . hideNSP . clickable
   -- hidden windows without windows
-  , ppHiddenNoWindows = blue . hideNSP
+  , ppHiddenNoWindows = blue . hideNSP . clickable
   -- layout format map
   , ppLayout  = cyan . (\layout -> case layout of
                            "tall" -> "{|}"
@@ -363,6 +368,7 @@ myKeymap =
   [ ("M-<Return>"   , spawn myTerminal)
   , ("M-/"          , spawn "dmenu_run -c -l 15")
   , ("M-p"          , spawn "passmenu")
+  , ("M-e"          , spawn (myEditor))
   , ("M-S-c"        , kill)
   , ("M-C-c"        , kill)
   , ("M-S-C-c"      , killAll)
@@ -434,6 +440,9 @@ myKeymap =
   , ("<XF86AudioLowerVolume>"  , spawn "amixer set Master 5%- unmute")
   , ("<XF86AudioRaiseVolume>"  , spawn "amixer set Master 5%+ unmute")
   , ("<XF86Display>"           , spawn "resolution_2xauto")
+  , ("<XF86HomePage>"          , spawn (myBrowser ++ " https://phdenzel.github.io"))
+  , ("<XF86Mail>"              , spawn (myEmacs ++ " -e '(mu4e)'"))
+  , ("<XF86Calculator>"        , runOrRaise "qalculate-gtk" (resource =? "qalculate-gtk"))
   ]
   where
     nonNSP = anyWS :&: ignoringWSs [scratchpadWorkspaceTag]

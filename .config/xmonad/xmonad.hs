@@ -21,6 +21,7 @@ import XMonad.Hooks.ManageHelpers (isFullscreen, isDialog,
                                    doFullFloat, doCenterFloat)
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP (wrap, shorten, xmobarColor, xmobarBorder,
+                                  filterOutWsPP,
                                   PP(..))
 import XMonad.Hooks.RefocusLast (refocusLastLogHook)
 import XMonad.Hooks.SetWMName
@@ -48,6 +49,7 @@ import XMonad.Util.Run (safeSpawn, hPutStrLn)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Ungrab (unGrab)
 import XMonad.Util.NamedScratchpad
+import XMonad.Util.ClickableWorkspaces
 --- Customized colors
 import Colors.PhDDark  -- color[Trayer, Fore, Back, 01..15]
 
@@ -157,8 +159,6 @@ myWorkspaces = ["xm", "web", "tty", "dev", "doc", "mu", "tx", "gx", "ls"]
 --                 "<fn=3>\xf7a2</fn>", "<fn=3>\xf01c</fn>", "<fn=3>\xf1c0</fn>",
 --                 "<fn=3>\xf56b</fn>", "<fn=3>\xf441</fn>", "<fn=3>\xf038</fn>"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..]
-clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
-  where i = fromJust $ M.lookup ws myWorkspaceIndices
 
 
 myShowWNameTheme :: SWNConfig  -- for indicators when switching workspaces
@@ -311,11 +311,11 @@ myXMobarPP = def
   --, ppWsSep   = wrap hair hair $ blue "/"
   -- focused workspace
   , ppCurrent = red . xmobarBorder "Bottom" redHex 5
-  , ppVisible = red . clickable
+  , ppVisible = red
   -- hidden workspace with windows
-  , ppHidden  = blue . xmobarBorder "Top" blueHex 3 . hideNSP . clickable
+  , ppHidden  = blue . xmobarBorder "Top" blueHex 3
   -- hidden windows without windows
-  , ppHiddenNoWindows = blue . hideNSP . clickable
+  , ppHiddenNoWindows = blue
   -- layout format map
   , ppLayout  = cyan . (\layout -> case layout of
                            "tall" -> "{|}"
@@ -330,8 +330,6 @@ myXMobarPP = def
   , ppOrder   = \(ws:l:t:ex) -> [ws,l] ++ map red ex
   }
   where
-    hideNSP :: WorkspaceId -> String
-    hideNSP ws = if ws /= "NSP" then ws else ""
     greyHex, blueHex, redHex, cyanHex :: String
     greyHex = color08
     blueHex = color04
@@ -346,8 +344,8 @@ myXMobarPP = def
     hair = "<fn=1> </fn>"
 
 
-xmobar = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf++"-x 0") (pure myXMobarPP)
-xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 1") (pure myXMobarPP)
+xmobar = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf++"-x 0") (clickablePP (filterOutWsPP [scratchpadWorkspaceTag] myXMobarPP))
+xmobar2 = statusBarPropTo "_XMONAD_LOG_1" (myXMobar++myXMobarConf2++"-x 1") (clickablePP (filterOutWsPP [scratchpadWorkspaceTag] myXMobarPP))
 xmobarSpawn :: ScreenId -> IO StatusBarConfig
 xmobarSpawn 0 = pure $ xmobar
 xmobarSpawn 1 = pure $ xmobar2

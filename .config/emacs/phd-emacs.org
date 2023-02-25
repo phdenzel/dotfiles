@@ -490,41 +490,40 @@ Hydra-enhanced window manager
             ;; ?o hydra-window-scroll/body
             ;; ?\; hydra-window-frame/body
             ))
-    (when (package-installed-p 'hydra)
-      ;; Window
-      (defhydra hydra-window-size (:color red)
-        "Windows size"
-        ("h" shrink-window-horizontally "shrink horizontal")
-        ("j" shrink-window "shrink vertical")
-        ("k" enlarge-window "enlarge vertical")
-        ("l" enlarge-window-horizontally "enlarge horizontal")
-        ("q" nil "cancel" :exit t)
-        ("Q" nil :exit t)
-        ("C-g" nil :exit t))
-      ;; Frame
-      (defhydra hydra-window-frame (:color red)
-        "Frame"
-        ("f" make-frame "new frame")
-        ("x" delete-frame "delete frame")
-        ("q" nil "cancel" :exit t)
-        ("Q" nil :exit t)
-        ("C-g" nil :exit t))
-      ;; Scrolling
-      (defhydra hydra-window-scroll (:color red)
-        "Scroll other window"
-        ("n" scroll-other-window "scroll")
-        ("p" scroll-other-window-down "scroll down")
-        ("q" nil "cancel" :exit t)
-        ("Q" nil :exit t)
-        ("C-g" nil :exit t))
-      ;; add to dispatch list
-      (add-to-list
-       'aw-dispatch-alist '(?w hydra-window-size/body) t)
-      (add-to-list
-       'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
-      (add-to-list
-       'aw-dispatch-alist '(?\; hydra-window-frame/body) t))
-    )
+    ;; Window
+    (defhydra hydra-window-size (:color red)
+      "Windows size"
+      ("h" shrink-window-horizontally "shrink horizontal")
+      ("j" shrink-window "shrink vertical")
+      ("k" enlarge-window "enlarge vertical")
+      ("l" enlarge-window-horizontally "enlarge horizontal")
+      ("q" nil "cancel" :exit t)
+      ("Q" nil :exit t)
+      ("C-g" nil :exit t))
+    ;; Frame
+    (defhydra hydra-window-frame (:color red)
+      "Frame"
+      ("f" make-frame "new frame")
+      ("x" delete-frame "delete frame")
+      ("q" nil "cancel" :exit t)
+      ("Q" nil :exit t)
+      ("C-g" nil :exit t))
+    ;; Scrolling
+    (defhydra hydra-window-scroll (:color red)
+      "Scroll other window"
+      ("n" scroll-other-window "scroll")
+      ("p" scroll-other-window-down "scroll down")
+      ("q" nil "cancel" :exit t)
+      ("Q" nil :exit t)
+      ("C-g" nil :exit t))
+    ;; add to dispatch list
+    (add-to-list
+     'aw-dispatch-alist '(?w hydra-window-size/body) t)
+    (add-to-list
+     'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
+    (add-to-list
+     'aw-dispatch-alist '(?\; hydra-window-frame/body) t)
+  )
 
 #+end_src
 
@@ -534,6 +533,7 @@ Hydra-enhanced window manager
 #+begin_src emacs-lisp
 
   (use-package multiple-cursors
+    :after hydra
     :bind (("M-SPC"         . set-rectangular-region-anchor)
            ("C-c ,"         . mc/edit-lines)
            ("C->"           . mc/mark-next-like-this)
@@ -545,47 +545,45 @@ Hydra-enhanced window manager
     (defvar mc/cmds-to-run-for-all)
     (defvar mc/cmds-to-run-once)
     :config
-    (when (package-installed-p 'hydra)
-      (defun phd/hydra-mc-exit ()
-        "Exit hydra and disable multiple-cursors-mode"
-        (interactive)
-        (mc/keyboard-quit)
-        (phd/hydra-mc/nil))
-      (defhydra phd/hydra-mc (:color pink :hint none)
-        "
-        _N_ext           _P_revious^^          Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
-        ------------------------------------------------------------------
-        [_j_]^^ Next     [_k_]   Previous    [_l_] Edit lines  [_0_] Insert numbers
-        [_J_]^^ Skip     [_K_]   Skip        [_a_] Mark all    [_I_] Insert letters
-        [_M-j_] Unmark^^ [_M-k_] Unmark      [_s_] Search      [_q_] Quit
-        [_|_]^^ Align with input CHAR^^      [_x_] Mark more   [Click] Cursor at point"
-        ("l" mc/edit-lines)
-        ("a" mc/mark-all-like-this-dwim :exit t)
-        ("n" mc/mark-next-like-this)
-        ("N" mc/skip-to-next-like-this)
-        ("M-n" mc/unmark-next-like-this)
-        ("p" mc/mark-previous-like-this)
-        ("P" mc/skip-to-previous-like-this)
-        ("M-p" mc/unmark-previous-like-this)
-        ("j" mc/mark-next-lines)
-        ("J" mc/skip-to-next-like-this)
-        ("M-j" mc/unmark-next-like-this)
-        ("k" mc/mark-previous-like-this)
-        ("K" mc/skip-to-previous-like-this)
-        ("M-k" mc/unmark-previous-like-this)
-        ("|" mc/vertical-align)
-        ("0" mc/insert-numbers :exit t)
-        ("I" mc/insert-letters :exit t)
-        ("s" mc/mark-all-in-region-regexp :exit t)
-        ("r" mc/mark-sgml-tag-pair :exit t)
-        ("x" mc/mark-more-like-this-extended)
-        ("q" phd/hydra-mc-exit :exit t)
-        ("Q" nil :exit t)
-        ("C-g" phd/hydra-mc-exit :exit t)
-        ("<mouse-1>" mc/add-cursor-on-click)
-        ("<down-mouse-1>" ignore)
-        ("<drag-mouse-1>" ignore)))
-    )
+    (defun phd/hydra-mc-exit ()
+      "Exit hydra and disable multiple-cursors-mode"
+      (interactive)
+      (mc/keyboard-quit)
+      (phd/hydra-mc/nil))
+    (defhydra phd/hydra-mc (:color pink :hint none)
+      "
+      _N_ext           _P_revious^^          Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
+      ------------------------------------------------------------------
+      [_j_]^^ Next     [_k_]   Previous    [_l_] Edit lines  [_0_] Insert numbers
+      [_J_]^^ Skip     [_K_]   Skip        [_a_] Mark all    [_I_] Insert letters
+      [_M-j_] Unmark^^ [_M-k_] Unmark      [_s_] Search      [_q_] Quit
+      [_|_]^^ Align with input CHAR^^      [_x_] Mark more   [Click] Cursor at point"
+      ("l" mc/edit-lines)
+      ("a" mc/mark-all-like-this-dwim :exit t)
+      ("n" mc/mark-next-like-this)
+      ("N" mc/skip-to-next-like-this)
+      ("M-n" mc/unmark-next-like-this)
+      ("p" mc/mark-previous-like-this)
+      ("P" mc/skip-to-previous-like-this)
+      ("M-p" mc/unmark-previous-like-this)
+      ("j" mc/mark-next-lines)
+      ("J" mc/skip-to-next-like-this)
+      ("M-j" mc/unmark-next-like-this)
+      ("k" mc/mark-previous-like-this)
+      ("K" mc/skip-to-previous-like-this)
+      ("M-k" mc/unmark-previous-like-this)
+      ("|" mc/vertical-align)
+      ("0" mc/insert-numbers :exit t)
+      ("I" mc/insert-letters :exit t)
+      ("s" mc/mark-all-in-region-regexp :exit t)
+      ("r" mc/mark-sgml-tag-pair :exit t)
+      ("x" mc/mark-more-like-this-extended)
+      ("q" phd/hydra-mc-exit :exit t)
+      ("Q" nil :exit t)
+      ("C-g" phd/hydra-mc-exit :exit t)
+      ("<mouse-1>" mc/add-cursor-on-click)
+      ("<down-mouse-1>" ignore)
+      ("<drag-mouse-1>" ignore)))
 
 #+end_src
 
@@ -933,7 +931,7 @@ Install dependencies first (s and dash are already installed)
                :files ("dist" "*.el"))
     :hook (prog-mode-hook . copilot-mode)
     :bind (:map copilot-completion-map
-                ("S-TAB" . copilot-accept-completion-by-word)
+                ("<backtab>" . copilot-accept-completion-by-word)
                 ("C-<tab>" . copilot-accept-completion))
     :after company
     :config
@@ -1025,7 +1023,6 @@ with some snippets
 #+begin_src emacs-lisp
   (use-package magit
     :bind ("C-c m" . magit-status))
-
 #+end_src
 
 
@@ -1192,9 +1189,84 @@ colouring of org-mode src-blocks in exported HTML code.
 
 #+begin_src emacs-lisp
 
+  (use-package bibtex
+    :straight nil)
+
   (use-package org-ref
-    :after (helm-bibtex ivy-bibtex pdf-tools))
-  
+    :config
+    (require 'bibtex)
+    (setq bibtex-autokey-year-length 2
+          bibtex-autokey-name-year-separator ""
+          bibtex-autokey-year-title-separator ""
+          bibtex-autokey-titleword-separator ""
+          bibtex-autokey-titlewords 0
+          bibtex-autokey-titlewords-stretch 0
+          bibtex-autokey-titleword-length 0)
+    (defun doi-utils-async-download-pdf ()
+      "Download the PDF for bibtex entry at point asynchronously.
+       It is not fully async, only the download is. Fully async is
+       harder because you need to run `doi-utils-get-pdf-url' async
+       too. "
+      (interactive)
+      (require 'async)
+      (save-excursion
+        (bibtex-beginning-of-entry)
+        (let (;; get doi, removing http://dx.doi.org/ if it is there.
+              (doi (replace-regexp-in-string
+                    "https?://\\(dx.\\)?.doi.org/" ""
+                    (bibtex-autokey-get-field "doi")))
+              (key (cdr (assoc "=key=" (bibtex-parse-entry))))
+              (pdf-url)
+              (pdf-file))
+
+          (setq pdf-file
+                (concat (cond
+                         ((stringp bibtex-completion-library-path)
+                          bibtex-completion-library-path)
+                         ((= 1 (length bibtex-completion-library-path))
+                          (car bibtex-completion-library-path))
+                         (t
+                          (completing-read "Dir: " bibtex-completion-library-path)))
+                        doi ".pdf"))
+
+          (unless doi (error "No DOI found to get a pdf for"))
+
+          (when (file-exists-p pdf-file)
+            (error "%s already exists. Delete to re-download" pdf-file))
+
+          ;; (doi-utils-get-pdf-url "10.1063/1.5019667")
+          ;; If you get here, try getting the pdf file
+          (async-start
+           `(lambda ()
+              (setq package-user-dir ,package-user-dir)
+              (setq pdf-file-dirname (file-name-directory ,pdf-file))
+              (require 'package)
+              (package-initialize)
+              (setq load-path (list ,@load-path))
+              (require 'doi-utils)
+
+              (make-directory pdf-file-dirname)
+              (setq pdf-url (doi-utils-get-pdf-url ,doi))
+              (when pdf-url
+                (url-copy-file pdf-url ,pdf-file t)
+                (let* ((header (with-temp-buffer
+                                 (set-buffer-multibyte nil)
+                                 (insert-file-contents-literally ,pdf-file nil 0 5)
+                                 (buffer-string)))
+                       (valid (and (stringp header)
+                                   (string-equal (encode-coding-string header 'utf-8) "%PDF-"))))
+                  (if valid
+                      (format "%s downloaded" ,pdf-file)
+                    (delete-file ,pdf-file)
+
+                    (require 'browse-url)
+                    (browse-url pdf-url)
+                    (message "Invalid pdf (file deleted). Header = %s" header)))))
+           `(lambda (result)
+              (message "doi-utils-async-download-pdf: %s"  result)))
+          )))
+    )
+
 #+end_src
 
 
@@ -1204,11 +1276,162 @@ colouring of org-mode src-blocks in exported HTML code.
 
   (use-package helm-bibtex)
 
-  (use-package ivy-bibtex)
+  (use-package ivy-bibtex
+    :bind*
+    ("C-c b" . ivy-bibtex)
+    :init
+    (autoload 'ivy-bibtex "ivy-bibtex" "" t)
+    (setq ivy-re-builders-alist
+          '((ivy-bibtex . ivy--regex-ignore-order)
+            (t . ivy--regex-plus)))
+    :config
+    (setq bibtex-completion-bibliography '("~/zettelkasten/bib/master.bib"
+                                           "~/zettelkasten/bib/astro_ph.bib"
+                                           "~/zettelkasten/bib/corr.bib"
+                                           "~/zettelkasten/bib/math.bib"
+                                           "~/zettelkasten/bib/skach.bib"
+                                           "~/zettelkasten/bib/trustworthy_ai.bib")
+          bibtex-completion-library-path '("~/zettelkasten/pdf/")
+          bibtex-completion-pdf-symbol "⌘"
+          bibtex-completion-pdf-field "file"
+          bibtex-completion-notes-path "~/zettelkasten/ref/"
+          bibtex-completion-notes-symbol "✎"
+          bibtex-completion-notes-template-multiple-files "* ${author-or-editor-abbrev} (${year}) - ${title}\n\nReference: [[cite:&${=key=}]]\n"
+          bibtex-completion-display-formats
+          '((article       . "${=has-pdf=:1}${=has-note=:1} ${=key=:16} ${=type=:9} ${author:16} ${year:4} ${title:44}")
+            (inbook        . "${=has-pdf=:1}${=has-note=:1} ${=key=:16} ${=type=:9} ${author:16} ${year:4} ${title:44} Chpt. ${chapter:32}")
+            (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${=key=:16} ${=type=:9} ${author:16} ${year:4} ${title:44} ${booktitle:32}")
+            (t             . "${=has-pdf=:1}${=has-note=:1} ${=key=:16} ${=type=:9} ${author:16} ${year:4} ${title:44}"))
+          bibtex-completion-format-citation-functions
+          '((org-mode . bibtex-completion-format-citation-org-cite)
+            (latex-mode . bibtex-completion-format-citation-cite)
+            (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
+            (python-mode . bibtex-completion-format-citation-sphinxcontrib-bibtex)
+            (rst-mode . bibtex-completion-format-citation-sphinxcontrib-bibtex)
+            (default . bibtex-completion-format-citation-default))
+          )
+
+    (defun bibtex-completion-find-pdf-in-library (key-or-entry &optional find-additional)
+      "Searches the directories in `bibtex-completion-library-path' for a PDF whose name is composed of the BibTeX DOI plus `bibtex-completion-pdf-extension'.
+       The path of the first matching PDF is returned.
+       If FIND-ADDITIONAL is non-nil, the paths of all PDFs whose name
+       starts with the BibTeX key and ends with
+       `bibtex-completion-pdf-extension' are returned instead."
+      (let* ((key (if (stringp key-or-entry)
+                      key-or-entry
+                    (bibtex-completion-get-value "=key=" key-or-entry)))
+             (doi (if (stringp key-or-entry)
+                      key-or-entry
+                    (bibtex-completion-get-value "doi" key-or-entry)))
+             (main-pdf (cl-loop
+                        for dir in (-flatten bibtex-completion-library-path)
+                        append (cl-loop
+                                for ext in (-flatten bibtex-completion-pdf-extension)
+                                collect (f-join dir (s-concat doi ext))))))
+        (if find-additional
+            (sort ; move main pdf on top of the list if needed
+             (cl-loop
+              for dir in (-flatten bibtex-completion-library-path)
+              append (directory-files dir t
+                                      (s-concat "^" (regexp-quote key)
+                                                ".*\\("
+                                                (mapconcat 'regexp-quote
+                                                           (-flatten bibtex-completion-pdf-extension)
+                                                           "\\|")
+                                                "\\)$")))
+             (lambda (x y)
+               (and (member x main-pdf)
+                    (not (member y main-pdf)))))
+          (-flatten (-first 'f-file? main-pdf)))))
+
+    (defun bibtex-completion-open-pdf-external (keys &optional fallback-action)
+      (let ((bibtex-completion-pdf-open-function
+             (lambda (fpath) (start-process "zathura" "*helm-bibtex-zathura*" "/usr/bin/zathura" fpath))))
+        (bibtex-completion-open-pdf keys fallback-action)))
+
+    (ivy-bibtex-ivify-action bibtex-completion-open-pdf-external ivy-bibtex-open-pdf-external)
+
+    (ivy-add-actions
+     'ivy-bibtex
+     '(("P" ivy-bibtex-open-pdf-external "Open PDF file in external viewer (if present)")))
+    )
 
   (use-package pdf-tools)
 
 #+end_src
+
+
+**** org-roam
+
+#+begin_src emacs-lisp
+
+  (use-package org-roam
+    :init
+    (setq org-roam-directory (file-truename "~/zettelkasten")
+          org-roam-database-connector 'sqlite-builtin
+          org-roam-db-location "~/zettelkasten/org-roam.db"
+          org-roam-db-gc-threshold most-positive-fixnum)
+    (unless (file-exists-p org-roam-directory)
+      (make-directory org-roam-directory t))
+    :bind (("C-c n f" . org-roam-node-find)
+           ("C-c n i" . org-roam-node-insert)
+           ("C-c n c" . org-roam-capture)
+           ("C-c n g" . org-roam-graph)
+           ("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n a" . org-roam-alias-add)
+           ("C-c n r" . org-roam-ref-add)
+           :map org-mode-map
+           ("C-M-i"   . completion-at-point))
+    :config
+    (org-roam-db-autosync-mode)
+    )
+
+#+end_src
+
+
+***** org-roam-bibtex
+
+#+begin_src emacs-lisp
+
+  (use-package org-roam-bibtex
+    :after org-roam
+    :init
+    (add-hook 'org-mode-hook #'org-roam-bibtex-mode)
+    :config
+    (require 'org-ref)
+    (setq orb-roam-ref-format 'org-ref-v3
+          orb-preformat-keywords '("citekey" "author-abbrev" "year"))
+    (add-to-list 'org-roam-capture-templates
+                 '("r" "bibliographic reference" plain
+                   "%?"
+                   :target (file+head "ref/${citekey}.org" "#+title: ${author-abbrev} (${year}): ${title}\n")
+                   :unnarrowed t))
+    )
+
+#+end_src
+
+
+***** org-roam-ui
+
+#+begin_src emacs-lisp
+
+  (use-package org-roam-ui
+    :straight (:host github
+               :repo "org-roam/org-roam-ui"
+               :branch "main"
+               :files ("*.el" "out"))
+    :after org-roam
+    ;; :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+  
+#+end_src
+
+
+**** TODO org-noter
 
 
 **** org-id (customization)
@@ -1292,14 +1515,17 @@ colouring of org-mode src-blocks in exported HTML code.
 **** org-reveal
 
 #+begin_src emacs-lisp
+
   (setq org-reveal-root (concat "file://" (expand-file-name "~/local/reveal.js")))
   (setq org-reveal-mathjax t)
+  
 #+end_src
 
 
 **** org-toc
 
 #+begin_src emacs-lisp
+
   (use-package toc-org
     :after org
     :init
@@ -1392,7 +1618,7 @@ TODO:
   ‘re-search-forward’ and ‘replace-match’ instead.
 
 #+begin_src emacs-lisp :tangle no
-
+  
   (defun org-export-canvas (backend)
     "Replace @canvas{descr|id} to <canvas> html text in current buffer"
     (when (or (equal backend 'html) (equal backend 'reveal))
@@ -1823,9 +2049,10 @@ Binding custom functions and hydras
   (global-set-key (kbd "C-x j")   'phd/hydra-goto-mv/body)
   (global-set-key (kbd "C-x C-j") 'phd/hydra-goto-mv/body)
   (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
-  (global-set-key (kbd "C-c r")   'org-ref-citation-hydra/body)
-  (global-set-key (kbd "C-c b")   'org-ref-bibtex-hydra/body)
-  
+  (define-key org-mode-map (kbd "C-c r") 'org-ref-citation-hydra/body)
+  (define-key org-mode-map (kbd "C-c C-r") 'org-ref-insert-link-hydra/body)
+  (define-key org-mode-map (kbd "C-c C-b") 'org-ref-bibtex-hydra/body)
+
 #+end_src
 
 

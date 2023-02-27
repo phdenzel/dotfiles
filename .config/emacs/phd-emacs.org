@@ -608,7 +608,9 @@ Do What I Mean when commenting
 #+begin_src emacs-lisp
 
   (use-package hungry-delete
-      :bind ("<C-backspace>" . hungry-delete-backward))
+      :bind* (("C-<backspace>"   . hungry-delete-backward)
+              ("C-M-<backspace>" . hungry-delete-backward)
+              ("C-M-h"           . hungry-delete-backward)))
 
 #+end_src
 
@@ -1193,6 +1195,7 @@ colouring of org-mode src-blocks in exported HTML code.
     :straight nil)
 
   (use-package org-ref
+    :bind ("C-c b" . 'org-ref-insert-link)
     :config
     (require 'bibtex)
     (setq bibtex-autokey-year-length 2
@@ -1278,7 +1281,7 @@ colouring of org-mode src-blocks in exported HTML code.
 
   (use-package ivy-bibtex
     :bind*
-    ("C-c b" . ivy-bibtex)
+    ("C-c C-b" . ivy-bibtex)
     :init
     (autoload 'ivy-bibtex "ivy-bibtex" "" t)
     (setq ivy-re-builders-alist
@@ -1400,11 +1403,13 @@ colouring of org-mode src-blocks in exported HTML code.
     :config
     (require 'org-ref)
     (setq orb-roam-ref-format 'org-ref-v3
-          orb-preformat-keywords '("citekey" "author-abbrev" "year"))
+          orb-preformat-keywords '("citekey" "author-or-editor-abbrev" "year" "author" "doi" "file")
+          orb-process-file-keyword t
+          orb-attached-file-extensions '("pdf"))
     (add-to-list 'org-roam-capture-templates
                  '("r" "bibliographic reference" plain
                    "%?"
-                   :target (file+head "ref/${citekey}.org" "#+title: ${author-abbrev} (${year}): ${title}\n")
+                   :target (file+head "ref/${citekey}.org" "#+title: ${author-or-editor-abbrev} (${year})\n*Authors*: ${author}\n\n*DOI*: [[${doi}]]\n*PDF*: [[${file}]]\n\n* ${title}\n")
                    :unnarrowed t))
     )
 
@@ -2051,7 +2056,7 @@ Binding custom functions and hydras
   (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
   (define-key org-mode-map (kbd "C-c r") 'org-ref-citation-hydra/body)
   (define-key org-mode-map (kbd "C-c C-r") 'org-ref-insert-link-hydra/body)
-  (define-key org-mode-map (kbd "C-c C-b") 'org-ref-bibtex-hydra/body)
+  (define-key org-mode-map (kbd "C-c M-r") 'org-ref-bibtex-hydra/body)
 
 #+end_src
 
@@ -2186,9 +2191,10 @@ Does not take effect when executed in a separate window.
       ;; Scrolling cursor with mouse wheel (instead of frame)
       (global-set-key (kbd "<mouse-4>") 'phd/hydra-prevln)
       (global-set-key (kbd "<mouse-5>") 'phd/hydra-nxtln)
+      (define-key key-translation-map [?\C-h] [?\C-?])
       )
     )
-  
+
   (add-hook 'after-init-hook 'new-term-setup)
   ;; (add-hook 'terminal-init-xterm-hook 'new-term-setup)
 

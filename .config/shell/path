@@ -40,6 +40,7 @@ export PATH="${PATH}:$HOME/.npm_global/bin"
 export PATH="${PATH}:$HOME/.jenv/bin"
 if command -v jenv &> /dev/null; then eval "$(jenv init -)"; fi
 jenv enable-plugin export  &> /dev/null
+jenv enable-plugin gradle  &> /dev/null
 jenv add /usr/lib/jvm/java-19-openjdk/ &> /dev/null
 jenv add /usr/lib/jvm/java-8-openjdk/ &> /dev/null
 jenv rehash &> /dev/null

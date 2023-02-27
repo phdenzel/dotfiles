@@ -11,7 +11,7 @@
 (defvar gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (defvar server-socket-dir (expand-file-name "~/.config/emacs/server"))
-
+(defvar native-comp-deferred-compilation-deny-list nil)  ;; temporary fix for straight.el bug issue #1053
 
 ;;; Attempt to speed up startup by allocating RAM for the garbage collector
 (setq gc-cons-threshold most-positive-fixnum)

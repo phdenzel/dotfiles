@@ -461,7 +461,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Dev tools
     Languages: (e)lisp, python, haskell, cuda, rust, ruby, java, LaTeX
     #+begin_src shell
-      sudo pacman -S emacs vim base-devel gdb cmake docker pyenv ghc ghc-static cuda cuda-tools cudnn rust rust-analyzer ruby rubygems jenv jdk-openjdk jdk8-openjdk texlive-most texlive-lang gobject-introspection tk
+      sudo pacman -S emacs vim base-devel gdb cmake docker pyenv ghc ghc-static clang cuda cuda-tools cudnn rust rust-analyzer ruby rubygems jenv jdk-openjdk jdk8-openjdk texlive-most texlive-lang gobject-introspection tk
     #+end_src
 
     JabRef application

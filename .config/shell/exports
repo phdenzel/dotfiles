@@ -57,6 +57,10 @@ export BAT_CONFIG_PATH="${XDG_CONFIG_HOME}/bat/config"
 export GPG_TTY=$(tty)
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
+# SSH
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+
 # Nextcloud
 export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
 

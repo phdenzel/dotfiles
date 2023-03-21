@@ -36,16 +36,28 @@ fi;
 # Node/npm
 export PATH="${PATH}:$HOME/.npm_global/bin"
 
+# Rust/cargo env
+case ":${PATH}:" in
+    *:"$HOME/.cargo/bin":*)
+        ;;
+    *)
+        # Prepending path in case a system-installed rustc needs to be overridden
+        export PATH="$HOME/.cargo/bin:$PATH"
+        ;;
+esac
+
 # JAVA
 export PATH="${PATH}:$HOME/.jenv/bin"
-if command -v jenv &> /dev/null; then eval "$(jenv init -)"; fi
-jenv enable-plugin export  &> /dev/null
-jenv enable-plugin gradle  &> /dev/null
-jenv add /usr/lib/jvm/java-19-openjdk/ &> /dev/null
-jenv add /usr/lib/jvm/java-8-openjdk/ &> /dev/null
-jenv rehash &> /dev/null
-export CLASSPATH="$(jenv prefix)"
-# export CLASSPATH="${CLASSPATH}:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar"
+if command -v jenv &> /dev/null; then
+    eval "$(jenv init -)";
+    jenv enable-plugin export  &> /dev/null
+    jenv enable-plugin gradle  &> /dev/null
+    jenv add /usr/lib/jvm/java-19-openjdk/ &> /dev/null
+    jenv add /usr/lib/jvm/java-8-openjdk/ &> /dev/null
+    jenv rehash &> /dev/null
+    export CLASSPATH="$(jenv prefix)"
+    # export CLASSPATH="${CLASSPATH}:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar"
+fi
 
 # HDF5
 if ls $HOME/local/hdf5 &> /dev/null; then

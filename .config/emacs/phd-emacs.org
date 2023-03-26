@@ -1275,9 +1275,12 @@ colouring of org-mode src-blocks in exported HTML code.
 
 ***** Dependencies
 
-#+begin_src emacs-lisp
-
+#+begin_src 
   (use-package helm-bibtex)
+#+end_src
+
+
+#+begin_src emacs-lisp
 
   (use-package ivy-bibtex
     :bind*
@@ -1359,9 +1362,16 @@ colouring of org-mode src-blocks in exported HTML code.
      '(("P" ivy-bibtex-open-pdf-external "Open PDF file in external viewer (if present)")))
     )
 
-  (use-package pdf-tools)
-
 #+end_src
+
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :config
+    (setq pdf-view-use-scaling t)
+    (pdf-tools-install))
+#+end_src
+
+
 
 
 **** org-roam

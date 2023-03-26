@@ -420,7 +420,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 *** Disk utilities
     File system tabulator, disk formatter/analyser, and various compression, copy, and job control programs
     #+begin_src shell
-      sudo pacman -S arch-install-scripts gptfdisk exfat-utils zip unzip rsync cronie htop
+      sudo pacman -S arch-install-scripts gptfdisk exfat-utils smartmontools zip unzip rsync cronie htop
     #+end_src
 
 *** Android utilities

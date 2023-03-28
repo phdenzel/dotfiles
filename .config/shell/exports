@@ -58,7 +58,10 @@ export GPG_TTY=$(tty)
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 # SSH
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval `ssh-agent -s`
+fi;
+# export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 
 # Nextcloud

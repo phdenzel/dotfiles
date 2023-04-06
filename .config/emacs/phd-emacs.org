@@ -1879,7 +1879,7 @@ Settings for a few helping features.
 
 ** company-quickhelp
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
   (use-package company-quickhelp
     :config

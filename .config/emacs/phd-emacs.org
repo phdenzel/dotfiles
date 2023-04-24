@@ -1039,10 +1039,9 @@ Often visited projects can be added to ~projectile~ with
     :defer t
     :bind (:map projectile-mode-map
                 ("C-c p" . projectile-command-map))
-    :config
-    (setq projectile-known-projects-file "~/.config/emacs/projectile-bookmarks.eld")
+    :config    (setq projectile-known-projects-file "~/.config/emacs/projectile-bookmarks.eld")
     (setq projectile-completion-system 'ivy)
-    (setq projectile-indexing-method 'native)
+    (setq projectile-indexing-method 'alien)
     (projectile-mode t))
 
 #+end_src
@@ -1059,78 +1058,43 @@ command map
 #+end_src
 
 
-*** treemacs (tangle no)
+*** treemacs
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 
   (use-package treemacs
-    :straight nil
-    :defer t
-    :init
-    (with-eval-after-load 'winum
-      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-    :config
-    (progn
-      (setq treemacs-collapse-dirs              (if (executable-find "python") 3 0)
-            treemacs-deferred-git-apply-delay   0.5
-            treemacs-display-in-side-window     t
-            treemacs-file-event-delay           5000
-            treemacs-file-follow-delay          0.2
-            treemacs-follow-after-init          t
-            treemacs-follow-recenter-distance   0.1
-            treemacs-goto-tag-strategy          'refetch-index
-            treemacs-indentation                2
-            treemacs-indentation-string         " "
-            treemacs-is-never-other-window      nil
-            treemacs-max-git-entries            5000
-            treemacs-no-png-images              nil
-            treemacs-project-follow-cleanup     nil
-            treemacs-persist-file               (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-            treemacs-recenter-after-file-follow nil
-            treemacs-recenter-after-tag-follow  nil
-            treemacs-show-cursor                nil
-            treemacs-show-hidden-files          t
-            treemacs-silent-filewatch           nil
-            treemacs-silent-refresh             nil
-            treemacs-sorting                    'alphabetic-desc
-            treemacs-space-between-root-nodes   t
-            treemacs-tag-follow-cleanup         t
-            treemacs-tag-follow-delay           1.5
-            treemacs-width                      35)
-
-      ;; The default width and height of the icons is 22 pixels. If you are
-      ;; using a Hi-DPI display, uncomment this to double the icon size.
-      ;;(treemacs-resize-icons 44)
-
-      (treemacs-follow-mode t)
-      (treemacs-filewatch-mode t)
-      (treemacs-fringe-indicator-mode t)
-      (pcase (cons (not (null (executable-find "git")))
-                   (not (null (executable-find "python3"))))
-        (`(t . t)
-         (treemacs-git-mode 'extended))
-        (`(t . _)
-         (treemacs-git-mode 'simple))))
+    :straight t
     :bind
     (:map global-map
-          ("M-0"       . treemacs-select-window)
-          ("C-x t 1"   . treemacs-delete-other-windows)
-          ("C-x t t"   . treemacs)
-          ("C-x t B"   . treemacs-bookmark)
-          ("C-x t C-t" . treemacs-find-file)
-          ("C-x t M-t" . treemacs-find-tag)))
+          ("C-M-:" . treemacs)
+          ("C-M-;" . treemacs-select-window))
+    :config
+    (setq treemacs-width 25
+          treemacs-indentation 2
+          treemacs-show-hidden-files t
+          treemacs-is-never-other-window t
+          treemacs-position 'left
+          )
+    )
 
 #+end_src
 
-
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 
   (use-package treemacs-projectile
-    :straight nil
-    :defer t
+    :straight t
     :after treemacs projectile)
 
 #+end_src
+
+#+begin_src emacs-lisp
+
+  (use-package treemacs-all-the-icons
+    :straight t
+    :after treemacs all-the-icons)
+
+#+end_src
+
 
 
 * Markup
@@ -1917,7 +1881,10 @@ take global effect.
   ;; Increase max. subprocess read size for better performance (in LSP)
   ;; default was 4K -> 1G
   (setq read-process-output-max (* 1024 1024))
-  
+
+  ;; Buffer sorting behaviour
+  (setq Buffer-menu-use-frame-buffer-list nil)
+
 #+end_src
 
 
@@ -2009,21 +1976,24 @@ Regular remaps and bindings
 
 #+begin_src emacs-lisp
 
-    ;; Reload buffer
-    (global-set-key (kbd "<f5>") 'revert-buffer)
+  ;; Reload buffer
+  (global-set-key (kbd "<f5>") 'revert-buffer)
 
-    ;; Kill current buffer instead of any buffer
-    (global-set-key (kbd "C-x k") 'kill-this-buffer)
+  ;; Kill current buffer instead of any buffer
+  (global-set-key (kbd "C-x k") 'kill-this-buffer)
 
-    ;; Go back to indentation instead of beginning of line
-    (global-set-key (kbd "C-a") 'back-to-indentation)
+  ;; Go back to indentation instead of beginning of line
+  (global-set-key (kbd "C-a") 'back-to-indentation)
 
-    ;; Efficiently move up or down
-    (global-set-key (kbd "<M-up>") 'backward-paragraph)
-    (global-set-key (kbd "<M-down>") 'forward-paragraph)
+  ;; Efficiently move up or down
+  (global-set-key (kbd "<M-up>") 'backward-paragraph)
+  (global-set-key (kbd "<M-down>") 'forward-paragraph)
 
-    ;; Expand
-    (global-set-key (kbd "M-.") 'hippie-expand) 
+  ;; Expand
+  (global-set-key (kbd "M-.") 'hippie-expand)
+
+  ;; other window
+  (global-set-key (kbd "C-M-'") 'other-window)
 
 #+end_src
 

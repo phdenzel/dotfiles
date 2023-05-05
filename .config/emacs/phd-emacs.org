@@ -1069,12 +1069,20 @@ command map
           ("C-M-:" . treemacs)
           ("C-M-;" . treemacs-select-window))
     :config
-    (setq treemacs-width 25
-          treemacs-indentation 2
-          treemacs-show-hidden-files t
+    (setq treemacs-width                 22
+          treemacs-indentation           2
+          treemacs-show-hidden-files     t
           treemacs-is-never-other-window t
-          treemacs-position 'left
+          treemacs-position              'left
+          treemacs-text-scale            -1
+          treemacs-no-png-images         nil
+          treemacs-litter-directories    '("/node_modules"
+                                           "/.venv"
+                                           "/.cask")
           )
+    ;; (treemacs-resize-icons 16)
+
+
     )
 
 #+end_src
@@ -1091,7 +1099,9 @@ command map
 
   (use-package treemacs-all-the-icons
     :straight t
-    :after treemacs all-the-icons)
+    :after treemacs all-the-icons
+    :config
+    (treemacs-load-theme "all-the-icons"))
 
 #+end_src
 
@@ -2225,7 +2235,8 @@ All style settings are defined here...
               (when (display-graphic-p frame)
                 ;; (set-face-attribute 'default nil :font "Fira Mono-14"))))
                 ;; (set-face-attribute 'default nil :font "Roboto Mono-13"))))
-                ;; (set-face-attribute 'default nil :font "JetBrains Mono-14"))))
+                ;; (set-face-attribute 'default nil :font "Monaco-13"))))
+                ;; (set-face-attribute 'default nil :font "Hack-13"))))
                 (set-face-attribute 'default nil :font "JetBrains Mono-14"))))
 
 #+end_src

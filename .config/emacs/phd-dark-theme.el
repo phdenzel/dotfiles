@@ -5,7 +5,7 @@
 ;;; Code:
 
 (deftheme phd-dark
-  "phdenzel's dark Emacs theme; partially compatible with use in Terminal."
+  "Emacs theme by phdenzel; partially compatible with use in Terminal."
   )
 
 (defvar phd-dark-color-palette
@@ -184,9 +184,22 @@
   `(phd-modeline-vc-status-face         ((t (:foreground ,purple))))
   `(phd-modeline-mail-icon-face         ((t (:foreground ,green-d))))
   `(phd-modeline-mail-status-face       ((t (:foreground ,fg))))
-  `(phd-modeline-inactive-face          ((t (:inherit 'mode-line-inactive))))
+  `(phd-modeline-inactive-face          ((t (:inherit mode-line-inactive))))
   `(phd-modeline-bar-face               ((t (:foreground ,teal :background ,bg-bb))))
-  
+
+  ;; Treemacs
+  `(treemacs-directory-face           ((t (:foreground ,blue))))
+  `(treemacs-file-face                ((t (:inherit default))))
+  `(treemacs-root-face                ((t (:foreground ,teal
+                                                       :bold t
+                                                       :height 1.1))))
+  `(treemacs-git-added-face           ((t (:foreground ,green-d))))
+  `(treemacs-git-modified-face        ((t (:foreground ,magenta))))
+  `(treemacs-git-renamed-face         ((t (:foreground ,teal))))
+  `(treemacs-git-untracked-face       ((t (:foreground ,cyan))))
+  `(treemacs-git-conflict-face        ((t (:inherit error))))
+  `(treemacs-all-the-icons-file-face  ((t (:foreground ,blue))))
+  `(treemacs-all-the-icons-root-face  ((t (:foreground ,teal))))
 
   ;; Perspeen
   `(perspeen-tab--header-line-active  ((t (:background ,blue :inherit mode-line))))
@@ -206,8 +219,6 @@
                                            :bold t))))
   `(swiper-match-face-4   ((t (:background ,green :foreground ,black
                                            :bold t))))
-
-  ;; 
 
   ;; Avy
   `(avy-lead-face      ((t (:background ,orange :foreground ,bg))))

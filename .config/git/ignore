@@ -17,7 +17,10 @@ Desktop.ini
 *.pyc
 *__pycache__
 *.egg-info
-  # pickle file extension
+.ipynb_checkpoints
+# virtualenvs
+venv
+# pickle file extension
 *.pkl
 
 # Haskell interface files
@@ -29,9 +32,10 @@ Desktop.ini
 # Java class files
 *.class
 
-# VS code workspaces
+# IDE code workspaces
 .vscode
 .code-workspace
+.idea
 
 # Jekyll artifacts
 _site

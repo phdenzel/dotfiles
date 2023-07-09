@@ -1,0 +1,190 @@
+[font]
+size = 11
+
+[font.bold]
+family = "JetBrains Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrains Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetBrains Mono"
+style = "Italic"
+
+[font.normal]
+family = "JetBrains Mono"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+# [schemes.exo-2]
+# size = 11
+
+# [schemes.exo-2.bold]
+# family = "Exo 2"
+# style = "Bold"
+
+# [schemes.exo-2.bold_italic]
+# family = "Exo 2"
+# style = "Bold Italic"
+
+# [schemes.exo-2.italic]
+# family = "Exo 2"
+# style = "Italic"
+
+# [schemes.exo-2.normal]
+# family = "Exo 2"
+# style = "Regular"
+
+# [schemes.exo-2.offset]
+# x = 0
+# y = 0
+
+# [schemes.fira-mono]
+# size = 11
+
+# [schemes.fira-mono.bold]
+# family = "Fira Mono"
+# style = "Bold"
+
+# [schemes.fira-mono.normal]
+# family = "Fira Mono"
+# style = "Regular"
+
+# [schemes.fira-mono.offset]
+# x = 0
+# y = 0
+
+# [schemes.fira-mono-nf]
+# size = 10
+
+# [schemes.fira-mono-nf.bold]
+# family = "FiraMono Nerd Font Mono"
+# style = "Bold"
+
+# [schemes.fira-mono-nf.normal]
+# family = "FiraMono Nerd Font Mono"
+# style = "Regular"
+
+# [schemes.fira-mono-nf.offset]
+# x = 0
+# y = 0
+
+# [schemes.hack]
+# size = 10
+
+# [schemes.hack.bold]
+# family = "Hack"
+# style = "Bold"
+
+# [schemes.hack.bold_italic]
+# family = "Hack"
+# style = "Bold Italic"
+
+# [schemes.hack.italic]
+# family = "Hack"
+# style = "Italic"
+
+# [schemes.hack.normal]
+# family = "Hack"
+# style = "Regular"
+
+# [schemes.hack.offset]
+# x = 0
+# y = 0
+
+# [schemes.inconsolata]
+# size = 11
+
+# [schemes.inconsolata.bold]
+# family = "Inconsolata"
+# style = "Bold"
+
+# [schemes.inconsolata.bold_italic]
+# family = "Inconsolata"
+# style = "Bold Italic"
+
+# [schemes.inconsolata.italic]
+# family = "Inconsolata"
+# style = "Italic"
+
+# [schemes.inconsolata.normal]
+# family = "Inconsolata"
+# style = "Regular"
+
+# [schemes.inconsolata.offset]
+# x = 0
+# y = 0
+
+# [schemes.jetbrains]
+# size = 11
+
+# [schemes.jetbrains.bold]
+# family = "JetBrains Mono"
+# style = "Bold"
+
+# [schemes.jetbrains.bold_italic]
+# family = "JetBrains Mono"
+# style = "Bold Italic"
+
+# [schemes.jetbrains.italic]
+# family = "JetBrains Mono"
+# style = "Italic"
+
+# [schemes.jetbrains.normal]
+# family = "JetBrains Mono"
+# style = "Regular"
+
+# [schemes.jetbrains.offset]
+# x = 0
+# y = 0
+
+# [schemes.source-code-pro]
+# size = 11
+
+# [schemes.source-code-pro.bold]
+# family = "Source Code Pro"
+# style = "Bold"
+
+# [schemes.source-code-pro.bold_italic]
+# family = "Source Code Pro"
+# style = "Bold Italic"
+
+# [schemes.source-code-pro.italic]
+# family = "Source Code Pro"
+# style = "Italic"
+
+# [schemes.source-code-pro.normal]
+# family = "Source Code Pro"
+# style = "Regular"
+
+# [schemes.source-code-pro.offset]
+# x = 0
+# y = 0
+
+# [schemes.ubuntu]
+# size = 11
+
+# [schemes.ubuntu.bold]
+# family = "Ubuntu Mono"
+# style = "Bold"
+
+# [schemes.ubuntu.bold_italic]
+# family = "Ubuntu Mono"
+# style = "Bold Italic"
+
+# [schemes.ubuntu.italic]
+# family = "Ubuntu Mono"
+# style = "Italic"
+
+# [schemes.ubuntu.normal]
+# family = "Ubuntu Mono"
+# style = "Regular"
+
+# [schemes.ubuntu.offset]
+# x = 0
+# y = 0

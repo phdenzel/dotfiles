@@ -1,0 +1,117 @@
+import = ["/home/phdenzel/.config/alacritty/alacritty-themes.toml", "/home/phdenzel/.config/alacritty/alacritty-fonts.toml"]
+live_config_reload = true
+
+[bell]
+command = "None"
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = false
+
+[cursor]
+style = "Block"
+thickness = 0.15
+unfocused_hollow = true
+vi_mode_style = "Block"
+
+[env]
+TERM = "xterm-256color"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "W"
+mods = "Alt"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ScrollLineDown"
+key = "J"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "ScrollLineUp"
+key = "K"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "ScrollpageDown"
+key = "J"
+mods = "Control|Alt"
+
+[[keyboard.bindings]]
+action = "ScrollpageUp"
+key = "K"
+mods = "Control|Alt"
+
+[[keyboard.bindings]]
+action = "ScrollpageUp"
+key = "PageUp"
+mods = "None"
+
+[[keyboard.bindings]]
+action = "ScrollpageDown"
+key = "PageDown"
+mods = "None"
+
+[mouse]
+hide_when_typing = true
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mods = "None"
+mouse = "Middle"
+
+[scrolling]
+history = 10000
+
+[selection]
+save_to_clipboard = true
+
+[shell]
+program = "/bin/zsh"
+
+[window]
+dynamic_title = true
+opacity = 0.95
+
+[window.dimensions]
+columns = 80
+lines = 54
+
+[window.padding]
+x = 8
+y = 5

@@ -1088,6 +1088,12 @@ command map
 #+end_src
 
 #+begin_src emacs-lisp
+  (use-package treemacs-magit
+    :straight t
+    :after treemacs magit)
+#+end_src
+
+#+begin_src emacs-lisp
 
   (use-package treemacs-projectile
     :straight t

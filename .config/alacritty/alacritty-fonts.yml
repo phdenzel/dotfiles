@@ -47,6 +47,25 @@ schemes:
     #  y: 0
     #use_thin_strokes: true  # macOS only
 
+  ### Monaco ###
+  monaco: &monaco
+    # Styles
+    normal:
+      family: Monaco
+      style: Regular
+    bold:
+      family: Monaco
+      style: Bold
+    size: 12
+    # Offset is the extra space aroujnd each character.
+    offset:
+      x: 0
+      y: 0
+    #glyph_offset
+    #  x: 0
+    #  y: 0
+    #use_thin_strokes: true  # macOS only
+
   ### Source Code Pro ###
   source-code-pro: &source-code-pro
     # Styles
@@ -205,5 +224,5 @@ schemes:
 
 # Themes:
 # | fira-mono | fira-mono-nf | source-code-pro | ubuntu  | hack | inconsolata
-# | jetbrains | exo-2 |
-font: *jetbrains
+# | jetbrains | exo-2 | monaco
+font: *monaco

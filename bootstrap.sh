@@ -23,6 +23,7 @@ DFLAGS=(
     --exclude ".config/emacs/"
     --exclude ".config/gtk-2.0/"
     --exclude ".config/gtk-3.0/"
+    --exclude ".config/gtk-4.0/"
     --exclude ".config/qt5ct/"
     --exclude ".config/USERINFO"
     --exclude ".config/xmobar/"
@@ -44,6 +45,7 @@ DFLAGS=(
     --exclude "private/"
     --exclude "utils/"
     --exclude "vms/"
+    --exclude ".DS_Store"
 )
 while [[ $# -gt 0 ]]; do
     case $1 in

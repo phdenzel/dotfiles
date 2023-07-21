@@ -248,6 +248,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
      sudo ln -s ~/.local/bin/xmonad /usr/bin
      sudo mkdir -p /usr/share/xsessions
      sudo ln -s ~/.config/xmonad/xmonad.desktop /usr/share/xsessions
+     sudo ln -s ~/.config/xmonad/icons/logo.png /usr/share/xsessions/xmonad.png
      cd
    #+end_src
 

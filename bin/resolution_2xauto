@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 USERINFO_FILE="${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO"
 if [ -f "$USERINFO_FILE" ]; then
    . $USERINFO_FILE

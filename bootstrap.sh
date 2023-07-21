@@ -121,6 +121,8 @@ if [[ $DO_EMACS -eq 1 ]]; then
     echo -e "# Installing ${COLOR_BLUE}emacs${COLOR_RESET} configs in $CONF_HOME/emacs"
     if [[ $DRY_RUN -eq 1 ]]; then
         echo -n
+    elif [[ -e "$CONF_HOME/emacs/phd-emacs.org" ]]; then
+        echo -n
     elif [ -d "$CONF_HOME/emacs" ]; then
         mv $CONF_HOME/emacs $CONF_HOME/emacs.bak
         echo "$CONF_HOME/emacs directory already existed and has been backed up to $CONF_HOME/emacs.bak"

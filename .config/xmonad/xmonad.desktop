@@ -2,7 +2,8 @@
 Encoding=UTF-8
 Name=Xmonad
 Exec=xmonad
+TryExec=xmonad
 NoDisplay=true
 Comment=Lightweight tiling window manager
-#Icon=
+Icon=xmonad.svg
 Type=XSession

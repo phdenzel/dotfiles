@@ -57,6 +57,9 @@ function zsh_add_plugin() {
 }
 
 
+eval "$(zoxide init zsh)"
+
+
 function welcome_screen() {
     echo -n "${magenta}+++++++++++++++++++++++++++++++++${reset}${bold} W E L C O M E ";
     echo "${reset}${magenta}++++++++++++++++++++++++++++++++${reset}\n";

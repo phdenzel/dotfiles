@@ -131,7 +131,7 @@ myStartupHook = do
   spawnOnce "xset r rate 180 50"               -- increase scroll speed
   spawnOnce "xrdb -merge ~/.Xresources"        -- load x resources
   spawnOnce "xmodmap ~/.Xmodmap"               -- load x modmap
-  spawnOnce "picom &"                          -- start compositor
+  -- spawnOnce "picom &"                          -- start compositor
   spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper
   spawnOnce "xscreensaver -no-splash &"        -- xscreensaver daemon
   spawnOnce "/usr/bin/emacs --daemon &"        -- Emacs daemon
@@ -373,7 +373,7 @@ myKeymap =
 
   -- XMonad & system bindings
   , ("M-b"          , sendMessage ToggleStruts)  -- toggle status bar
-  , ("M-S-b"        , spawn "xmobar_toggle")     -- kill status bar
+  , ("M-S-b"        , spawn "xmobar_launch")     -- kill status bar
   , ("M-q"          , spawn "xmonad_restart")    -- recompile & restart xmonad
   , ("M-S-x"        , io (exitWith ExitSuccess)) -- exit XMonad
   , ("M-S-z"        , spawn "xscreensaver-command --activate")  -- suspend

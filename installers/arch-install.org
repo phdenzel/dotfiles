@@ -18,8 +18,8 @@ troubleshooting.
       - Intel i7-7700K(8)@4.5GHz
       - Nvidia GTX 1080Ti
       - btrfs setup
-    - MacBookPro 13" (2016)
-      - btrfs/luks encryption setup
+    - Macbook Air M2 (2022)
+      - Asahi distro
     - Home server
       - ASRock X570M Pro4
       - AMD Ryzen 7 5700G(16)@3.8GHz
@@ -532,7 +532,7 @@ troubleshooting.
   need...
 
   #+begin_src shell
-    pacman -S grub grub-btrfs efibootmgr dosfstools mtools dialog base-devel linux-headers bash-completion xdg-utils git networkmanager wireless_tools wpa_supplicant openssh bluez bluez-utils blueman alsa-utils pulseaudio pulseaudio-bluetooth pavucontrol cups
+    pacman -S grub grub-btrfs efibootmgr dosfstools mtools dialog base-devel linux-headers bash-completion xdg-desktop-portal xdg-utils git networkmanager wireless_tools wpa_supplicant openssh bluez bluez-utils blueman alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber qpwgraph cups
   #+end_src
 
   On server setups for example, you usually have neither audio, wifi,
@@ -787,7 +787,7 @@ troubleshooting.
     sudo systemctl enable bluetooth
     sudo systemctl enable cups.service
     sudo systemctl enable sshd
-    sudo systemctlenable fstrim.timer
+    sudo systemctl enable fstrim.timer
   #+end_src
 
   If there is no ethernet cable plugged in, you may have to edit

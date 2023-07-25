@@ -23,11 +23,12 @@ process a bit. For this, simply run the ~arch.sh~ install script
       - [[#optional-neofetch][Optional: ~neofetch~]]
       - [[#optional-gui-for-theming][Optional: GUI for theming]]
   - [[#xmonad--xmobar][XMonad & xmobar]]
-  - [[#dmenu][dmenu]]
-  - [[#more-suckless-tools][More suckless tools]]
-    - [[#optional-xmobar_wttr---an-xmobar-addon][Optional: xmobar_wttr - an xmobar addon]]
-    - [[#optional-licht---hue-lights-controller-applet][Optional: licht - Hue lights controller applet]]
-    - [[#optional-display-manager][Optional: display manager]]
+    - [[#dmenu][dmenu]]
+    - [[#more-suckless-tools][More suckless tools]]
+      - [[#optional-xmobar_wttr---an-xmobar-addon][Optional: xmobar_wttr - an xmobar addon]]
+      - [[#optional-licht---hue-lights-controller-applet][Optional: licht - Hue lights controller applet]]
+  - [[#hyprland][Hyprland]]
+  - [[#optional-display-manager][Optional: display manager]]
   - [[#basic-programs][Basic programs]]
     - [[#file-managers][File managers]]
     - [[#system-tools][System tools]]
@@ -159,11 +160,22 @@ process a bit. For this, simply run the ~arch.sh~ install script
 
    Since you're reading this, you know that I have my dotfiles stored
    in a GitHub repository. It'll install configurations of my window
-   manager ~XMonad~, ~emacs~, some bash scripts, and GTK/QT themes.
+   managers (XMonad for Xorg and Hyprland for wayland), ~emacs~, some
+   bash scripts, and GTK/QT themes.
 
-   Prerequisites have to be installed fist
+   Prerequisites have to be installed first
    #+begin_src shell
-     sudo pacman -S rsync ghc ghc-static qt5ct
+     sudo pacman -S rsync
+   #+end_src
+
+   and optionally for XMonad
+   #+begin_src emacs-lisp
+     sudo pacman -S ghc ghc-static
+   #+end_src
+
+   and for some QT themeing
+   #+begin_src emacs-lisp
+     sudo pacman -S qt5ct
    #+end_src
 
    Install everything from the dotfiles repository (no need to source
@@ -171,16 +183,19 @@ process a bit. For this, simply run the ~arch.sh~ install script
    #+begin_src shell
      git clone git@github.com:phdenzel/dotfiles.git
      cd ~/dotfiles
+     # dotfiles, binaries, and emacs configuration, and custom themes
+     ./bootstrap.sh -b -e -t
+     #gsettings set org.gnome.desktop.interface gtk-theme phd-dark
+   #+end_src
 
-     ./bootstrap.sh --bin
+   For XMonad use
+   #+begin_src emacs-lisp
+     ./bootstrap.sh -s -x
+   #+end_src
 
-     ./bootstrap.sh --emacs
-
-     # This command might take a minute
-     ./bootstrap.sh --themes
-     gsettings set org.gnome.desktop.interface gtk-theme phd-dark
-
-     ./bootstrap.sh
+   and for Hyprland use
+   #+begin_src emacs-lisp
+     ./bootstrap.sh -s -w
    #+end_src
 
    Some applications (such as ~timeshift-gtk~) need ~sudo~ priviliges,
@@ -188,6 +203,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
    copy them to the respective directories in ~/usr/share/~
    #+begin_src shell
      sudo ln -s $HOME/.themes/phd-dark /usr/share/themes/phd-dark
+     sudo ln -s $HOME/.config/gtk-3.0/settings.ini /etc/gtk-4.0/settings.ini
      sudo ln -s $HOME/.config/gtk-3.0/settings.ini /etc/gtk-3.0/settings.ini
      sudo ln -s $HOME/.config/gtk-2.0/gtkrc-2.0 /etc/gtk-2.0/gtkrc
    #+end_src
@@ -222,6 +238,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 
 ** XMonad & xmobar
 
+   XMonad is my choice of window manager for the xorg server.
    To get the latest version of XMonad and xmobar, I like to compile
    them from source myself. This takes a bit longer than simply
    installing it with the package manager.  First, install all
@@ -253,7 +270,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
    #+end_src
 
 
-** dmenu
+*** dmenu
 
    ~dmenu~ accompanies XMonad perfectly. Once again, as this is a
    suckless tool to which one might want to apply some patches,
@@ -270,7 +287,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
    #+end_src
 
 
-** More suckless tools
+*** More suckless tools
 
    To complete the tiling window manager setup, we furthermore install
    a compositor, sys-tray, and image viewer (for setting wallpapers)
@@ -280,7 +297,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
    #+end_src
 
 
-*** Optional: xmobar_wttr - an xmobar addon
+**** Optional: xmobar_wttr - an xmobar addon
 
     I wrote my own weather fetcher as python program which nicely
     formats and iconifies the information for ~xmobar~. Python should
@@ -305,7 +322,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 
-*** Optional: licht - Hue lights controller applet
+**** Optional: licht - Hue lights controller applet
 
     I used to use a systray GNOME applet back on Pop!_OS which was
     able to connect to a Philips Hue bridge in my network, but
@@ -328,26 +345,54 @@ process a bit. For this, simply run the ~arch.sh~ install script
     #+end_src
 
 
-*** Optional: display manager
+** Hyprland
 
-    I personally don't use a display manager, as I encrypt my drives
-    and use xinit on login. If I would use a login manager though, it
-    probably would be ~lightdm~ or ~ly~. So,
+   Hyprland is my choice for the Wayland compositor.
+   Install Hyprland and the essentials from the archlinux repositories
+   #+begin_src shell
+     sudo pacman -S hyprland eww-wayland xdg-desktop-portal-hyprland dunst pipewire wireplumber polkit-kde-agent qt5-wayland qt6-wayland
+   #+end_src
 
-    #+begin_src shell
-      yay -S ly
-      sudo systemctl enable ly.service
-    #+end_src
+   If you use an nvidia card, you might want to try the package including the nvidia patches instead
+   #+begin_src shell
+     sudo pacman -S hyprland-nvidia
+   #+end_src
 
-    or
 
-    #+begin_src shell
-      sudo pacman -S lightdm lightdm-webkit2-greeter
-      sudo systemctl enable lightdm
-    #+end_src
 
-    If you decided on ~lightdm~, enable its ~lightdm-webkit2-greeter~
-    in ~/etc/lightdm/lightdm.conf~, otherwise it won't work.
+
+** Optional: display manager
+
+   I personally don't use a display manager, as I encrypt my drives
+   and use xinit on login. If I would use a login manager though, it
+   probably would be ~lightdm~ or ~ly~. So,
+
+   #+begin_src shell
+     yay -S ly
+     sudo systemctl enable ly.service
+   #+end_src
+
+   or
+
+   #+begin_src shell
+     sudo pacman -S lightdm web-greeter accountsservice
+     sudo systemctl enable lightdm
+   #+end_src
+
+   If you decided on ~lightdm~, enable its ~web-greeter~
+   in ~/etc/lightdm/lightdm.conf~, otherwise it won't work.
+
+   Also, you might need to start the accounts service daemon
+   #+begin_src shell
+     sudo systemctl enable accounts-daemon.service
+   #+end_src
+
+   and optionally create a user icon
+   #+begin_src shell
+     sudo mkdir /var/lib/AccountsService/icons && chmod 755 /var/lib/AccountsService/icons
+     cp [username].jpg /var/lib/AccountsService/icons/
+   #+end_src
+   and edit the icon entry in user file in ~/var/lib/AccountsService/users/~.
 
 
 ** Basic programs

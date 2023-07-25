@@ -29,6 +29,8 @@ DFLAGS=(
     --exclude ".config/xmobar/"
     --exclude ".config/xmonad/"
     --exclude ".config/hypr/"
+    --exclude ".config/tofi/"
+    --exclude ".config/eww/"
     --exclude ".editorconfig"
     --exclude ".fonts"
     --exclude ".git/"
@@ -146,10 +148,10 @@ if [[ $DO_THEMES -eq 1 ]]; then
     echo -e "\n# Installing icons"
     rsync "-${FLAGS[@]}" .icons/ $HOME/.icons/
     echo -e "\n# Installing GTK configuration"
-    # rsync "-${FLAGS[@]}" .config/gtk-2.0/ $CONF_HOME/gtk-2.0/
-    # rsync "-${FLAGS[@]}" .config/gtk-3.0/ $CONF_HOME/gtk-3.0/
+    rsync "-${FLAGS[@]}" .config/gtk-2.0/ $CONF_HOME/gtk-2.0/
+    rsync "-${FLAGS[@]}" .config/gtk-3.0/ $CONF_HOME/gtk-3.0/
     rsync "-${FLAGS[@]}" .config/gtk-4.0/ $CONF_HOME/gtk-4.0/
-    echo -e "\n# Installing qt configuration"
+    echo -e "\n# Installing QT configuration"
     rsync "-${FLAGS[@]}" .config/qt5ct/ $CONF_HOME/qt5ct/
     if [[ $DRY_RUN -ne 1 ]]; then
         sudo mkdir -p /usr/share/highlight/themes
@@ -165,6 +167,9 @@ fi;
 if [[ $DO_HYPR -eq 1 ]]; then
     echo "----------------------------------------------"
     echo -e "# Installing ${COLOR_BLUE}hyprland${COLOR_RESET} configuration"
+    rsync "-${FLAGS[@]}" .config/hypr $CONF_HOME/
+    rsync "-${FLAGS[@]}" .config/eww $CONF_HOME/
+    rsync "-${FLAGS[@]}" .config/tofi $CONF_HOME/
 fi;
 # Install my xmonad configuration
 if [[ $DO_XMONAD -eq 1 ]]; then

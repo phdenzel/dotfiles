@@ -126,11 +126,11 @@ myConfigs = def
 myStartupHook :: X()
 myStartupHook = do
   spawn     "killall trayer"
-  spawnOnce "resolution_2xauto"                -- set screen resolution using xrandr
+  spawn     "resolution_2xauto"                -- set screen resolution using xrandr
   spawnOnce "xsetroot -cursor_name left_ptr"   -- set cursor
-  spawnOnce "xset r rate 180 50"               -- increase scroll speed
-  spawnOnce "xrdb -merge ~/.Xresources"        -- load x resources
-  spawnOnce "xmodmap ~/.Xmodmap"               -- load x modmap
+  spawn     "xset r rate 180 50"               -- increase scroll speed
+  spawn     "xrdb -merge ~/.Xresources"        -- load x resources
+  spawn     "xmodmap ~/.Xmodmap"               -- load x modmap
   -- spawnOnce "picom &"                          -- start compositor
   spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper
   spawnOnce "xscreensaver -no-splash &"        -- xscreensaver daemon
@@ -143,8 +143,8 @@ myStartupHook = do
              ++ " &"
             )
   spawnOnce "dunst &"
-  spawn     "blueman-applet"
-  spawn     "nm-applet"
+  spawnOnce "blueman-applet"
+  spawnOnce "nm-applet"
   spawnOnce "volumeicon"
   spawnOnce "licht -a &"
   setWMName "LG3D"  -- Java hack

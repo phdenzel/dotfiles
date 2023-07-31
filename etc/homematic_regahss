@@ -8,7 +8,7 @@
 homematic_ip="192.168.178.41"
 
 # ssh root@$homematic_ip
-homematic
+ssh homematic
 # manually put in password
 
 cd /tmp

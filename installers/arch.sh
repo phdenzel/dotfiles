@@ -63,6 +63,7 @@ arch_pkgs=(
     wireless_tools
     qt5ct
     qt6ct
+    gtk-engine-murrine
     lxappearance
     emacs
     pyenv python-pip python-pipenv
@@ -71,6 +72,7 @@ arch_pkgs=(
     pcmanfm
     gvfs
     udisks2
+    udiskie
     xarchiver
     ranger ueberzug highlight
     systemd-resolvconf
@@ -85,10 +87,6 @@ arch_pkgs=(
     bash-completion
     man-db
     hunspell hunspell-en_us
-    dunst
-    pavucontrol
-    network-manager-applet
-    blueman
     xdotool
     xscreensaver
     chrony
@@ -302,15 +300,22 @@ aur_headless_pkgs=(
 )
 
 xmonad_pkgs=(
+    # build tools
     ghc ghc-static
     stack
+    # prerequisites
     xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr
     libx11 libxft libxinerama libxrandr libxss
     pkgconf
-    picom
-    trayer
-    feh
-    volumeicon
+    picom       # compositor
+    trayer      # system tray
+    dunst       # notification daemon
+    feh         # image viewer/wallpaper daemon
+    volumeicon  # volume controls in status bar
+    pavucontrol # GUI for audio
+    network-manager-applet  # GUI for network-manager
+    blueman     # GUI for bluetoothctl
+    arandr      # GUI for xrandr
 )
 
 hypr_pkgs=(
@@ -318,12 +323,21 @@ hypr_pkgs=(
     eww-wayland
     tofi
     xdg-desktop-portal-hyprland
-    dunst
     pipewire wireplumber
     polkit-kde-agent
     qt5-wayland qt6-wayland
-    hyprpaper
-    nwg-look
+    hyprpaper    # wallpaper daemon
+    dunst        # notification daemon
+    #swayosd-git  # On-screen-display
+    pavucontrol  # GUI for audio
+    network-manager-applet  # GUI for network-manager
+    blueman      # GUI for bluetoothctl
+    imv          # image viewer
+    grim         # screenshot utility
+    slurp        # region selector for grim
+    hyprpicker   # color picker for wayland
+    nwg-look     # GTK theme picker GUI
+    nwg-displays # arandr alternative
 )
 
 # sync and upgrade system
@@ -415,3 +429,4 @@ if [[ $DO_HYPR -eq 1 ]]; then
         done
     fi
 fi
+

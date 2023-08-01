@@ -168,14 +168,14 @@ process a bit. For this, simply run the ~arch.sh~ install script
      sudo pacman -S rsync
    #+end_src
 
-   and optionally for XMonad
-   #+begin_src emacs-lisp
-     sudo pacman -S ghc ghc-static
+   and optionally for XMonad (add the dry-run flag ~-n~ to test it out first)
+   #+begin_src shell
+     ./installers/arch.sh -x
    #+end_src
 
-   and for some QT themeing
-   #+begin_src emacs-lisp
-     sudo pacman -S qt5ct
+   and for Hyprland (add the dry-run flag ~-n~ to test it out first)
+   #+begin_src shell
+     ./installers/arch.sh -w
    #+end_src
 
    Install everything from the dotfiles repository (no need to source
@@ -266,7 +266,6 @@ process a bit. For this, simply run the ~arch.sh~ install script
      sudo mkdir -p /usr/share/xsessions
      sudo ln -s ~/.config/xmonad/xmonad.desktop /usr/share/xsessions
      sudo ln -s ~/.config/xmonad/icons/logo.png /usr/share/xsessions/xmonad.png
-     cd
    #+end_src
 
 
@@ -355,10 +354,26 @@ process a bit. For this, simply run the ~arch.sh~ install script
 
    If you use an nvidia card, you might want to try the package including the nvidia patches instead
    #+begin_src shell
-     sudo pacman -S hyprland-nvidia
+     sudo pacman -S hyprland-nvidia qt5ct libva
+     yay -S nvidia-vaapi-driver-git
    #+end_src
 
+   Most well-known tools used within Xorg will not work on Wayland and
+   need corresponding versions, e.g. OSD notification, wallpaper
+   daemon, theme editor, image viewer, screenshot tool, color picker,
+   etc.
+   
+   #+begin_src shell
+     yay -S swayosd-git hyprpaper nwg-look imv grim slurp hyprpicker
+     #swayosd-git
+   #+end_src
 
+   Also, optionally create an entry for hyprland with your display manager
+   #+begin_src shell
+     sudo mkdir -p /usr/share/xsessions
+     sudo ln -s ~/.config/hypr/hyprland.desktop /usr/share/xsessions
+     sudo ln -s ~/.config/hypr/icons/logo.png /usr/share/xsessions/hyprland.png
+   #+end_src
 
 
 ** Optional: display manager

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # amixer toggle is not working so...
 

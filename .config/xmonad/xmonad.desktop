@@ -1,8 +1,6 @@
 [Desktop Entry]
-Encoding=UTF-8
 Name=xmonad
 Exec=xmonad
-#NoDisplay=true
 Comment=Lightweight tiling window manager
 Icon=xmonad.png
-Type=XSession
+Type=Application

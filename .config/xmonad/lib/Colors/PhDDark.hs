@@ -28,7 +28,7 @@ color12 = "#5f5fff"
 color05 = "#E83A82"
 color13 = "#FF0087"
 -- Cyan
-color06 = "#4db5bd"
+color06 = "#1ae6cc"
 color14 = "#46d9ff"
 -- White
 color07 = "#dfdfdf"

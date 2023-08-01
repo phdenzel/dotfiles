@@ -18,44 +18,45 @@ DO_SOURCE=0
 DO_THEMES=0
 DO_XMONAD=0
 DRY_RUN=0
+SHOW_DIFF=0
 FLAGS="avh"
 DFLAGS=(
-    --exclude ".config/emacs/"
-    --exclude ".config/gtk-2.0/"
-    --exclude ".config/gtk-3.0/"
-    --exclude ".config/gtk-4.0/"
-    --exclude ".config/qt5ct/"
-    --exclude ".config/USERINFO"
-    --exclude ".config/xmobar/"
-    --exclude ".config/xmonad/"
-    --exclude ".config/hypr/"
-    --exclude ".config/tofi/"
-    --exclude ".config/eww/"
-    --exclude ".editorconfig"
-    --exclude ".fonts"
-    --exclude ".git/"
-    --exclude ".gitmodules"
-    --exclude ".themes/"
-    --exclude ".icons/"
-    --exclude "bin/"
-    --exclude "bootstrap.sh"
-    --exclude "etc/"
-    --exclude "imgs/"
-    --exclude "installers/"
-    --exclude "LICENSE"
-    --exclude "README.md"
-    --exclude "private/"
-    --exclude "utils/"
-    --exclude "vms/"
-    --exclude ".DS_Store"
+    --exclude=".config/emacs*"
+    --exclude=".config/gtk-2.0/"
+    --exclude=".config/gtk-3.0/"
+    --exclude=".config/gtk-4.0/"
+    --exclude=".config/qt5ct/"
+    --exclude=".config/USERINFO"
+    --exclude=".config/xmobar/"
+    --exclude=".config/xmonad/"
+    --exclude=".config/hypr/"
+    --exclude=".config/tofi/"
+    --exclude=".config/eww/"
+    --exclude=".editorconfig"
+    --exclude=".fonts/"
+    --exclude=".git*"
+    --exclude=".themes/"
+    --exclude=".icons/"
+    --exclude="bin/"
+    --exclude="bootstrap.sh"
+    --exclude="etc/"
+    --exclude="imgs/"
+    --exclude="installers/"
+    --exclude="LICENSE"
+    --exclude="README.md"
+    --exclude="private/"
+    --exclude="utils/"
+    --exclude="vms/"
+    --exclude=".DS_Store"
 )
 while [[ $# -gt 0 ]]; do
     case $1 in
         -h|--help)
             echo "Usage: bootstrap.sh [-c|--conf PATH] [-l|--bin-path PATH]"
-            echo "          [-n|--dry-run] [-s|--skip] [--source]"
+            echo "          [-n|--dry-run] [-d|--diff] [-s|--skip]"
             echo "          [-b|--bin] [-e|--emacs] [-t|--themes]"
             echo "          [-w|--hypr] [-x|--xmonad]"
+            echo "          [--source]"
             echo ""
             echo "# BOOTSTRAP: $BOOTSTRAP_PATH"
             echo "# CONF:      $CONF_HOME"
@@ -75,6 +76,9 @@ while [[ $# -gt 0 ]]; do
         -n|--dry-run)
             DRY_RUN=1
             FLAGS+="n"
+            ;;
+        -d|--diff)
+            SHOW_DIFF=1
             ;;
         -s|--skip|--no-config)
             DO_SKIP_CONF=1
@@ -122,7 +126,13 @@ if [[ $DO_EMACS -eq 1 ]]; then
     echo "----------------------------------------------"
     echo -e "# Installing ${COLOR_BLUE}emacs${COLOR_RESET} configs in $CONF_HOME/emacs"
     if [[ $DRY_RUN -eq 1 ]]; then
-        echo -n
+        if [[ $SHOW_DIFF -eq 1 ]]; then
+            if command -v colordiff &> /dev/null; then
+                diff -u $CONF_HOME/emacs .config/emacs | colordiff
+            else
+                diff -u $CONF_HOME/emacs .config/emacs
+            fi;
+        fi;
     elif [[ -e "$CONF_HOME/emacs/phd-emacs.org" ]]; then
         echo -n
     elif [ -d "$CONF_HOME/emacs" ]; then
@@ -160,16 +170,50 @@ if [[ $DO_THEMES -eq 1 ]]; then
             mkdir -p "$(bat --config-dir)/themes"
             ln -s -f $HOME/.themes/phd-dark.tmTheme $(bat --config-dir)/themes/
             bat cache --build
-        fi
-    fi
+        fi;
+    elif [[ $SHOW_DIFF -eq 1 ]]; then
+        if command -v colordiff &> /dev/null; then
+            diff -u $CONF_HOME/gtk-2.0 .config/gtk-2.0 | colordiff
+            diff -u $CONF_HOME/gtk-3.0 .config/gtk-3.0 | colordiff
+            diff -u $CONF_HOME/gtk-4.0 .config/gtk-4.0 | colordiff
+            diff -u $CONF_HOME/qt5ct .config/qt5ct | colordiff
+            diff -u $HOME/.themes/phd-dark.tmTheme \
+                 .themes/phd-dark.tmTheme \
+                | colordiff
+            diff -u $HOME/.themes/phd-dark-highlight.theme \
+                 .themes/phd-dark-highlight.theme \
+                | colordiff
+        else
+            diff -u $CONF_HOME/gtk-2.0 .config/gtk-2.0
+            diff -u $CONF_HOME/gtk-3.0 .config/gtk-3.0
+            diff -u $CONF_HOME/gtk-4.0 .config/gtk-4.0
+            diff -u $CONF_HOME/qt5ct .config/qt5ct
+            diff -u $HOME/.themes/phd-dark.tmTheme \
+                 .themes/phd-dark.tmTheme
+            diff -u $HOME/.themes/phd-dark-highlight.theme \
+                 .themes/phd-dark-highlight.theme
+        fi;
+    fi;
 fi;
 # Install my hyprland configuration
 if [[ $DO_HYPR -eq 1 ]]; then
     echo "----------------------------------------------"
     echo -e "# Installing ${COLOR_BLUE}hyprland${COLOR_RESET} configuration"
-    rsync "-${FLAGS[@]}" .config/hypr $CONF_HOME/
-    rsync "-${FLAGS[@]}" .config/eww $CONF_HOME/
-    rsync "-${FLAGS[@]}" .config/tofi $CONF_HOME/
+    if [[ $SHOW_DIFF -eq 1 ]]; then
+        if command -v colordiff &> /dev/null; then
+            diff -ur $CONF_HOME/hypr .config/hypr | colordiff
+            diff -ur $CONF_HOME/eww .config/eww | colordiff
+            diff -ur $CONF_HOME/tofi .config/tofi | colordiff
+        else
+            diff -ur $CONF_HOME/hypr .config/hypr
+            diff -ur $CONF_HOME/eww .config/eww
+            diff -ur $CONF_HOME/tofi .config/tofi
+        fi;
+    else
+        rsync "-${FLAGS[@]}" --exclude="icons/" .config/hypr $CONF_HOME/
+        rsync "-${FLAGS[@]}" .config/eww $CONF_HOME/
+        rsync "-${FLAGS[@]}" .config/tofi $CONF_HOME/
+    fi;    
 fi;
 # Install my xmonad configuration
 if [[ $DO_XMONAD -eq 1 ]]; then
@@ -181,17 +225,43 @@ if [[ $DO_XMONAD -eq 1 ]]; then
         if [ ! -d $CONF_HOME/xmobar/xmobarconf ]; then
             ln -s -f $(pwd)/.config/xmobar/xmobarconf $CONF_HOME/xmobar/
         fi
-    fi
+    elif [[ $SHOW_DIFF -eq 1 ]]; then
+        if command -v colordiff &> /dev/null; then
+            diff -ur $CONF_HOME/xmonad .config/xmonad | colordiff
+            diff -ur $CONF_HOME/xmobar .config/xmobar | colordiff
+        else
+            diff -ur $CONF_HOME/xmonad .config/xmonad
+            diff -ur $CONF_HOME/xmobar .config/xmobar
+        fi;
+    fi;
 fi;
 # Install dotfiles
 if [[ $DO_SKIP_CONF -ne 1 ]]; then
     echo "----------------------------------------------"
     echo -e "# Installing ${COLOR_BLUE}dotfiles${COLOR_RESET} to $HOME and $CONF_HOME"
-    rsync "-${FLAGS[@]}" "${DFLAGS[@]}" $BOOTSTRAP_PATH/ ~;
     if [[ $DRY_RUN -ne 1 ]]; then
+        rsync "-${FLAGS[@]}" "${DFLAGS[@]}" $BOOTSTRAP_PATH/ ~;
         chmod 700 ~/.gnupg
         git submodule update
-    fi  
+    elif [[ $SHOW_DIFF -eq 1 ]]; then
+        if command -v colordiff &> /dev/null; then
+            diff -u -x "[A-Z]*" -x "[a-z]*" ~ $BOOTSTRAP_PATH | colordiff
+            diff -ur \
+                 -x "xmonad" -x "xmobar" -x "hypr" -x "eww" -x "tofi" \
+                 -x "emacs" \
+                 -x "gtk" -x "qt?ct" \
+                 $CONF_HOME .config | colordiff
+        else
+            diff -ur -x "[A-Z]*" -x "[a-z]*" $BOOTSTRAP_PATH/.*
+            diff -ur \
+                 -x "xmonad" -x "xmobar" -x "hypr" -x "eww" -x "tofi" \
+                 -x "emacs" \
+                 -x "gtk" -x "qt?ct" \
+                 $CONF_HOME .config
+        fi;
+    else
+        rsync "-${FLAGS[@]}" "${DFLAGS[@]}" $BOOTSTRAP_PATH/ ~;
+    fi;
 fi;
 # Source the newly installed dotfiles
 if [[ $DO_SOURCE -eq 1 ]]; then

@@ -131,7 +131,7 @@ myStartupHook = do
   spawn     "xset r rate 180 50"               -- increase scroll speed
   spawn     "xrdb -merge ~/.Xresources"        -- load x resources
   spawn     "xmodmap ~/.Xmodmap"               -- load x modmap
-  -- spawnOnce "picom &"                          -- start compositor
+  spawnOnce "picom &"                          -- start compositor
   spawnOnce "~/.config/feh/fehbg &"            -- set wallpaper
   spawnOnce "xscreensaver -no-splash &"        -- xscreensaver daemon
   spawnOnce "/usr/bin/emacs --daemon &"        -- Emacs daemon

@@ -49,15 +49,43 @@ DFLAGS=(
     --exclude="vms/"
     --exclude=".DS_Store"
 )
+
+read -r -d '' usage <<-EOF
+  Usage: bootstrap.sh [-c|--conf PATH] [-l|--bin-path PATH]
+                      [-n|--dry-run] [-d|--diff] [-s|--skip]
+                      [-b|--bin] [-e|--emacs] [-t|--themes]
+                      [-x|--xmonad] [-w|--hypr]
+                      [--source]
+
+         bootstrap script for installing the phdenzel/dotfiles using rsync.
+
+         -h, --help         Prints this message.
+         -c, --conf <path>  Sets the path where the configuration will be
+                            installed. Default: $CONF_HOME
+         -l, --bin-path     Sets the path where the binaries will be installed,
+                            resp. symlinked. Default: $BIN_PATH
+         -n, --dry-run      Runs all rsync commands in dry-run mode.
+         -d, --diff         Shows all diffs between the already existing and
+                            to-be-installed configurations;
+                            only takes effect with the -n, --diff flag.
+         -s, --skip         Skips installing all main dotfiles (when used with
+                            e.g. -x, the script installs only the xmonad
+                            configurations).
+         -b, --bin          Installs/symlinks binaries from $BOOTSTRAP_PATH/bin
+         -e, --emacs        Installs emacs configurations.
+         -t, --themes       Installs the custom 'phd-dark' theme
+                            (GTK, QT, highlight, etc.)
+         -x, --xmonad       Installs xmonad configurations.
+         -w, --hypr         Installs hyprland configurations.
+         --source           Source the installed bash/zsh configuration.
+
+EOF
+
 while [[ $# -gt 0 ]]; do
     case $1 in
         -h|--help)
-            echo "Usage: bootstrap.sh [-c|--conf PATH] [-l|--bin-path PATH]"
-            echo "          [-n|--dry-run] [-d|--diff] [-s|--skip]"
-            echo "          [-b|--bin] [-e|--emacs] [-t|--themes]"
-            echo "          [-w|--hypr] [-x|--xmonad]"
-            echo "          [--source]"
-            echo ""
+            echo "$usage"
+            
             echo "# BOOTSTRAP: $BOOTSTRAP_PATH"
             echo "# CONF:      $CONF_HOME"
             echo "# BIN_PATH:  $BIN_PATH"

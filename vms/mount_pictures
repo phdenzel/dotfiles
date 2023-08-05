@@ -1,2 +1,0 @@
-#!/bin/bash
-sshfs archphoenix:/home/phdenzel/Pictures /Users/phdenzel/Host/Pictures

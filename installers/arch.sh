@@ -11,26 +11,50 @@ COLOR_GREEN="\e[1;38;5;002m"
 COLOR_BLUE="\e[1;38;5;004m"
 PAC_BIN="sudo pacman"
 YAY_BIN="yay"
+INSTALL_YAY=0
 DO_HEADLESS=0
 DO_HYPR=0
 DO_XMONAD=0
 DRY_RUN=0
 SKIP_AUR=0
 
+read -r -d '' usage <<-EOF
+  Usage: arch.sh [-y|--yay] [-h|--headless]
+                 [-s|--skip-aur] [-n|--dry-run]
+                 [-x|--xmonad] [-w|--hypr]
+                 [--install-yay]
+
+         Installer script for (minimal) Arch linux systems.
+
+         -h, --help         Prints this message.
+         -y, --yay          Exclusively use the yay package manager for
+                            all installs.
+         --headless         Install only packages for a headless system
+                            (no graphical software).
+         -s, --skip-aur     Install only packages from the official Arch linux
+                            repositories, skipping AUR packages.
+         -n, --dry-run      Simply prints the install commands, but does not
+                            execute them.
+         -x, --xmonad       Install xorg server, xorg utilities,
+                            and xmonad dependencies.
+         -w, --hypr         Install wayland compositor, wayland utilities,
+                            and hyprland dependencies.
+         --install-yay      Install the yay AUR helper.
+EOF
+
 while [[ $# -gt 0 ]]; do
     case $1 in
         -h|--help)
-            echo "Usage: arch.sh [-y|--yay] [-h|--headless]"
-            echo "          [-s|--skip-aur] [-n|--dry-run]"
-            echo "          [-x|--xmonad] [-w|--hypr]"
-            echo ""
-            echo ""
+            echo "$usage"
             exit 0
+            ;;
+        --install-yay)
+            INSTALL_YAY=1
             ;;
         -y|--yay)
             PAC_BIN=yay
             ;;
-        -h|--headless)
+        --headless)
             DO_HEADLESS=1
             ;;
         -s|--skip-aur)
@@ -270,7 +294,7 @@ aur_pkgs=(
     mu
     cyrus-sasl-xoauth2-git
     oauth2token
-    ffmpeg-compat-57
+    # ffmpeg-compat-57
     ttf-all-the-icons ttf-weather-icons
     ttf-monaco
     gk6x-bin
@@ -307,42 +331,64 @@ xmonad_pkgs=(
     xorg-server xorg-apps xorg-xinit xorg-xmessage xorg-xrandr
     libx11 libxft libxinerama libxrandr libxss
     pkgconf
-    picom       # compositor
-    trayer      # system tray
-    dunst       # notification daemon
-    feh         # image viewer/wallpaper daemon
-    volumeicon  # volume controls in status bar
-    pavucontrol # GUI for audio
+    picom         # compositor
+    trayer        # system tray
+    dunst         # notification daemon
+    feh           # image viewer/wallpaper daemon
+    volumeicon    # volume controls in status bar
+    pavucontrol   # GUI for audio
     network-manager-applet  # GUI for network-manager
-    blueman     # GUI for bluetoothctl
-    arandr      # GUI for xrandr
+    blueman       # GUI for bluetoothctl
+    arandr        # GUI for xrandr
 )
 
 hypr_pkgs=(
     hyprland-nvidia
-    eww-wayland
-    tofi
-    xdg-desktop-portal-hyprland
-    pipewire wireplumber
-    polkit-kde-agent
-    qt5-wayland qt6-wayland
-    hyprpaper    # wallpaper daemon
-    dunst        # notification daemon
-    #swayosd-git  # On-screen-display
-    pavucontrol  # GUI for audio
+    eww-wayland   # status bar
+    foot          # alternate terminal
+    tofi          # launch menu
+    xdg-desktop-portal-hyprland  # application portal, for screensharing
+    pipewire wireplumber  # audio/video framework
+    polkit-kde-agent  # system privilege control
+    qt5-wayland qt6-wayland # Qt API for wayland
+    hyprpaper     # wallpaper daemon
+    dunst         # notification daemon
+    wl-clipboard  # clipboard utilities
+    cliphist      # clipboard history manager
+    swappy        # screenshot editor
+    #swayosd-git   # on-screen-display
+    pavucontrol   # graphical interface for audio
     network-manager-applet  # GUI for network-manager
-    blueman      # GUI for bluetoothctl
-    imv          # image viewer
-    grim         # screenshot utility
-    slurp        # region selector for grim
-    hyprpicker   # color picker for wayland
-    nwg-look     # GTK theme picker GUI
-    nwg-displays # arandr alternative
+    blueman       # GUI for bluetoothctl
+    imv           # image viewer
+    grim          # screenshot utility
+    slurp         # region selector for grim
+    hyprpicker    # color picker for wayland
+    nwg-look      # graphical theme picker
+    nwg-displays  # graphical arandr alternative
 )
 
+if [[ $INSTALL_YAY -eq 1 ]]; then
+    if command -v yay &> /dev/null; then
+        echo "It seems $(command -v yay) is already installed..."
+    elif [[ $DRY_RUN -eq 1 ]]; then
+        echo "sudo pacman -S --needed git base-devel"
+        echo "mkdir -p $HOME/local"
+        echo "git clone https://aur.archlinux.org/yay.git $HOME/local/yay"
+        echo "cd $HOME/local/yay"
+        echo "makepkg -si"
+    else
+        sudo pacman -S --needed git base-devel \
+            && mkdir -p $HOME/local \
+            && git clone https://aur.archlinux.org/yay.git $HOME/local/yay \
+            && cd $HOME/local/yay \
+            && makepkg -si
+    fi
+fi
+
 # sync and upgrade system
-$PAC_BIN -Syyuw
-$YAY_BIN -Syyuw
+$PAC_BIN -Syyu
+$YAY_BIN -Syyu
 
 # install regular packages
 if [[ $DO_HEADLESS -eq 1 ]]; then
@@ -429,4 +475,3 @@ if [[ $DO_HYPR -eq 1 ]]; then
         done
     fi
 fi
-

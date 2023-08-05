@@ -1,2 +1,0 @@
-#!/bin/bash
-sshfs archphoenix:/home/phdenzel/Documents/calibre /Users/phdenzel/Host/Books

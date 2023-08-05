@@ -2208,10 +2208,14 @@ All style settings are defined here...
 ** Theme
 
 #+begin_src emacs-lisp
+  (use-package phd-ark-theme
+    :straight nil
+    :init
+    (load-theme 'phd-ark :no-confirm)
+    :config
+    (setq phd-ark-flavor 'default)
+    (phd-ark-reload))
 
-  (add-hook 'after-init-hook
-            (lambda () (load-theme 'phd-dark t)))
-  
 #+end_src
 
 

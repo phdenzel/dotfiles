@@ -1,0 +1,22 @@
+[font]
+size = 10
+
+[font.bold]
+family = "Inconsolata"
+style = "Bold"
+
+[font.bold_italic]
+family = "Inconsolata"
+style = "Bold Italic"
+
+[font.italic]
+family = "Inconsolata"
+style = "Italic"
+
+[font.normal]
+family = "Inconsolata"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0

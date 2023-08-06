@@ -1,4 +1,5 @@
-import = ["/home/phdenzel/.config/alacritty/alacritty-themes.toml", "/home/phdenzel/.config/alacritty/alacritty-fonts.toml"]
+import = ["/home/phdenzel/.config/alacritty/themes/phd-ark-default.toml",
+          "/home/phdenzel/.config/alacritty/fonts/jetbrains.toml"]
 live_config_reload = true
 
 [bell]

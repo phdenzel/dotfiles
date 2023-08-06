@@ -1766,6 +1766,22 @@ AUCTeX is an integrated environment for writing input files for LaTeX
 * Shells
 
 
+** exec-path
+
+#+begin_src emacs-lisp
+  (if (file-directory-p "/opt/homebrew/bin")
+      (add-to-list 'exec-path "/opt/homebrew/bin")
+    )
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+#+end_src
+
+
 ** vterm
 
 #+begin_src emacs-lisp
@@ -1794,7 +1810,14 @@ AUCTeX is an integrated environment for writing input files for LaTeX
 #+begin_src emacs-lisp
   (use-package mu4e
     :straight nil
-    :load-path "/usr/share/emacs/site-lisp/mu4e/")
+    :init
+    (if (file-directory-p "/opt/homebrew/Cellar/mu")
+        (add-to-list 'load-path "/opt/homebrew/opt/mu/bin/mu/1.10.5/share/emacs/site-lisp/mu/mu4e")
+      (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/"))
+    :config
+    (if (file-directory-p "/opt/homebrew/opt/mu/bin/mu")
+        (setq mu4e-mu-binary "/opt/homebrew/opt/mu/bin/mu"))
+    )
 
   (use-package phd-mu4e-setup
     :straight nil

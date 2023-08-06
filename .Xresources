@@ -27,32 +27,32 @@ Xmessage*defaultButton: Quit
 
 xscreensaver.fadeSeconds: 2
 
-
 !--- Color config
-*.foreground:  #dde3ee
+! (text, base, blue)
+*.foreground:  #bdc3ce
 *.background:  #303033
 *.cursorColor:  #5f8af7
-! Black
-*.color0:  #6b6b6b
-*.color8:  #464858
-! Red
+! Black (base, surface1)
+*.color0:  #303030
+*.color8:  #404850
+! Red (red, ruby)
 *.color1:  #ff6d6b
 *.color9:  #d7005f
-! Green
+! Green (green, viridis)
 *.color2:  #44bc84
 *.color10:  #00af87
-! Yellow
+! Yellow (yellow, sand)
 *.color3:  #ffd787
 *.color11:  #fdb760
-! Blue
-*.color4:  #5f8af7
-*.color12:  #5f5fff
-! Magenta
+! Blue (blue, indigo)
+*.color4:  #5F8AF7
+*.color12:  #5F5FFF
+! Magenta (pink, magenta)
 *.color5:  #E83A82
 *.color13:  #FF0087
-! Cyan
+! Cyan (teal, cyan)
 *.color6:  #4db5bd
 *.color14:  #46d9ff
-! White
-*.color7:  #dfdfdf
-*.color15:  #eeeeee
+! White (subtext0, white)
+*.color7:  #edf3fe
+*.color15:  #f6f9fe

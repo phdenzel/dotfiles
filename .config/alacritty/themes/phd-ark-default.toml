@@ -1,0 +1,63 @@
+[colors.normal]
+red = "#FF6D6B"      # red
+green = "#44BC84"    # green
+yellow = "#FFD787"   # yellow
+blue = "#5F8AF7"     # blue
+magenta = "#E83A82"  # pink
+cyan = "#4DB5BD"     # teal
+white = "#EDF3FE"    # subtext0
+black = "#303033"    # base
+
+[colors.bright]
+red = "#D7005F"      # ruby
+green = "#00AF87"    # viridis
+yellow = "#FDB760"   # sand
+blue = "#5F5FFF"     # indigo
+magenta = "#FF0087"  # magenta
+cyan = "#46D9FF"     # cyan
+white = "#F6F9FE"    # white
+black = "#404850"    # surface1
+
+[colors.dim]
+red = "#D70000"      # crimson
+green = "#3DAA77"    # grass
+yellow = "#F69927"   # orange
+blue = "#3723B7"     # amethyst
+magenta = "#D7005F"  # ruby
+cyan = "#1F5582"     # ocean
+white = "#DDE3EE"    # subtext1
+black = "#181E26"    # crust
+
+[colors.primary]
+background = "#303033"         # base
+bright_foreground = "#F6F9FE"  # white
+dim_foreground = "#8A8A8A"     # overlay2
+foreground = "#BDC3CE"         # text
+
+[colors.cursor]
+cursor = "#5F8AF7"   # blue
+text = "CellBackground"
+
+[colors.line_indicator]
+background = "None"
+foreground = "None"
+
+# [colors.search."colors.footer_bar"]
+# background = "#464858"  # overlay1
+# foreground = "#4DB5BD"  # teal
+
+[colors.search.focused_match]
+background = "#FDB760"  # sand
+foreground = "#464858"  # overlay1
+
+[colors.search.matches]
+background = "#464858"  # overlay1
+foreground = "#FDB760"  # sand
+
+[colors.selection]
+background = "CellForeground"
+text = "CellBackground"
+
+[colors.vi_mode_cursor]
+cursor = "#E83A82"       # pink
+text = "CellBackground"

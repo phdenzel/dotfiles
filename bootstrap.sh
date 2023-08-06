@@ -182,7 +182,7 @@ fi;
 if [[ $DO_THEMES -eq 1 ]]; then
     echo "----------------------------------------------"
     echo -e "# Installing ${COLOR_BLUE}themes${COLOR_RESET}: phd-dark"
-    rsync "-${FLAGS[@]}" --exclude ".themes/phd-dark-highlight.theme" .themes/ $HOME/.themes/
+    rsync "-${FLAGS[@]}" --exclude ".themes/phd-dark-highlight.theme" --exclude ".themes/phd-ark-template.tmTheme" .themes/ $HOME/.themes/
     echo -e "\n# Installing icons"
     rsync "-${FLAGS[@]}" .icons/ $HOME/.icons/
     echo -e "\n# Installing GTK configuration"
@@ -196,7 +196,7 @@ if [[ $DO_THEMES -eq 1 ]]; then
         sudo cp .themes/phd-dark-highlight.theme /usr/share/highlight/themes/phd-dark.theme
         if command -v bat &> /dev/null; then
             mkdir -p "$(bat --config-dir)/themes"
-            ln -s -f $HOME/.themes/phd-dark.tmTheme $(bat --config-dir)/themes/
+            ln -s -f $HOME/.themes/phd-ark-*.tmTheme $(bat --config-dir)/themes/
             bat cache --build
         fi;
     elif [[ $SHOW_DIFF -eq 1 ]]; then

@@ -3,24 +3,24 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>phd-dark</string>
+	<string>phd-ark-template</string>
 	<key>settings</key>
 	<array>
 		<dict>
 			<key>settings</key>
 			<dict>
 				<key>background</key>
-				<string>#272822</string>
+				<string>base</string>
 				<key>caret</key>
-				<string>#F8F8F0</string>
+				<string>subtext1</string>
 				<key>foreground</key>
-				<string>#F8F8F2</string>
+				<string>text</string>
 				<key>invisibles</key>
-				<string>#3B3A32</string>
+				<string>overlay0</string>
 				<key>lineHighlight</key>
-				<string>#3E3D32</string>
+				<string>overlay1</string>
 				<key>selection</key>
-				<string>#49483E</string>
+				<string>surface2</string>
 			</dict>
 		</dict>
 		<dict>
@@ -31,7 +31,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#8A8A8A</string>
+				<string>overlay2</string>
 			</dict>
 		</dict>
 		<dict>
@@ -42,7 +42,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#44BC84</string>
+				<string>green</string>
 			</dict>
 		</dict>
 		<dict>
@@ -53,7 +53,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#EEEEEE</string>
+				<string>white</string>
 			</dict>
 		</dict>
 		<dict>
@@ -64,7 +64,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#46D9FF</string>
+				<string>cyan</string>
 			</dict>
 		</dict>
 		<dict>
@@ -75,7 +75,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#8787FF</string>
+				<string>purple</string>
 			</dict>
 		</dict>
 		<dict>
@@ -88,7 +88,7 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#E83A82</string>
+				<string>sand</string>
 			</dict>
 		</dict>
 		<dict>
@@ -99,7 +99,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#E83A82</string>
+				<string>pink</string>
 			</dict>
 		</dict>
 		<dict>
@@ -112,7 +112,7 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#E83A82</string>
+				<string>pink</string>
 			</dict>
 		</dict>
 		<dict>
@@ -123,7 +123,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#E83A82</string>
+				<string>pink</string>
 			</dict>
 		</dict>
 		<dict>
@@ -134,7 +134,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#FFD787</string>
+				<string>yellow</string>
 			</dict>
 		</dict>
 		<dict>
@@ -145,7 +145,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#FFD787</string>
+				<string>yellow</string>
 			</dict>
 		</dict>
 		<dict>
@@ -158,7 +158,7 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#5F8AF7</string>
+				<string>blue</string>
 			</dict>
 		</dict>
 		<dict>
@@ -169,7 +169,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#A9A1E1</string>
+				<string>violet</string>
 			</dict>
 		</dict>
 		<dict>
@@ -182,7 +182,7 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#D7005F</string>
+				<string>ruby</string>
 			</dict>
 		</dict>
 		<dict>
@@ -195,7 +195,7 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#FDB760</string>
+				<string>sand</string>
 			</dict>
 		</dict>
 		<dict>
@@ -208,7 +208,7 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#46D9FF</string>
+				<string>cyan</string>
 			</dict>
 		</dict>
 		<dict>
@@ -221,7 +221,7 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#8787FF</string>
+				<string>purple</string>
 			</dict>
 		</dict>
 		<dict>
@@ -232,7 +232,7 @@
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#FFD787</string>
+				<string>yellow</string>
 			</dict>
 		</dict>
 		<dict>
@@ -245,7 +245,7 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#000000</string>
+				<string>crust</string>
 			</dict>
 		</dict>
 		<dict>
@@ -256,11 +256,11 @@
 			<key>settings</key>
 			<dict>
 				<key>background</key>
-				<string>#F92672</string>
+				<string>red</string>
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#F8F8F0</string>
+				<string>subtext1</string>
 			</dict>
 		</dict>
 		<dict>
@@ -271,17 +271,19 @@
 			<key>settings</key>
 			<dict>
 				<key>background</key>
-				<string>#AE81FF</string>
+				<string>indigo</string>
 				<key>foreground</key>
-				<string>#F8F8F0</string>
+				<string>subtext1</string>
 			</dict>
 		</dict>
 	</array>
 	<key>uuid</key>
-	<string>D8D5E82E-3D5B-46B5-B38E-8C841C21347D</string>
+	<string>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</string>
 	<key>colorSpaceName</key>
 	<string>sRGB</string>
 	<key>semanticClass</key>
-	<string>theme.dark.monokai</string>
+	<string>theme.light.phd-ark.template</string>
+  <key>author</key>
+  <string>phdenzel</string>
 </dict>
 </plist>

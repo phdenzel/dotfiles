@@ -1,0 +1,160 @@
+{
+    "name": "phd-ark-default",
+    "author": "phdenzel",
+    "variables":
+    {
+        "crust": "#181e26",
+        "mantle": "#2b2b2f",
+        "base": "#303033",
+        "surface0": "#3a3c3f",
+        "surface1": "#404850",
+        "surface2": "#515c66",
+        "overlay0": "#5b6268",
+        "overlay1": "#464858",
+        "overlay2": "#8a8a8a",
+        "text": "#bdc3ce",
+        "subtext1": "#dde3ee",
+        "subtext0": "#edf3fe",
+        "white": "#f6f9fe",
+        "violet": "#a9a1e1",
+        "purple": "#8787ff",
+        "amethyst": "#3723b7",
+        "indigo": "#5f5fff",
+        "blue": "#5f8af7",
+        "cyan": "#46d9ff",
+        "ocean": "#1f5582",
+        "teal": "#4db5bd",
+        "viridis": "#00af87",
+        "emeralds": "#00af5f",
+        "grass": "#3daa77",
+        "green": "#44bc84",
+        "yellow": "#ffd787",
+        "sand": "#fdb760",
+        "orange": "#f69927",
+        "tiger": "#ff5f00",
+        "red": "#ff6d6b",
+        "crimson": "#d70000",
+        "ruby": "#d7005f",
+        "pink": "#e83a82",
+        "magenta":"#ff0087"
+    },
+    "globals":
+    {
+        "foreground": "var(text)",
+        "background": "var(base)",
+        "caret": "var(subtext1)",
+        "invisibles": "var(overlay0)",
+        "line_highlight": "var(overlay1)",
+        "selection": "var(surface2)"
+    },
+    "rules":
+    [
+        {
+            "name": "Comment",
+            "scope": "comment",
+            "foreground": "var(overlay2)"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "var(green)"
+        },
+        {
+            "name": "Number",
+            "scope": "constant.numeric",
+            "foreground": "var(white)"
+        },
+        {
+            "name": "Built-in constant",
+            "scope": "constant.language",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "User-defined constant",
+            "scope": "constant.character, constant.other",
+            "foreground": "var(purple)"
+        },
+        {
+            "name": "Variable",
+            "scope": "variable",
+            "foreground": "var(sand)"
+        },
+        {
+            "name": "Keyword",
+            "scope": "keyword",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Storage",
+            "scope": "storage",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Storage type",
+            "scope": "storage.type",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Class name",
+            "scope": "entity.name.class",
+            "foreground": "var(yellow)"
+        },
+        {
+            "name": "Inherited class",
+            "scope": "entity.other.inherited-class",
+            "foreground": "var(yellow)"
+        },
+        {
+            "name": "Function name",
+            "scope": "entity.name.function",
+            "foreground": "var(blue)"
+        },
+        {
+            "name": "Function argument",
+            "scope": "variable.parameter",
+            "foreground": "var(violet)"
+        },
+        {
+            "name": "Tag name",
+            "scope": "entity.name.tag",
+            "foreground": "var(ruby)"
+        },
+        {
+            "name": "Tag attribute",
+            "scope": "entity.other.attribute-name",
+            "foreground": "var(sand)"
+        },
+        {
+            "name": "Library function",
+            "scope": "support.function",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Library constant",
+            "scope": "support.constant",
+            "foreground": "var(purple)"
+        },
+        {
+            "name": "Library class/type",
+            "scope": "support.type, support.class",
+            "foreground": "var(yellow)"
+        },
+        {
+            "name": "Library variable",
+            "scope": "support.other.variable",
+            "foreground": "var(crust)"
+        },
+        {
+            "name": "Invalid",
+            "scope": "invalid",
+            "foreground": "var(subtext1)",
+            "background": "var(red)"
+        },
+        {
+            "name": "Invalid deprecated",
+            "scope": "invalid.deprecated",
+            "foreground": "var(subtext1)",
+            "background": "var(indigo)"
+        }
+    ]
+}

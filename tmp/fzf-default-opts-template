@@ -1,0 +1,5 @@
+export FZF_DEFAULT_OPTS=" \
+  --color=bg:#phd-ark-base,bg+:#phd-ark-surface0,spinner:#phd-ark-sand \
+  --color=fg:#phd-ark-text,fg+:#phd-ark-white,hl:#phd-ark-viridis,hl+:#phd-ark-pink \
+  --color=prompt:#phd-ark-sand,marker:#phd-ark-yellow,pointer:#phd-ark-sand \
+  --color=header:#phd-ark-blue,info:#phd-ark-teal"

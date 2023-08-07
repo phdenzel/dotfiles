@@ -1,0 +1,84 @@
+### #phd-ark-title theme
+# Main background, empty for terminal default, need to be empty if you want transparent background
+theme[main_bg]="#phd-ark-base"
+
+# Main text color
+theme[main_fg]="#phd-ark-text"
+
+# Title color for boxes
+theme[title]="#phd-ark-white"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#phd-ark-pink"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#phd-ark-surface2"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#phd-ark-white"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#phd-ark-overlay1"
+
+# Color of text appearing on top of graphs, i.e uptime and current network graph scaling
+theme[graph_text]="#phd-ark-overlay2"
+
+# Background color of the percentage meters
+theme[meter_bg]="#phd-ark-surface1"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#phd-ark-blue"
+
+# CPU, Memory, Network, Proc box outline colors
+theme[cpu_box]="#phd-ark-blue"
+theme[mem_box]="#phd-ark-pink"
+theme[net_box]="#phd-ark-sand"
+theme[proc_box]="#phd-ark-viridis"
+
+# Box divider line and small boxes line color
+theme[div_line]="#phd-ark-surface1"
+
+# Temperature graph color
+theme[temp_start]="#phd-ark-yellow"
+theme[temp_mid]="#phd-ark-orange"
+theme[temp_end]="#phd-ark-ruby"
+
+# CPU graph colors
+theme[cpu_start]="#phd-ark-blue"
+theme[cpu_mid]="#phd-ark-indigo"
+theme[cpu_end]="#phd-ark-amethyst"
+
+# Mem/Disk free meter
+theme[free_start]="#phd-ark-green"
+theme[free_mid]="#phd-ark-viridis"
+theme[free_end]="#phd-ark-ocean"
+
+# Mem/Disk cached meter
+theme[cached_start]="#phd-ark-red"
+theme[cached_mid]="#phd-ark-pink"
+theme[cached_end]="#phd-ark-ruby"
+
+# Mem/Disk available meter
+theme[available_start]="#phd-ark-yellow"
+theme[available_mid]="#phd-ark-sand"
+theme[available_end]="#phd-ark-orange"
+
+# Mem/Disk used meter
+theme[used_start]="#phd-ark-ocean"
+theme[used_mid]="#phd-ark-blue"
+theme[used_end]="#phd-ark-indigo"
+
+# Download graph colors
+theme[download_start]="#phd-ark-ocean"
+theme[download_mid]="#phd-ark-teal"
+theme[download_end]="#phd-ark-viridis"
+
+# Upload graph colors
+theme[upload_start]="#phd-ark-red"
+theme[upload_mid]="#phd-ark-pink"
+theme[upload_end]="#phd-ark-ruby"
+
+# Process box color gradient for threads, mem and cpu usage
+theme[process_start]="#phd-ark-sand"
+theme[process_mid]="#phd-ark-pink"
+theme[process_end]="#phd-ark-indigo"

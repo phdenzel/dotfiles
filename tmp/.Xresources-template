@@ -1,0 +1,29 @@
+!--- Color config for #phd-ark-title
+! (text, base, blue)
+*.foreground:  #phd-ark-text
+*.background:  #phd-ark-base
+*.cursorColor:  #phd-ark-blue
+! Black (base, surface1)
+*.color0:  #phd-ark-base
+*.color8:  #phd-ark-surface1
+! Red (red, ruby)
+*.color1:  #phd-ark-red
+*.color9:  #phd-ark-ruby
+! Green (green, viridis)
+*.color2:  #phd-ark-green
+*.color10:  #phd-ark-viridis
+! Yellow (yellow, sand)
+*.color3:  #phd-ark-yellow
+*.color11:  #phd-ark-sand
+! Blue (blue, indigo)
+*.color4:  #phd-ark-blue
+*.color12:  #phd-ark-indigo
+! Magenta (pink, magenta)
+*.color5:  #phd-ark-
+*.color13:  #phd-ark-magenta
+! Cyan (teal, cyan)
+*.color6:  #phd-ark-teal
+*.color14:  #phd-ark-cyan
+! White (subtext0, white)
+*.color7:  #phd-ark-subtext0
+*.color15:  #phd-ark-white

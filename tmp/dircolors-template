@@ -1,0 +1,281 @@
+### LSCOLORS environment variable configuration
+COLOR tty
+
+TERM alacritty
+TERM alacritty-direct
+TERM ansi
+TERM *color*
+TERM con[0-9]*x[0-9]*
+TERM cons25
+TERM console
+TERM cygwin
+TERM dtterm
+TERM dvtm
+TERM dvtm-256color
+TERM Eterm
+TERM eterm-color
+TERM fbterm
+TERM gnome
+TERM gnome-256color
+TERM hurd
+TERM jfbterm
+TERM konsole
+TERM konsole-256color
+TERM kterm
+TERM linux
+TERM linux-c
+TERM mlterm
+TERM putty
+TERM putty-256color
+TERM rxvt*
+TERM rxvt-unicode
+TERM rxvt-256color
+TERM rxvt-unicode256
+TERM screen*
+TERM screen-256color
+TERM st
+TERM st-256color
+TERM terminator
+TERM tmux*
+TERM tmux-256color
+TERM vt100
+TERM xterm*
+TERM xterm-color
+TERM xterm-88color
+TERM xterm-256color
+TERM xterm-kitty
+#
+
+### FORMAT DESCRIPTION
+# [ANSI ESCAPE CODES];38;5;[]
+#
+### ANSI ESCAPE CODE
+# 00 - normal  01 - bold        02 - dimmed
+# 03 - italic  04 - underlined  05 - blinking
+# 06 - ?       07 - reversed    08 - hidden
+#
+### COLOR INDEX PALETTE (000-015)
+# #phd-ark-title
+#       text  (foreground)
+#       base  (background)
+# (000) crust (black);    (008) surface1 (br black)
+# (001) red (red);        (009) ruby (br red)
+# (002) green (green);    (010) viridis (br green)
+# (003) yellow (yellow);  (011) sand (br yellow)
+# (004) blue (blue);      (012) indigo (br blue)
+# (005) pink (magenta);   (013) magenta (br magenta)
+# (006) teal (cyan);      (014) cyan (br cyan)
+# (007) subtext0 (white); (015) white (br white)
+# (105) purple (purple);  (099) lilac (br purple)
+#
+### GENERAL COLORING
+#NORMAL 00
+#FILE 00
+RESET 0
+DIR 01;38;5;#phd-ark-indigo/b256
+LINK 04;38;5;#phd-ark-viridis/b256
+#
+MULTIHARDLINK 00
+FIFO 01;04;38;5;#phd-ark-viridis/b256
+SOCK 01;04;38;5;#phd-ark-sand/b256
+DOOR 01;02;04;38;5;#phd-ark-yellow/b256
+BLK 01;38;5;#phd-ark-cyan/b256
+CHR 01;38;5;#phd-ark-teal/b256
+ORPHAN 02;04;38;5;#phd-ark-subtext0/b256
+MISSING 02;38;5;#phd-ark-crust/b256
+SETUID 07;38;5;#phd-ark-blue/b256;48;5;#phd-ark-white/b256
+SETGID 07;38;5;#phd-ark-teal/b256;48;5;#phd-ark-white/b256
+CAPABILITY 07;38;5;#phd-ark-white/b256;48;5;#phd-ark-crust/b256
+STICKY_OTHER_WRITABLE 01;38;5;#phd-ark-ruby/b256
+OTHER_WRITABLE 01;38;5;#phd-ark-red/b256
+STICKY 01;38;5;#phd-ark-sand/b256
+EXEC 01;38;5;#phd-ark-magenta/b256
+#
+### EXTENSIONS
+# DOS-specific
+.exe 01;38;5;#phd-ark-teal/b256
+.cmd 01;38;5;#phd-ark-teal/b256
+#.com 01;38;5;#phd-ark-teal/b256
+#.btm 01;38;5;#phd-ark-teal/b256
+#.bat 01;38;5;#phd-ark-teal/b256
+#
+### Backup files
+*~ 02;38;5;#phd-ark-subtext0/b256
+.bak 02;38;5;#phd-ark-subtext0/b256
+.BAK 02;38;5;#phd-ark-subtext0/b256
+.old 02;38;5;#phd-ark-subtext0/b256
+.OLD 02;38;5;#phd-ark-subtext0/b256
+.orig 02;38;5;#phd-ark-subtext0/b256
+.ORIG 02;38;5;#phd-ark-subtext0/b256
+.swp 02;38;5;#phd-ark-subtext0/b256
+#.log 02;38;5;#phd-ark-subtext0/b256
+#
+### ARCHIVES or COMPRESSED FILES
+.tar 01;38;5;#phd-ark-lilac/b256
+.tgz 01;38;5;#phd-ark-lilac/b256
+.arc 01;38;5;#phd-ark-lilac/b256
+.arj 01;38;5;#phd-ark-lilac/b256
+.taz 01;38;5;#phd-ark-lilac/b256
+.lha 01;38;5;#phd-ark-lilac/b256
+.lz4 01;38;5;#phd-ark-lilac/b256
+.lzh 01;38;5;#phd-ark-lilac/b256
+.lzma 01;38;5;#phd-ark-lilac/b256
+.tlz 01;38;5;#phd-ark-lilac/b256
+.txz 01;38;5;#phd-ark-lilac/b256
+.tzo 01;38;5;#phd-ark-lilac/b256
+.t7z 01;38;5;#phd-ark-lilac/b256
+.zip 01;38;5;#phd-ark-lilac/b256
+.z 01;38;5;#phd-ark-lilac/b256
+.Z 01;38;5;#phd-ark-lilac/b256
+.dz 01;38;5;#phd-ark-lilac/b256
+.gz 01;38;5;#phd-ark-lilac/b256
+.lrz 01;38;5;#phd-ark-lilac/b256
+.lz 01;38;5;#phd-ark-lilac/b256
+.lzo 01;38;5;#phd-ark-lilac/b256
+.xz 01;38;5;#phd-ark-lilac/b256
+.zst 01;38;5;#phd-ark-lilac/b256
+.tzst 01;38;5;#phd-ark-lilac/b256
+.bz2 01;38;5;#phd-ark-lilac/b256
+.bz 01;38;5;#phd-ark-lilac/b256
+.tbz 01;38;5;#phd-ark-lilac/b256
+.tbz2 01;38;5;#phd-ark-lilac/b256
+.tz 01;38;5;#phd-ark-lilac/b256
+.deb 01;38;5;#phd-ark-lilac/b256
+.rpm 01;38;5;#phd-ark-lilac/b256
+.jar 01;38;5;#phd-ark-lilac/b256
+.war 01;38;5;#phd-ark-lilac/b256
+.ear 01;38;5;#phd-ark-lilac/b256
+.sar 01;38;5;#phd-ark-lilac/b256
+.rar 01;38;5;#phd-ark-lilac/b256
+.alz 01;38;5;#phd-ark-lilac/b256
+.ace 01;38;5;#phd-ark-lilac/b256
+.zoo 01;38;5;#phd-ark-lilac/b256
+.cpio 01;38;5;#phd-ark-lilac/b256
+.7z 01;38;5;#phd-ark-lilac/b256
+.rz 01;38;5;#phd-ark-lilac/b256
+.cab 01;38;5;#phd-ark-lilac/b256
+#
+### IMAGE FORMATS
+.jpg 00;38;5;#phd-ark-sand/b256
+.JPG 00;38;5;#phd-ark-sand/b256
+.jpeg 00;38;5;#phd-ark-sand/b256
+.JPEG 00;38;5;#phd-ark-sand/b256
+.bmp 00;38;5;#phd-ark-sand/b256
+.pbm 00;38;5;#phd-ark-sand/b256
+.pgm 00;38;5;#phd-ark-sand/b256
+.ppm 00;38;5;#phd-ark-sand/b256
+.pps 00;38;5;#phd-ark-sand/b256
+.ppsx 00;38;5;#phd-ark-sand/b256
+.tga 00;38;5;#phd-ark-sand/b256
+.xbm 00;38;5;#phd-ark-sand/b256
+.xpm 00;38;5;#phd-ark-sand/b256
+.tif 00;38;5;#phd-ark-sand/b256
+.tiff 00;38;5;#phd-ark-sand/b256
+.png 00;38;5;#phd-ark-sand/b256
+.PNG 00;38;5;#phd-ark-sand/b256
+.pcx 00;38;5;#phd-ark-sand/b256
+.flc 00;38;5;#phd-ark-sand/b256
+.fli 00;38;5;#phd-ark-sand/b256
+.gl 00;38;5;#phd-ark-sand/b256
+.dl 00;38;5;#phd-ark-sand/b256
+.xcf 00;38;5;#phd-ark-sand/b256
+.xwd 00;38;5;#phd-ark-sand/b256
+.emf 00;38;5;#phd-ark-sand/b256
+.ico 00;38;5;#phd-ark-sand/b256
+.gif 00;38;5;#phd-ark-sand/b256
+.gifv 00;38;5;#phd-ark-sand/b256
+.mjpg 00;38;5;#phd-ark-sand/b256
+.mjpeg 00;38;5;#phd-ark-sand/b256
+# Image formats for astrophysicists and astronomers ;)
+.fits 00;38;5;#phd-ark-yellow/b256
+.fts 00;38;5;#phd-ark-yellow/b256
+#
+### VECTORIZED GRAPHICS FORMATS
+.pdf 00;38;5;#phd-ark-ruby/b256
+.dvi 00;38;5;#phd-ark-ruby/b256
+.cgm 00;38;5;#phd-ark-ruby/b256
+.dvg 00;38;5;#phd-ark-ruby/b256
+.eps 00;38;5;#phd-ark-ruby/b256
+.ps 00;38;5;#phd-ark-ruby/b256
+.odg 00;38;5;#phd-ark-ruby/b256
+.mba 00;38;5;#phd-ark-ruby/b256
+.svg 00;38;5;#phd-ark-ruby/b256
+.svgz 00;38;5;#phd-ark-ruby/b256
+.swf 00;38;5;#phd-ark-ruby/b256
+.pgf 00;38;5;#phd-ark-ruby/b256
+.tikz 00;38;5;#phd-ark-ruby/b256
+.rvt 00;38;5;#phd-ark-ruby/b256
+.sxd 00;38;5;#phd-ark-ruby/b256
+#
+### VIDEO FORMATS
+.webm 00;38;5;#phd-ark-blue/b256
+.mkv 00;38;5;#phd-ark-blue/b256
+.flv 00;38;5;#phd-ark-blue/b256
+.vob 00;38;5;#phd-ark-blue/b256
+.ogg 00;38;5;#phd-ark-blue/b256
+.ogv 00;38;5;#phd-ark-blue/b256
+.ogm 00;38;5;#phd-ark-blue/b256
+.ogx 00;38;5;#phd-ark-blue/b256
+.drc 00;38;5;#phd-ark-blue/b256
+.mng 00;38;5;#phd-ark-blue/b256
+.avi 00;38;5;#phd-ark-blue/b256
+.mov 00;38;5;#phd-ark-blue/b256
+.MOV 00;38;5;#phd-ark-blue/b256
+.qt 00;38;5;#phd-ark-blue/b256
+.wmv 00;38;5;#phd-ark-blue/b256
+.yuv 00;38;5;#phd-ark-blue/b256
+.rm 00;38;5;#phd-ark-blue/b256
+.rmvb 00;38;5;#phd-ark-blue/b256
+.asf 00;38;5;#phd-ark-blue/b256
+.amv 00;38;5;#phd-ark-blue/b256
+.mp4 00;38;5;#phd-ark-blue/b256
+.m4p 00;38;5;#phd-ark-blue/b256
+.m4v 00;38;5;#phd-ark-blue/b256
+.mp4v 00;38;5;#phd-ark-blue/b256
+.mpg 00;38;5;#phd-ark-blue/b256
+.mpeg 00;38;5;#phd-ark-blue/b256
+.mpe 00;38;5;#phd-ark-blue/b256
+.mpv 00;38;5;#phd-ark-blue/b256
+.mp2 00;38;5;#phd-ark-blue/b256
+.m2v 00;38;5;#phd-ark-blue/b256
+.svi 00;38;5;#phd-ark-blue/b256
+.3gp 00;38;5;#phd-ark-blue/b256
+.3g2 00;38;5;#phd-ark-blue/b256
+.mxf 00;38;5;#phd-ark-blue/b256
+.roq 00;38;5;#phd-ark-blue/b256
+.nsv 00;38;5;#phd-ark-blue/b256
+.nuv 00;38;5;#phd-ark-blue/b256
+.f4v 00;38;5;#phd-ark-blue/b256
+.f4p 00;38;5;#phd-ark-blue/b256
+.f4a 00;38;5;#phd-ark-blue/b256
+.f4b 00;38;5;#phd-ark-blue/b256
+#
+### AUDIO FORMATS
+.aac 00;38;5;#phd-ark-cyan/b256
+.au 00;38;5;#phd-ark-cyan/b256
+.flac 00;38;5;#phd-ark-cyan/b256
+.m4a 00;38;5;#phd-ark-cyan/b256
+.mid 00;38;5;#phd-ark-cyan/b256
+.midi 00;38;5;#phd-ark-cyan/b256
+.mka 00;38;5;#phd-ark-cyan/b256
+.mp3 00;38;5;#phd-ark-cyan/b256
+.mpc 00;38;5;#phd-ark-cyan/b256
+.ogg 00;38;5;#phd-ark-cyan/b256
+.ra 00;38;5;#phd-ark-cyan/b256
+.wav 00;38;5;#phd-ark-cyan/b256
+.oga 00;38;5;#phd-ark-cyan/b256
+.opus 00;38;5;#phd-ark-cyan/b256
+.spx 00;38;5;#phd-ark-cyan/b256
+.xspf 00;38;5;#phd-ark-cyan/b256
+#
+### CODES and SCRIPTS (selected colors)
+.sh 00;38;5;#phd-ark-pink/b256
+.csh 00;38;5;#phd-ark-pink/b256
+.zsh 00;38;5;#phd-ark-pink/b256
+.cpp 00;38;5;#phd-ark-yellow/b256
+.o 02;38;5;#phd-ark-yellow/b256
+.c 00;38;5;#phd-ark-yellow/b256
+.py 00;38;5;#phd-ark-green/b256
+.pyc 02;38;5;#phd-ark-green/b256
+.org 00;38;5;#phd-ark-purple/b256
+.rs 00;38;5;#phd-ark-lilac/b256

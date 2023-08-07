@@ -1,0 +1,63 @@
+[colors.normal]
+red = #phd-ark-red
+green = #phd-ark-green
+yellow = #phd-ark-yellow
+blue = #phd-ark-blue
+magenta = #phd-ark-pink
+cyan = #phd-ark-teal
+white = #phd-ark-subtext0
+black = #phd-ark-base
+
+[colors.bright]
+red = #phd-ark-ruby
+green = #phd-ark-viridis
+yellow = #phd-ark-sand
+blue = #phd-ark-indigo
+magenta = #phd-ark-magenta
+cyan = #phd-ark-cyan
+white = #phd-ark-white
+black = #phd-ark-surface1
+
+[colors.dim]
+red = #phd-ark-crimson
+green = #phd-ark-grass
+yellow = #phd-ark-orange
+blue = #phd-ark-amethyst
+magenta = #phd-ark-ruby
+cyan = #phd-ark-ocean
+white = #phd-ark-subtext1
+black = #phd-ark-crust
+
+[colors.primary]
+background = #phd-ark-base
+bright_foreground = #phd-ark-white
+dim_foreground = #phd-ark-overlay2
+foreground = #phd-ark-text
+
+[colors.cursor]
+cursor = #phd-ark-blue
+text = "CellBackground"
+
+[colors.line_indicator]
+background = "None"
+foreground = "None"
+
+# [colors.search."colors.footer_bar"]
+# background = #phd-ark-overlay1
+# foreground = #phd-ark-teal
+
+[colors.search.focused_match]
+background = #phd-ark-sand
+foreground = #phd-ark-overlay1
+
+[colors.search.matches]
+background = #phd-ark-overlay1
+foreground = #phd-ark-sand
+
+[colors.selection]
+background = "CellForeground"
+text = "CellBackground"
+
+[colors.vi_mode_cursor]
+cursor = #phd-ark-pink
+text = "CellBackground"

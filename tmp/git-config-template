@@ -1,0 +1,33 @@
+[color]
+  # Use colors in Git command outputs to the terminal where possible
+  ui = auto
+[color "branch"]
+  current = #phd-ark-cyan/b256
+  local = #phd-ark-blue/b256
+  remote = #phd-ark-viridis/b256
+[color "diff"]
+  plain = normal
+  meta = #phd-ark-sand/b256 bold
+  frag = #phd-ark-ruby/b256 bold
+  old = #phd-ark-magenta/b256
+  new = #phd-ark-viridis/b256
+  commit = #phd-ark-sand/b256
+  whitespace = normal white
+[color "status"]
+  branch = #phd-ark-sand/b256
+  remoteBranch = #phd-ark-ruby/b256
+  added = #phd-ark-viridis/b256
+  changed = #phd-ark-ruby/b256
+  untracked = #phd-ark-cyan/b256
+[color "decorate"]
+  head = #phd-ark-viridis/b256
+  branch = #phd-ark-sand/b256
+  remoteBranch = #phd-ark-ruby/b256
+  tag = #phd-ark-cyan/b256
+[color "grep"]
+  match = normal
+[color "interactive"]
+  prompt = normal
+  header = normal
+  help = normal
+  error = normal

@@ -46,7 +46,7 @@ DFLAGS=(
     --exclude="README.md"
     --exclude="private/"
     --exclude="utils/"
-    --exclude="vms/"
+    --exclude="tmp/"
     --exclude=".DS_Store"
 )
 

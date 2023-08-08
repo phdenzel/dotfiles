@@ -193,7 +193,7 @@
         {
             "name": "Library class/type",
             "scope": "support.type, support.class",
-            "foreground": "var(yellow)"
+            "foreground": "var(cyan)"
         },
         {
             "name": "Library variable",
@@ -213,8 +213,7 @@
         {
             "name": "Variable other",
             "scope": "variable.other",
-            "foreground": "var(yellow)",
-            "font_style": "italic"
+            "foreground": "var(sand)"
         },
         {
             "name": "Variable language",

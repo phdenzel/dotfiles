@@ -375,7 +375,7 @@
         <key>settings</key>
         <dict>
           <key>foreground</key>
-          <string>#phd-ark-yellow</string>
+          <string>#phd-ark-cyan</string>
         </dict>
       </dict>
       <dict>
@@ -425,9 +425,9 @@
         <key>settings</key>
         <dict>
           <key>foreground</key>
-          <string>#phd-ark-yellow</string>
+          <string>#phd-ark-sand</string>
           <key>fontStyle</key>
-          <string>italic</string>
+          <string></string>
         </dict>
       </dict>
       <dict>

@@ -23,40 +23,6 @@
   ex = update-index --assume-unchanged
   nex = update-index --no-assume-unchanged
 
-[color]
-  # Use colors in Git command outputs to the terminal where possible
-  ui = auto
-[color "branch"]
-  current = 14
-  local = 4
-  remote = 10
-[color "diff"]
-  plain = normal
-  meta = 11 bold
-  frag = 9 bold
-  old = 13
-  new = 10
-  commit = 11
-  whitespace = normal white
-[color "status"]
-  branch = 11
-  remoteBranch = 9
-  added = 10
-  changed = 9
-  untracked = 14
-[color "decorate"]
-  head = 10
-  branch = 11
-  remoteBranch = 9
-  tag = 14
-[color "grep"]
-  match = normal
-[color "interactive"]
-  prompt = normal
-  header = normal
-  help = normal
-  error = normal
-
 [help]
   autocorrect = 1  # automatically correct misspelled commands
 
@@ -80,6 +46,8 @@
 [pull]
 	rebase = false
 
+[include]
+  path = themes/phd-ark-default.gitcolor
 
 [user]
 	name = phdenzel

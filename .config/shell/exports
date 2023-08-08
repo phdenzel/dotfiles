@@ -4,6 +4,7 @@
 export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
+export XDG_STATE_HOME=${XDG_STATE_HOME:="$HOME/.local/state"}
 
 # Language settings
 export LANG='en_US.UTF-8'
@@ -20,6 +21,8 @@ export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
 export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
 export PAGER="less"
 export BROWSER="brave"
+export GVIMINIT='let $MYGVIMRC="$XDG_CONFIG_HOME/vim/gvimrc" | source $MYGVIMRC'
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # GTK
 export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc-2.0"

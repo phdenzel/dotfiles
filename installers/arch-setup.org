@@ -7,11 +7,11 @@ Once you have a clean install of Arch Linux and verified that your
 network service is up and running, we can go ahead with the setup and
 customize Arch to our liking.
 
-The following explains what I usually install and in what order.  You
-can also simply install all packages beforehand, and skip the
-individual package installs below, which could speed up the setup
-process a bit. For this, simply run the ~arch.sh~ install script
-(after the AUR helper install).
+The following explains what I usually install on my system and how I
+configure it.  You can also simply all packages with the ~arch.sh~
+installer script, and skip the individual package installs below. For
+this, simply run the install script (use ~./arch.sh -h~ for further
+instructions).
 
 
 * Table of Contents :TOC@4:
@@ -147,8 +147,8 @@ process a bit. For this, simply run the ~arch.sh~ install script
    directory ~~/local~)
 
    #+begin_src shell
-     mkdir ~/local
-     cd ~/local
+     sudo pacman -S --needed git base-devel
+     mkdir ~/local && cd ~/local
      git clone https://aur.archlinux.org/yay.git
      cd yay
      makepkg -si PKGBUILD
@@ -412,7 +412,7 @@ process a bit. For this, simply run the ~arch.sh~ install script
 
 ** Basic programs
 
-   Install my favorite terminal, browser and mail client
+   Install my favorite terminal, browser and mail client (if needed)
    #+begin_src shell
      yay -S alacritty-git brave-bin mailspring
    #+end_src
@@ -1390,7 +1390,6 @@ server {
     #+end_src
     Any server certificates (here ygdrasil.crt) have to be copied to
     ~/etc/davfs2/certs/~.
-
 
 *** TODO Mail server
     

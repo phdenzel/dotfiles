@@ -1,7 +1,7 @@
 BUILD ?= build
 BUILDC ?= build/.config
-
-CONF_DIR ?= $(HOME)/.config
+TARGETDIR ?= ..
+CONFDIR ?= $(HOME)/.config
 
 PYEXE ?= $(shell which python)
 GENPY ?= generate_scheme.py
@@ -10,20 +10,16 @@ FLAVOR ?= default
 
 .DEFAULT_GOAL := build
 
-.PHONY: clean
-clean:
-	rm -rf $(BUILD) __pycache__
-
-.PHONY: uninstall
-uninstall: clean
-	echo "NotYetImplemented"
+.PHONY: build
+build: svg alacritty bat btop dircolors dunst emacs fzf git sublime vim xmonad xresources
 
 .PHONY: install
 install: build
-	echo "NotYetImplemented"
+	@rsync -avh $(BUILD)/ $(TARGETDIR)
 
-.PHONY: build
-build: svg alacritty bat btop dircolors dunst emacs fzf git sublime vim xmonad xresources
+.PHONY: clean
+clean:
+	rm -rf $(BUILD) __pycache__
 
 
 ALACRITTYDIR = $(BUILDC)/alacritty/themes
@@ -121,7 +117,9 @@ xmonad: $(xmonad-themes)
 xresources-themes = $(BUILD)/.Xresources-$(FLAVOR)
 .PHONY: xresources
 xresources: $(xresources-themes)
-	@if [ -s "$(xresources-themes)" ]; then mv $(xresources-themes) $(BUILD)/.Xresources; fi
+	sed '0,/^\!---\ Color\ config*/I!d' $(TARGETDIR)/.Xresources | sed '$$d' > $(BUILD)/.Xresources
+	cat $(xresources-themes) >> $(BUILD)/.Xresources
+	rm $(xresources-themes)
 
 
 SVGDIR = $(BUILD)/imgs/palettes

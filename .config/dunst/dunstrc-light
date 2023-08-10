@@ -256,29 +256,29 @@
     per_monitor_dpi = false
 
 # Urgency themes
-# Colors used: #303033 #2B2B2F #181E26 #4DB5BD #BDC3CE #DDE3EE #EDF3FE
+# Colors used: #EDF3FE #DDE3EE #BDC3CE #4DB5BD #181E26 #2B2B2F #303033
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#3030331A"
-    foreground = "#BDC3CEB3"
-    frame_color = "#3030331A"
+    background = "#EDF3FE1A"
+    foreground = "#181E26B3"
+    frame_color = "#EDF3FE1A"
     timeout = 10
     # Icon for notifications with low urgency, uncomment to enable
     #default_icon = /path/to/icon
 
 [urgency_normal]
-    background = "#303033B3"
-    foreground = "#DDE3EE"
-    frame_color = "#303033B3"
+    background = "#EDF3FEB3"
+    foreground = "#2B2B2F"
+    frame_color = "#EDF3FEB3"
     timeout = 10
     # Icon for notifications with normal urgency, uncomment to enable
     #default_icon = /path/to/icon
 
 [urgency_critical]
-    background = "#2B2B2FB3"
-    foreground = "#EDF3FE"
-    frame_color = "#181E26B3"
+    background = "#DDE3EEB3"
+    foreground = "#303033"
+    frame_color = "#BDC3CEB3"
     timeout = 0
     # Icon for notifications with critical urgency, uncomment to enable
     #default_icon = /path/to/icon

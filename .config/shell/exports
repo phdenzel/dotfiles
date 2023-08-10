@@ -56,6 +56,11 @@ export GREP_COLORS="ms=01;38;5;013:mc=01;38;5;013:sl=:cx=:fn=00;38;5;004:ln=00;3
 # BAT settings
 export BAT_CONFIG_PATH="${XDG_CONFIG_HOME}/bat/config"
 
+# FZF
+if [ -s "${XDG_CONFIG_HOME}/fzf/default_opts/phd-ark-default.fzf" ]; then
+    source ${XDG_CONFIG_HOME}/fzf/default_opts/phd-ark-default.fzf
+fi
+
 # GPG
 export GPG_TTY=$(tty)
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
@@ -101,5 +106,5 @@ export MONO_GAC_PREFIX="/usr/local"
 # export CFITSIO_CFLAGS="-I$HOME/local/cfitsio/build/include"
 
 # OSKAR
-export OSKAR_INC_DIR="/usr/local/include"
-export OSKAR_LIB_DIR="/usr/local/lib"
+#export OSKAR_INC_DIR="/usr/local/include"
+#export OSKAR_LIB_DIR="/usr/local/lib"

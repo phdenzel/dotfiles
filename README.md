@@ -223,6 +223,13 @@ well as for the GTK and QT frameworks.
                 <td><code>#1F5582</code></td>
             </tr>
             <tr>
+                <td>turquoise</td>
+                <td align="center">
+                    <img src="./imgs/palettes/phd-ark-default/turquoise.png" height="35" width="35"/>
+                </td>
+                <td><code>#1AE6CC</code></td>
+            </tr>
+            <tr>
                 <td>cyan</td>
                 <td align="center">
                     <img src="./imgs/palettes/phd-ark-default/cyan.png" height="35" width="35"/>
@@ -249,6 +256,13 @@ well as for the GTK and QT frameworks.
                     <img src="./imgs/palettes/phd-ark-default/amethyst.png" height="35" width="35"/>
                 </td>
                 <td><code>#3723B7</code></td>
+            </tr>
+            <tr>
+                <td>lilac</td>
+                <td align="center">
+                    <img src="./imgs/palettes/phd-ark-default/lilac.png" height="35" width="35"/>
+                </td>
+                <td><code>#875FFF</code></td>
             </tr>
             <tr>
                 <td>purple</td>
@@ -468,6 +482,13 @@ well as for the GTK and QT frameworks.
                 <td><code>#1F5582</code></td>
             </tr>
             <tr>
+                <td>turquoise</td>
+                <td align="center">
+                    <img src="./imgs/palettes/phd-ark-dark/turquoise.png" height="35" width="35"/>
+                </td>
+                <td><code>#1AE6CC</code></td>
+            </tr>
+            <tr>
                 <td>cyan</td>
                 <td align="center">
                     <img src="./imgs/palettes/phd-ark-dark/cyan.png" height="35" width="35"/>
@@ -494,6 +515,13 @@ well as for the GTK and QT frameworks.
                     <img src="./imgs/palettes/phd-ark-dark/amethyst.png" height="35" width="35"/>
                 </td>
                 <td><code>#3723B7</code></td>
+            </tr>
+            <tr>
+                <td>lilac</td>
+                <td align="center">
+                    <img src="./imgs/palettes/phd-ark-dark/lilac.png" height="35" width="35"/>
+                </td>
+                <td><code>#875FFF</code></td>
             </tr>
             <tr>
                 <td>purple</td>
@@ -713,6 +741,13 @@ well as for the GTK and QT frameworks.
                 <td><code>#1F5582</code></td>
             </tr>
             <tr>
+                <td>turquoise</td>
+                <td align="center">
+                    <img src="./imgs/palettes/phd-ark-light/turquoise.png" height="35" width="35"/>
+                </td>
+                <td><code>#1AE6CC</code></td>
+            </tr>
+            <tr>
                 <td>cyan</td>
                 <td align="center">
                     <img src="./imgs/palettes/phd-ark-light/cyan.png" height="35" width="35"/>
@@ -739,6 +774,13 @@ well as for the GTK and QT frameworks.
                     <img src="./imgs/palettes/phd-ark-light/amethyst.png" height="35" width="35"/>
                 </td>
                 <td><code>#3723B7</code></td>
+            </tr>
+            <tr>
+                <td>lilac</td>
+                <td align="center">
+                    <img src="./imgs/palettes/phd-ark-light/lilac.png" height="35" width="35"/>
+                </td>
+                <td><code>#875FFF</code></td>
             </tr>
             <tr>
                 <td>purple</td>

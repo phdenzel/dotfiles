@@ -55,7 +55,7 @@ dircolors-themes = $(DIRCOLORSDIR)/dircolors-default \
 									 $(DIRCOLORSDIR)/dircolors-light
 .PHONY: dircolors
 dircolors: $(dircolors-themes)
-	@if [ -s "$(DIRCOLORSDIR)/dircolors-$(FLAVOR)" ]; then cp $(DIRCOLORSDIR)/dircolors-$(FLAVOR) $(DIRCOLORSDIR)/dircolors; fi
+	@if [ -s "$(DIRCOLORSDIR)/dircolors-$(FLAVOR)" ]; then ln -s $(DIRCOLORSDIR)/dircolors-$(FLAVOR) $(DIRCOLORSDIR)/dircolors; fi
 
 
 DUNSTDIR = $(BUILDC)/dunst
@@ -64,7 +64,7 @@ dunst-themes = $(DUNSTDIR)/dunstrc-default \
 							 $(DUNSTDIR)/dunstrc-light
 .PHONY: dunst
 dunst: $(dunst-themes)
-	@if [ -s "$(DUNSTDIR)/dunstrc-$(FLAVOR)" ]; then cp $(DUNSTDIR)/dunstrc-$(FLAVOR) $(DUNSTDIR)/dunstrc; fi
+	@if [ -s "$(DUNSTDIR)/dunstrc-$(FLAVOR)" ]; then ln -s $(DUNSTDIR)/dunstrc-$(FLAVOR) $(DUNSTDIR)/dunstrc; fi
 
 
 EMACSDIR = $(BUILDC)/emacs

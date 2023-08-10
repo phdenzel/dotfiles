@@ -1,41 +1,41 @@
 [colors.normal]
-red = "#FF6D6B"      # red
-green = "#44BC84"    # green
-yellow = "#FFD787"   # yellow
-blue = "#5F8AF7"     # blue
-magenta = "#E83A82"  # pink
-cyan = "#4DB5BD"     # teal
-white = "#EDF3FE"    # base
-black = "#303033"    # subtext0
+red = "#FF6D6B"
+green = "#44BC84"
+yellow = "#FFD787"
+blue = "#5F8AF7"
+magenta = "#E83A82"
+cyan = "#4DB5BD"
+white = "#303033"
+black = "#EDF3FE"
 
 [colors.bright]
-red = "#D7005F"      # ruby
-green = "#00AF87"    # viridis
-yellow = "#FDB760"   # sand
-blue = "#5F5FFF"     # indigo
-magenta = "#FF0087"  # magenta
-cyan = "#46D9FF"     # cyan
-white = "#F6F9FE"    # white
-black = "#404850"    # surface1
+red = "#D7005F"
+green = "#00AF87"
+yellow = "#FDB760"
+blue = "#5F5FFF"
+magenta = "#FF0087"
+cyan = "#46D9FF"
+white = "#F6F9FE"
+black = "#404850"
 
 [colors.dim]
-red = "#D70000"      # crimson
-green = "#3DAA77"    # grass
-yellow = "#F69927"   # orange
-blue = "#3723B7"     # amethyst
-magenta = "#D7005F"  # ruby
-cyan = "#1F5582"     # ocean
-white = "#DDE3EE"    # mantle
-black = "#181E26"    # text
+red = "#D70000"
+green = "#3DAA77"
+yellow = "#F69927"
+blue = "#3723B7"
+magenta = "#D7005F"
+cyan = "#1F5582"
+white = "#2B2B2F"
+black = "#BDC3CE"
 
 [colors.primary]
-background = "#EDF3FE"         # base
-bright_foreground = "#F6F9FE"  # white
-dim_foreground = "#BDC3CE"     # crust
-foreground = "#303033"         # subtext0
+background = "#EDF3FE"
+bright_foreground = "#F6F9FE"
+dim_foreground = "#5B6268"
+foreground = "#181E26"
 
 [colors.cursor]
-cursor = "#5F8AF7"   # blue
+cursor = "#5F8AF7"
 text = "CellBackground"
 
 [colors.line_indicator]
@@ -43,21 +43,21 @@ background = "None"
 foreground = "None"
 
 # [colors.search."colors.footer_bar"]
-# background = "#464858"  # overlay1
-# foreground = "#4DB5BD"  # teal
+# background = "#464858"
+# foreground = "#4DB5BD"
 
 [colors.search.focused_match]
-background = "#FDB760"  # sand
-foreground = "#464858"  # overlay1
+background = "#FDB760"
+foreground = "#464858"
 
 [colors.search.matches]
-background = "#464858"  # overlay1
-foreground = "#FDB760"  # sand
+background = "#464858"
+foreground = "#FDB760"
 
 [colors.selection]
 background = "CellForeground"
 text = "CellBackground"
 
 [colors.vi_mode_cursor]
-cursor = "#E83A82"       # pink
+cursor = "#E83A82"
 text = "CellBackground"

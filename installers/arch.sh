@@ -90,7 +90,7 @@ arch_pkgs=(
     gtk-engine-murrine
     lxappearance
     emacs
-    pyenv python-pip python-pipenv
+    pyenv python-pip python-pipenv python-conda
     lightdm
     accountsservice
     pcmanfm

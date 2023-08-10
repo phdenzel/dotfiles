@@ -525,6 +525,12 @@ instructions).
       sudo pacman -S emacs vim base-devel gdb cmake docker pyenv ghc ghc-static clang cuda cuda-tools cudnn rust rust-analyzer ruby rubygems jenv jdk-openjdk jdk8-openjdk texlive-most texlive-lang gobject-introspection tk
     #+end_src
 
+    For conda, I like to install environments and packages in ~.local/conda~ instead of the default ~$HOME/.conda~ location
+    #+begin_src shell
+      yay -S python-conda
+      mkdir -p $HOME/.local/conda/envs && mkdir -p $HOME/.local/conda/pkgs
+    #+end_src
+
     JabRef application
     #+begin_src emacs-lisp
       yay -S jabref-git

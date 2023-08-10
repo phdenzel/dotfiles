@@ -10,9 +10,10 @@ Xcursor.size: 14
 
 XTerm*loginshell: true
 XTerm*renderFont: true
-XTerm*faceName: xft:Fira Mono:style=Regular:size=11, \
+XTerm*faceName: xft:JetBrains Mono:style=Regular:size=11, \
+                xft:Fira Mono:style=Regular:size=11, \
                 xft:Hack:style=Regular:size=10, \
-                xft:Monospace:style=Medium:size=11   
+                xft:Monospace:style=Medium:size=11
 XTerm*faceSize: 11
 XTerm*utf8: 2
 XTerm*locale: true
@@ -27,23 +28,24 @@ Xmessage*defaultButton: Quit
 
 xscreensaver.fadeSeconds: 2
 
-!--- Color config
+
+!--- Color config for phd-ark-default
 ! (text, base, blue)
-*.foreground:  #bdc3ce
+*.foreground:  #BDC3CE
 *.background:  #303033
-*.cursorColor:  #5f8af7
+*.cursorColor:  #5F8AF7
 ! Black (base, surface1)
-*.color0:  #303030
+*.color0:  #303033
 *.color8:  #404850
 ! Red (red, ruby)
-*.color1:  #ff6d6b
-*.color9:  #d7005f
+*.color1:  #FF6D6B
+*.color9:  #D7005F
 ! Green (green, viridis)
-*.color2:  #44bc84
-*.color10:  #00af87
+*.color2:  #44BC84
+*.color10:  #00AF87
 ! Yellow (yellow, sand)
-*.color3:  #ffd787
-*.color11:  #fdb760
+*.color3:  #FFD787
+*.color11:  #FDB760
 ! Blue (blue, indigo)
 *.color4:  #5F8AF7
 *.color12:  #5F5FFF
@@ -51,8 +53,8 @@ xscreensaver.fadeSeconds: 2
 *.color5:  #E83A82
 *.color13:  #FF0087
 ! Cyan (teal, cyan)
-*.color6:  #4db5bd
-*.color14:  #46d9ff
+*.color6:  #4DB5BD
+*.color14:  #46D9FF
 ! White (subtext0, white)
-*.color7:  #edf3fe
-*.color15:  #f6f9fe
+*.color7:  #EDF3FE
+*.color15:  #F6F9FE

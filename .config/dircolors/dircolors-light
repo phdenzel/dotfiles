@@ -55,7 +55,7 @@ TERM xterm-kitty
 # 06 - ?       07 - reversed    08 - hidden
 #
 ### COLOR INDEX PALETTE (000-015)
-# phd-ark-default
+# phd-ark-light
 #       text  (foreground)
 #       base  (background)
 # (000) crust (black);    (008) surface1 (br black)

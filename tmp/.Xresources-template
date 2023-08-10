@@ -19,7 +19,7 @@
 *.color4:  #phd-ark-blue
 *.color12:  #phd-ark-indigo
 ! Magenta (pink, magenta)
-*.color5:  #phd-ark-
+*.color5:  #phd-ark-pink
 *.color13:  #phd-ark-magenta
 ! Cyan (teal, cyan)
 *.color6:  #phd-ark-teal

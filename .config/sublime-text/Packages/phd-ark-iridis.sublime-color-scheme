@@ -1,0 +1,272 @@
+{
+    "name": "phd-ark-iridis",
+    "author": "phdenzel",
+    "variables":
+    {
+        "crust": "#181E26",
+        "mantle": "#2B2B2F",
+        "base": "#303033",
+        "surface0": "#3A3C3F",
+        "surface1": "#404850",
+        "surface2": "#515C66",
+        "overlay0": "#5B6268",
+        "overlay1": "#464858",
+        "overlay2": "#8A8A8A",
+        "text": "#BDC3CE",
+        "subtext1": "#DDE3EE",
+        "subtext0": "#EDF3FE",
+        "white": "#F6F9FE",
+        "violet": "#A9A1E1",
+        "purple": "#8787FF",
+        "amethyst": "#3723B7",
+        "lilac": "#875FFF",
+        "indigo": "#5F5FFF",
+        "blue": "#5F8AF7",
+        "cyan": "#46D9FF",
+        "ocean": "#1F5582",
+        "teal": "#4DB5BD",
+        "viridis": "#00AF87",
+        "emeralds": "#00AF5Fs",
+        "grass": "#3DAA77",
+        "green": "#44BC84",
+        "yellow": "#FFD787",
+        "sand": "#FDB760",
+        "orange": "#F69927",
+        "tiger": "#FF5F00",
+        "red": "#FF6D6B",
+        "crimson": "#D70000",
+        "ruby": "#D7005F",
+        "pink": "#E83A82",
+        "magenta":"#fphd-ark-magenta
+    },
+    "globals":
+    {
+        "foreground": "var(text)",
+        "background": "var(base)",
+        "caret": "var(subtext1)",
+        "invisibles": "var(overlay0)",
+        "line_highlight": "var(overlay1)",
+        "selection": "var(surface2)"
+    },
+    "rules":
+    [
+        {
+            "name": "Comment",
+            "scope": "comment",
+            "foreground": "var(overlay2)"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "var(green)"
+        },
+        {
+            "name": "String regex",
+            "scope": "string.regexp",
+            "foreground": "var(violet)"
+        },
+        {
+            "name": "Boolean",
+            "scope": "constant.language.boolean",
+            "foreground": "var(purple)"
+        },
+        {
+            "name": "Number",
+            "scope": "constant.numeric",
+            "foreground": "var(white)"
+        },
+        {
+            "name": "Built-in constant",
+            "scope": "constant.language",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Built-in function",
+            "scope": "support.function.builtin",
+            "foreground": "var(teal)"
+        },
+        {
+            "name": "User-defined constant",
+            "scope": "variable.other.constant, constant.character, constant.other",
+            "foreground": "var(purple)"
+        },
+        {
+            "name": "Variable",
+            "scope": "variable",
+            "foreground": "var(sand)"
+        },
+        {
+            "name": "Keyword",
+            "scope": "keyword",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Conditional",
+            "scope": "keyword.control.loop, keyword.control.conditional, keyword.control.c++",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Return",
+            "scope": "keyword.control.return, keyword.control.flow.return",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Exception",
+            "scope": "support.type.exception",
+            "foreground": "var(sand)"
+        },
+        {
+            "name": "Operator",
+            "scope": "keyword.operator, punctuation.accessor",
+            "foreground": "var(yellow)"
+        },
+        {
+            "name": "Punctuation separator",
+            "scope": "punctuation.separator",
+            "foreground": "var(white)"
+        },
+        {
+            "name": "Include",
+            "scope": "keyword.control.import.include",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Storage",
+            "scope": "storage",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Storage type",
+            "scope": "storage.type",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Storage modifier",
+            "scope": "storage.modifier",
+            "foreground": "var(purple)"
+        },
+        {
+            "name": "Class name",
+            "scope": "entity.name.class, meta.toc-list.full-identifier",
+            "foreground": "var(yellow)"
+        },
+        {
+            "name": "Inherited class",
+            "scope": "entity.other.inherited-class",
+            "foreground": "var(yellow)"
+        },
+        {
+            "name": "Function name",
+            "scope": "entity.name.function",
+            "foreground": "var(blue)"
+        },
+        {
+            "name": "Function macro",
+            "scope": "entity.name.function.preprocessor",
+            "foreground": "var(purple)"
+        },
+        {
+            "name": "Function argument",
+            "scope": "variable.parameter",
+            "foreground": "var(violet)"
+        },
+        {
+            "name": "Tag name",
+            "scope": "entity.name.tag",
+            "foreground": "var(ruby)"
+        },
+        {
+            "name": "Tag attribute",
+            "scope": "entity.other.attribute-name",
+            "foreground": "var(sand)"
+        },
+        {
+            "name": "Library function",
+            "scope": "support.function",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Library constant",
+            "scope": "support.constant",
+            "foreground": "var(purple)"
+        },
+        {
+            "name": "Library class/type",
+            "scope": "support.type, support.class",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Library variable",
+            "scope": "support.other.variable",
+            "foreground": "var(crust)"
+        },
+        {
+            "name": "Variable function",
+            "scope": "variable.function",
+            "foreground": "var(blue)"
+        },
+        {
+            "name": "Variable parameter",
+            "scope": "variable.parameter",
+            "foreground": "var(violet)"
+        },
+        {
+            "name": "Variable other",
+            "scope": "variable.other",
+            "foreground": "var(sand)"
+        },
+        {
+            "name": "Variable language",
+            "scope": "variable.language",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Invalid",
+            "scope": "invalid",
+            "foreground": "var(subtext1)",
+            "background": "var(red)"
+        },
+        {
+            "name": "Markdown URL",
+            "scope": "markup.underline.link.markdown",
+            "foreground": "var(viridis)",
+            "font_style": "underline"
+        },
+        {
+            "name": "Bash built-in function",
+            "scope": "source.shell.bash meta.function.shell meta.compound.shell meta.function-call.identifier.shell",
+            "foreground": "var(cyan)"
+        },
+        {
+            "name": "Bash parameter",
+            "scope": "variable.language.shell",
+            "foreground": "var(sand)"
+        },
+        {
+            "name": "Invalid deprecated",
+            "scope": "invalid.deprecated",
+            "foreground": "var(subtext1)",
+            "background": "var(indigo)"
+        },
+        {
+            "name": "Diff header",
+            "scope": "meta.diff, meta.diff.header",
+            "foreground": "var(teal)"
+        },
+        {
+            "name": "Diff deleted",
+            "scope": "markup.deleted",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Diff inserted",
+            "scope": "markup.inserted",
+            "foreground": "var(viridis)"
+        },
+        {
+            "name": "Diff changed",
+            "scope": "markup.changed",
+            "foreground": "var(sand)"
+        }
+    ]
+}

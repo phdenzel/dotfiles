@@ -51,7 +51,7 @@ import XMonad.Util.Ungrab (unGrab)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.ClickableWorkspaces
 --- Customized colors
-import Colors.PhDArkDefault  -- color[Trayer, Fore, Back, 01..15]
+import Colors.PhDArkIridis  -- color[Trayer, Fore, Back, 01..15]
 
 
 -------------------- Variables

@@ -11,7 +11,7 @@ FLAVOR ?= iridis
 .DEFAULT_GOAL := build
 
 .PHONY: build
-build: svg alacritty bat btop dircolors dunst emacs fzf git grep shell sublime tofi vim xmonad xresources
+build: alacritty bat btop dircolors dunst emacs fzf git grep shell sublime tofi vim xmonad xresources
 
 .PHONY: install
 install: build
@@ -55,7 +55,7 @@ dircolors-themes = $(DIRCOLORSDIR)/dircolors-iridis \
 									 $(DIRCOLORSDIR)/dircolors-light
 .PHONY: dircolors
 dircolors: $(dircolors-themes)
-	@if [ -s "$(DIRCOLORSDIR)/dircolors-$(FLAVOR)" ]; then ln -sf $(DIRCOLORSDIR)/dircolors-$(FLAVOR) $(DIRCOLORSDIR)/dircolors; fi
+	@if [ -s "$(DIRCOLORSDIR)/dircolors-$(FLAVOR)" ]; then cd $(DIRCOLORSDIR) && ln -sf dircolors-$(FLAVOR) dircolors; fi
 
 
 DUNSTDIR = $(BUILDC)/dunst
@@ -64,7 +64,7 @@ dunst-themes = $(DUNSTDIR)/dunstrc-iridis \
 							 $(DUNSTDIR)/dunstrc-light
 .PHONY: dunst
 dunst: $(dunst-themes)
-	@if [ -s "$(DUNSTDIR)/dunstrc-$(FLAVOR)" ]; then ln -sf $(DUNSTDIR)/dunstrc-$(FLAVOR) $(DUNSTDIR)/dunstrc; fi
+	@if [ -s "$(DUNSTDIR)/dunstrc-$(FLAVOR)" ]; then cd $(DUNSTDIR) && ln -sf dunstrc-$(FLAVOR) dunstrc; fi
 
 
 EMACSDIR = $(BUILDC)/emacs

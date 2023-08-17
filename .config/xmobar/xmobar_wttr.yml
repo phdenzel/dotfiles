@@ -4,7 +4,7 @@ Defaults:
   xmobar_format: '%g!x %!t(%!f).u {color14:%G}<1: >!h {color10:%G}<1: >!w<1: >.u {color11:%G}<1: >!P<1: >.u'
   icon_map_hooks:
     '*': '<6:{}>'
-  haskell_color_lib: '~/.config/xmonad/lib/Colors/PhDDark.hs'
+  haskell_color_lib: '~/.config/xmonad/lib/Colors/PhDArkIridis.hs'
   params:
     - '!t'  # temperature
     - '!f'  # temperature (feel)

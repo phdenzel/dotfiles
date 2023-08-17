@@ -28,4 +28,4 @@ autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~#
   
 " Theme
 set termguicolors
-colorscheme phd-ark-default
+colorscheme phd-ark-iridis

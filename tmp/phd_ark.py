@@ -1,7 +1,8 @@
-default = {
-    "title": "phd-ark-default",
-    "varname": "phd_ark_default",
-    "pascalcase": "PhDArkDefault",
+iridis = {
+    "title": "phd-ark-iridis",
+    "varname": "phd_ark_iridis",
+    "pascalcase": "PhDArkIridis",
+    "capitalize": "PhD Ark Iridis",
     "mode": "dark",
     "magenta": "#FF0087",   "magenta/b256": 13,
     "pink": "#E83A82",      "pink/b256": 5,
@@ -46,6 +47,7 @@ dark = {
     "title": "phd-ark-dark",
     "varname": "phd_ark_dark",
     "pascalcase": "PhDArkDark",
+    "capitalize": "PhD Ark Dark",
     "mode": "dark",
     "magenta": "#FF0087",   "magenta/b256": 13,
     "pink": "#E83A82",      "pink/b256": 5,
@@ -90,6 +92,7 @@ light = {
     "title": "phd-ark-light",
     "varname": "phd_ark_light",
     "pascalcase": "PhDArkLight",
+    "capitalize": "PhD Ark Light",
     "mode": "light",
     "magenta": "#FF0087",   "magenta/b256": 13,
     "pink": "#E83A82",      "pink/b256": 5,
@@ -131,7 +134,7 @@ light = {
 }
 
 palettes = {
-    'default': default, 'dark': dark, 'light': light,
+    'iridis': iridis, 'dark': dark, 'light': light,
 }
 
 def all_palettes(palettes: dict[dict]):

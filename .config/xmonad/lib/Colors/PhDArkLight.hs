@@ -1,17 +1,17 @@
-module Colors.PhDArkDefault where
+module Colors.PhDArkDark where
 
 colorScheme :: String
-colorScheme = "phd-ark-default"
+colorScheme = "phd-ark-dark"
 
 colorBack, colorFore :: String
-colorBack = "#303033"
+colorBack = "#1D1D1F"
 colorFore = "#DDE3EE"
 
 color00, color01, color02, color03, color04, color05, color06, color07 :: String
 color08, color09, color10, color11, color12, color13, color14, color15 :: String
 -- Black
-color00 = "#8A8A8A"
-color08 = "#464858"
+color00 = "#6D6D6D"
+color08 = "#353642"
 -- Red
 color01 = "#FF6D6B"
 color09 = "#D7005F"
@@ -35,4 +35,4 @@ color07 = "#EDF3FE"
 color15 = "#F6F9FE"
 
 colorTrayer :: String
-colorTrayer = "--tint 0x303033 "
+colorTrayer = "--tint 0x1d1d1f "

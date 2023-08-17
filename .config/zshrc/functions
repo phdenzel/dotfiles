@@ -65,11 +65,11 @@ function welcome_screen() {
     echo "${reset}${magenta}++++++++++++++++++++++++++++++++${reset}\n";
     #sleep 0.1s;
     command -v neofetch &> /dev/null && neofetch || {
-            echo "${br_yellow}Host: \t\t\t\t ${blue}${HOST}"
-            echo "${br_yellow}Operating System: \t\t${blue}" `uname -s`
-            echo "${br_yellow}Kernel Information: \t\t${blue}" `uname -mr`
-            echo -n "${br_yellow}Hello${magenta}" `whoami`
-            echo "${br_yellow} today is: \t${blue}" `date`;
+            echo "${sand}Host: \t\t\t\t ${blue}${HOST}"
+            echo "${sand}Operating System: \t\t${blue}" `uname -s`
+            echo "${sand}Kernel Information: \t\t${blue}" `uname -mr`
+            echo -n "${sand}Hello${magenta}" `whoami`
+            echo "${sand} today is: \t${blue}" `date`;
             echo "${reset}\n"
         };
     cal -3;
@@ -79,7 +79,7 @@ function welcome_screen() {
     df -h -x tmpfs -x devtmpfs --output=source,target,fstype,size,used,pcent,avail;
     echo -n "${reset}";
     # Memory info
-    echo -n "${br_yellow}"
+    echo -n "${sand}"
     echo "------------------------------ Memory Information ------------------------------";
     command -v free &> /dev/null && free -th;
     echo -ne "${reset}";

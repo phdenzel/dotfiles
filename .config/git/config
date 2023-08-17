@@ -47,7 +47,7 @@
 	rebase = false
 
 [include]
-  path = themes/phd-ark-default.gitcolor
+  path = themes/phd-ark-iridis.gitcolor
 
 [user]
 	name = phdenzel

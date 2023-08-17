@@ -106,7 +106,7 @@ well as for the GTK and QT frameworks.
 <table>
     <th colspan="3" align="center"><h4>Color palettes of the phd-ark flavors</h4></th>
     <tr>
-        <th><h5>default</h5></th>
+        <th><h5>iridis</h5></th>
         <th><h5>dark</h5></th>
         <th><h5>light</h5></th>
     </tr>
@@ -120,252 +120,252 @@ well as for the GTK and QT frameworks.
             <tr>
                 <td>magenta</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/magenta.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/magenta.png" height="35" width="35"/>
                 </td>
                 <td><code>#FF0087</code></td>
             </tr>
             <tr>
                 <td>pink</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/pink.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/pink.png" height="35" width="35"/>
                 </td>
                 <td><code>#E83A82</code></td>
             </tr>
             <tr>
                 <td>ruby</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/ruby.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/ruby.png" height="35" width="35"/>
                 </td>
                 <td><code>#D7005F</code></td>
             </tr>
             <tr>
                 <td>crimson</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/crimson.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/crimson.png" height="35" width="35"/>
                 </td>
                 <td><code>#D70000</code></td>
             </tr>
             <tr>
                 <td>red</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/red.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/red.png" height="35" width="35"/>
                 </td>
                 <td><code>#FF6D6B</code></td>
             </tr>
             <tr>
                 <td>tiger</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/tiger.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/tiger.png" height="35" width="35"/>
                 </td>
                 <td><code>#FF5F00</code></td>
             </tr>
             <tr>
                 <td>orange</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/orange.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/orange.png" height="35" width="35"/>
                 </td>
                 <td><code>#F69927</code></td>
             </tr>
             <tr>
                 <td>sand</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/sand.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/sand.png" height="35" width="35"/>
                 </td>
                 <td><code>#FDB760</code></td>
             </tr>
             <tr>
                 <td>yellow</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/yellow.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/yellow.png" height="35" width="35"/>
                 </td>
                 <td><code>#FFD787</code></td>
             </tr>
             <tr>
                 <td>green</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/green.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/green.png" height="35" width="35"/>
                 </td>
                 <td><code>#44BC84</code></td>
             </tr>
             <tr>
                 <td>grass</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/grass.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/grass.png" height="35" width="35"/>
                 </td>
                 <td><code>#3DAA77</code></td>
             </tr>
             <tr>
                 <td>emerald</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/emerald.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/emerald.png" height="35" width="35"/>
                 </td>
                 <td><code>#00AF5F</code></td>
             </tr>
             <tr>
                 <td>viridis</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/viridis.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/viridis.png" height="35" width="35"/>
                 </td>
                 <td><code>#00AF87</code></td>
             </tr>
             <tr>
                 <td>teal</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/teal.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/teal.png" height="35" width="35"/>
                 </td>
                 <td><code>#4DB5BD</code></td>
             </tr>
             <tr>
                 <td>ocean</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/ocean.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/ocean.png" height="35" width="35"/>
                 </td>
                 <td><code>#1F5582</code></td>
             </tr>
             <tr>
                 <td>turquoise</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/turquoise.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/turquoise.png" height="35" width="35"/>
                 </td>
                 <td><code>#1AE6CC</code></td>
             </tr>
             <tr>
                 <td>cyan</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/cyan.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/cyan.png" height="35" width="35"/>
                 </td>
                 <td><code>#46D9FF</code></td>
             </tr>
             <tr>
                 <td>blue</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/blue.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/blue.png" height="35" width="35"/>
                 </td>
                 <td><code>#5F8AF7</code></td>
             </tr>
             <tr>
                 <td>indigo</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/indigo.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/indigo.png" height="35" width="35"/>
                 </td>
                 <td><code>#5F5FFF</code></td>
             </tr>
             <tr>
                 <td>amethyst</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/amethyst.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/amethyst.png" height="35" width="35"/>
                 </td>
                 <td><code>#3723B7</code></td>
             </tr>
             <tr>
                 <td>lilac</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/lilac.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/lilac.png" height="35" width="35"/>
                 </td>
                 <td><code>#875FFF</code></td>
             </tr>
             <tr>
                 <td>purple</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/purple.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/purple.png" height="35" width="35"/>
                 </td>
                 <td><code>#8787FF</code></td>
             </tr>
             <tr>
                 <td>violet</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/violet.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/violet.png" height="35" width="35"/>
                 </td>
                 <td><code>#A9A1E1</code></td>
             </tr>
             <tr>
                 <td>white</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/white.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/white.png" height="35" width="35"/>
                 </td>
                 <td><code>#F6F9FE</code></td>
             </tr>
             <tr>
                 <td>subtext0</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/subtext0.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/subtext0.png" height="35" width="35"/>
                 </td>
                 <td><code>#EDF3FE</code></td>
             </tr>
             <tr>
                 <td>subtext1</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/subtext1.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/subtext1.png" height="35" width="35"/>
                 </td>
                 <td><code>#DDE3EE</code></td>
             </tr>
             <tr>
                 <td>text</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/text.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/text.png" height="35" width="35"/>
                 </td>
                 <td><code>#BDC3CE</code></td>
             </tr>
             <tr>
                 <td>overlay2</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/overlay2.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/overlay2.png" height="35" width="35"/>
                 </td>
                 <td><code>#8A8A8A</code></td>
             </tr>
             <tr>
                 <td>overlay1</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/overlay1.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/overlay1.png" height="35" width="35"/>
                 </td>
                 <td><code>#464858</code></td>
             </tr>
             <tr>
                 <td>overlay0</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/overlay0.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/overlay0.png" height="35" width="35"/>
                 </td>
                 <td><code>#5B6268</code></td>
             </tr>
             <tr>
                 <td>surface2</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/surface2.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/surface2.png" height="35" width="35"/>
                 </td>
                 <td><code>#515C66</code></td>
             </tr>
             <tr>
                 <td>surface1</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/surface1.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/surface1.png" height="35" width="35"/>
                 </td>
                 <td><code>#404850</code></td>
             </tr>
             <tr>
                 <td>surface0</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/surface0.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/surface0.png" height="35" width="35"/>
                 </td>
                 <td><code>#3A3C3F</code></td>
             </tr>
             <tr>
                 <td>base</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/base.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/base.png" height="35" width="35"/>
                 </td>
                 <td><code>#303033</code></td>
             </tr>
             <tr>
                 <td>mantle</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/mantle.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/mantle.png" height="35" width="35"/>
                 </td>
                 <td><code>#2B2B2F</code></td>
             </tr>
             <tr>
                 <td>crust</td>
                 <td align="center">
-                    <img src="./imgs/palettes/phd-ark-default/crust.png" height="35" width="35"/>
+                    <img src="./imgs/palettes/phd-ark-iridis/crust.png" height="35" width="35"/>
                 </td>
                 <td><code>#181E26</code></td>
             </tr>

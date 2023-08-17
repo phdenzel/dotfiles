@@ -42,11 +42,11 @@ def generate(args, search_prefix='#phd-ark-'):
     flavor = args.flavor
     if args.flavor is None and args.output is not None:
         for f in flavors + ['all']:
-            if f in str(args.output):
+            if f.lower() in str(args.output).lower():
                 flavor = f
                 break
     if flavor is None:
-        flavor = 'default'
+        flavor = 'iridis'
     # get color palette from flavor
     if flavor != 'all':
         colors = palettes[flavor]

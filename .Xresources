@@ -29,7 +29,7 @@ Xmessage*defaultButton: Quit
 xscreensaver.fadeSeconds: 2
 
 
-!--- Color config for phd-ark-default
+!--- Color config for phd-ark-iridis
 ! (text, base, blue)
 *.foreground:  #BDC3CE
 *.background:  #303033

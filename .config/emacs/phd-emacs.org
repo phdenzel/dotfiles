@@ -2236,7 +2236,7 @@ All style settings are defined here...
     :init
     (load-theme 'phd-ark :no-confirm)
     :config
-    (setq phd-ark-flavor 'default)
+    (setq phd-ark-flavor 'iridis)
     (phd-ark-reload))
 
 #+end_src

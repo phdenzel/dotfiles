@@ -64,7 +64,7 @@ def generate(args, search_prefix='#phd-ark-'):
     content = tmpl.read_text()
     # sort keys to ensure /b256 colors are used first
     color_keys = sorted(colors.keys(),
-                        key=lambda x: x.endswith('/b256'),
+                        key=lambda x: x.endswith('/b256') or x.endswith('/t256'),
                         reverse=True)
     # insert corresponding colors to template
     for cname in color_keys:

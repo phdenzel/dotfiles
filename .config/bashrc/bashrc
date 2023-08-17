@@ -49,10 +49,10 @@ fi
 ####################################################### Welcome helpers
 # Get some informations about the system
 _hostinfo () {
-    echo -e "${br_yellow}Host: \t\t\t\t ${blue}${HOSTNAME}"
-    echo -e "${br_yellow}Operating System: \t\t${blue}" `uname -s`
-    echo -e  "${br_yellow}Kernel Information: \t\t${blue}" `uname -mr`
-    echo -ne "${br_yellow}Hello ${magenta}$USER${br_yellow} today is: \t${blue}" `date`;
+    echo -e "${sand}Host: \t\t\t\t ${blue}${HOSTNAME}"
+    echo -e "${sand}Operating System: \t\t${blue}" `uname -s`
+    echo -e "${sand}Kernel Information: \t\t${blue}" `uname -mr`
+    echo -ne "${sand}Hello ${magenta}$USER${sand} today is: \t${blue}" `date`;
     echo -e "${reset}";
 }
 # Get the mounted drives and free space
@@ -79,7 +79,7 @@ sleep 0.5s;
 command -v neofetch &> /dev/null && neofetch || _hostinfo;
 cal -3
 echo -ne "${green}"; _mounted; echo -ne "${reset}"
-echo -ne "${br_yellow}"; _meminfo; echo -ne "${reset}"
+echo -ne "${sand}"; _meminfo; echo -ne "${reset}"
 echo -ne "${blue}"; _upinfo;  echo "${reset}"
 echo "";
 echo -e  "${blue}${HOSTNAME}${reset} at your service";

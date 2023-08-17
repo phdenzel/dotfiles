@@ -320,4 +320,4 @@
 #
 	# Configs can be split between multiple files, and then included
 	# within each other.
-	# include = /path/to/config
+	include = themes/phd-ark-iridis.tofi

@@ -1,0 +1,45 @@
+# Tofi PhD Ark Dark theme
+
+	# Default text color
+  text-color = #DDE3EE
+
+  # Prompt text theme
+	prompt-background = #090B0E00
+
+  # Placeholder text theme
+  placeholder-color = #DDE3EEA8
+	placeholder-background = #090B0E00
+
+	# Input text theme
+	#input-color = #F6F9FE
+	input-background = #090B0E00
+
+	# Default result text theme
+	#default-result-color = #F6F9FE
+  default-result-background = #090B0E00
+
+	# Alternate (even-numbered) result text theme
+	#alternate-result-color = #F6F9FE
+	#alternate-result-background = #090B0E00
+
+	# Selection text
+	#selection-color = #FF0087
+  selection-color = #E83A82
+  #selection-color = #5F8AF7
+	selection-background = #090B0E00
+
+	# Matching portion of selection text
+	selection-match-color = #090B0E00
+
+	# Color of the text cursor
+	#text-cursor-color = #F6F9FE
+
+	# Color of text behind the text cursor when text-cursor-style = block
+	# text-cursor-background = #090B0E
+
+	# Window background color
+	background-color = #1D1D1F
+ 	# Border outline color
+	outline-color = #090B0E
+	# Border color
+	border-color = #E83A82

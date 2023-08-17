@@ -1,0 +1,45 @@
+# Tofi #phd-ark-capitalize theme
+
+	# Default text color
+  text-color = #phd-ark-subtext1
+
+  # Prompt text theme
+	prompt-background = #phd-ark-crust00
+
+  # Placeholder text theme
+  placeholder-color = #phd-ark-subtext1A8
+	placeholder-background = #phd-ark-crust00
+
+	# Input text theme
+	#input-color = #phd-ark-white
+	input-background = #phd-ark-crust00
+
+	# Default result text theme
+	#default-result-color = #phd-ark-white
+  default-result-background = #phd-ark-crust00
+
+	# Alternate (even-numbered) result text theme
+	#alternate-result-color = #phd-ark-white
+	#alternate-result-background = #phd-ark-crust00
+
+	# Selection text
+	#selection-color = #phd-ark-magenta
+  selection-color = #phd-ark-pink
+  #selection-color = #phd-ark-blue
+	selection-background = #phd-ark-crust00
+
+	# Matching portion of selection text
+	selection-match-color = #phd-ark-crust00
+
+	# Color of the text cursor
+	#text-cursor-color = #phd-ark-white
+
+	# Color of text behind the text cursor when text-cursor-style = block
+	# text-cursor-background = #phd-ark-crust
+
+	# Window background color
+	background-color = #phd-ark-base
+ 	# Border outline color
+	outline-color = #phd-ark-crust
+	# Border color
+	border-color = #phd-ark-pink

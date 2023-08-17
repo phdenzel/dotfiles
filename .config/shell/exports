@@ -39,26 +39,15 @@ export SCREENRC="${XDG_CONFIG_HOME}/gnu/screenrc"
 export WGETRC="${XDG_CONFIG_HOME}/gnu/wgetrc"
 export CURL_HOME="${XDG_CONFIG_HOME}/curl"
 
-# Ranger
+# ranger
 export HIGHLIGHT_STYLE=phd-dark
 
-# Less settings
-export LESS_TERMCAP_mb="$blue$bold"
-export LESS_TERMCAP_md="$blue$bold"
-export LESS_TERMCAP_me="$reset"
-export LESS_TERMCAP_so="$magenta"
-export LESS_TERMCAP_se="$reset"
-export LESS_TERMCAP_us="$br_yellow$underline"
-
-# Grep settings
-export GREP_COLORS="ms=01;38;5;013:mc=01;38;5;013:sl=:cx=:fn=00;38;5;004:ln=00;38;5;010:bn=00;38;5;010:se=00;38;5;011"
-
-# BAT settings
+# bat settings
 export BAT_CONFIG_PATH="${XDG_CONFIG_HOME}/bat/config"
 
-# FZF
-if [ -s "${XDG_CONFIG_HOME}/fzf/default_opts/phd-ark-default.fzf" ]; then
-    source ${XDG_CONFIG_HOME}/fzf/default_opts/phd-ark-default.fzf
+# fzf default options
+if [ -s "${XDG_CONFIG_HOME}/fzf/default_opts/phd-ark-iridis.fzf" ]; then
+    source ${XDG_CONFIG_HOME}/fzf/default_opts/phd-ark-iridis.fzf
 fi
 
 # GPG

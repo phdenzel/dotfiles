@@ -1,0 +1,1 @@
+export GREP_COLORS="ms=01;38;5;#phd-ark-magenta/b256:mc=01;38;5;#phd-ark-magenta/b256:sl=:cx=:fn=00;38;5;#phd-ark-blue/b256:ln=00;38;5;#phd-ark-viridis/b256:bn=00;38;5;#phd-ark-viridis/b256:se=00;38;5;#phd-ark-sand/b256"

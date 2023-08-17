@@ -68,10 +68,12 @@ def generate(args, search_prefix='#phd-ark-'):
                         reverse=True)
     # insert corresponding colors to template
     for cname in color_keys:
+        fmtfind = f"{search_prefix}{cname}/strip"
         find = f"{search_prefix}{cname}"
         replace = colors[cname]
         if isinstance(replace, int):
             replace = f"{replace:03d}"
+        content = content.replace(fmtfind, replace.lstrip("0"))
         content = content.replace(find, replace)
     if args.save or args.output is not None:
         filename.write_text(content)

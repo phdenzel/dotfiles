@@ -65,7 +65,7 @@ def generate(args, search_prefix='#phd-ark-'):
     # sort keys to ensure /b256 colors are used first
     color_keys = sorted(
         colors.keys(),
-        key=lambda x: x.endswith('/b256') or x.endswith('/t256') or x.endswith('/rgb') or x.endswith('/deg'),
+        key=lambda x: x.endswith('/b256') or x.endswith('/t256') or x.endswith('/rgb') or x.endswith('/svg'),
         reverse=True)
     # insert corresponding colors to template
     for cname in color_keys:

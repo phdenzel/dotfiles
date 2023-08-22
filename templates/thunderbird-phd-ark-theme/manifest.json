@@ -1,0 +1,54 @@
+{
+    "manifest_version": 2,
+    "name": "#phd-ark-capitalize Thunderbird Theme",
+    "version": "1.0.0",
+    "applications": {
+        "gecko": {
+            "id": "phdenzel@gmail.com",
+            "strict_min_version": "60.0"
+        }
+    },
+    "description": "#phd-ark-capitalize theme for Thunderbird",
+    "icons": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    },
+    "theme": {
+        "colors": {
+            "frame": "#phd-ark-base",
+            "button_background_active": "#phd-ark-indigo",
+            "button_background_hover": "#phd-ark-surface1",
+            "icons": "#phd-ark-text",
+            "tab_text": "#phd-ark-text",
+            "tab_line": "#phd-ark-indigo",
+            "tab_loading": "#phd-ark-indigo",
+            "tab_selected": "#phd-ark-base",
+            "tab_background_text": "#phd-ark-overlay2",
+            "tab_background_separator": "#phd-ark-surface1",
+            "bookmark_text": "#phd-ark-text",
+            "toolbar": "#phd-ark-base",
+            "toolbar_field": "#phd-ark-surface1",
+            "toolbar_field_text": "#phd-ark-text",
+            "toolbar_field_highlight": "#phd-ark-indigo",
+            "toolbar_field_highlight_text": "#phd-ark-crust",
+            "toolbar_field_border": "#phd-ark-crust",
+            "toolbar_field_focus": "#phd-ark-surface1",
+            "toolbar_field_text_focus": "#phd-ark-text",
+            "toolbar_field_border_focus": "#phd-ark-indigo",
+            "toolbar_top_separator": "#phd-ark-surface1",
+            "toolbar_bottom_separator": "#phd-ark-surface1",
+            "toolbar_vertical_separator": "#phd-ark-surface1",
+            "sidebar": "#phd-ark-base",
+            "sidebar_text": "#phd-ark-text",
+            "sidebar_highlight": "#phd-ark-indigo",
+            "sidebar_highlight_text": "#phd-ark-crust",
+            "sidebar_border": "#phd-ark-surface1",
+            "popup": "#phd-ark-surface1",
+            "popup_text": "#phd-ark-text",
+            "popup_border": "#phd-ark-base",
+            "popup_highlight": "#phd-ark-indigo",
+            "popup_highlight_text": "#phd-ark-crust"
+        }
+    }
+}

@@ -23,6 +23,7 @@ iridis = {
     "cyan": "#46D9FF",      "cyan/b256": 14,
     "blue": "#5F8AF7",      "blue/b256": 4,
     "indigo": "#5F5FFF",    "indigo/b256": 12,     "indigo/t256": 63,
+    "indigo/deg": 240,
     "amethyst": "#3723B7",                         "amethyst/t256": 57,
     "lilac": "#875FFF",     "lilac/b256": 99,      "lilac/t256": 99,
     "purple": "#8787FF",    "purple/b256": 105,    "purple/t256": 105,
@@ -41,6 +42,7 @@ iridis = {
     "base": "#303033",                             "base/t256": 236,
     "mantle": "#2B2B2F",                           "mantle/t256": 235,
     "crust": "#181E26",     "crust/b256": 0,       "crust/t256": 234,
+    "crust/rgb": "24, 30, 38"
 }
 
 dark = {
@@ -68,6 +70,7 @@ dark = {
     "cyan": "#46D9FF",      "cyan/b256": 14,
     "blue": "#5F8AF7",      "blue/b256": 4,
     "indigo": "#5F5FFF",    "indigo/b256": 12,     "indigo/t256": 63,
+    "indigo/deg": 240,
     "amethyst": "#3723B7",                         "amethyst/t256": 57,
     "lilac": "#875FFF",     "lilac/b256": 99,      "lilac/t256": 99,
     "purple": "#8787FF",    "purple/b256": 105,    "purple/t256": 105,
@@ -86,6 +89,7 @@ dark = {
     "base": "#1D1D1F",                             "base/t256": 234,
     "mantle": "#18181B",                           "mantle/t256": 233,
     "crust": "#090B0E",     "crust/b256": 0,       "crust/t256": 232,
+    "crust/rgb": "9, 11, 14"
 }
 
 light = {
@@ -113,6 +117,7 @@ light = {
     "cyan": "#46D9FF",      "cyan/b256": 14,
     "blue": "#5F8AF7",      "blue/b256": 4,
     "indigo": "#5F5FFF",    "indigo/b256": 12,     "indigo/t256": 63,
+    "indigo/deg": 240,
     "amethyst": "#3723B7",                         "amethyst/t256": 57,
     "lilac": "#875FFF",     "lilac/b256": 99,      "lilac/t256": 99,
     "purple": "#8787FF",    "purple/b256": 105,    "purple/t256": 105,
@@ -131,6 +136,7 @@ light = {
     "base": "#EDF3FE",                             "base/t256": 254,
     "mantle": "#DDE3EE",
     "crust": "#BDC3CE",     "crust/b256": 0,       "crust/t256": 251,
+    "crust/rgb": "189, 195, 206"
 }
 
 palettes = {

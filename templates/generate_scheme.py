@@ -63,9 +63,10 @@ def generate(args, search_prefix='#phd-ark-'):
         filename = args.output.resolve()
     content = tmpl.read_text()
     # sort keys to ensure /b256 colors are used first
-    color_keys = sorted(colors.keys(),
-                        key=lambda x: x.endswith('/b256') or x.endswith('/t256'),
-                        reverse=True)
+    color_keys = sorted(
+        colors.keys(),
+        key=lambda x: x.endswith('/b256') or x.endswith('/t256') or x.endswith('/rgb') or x.endswith('/deg'),
+        reverse=True)
     # insert corresponding colors to template
     for cname in color_keys:
         fmtfind = f"{search_prefix}{cname}/strip"

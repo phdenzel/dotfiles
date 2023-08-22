@@ -8,10 +8,10 @@ else
     XPOSITION=
     XOUTPUT2="HDMI2"
     XPRIORITY2=
-    XPOSITION2=--above "${XOUTPUT}"
+    XPOSITION2="--above ${XOUTPUT}"
 fi
 
-xrandr --output "${XOUTPUT}"  --auto $XPRIORITY  $XPOSITION
-xrandr --output "${XOUTPUT2}" --auto $XPRIORITY2 $XPOSITION2
+xrandr --output $XOUTPUT  --auto $XPRIORITY  $XPOSITION
+xrandr --output $XOUTPUT2 --auto $XPRIORITY2 $XPOSITION2
 
 ~/.config/feh/fehbg

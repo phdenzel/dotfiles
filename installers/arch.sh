@@ -155,6 +155,7 @@ arch_pkgs=(
     transmission-cli transmission-gtk
     lynx
     w3m
+    thunderbird
     nginx
     mariadb mariadb-clients mariadb-libs
     php php-cgi php-gd php-fpm php-intl php-imagick
@@ -294,6 +295,8 @@ aur_pkgs=(
     mu
     cyrus-sasl-xoauth2-git
     oauth2token
+    mailspring
+    pass-secrets-git
     # ffmpeg-compat-57
     ttf-all-the-icons ttf-weather-icons
     ttf-monaco

@@ -26,7 +26,7 @@
         "ocean": "#phd-ark-ocean",
         "teal": "#phd-ark-teal",
         "viridis": "#phd-ark-viridis",
-        "emeralds": "#phd-ark-emeralds",
+        "emeralds": "#phd-ark-emerald",
         "grass": "#phd-ark-grass",
         "green": "#phd-ark-green",
         "yellow": "#phd-ark-yellow",
@@ -37,7 +37,7 @@
         "crimson": "#phd-ark-crimson",
         "ruby": "#phd-ark-ruby",
         "pink": "#phd-ark-pink",
-        "magenta":"#fphd-ark-magenta
+        "magenta":"#phd-ark-magenta
     },
     "globals":
     {

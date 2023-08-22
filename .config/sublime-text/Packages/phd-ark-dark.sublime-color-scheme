@@ -26,7 +26,7 @@
         "ocean": "#1F5582",
         "teal": "#4DB5BD",
         "viridis": "#00AF87",
-        "emeralds": "#00AF5Fs",
+        "emeralds": "#00AF5F",
         "grass": "#3DAA77",
         "green": "#44BC84",
         "yellow": "#FFD787",
@@ -37,7 +37,7 @@
         "crimson": "#D70000",
         "ruby": "#D7005F",
         "pink": "#E83A82",
-        "magenta":"#fphd-ark-magenta
+        "magenta":"#FF0087
     },
     "globals":
     {

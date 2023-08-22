@@ -1,0 +1,49 @@
+@import 'ui-variables';
+
+
+.ignore-in-parent-frame {
+    #inbox-html-wrapper, #inbox-plain-wrapper {
+        
+        // Invert the color of everything in the message.
+        color: spin(#fff - @text-color, 180) !important;
+        blockquote {
+            border-color: spin(#fff - @text-color, 180);
+        }
+        filter: invert(100%) hue-rotate(180deg);
+
+        // Undo the color inversion for html tables, while 
+        // adding/restoring color elements for emails that 
+        // implicitly assume a white background.
+        > table,
+        > :not(table) > table,
+        > :not(table) > :not(table) > table,
+        > :not(table) > :not(table) > :not(table) > table {
+            padding: 10px;
+            color: black;
+            background: white !important;
+            a, a:hover, a:active {
+                color: unset;
+            }
+            filter: hue-rotate(-180deg) invert(120%);
+        }
+
+        // Undo the color inversion for all images that are not
+        // part of html tables.
+        > img, 
+        > :not(table) > img,
+        > :not(table) > :not(table) > img,
+        > :not(table) > :not(table) > :not(table) > img,
+        > :not(table) > :not(table) > :not(table) > :not(table) img { 
+            filter: hue-rotate(-180deg) invert(120%);
+        }
+
+        // Force a transparent background for emails that 
+        // are not based on html tables.
+        > :not(table), 
+        > :not(table) > :not(table),
+        > :not(table) > :not(table) > :not(table),
+        > :not(table) > :not(table) > :not(table) > :not(table) { 
+            background: transparent !important; // e.g. sidebars in Stack Overflow emails 
+        }
+    }
+}

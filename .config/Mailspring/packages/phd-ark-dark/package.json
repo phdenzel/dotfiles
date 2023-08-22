@@ -1,0 +1,12 @@
+{
+  "name": "phd-ark-dark",
+  "title": "PhD Ark Dark Mailspring Theme",
+  "displayName": "PhD Ark Dark",
+  "theme": "ui",
+  "version": "0.1.0",
+  "description": "A custom dark theme for Mailspring.",
+  "license": "MIT",
+  "engines": {
+    "mailspring": "*"
+  }
+}

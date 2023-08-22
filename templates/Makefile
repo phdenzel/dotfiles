@@ -11,7 +11,7 @@ FLAVOR ?= iridis
 .DEFAULT_GOAL := build
 
 .PHONY: build
-build: alacritty bat btop dircolors dunst emacs fzf git grep shell sublime tofi vim xmonad xresources
+build: alacritty bat btop dircolors dunst emacs fzf git grep mailspring shell sublime thunderbird tofi vim xmonad xresources
 
 .PHONY: install
 install: build
@@ -97,6 +97,27 @@ grep-themes = $(GREPDIR)/phd-ark-iridis.grep \
 .PHONY: grep
 grep: $(grep-themes)
 
+MAILSPRINGDIR = $(BUILDC)/Mailspring/packages
+mailspring-themes = $(MAILSPRINGDIR)/phd-ark-iridis \
+										$(MAILSPRINGDIR)/phd-ark-dark \
+										$(MAILSPRINGDIR)/phd-ark-light
+.PHONY: mailspring
+mailspring: $(mailspring-themes)
+$(mailspring-themes):
+	mkdir -p $@/styles
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i mailspring-phd-ark-theme/package.json \
+		-o $@/package.json
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i mailspring-phd-ark-theme/styles/main.less \
+		-o $@/styles/main.less
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i mailspring-phd-ark-theme/styles/email-frame.less \
+		-o $@/styles/email-frame.less
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i mailspring-phd-ark-theme/styles/ui-variables.less \
+		-o $@/styles/ui-variables.less
+
 
 SHELLDIR = $(BUILDC)/shell/themes
 shell-themes = $(SHELLDIR)/phd-ark-iridis.sh \
@@ -112,6 +133,21 @@ subl-themes = $(SUBLDIR)/phd-ark-iridis.sublime-color-scheme \
 							$(SUBLDIR)/phd-ark-light.sublime-color-scheme
 .PHONY: sublime
 sublime: $(subl-themes)
+
+
+TBIRDDIR = $(BUILDC)/thunderbird/themes
+thunderbird-themes = $(TBIRDDIR)/phd-ark-iridis.xpi \
+										 $(TBIRDDIR)/phd-ark-dark.xpi \
+										 $(TBIRDDIR)/phd-ark-light.xpi
+.PHONY: thunderbird
+thunderbird: $(thunderbird-themes)
+$(thunderbird-themes):
+	mkdir -p $(basename $@)/images
+	cp $(TARGETDIR)/imgs/logos/icon{16,48,128}.png $(basename $@)/images/
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i thunderbird-phd-ark-theme/manifest.json \
+		-o $(basename $@)/manifest.json
+	cd $(basename $@) && zip -r -q -9 ../$(@F) . && cd - && rm -r $(basename $@)
 
 
 TOFIDIR = $(BUILDC)/tofi/themes

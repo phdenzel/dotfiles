@@ -1,3 +1,7 @@
 [submodule ".config/xmobar/xmobarconf"]
 	path = .config/xmobar/xmobarconf
 	url = git@github.com:phdenzel/xmobarconf.git
+[submodule "templates/mailspring-phd-ark-theme"]
+	path = templates/mailspring-phd-ark-theme
+	url = git@github.com:phdenzel/mailspring-phd-ark-theme.git
+	branch = templates

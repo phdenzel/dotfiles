@@ -1,0 +1,43 @@
+Description="#phd-ark-title"
+
+-- Highlight theme #phd-ark-capitalize handcrafted by phdenzel
+
+Categories = {"#phd-ark-mode"}
+
+Default        = { Colour="#phd-ark-text" }
+Canvas         = { Colour="#phd-ark-base" }
+Number         = { Colour="#phd-ark-purple" }
+Escape         = { Colour="#phd-ark-orange" }
+String         = { Colour="#phd-ark-grass" }
+StringPreProc  = { Colour="#phd-ark-viridis" }
+LineComment    = { Colour="#phd-ark-overlay2" }
+BlockComment   = LineComment
+PreProcessor   = { Colour="#phd-ark-violet" }
+LineNum        = { Colour="#phd-ark-overlay1" }
+Operator       = { Colour="#phd-ark-indigo" }
+Interpolation  = { Colour="#phd-ark-sand" }
+
+Keywords = {
+  { Colour= "#phd-ark-pink" },
+  { Colour= "#phd-ark-yellow" },
+  { Colour= "#phd-ark-cyan" },
+  { Colour= "#phd-ark-blue" },
+  { Colour= "#phd-ark-orange" },
+  { Colour= "#phd-ark-blue" },
+}
+
+-- new LSP based elements:
+
+SemanticTokenTypes  = {
+  { Type = 'keyword', Style = Keywords[1] },
+  { Type = 'type', Style = Keywords[2] },
+  { Type = 'function', Style = Keywords[4] },
+  { Type = 'method', Style = Keywords[4] },
+  { Type = 'class', Style =  Keywords[1] },
+  { Type = 'struct', Style = Keywords[2] },
+  { Type = 'parameter', Style = Keywords[6] },
+  { Type = 'variable', Style = Keywords[5] },
+  { Type = 'number', Style = Number },
+  { Type = 'regexp', Style = String },
+  { Type = 'operator', Style = Operator },
+}

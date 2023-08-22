@@ -29,31 +29,25 @@ background color.)
     box-shadow: none;
 }
 
-.sheet-toolbar .btn-toolbar img.content-mask {
-    background-color: @accent-primary;
-}
-
-
-.thread-icon:not(.thread-icon-unread):not(.thread-icon-star) {
-    -webkit-filter: invert(100%);
-}
-
-img.content-dark {
-    -webkit-filter: invert(100%);
-}
-
-img.content-light {
-    -webkit-filter: invert(100%);
-}
-
+// Mail label, e.g. inbox
 .mail-label {
-    -webkit-filter: contrast(110%) brightness(85%);
+    color: @text-color !important;
+    background-color: @accent-primary !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+.mail-label:hover {
+    color: lighten(@text-color, 10%) !important;
+    background-color: @accent-primary-dark !important;
 }
 
-
-
+// Imortant flag icon
 .mail-important-icon.enabled.active {
-    filter: grayscale(100%);
+    filter: @accent-secondary-filter;
+}
+
+.mail-important-icon.enabled.active:hover {
+    filter: @accent-secondary-filter brightness(120%);
 }
 
 #message-list .message-item-wrap .message-item-white-wrap {
@@ -74,17 +68,29 @@ img.content-light {
 
 // Change color of unread mail dot
 .thread-list, .draft-list {
-	.thread-icon {
-			&.thread-icon-unread {
-          filter: grayscale(100%);
-					}
-	}
+	  .thread-icon {
+			  &.thread-icon-unread {
+            filter: @accent-primary-filter;
+			  }
+	  }
 }
 
+
+// Star icon
 .thread-list .thread-icon.thread-icon-star,
 .draft-list .thread-icon.thread-icon-star {
-    color: @accent-tertiary;
+    filter: @accent-tertiary-filter;
 }
+
+.thread-list .thread-icon.thread-icon-star:hover,
+.draft-list .thread-icon.thread-icon-star:hover {
+    filter: @accent-tertiary-filter brightness(120%);
+}
+
+.thread-icon:not(.thread-icon-unread):not(.thread-icon-star) {
+    -webkit-filter: invert(100%);
+}
+
 
 .thread-list .list-item:not(.unread):not(.selected):not(.focused) {
     color: @text-color;
@@ -155,8 +161,13 @@ img.content-dark {
 img.content-light {
     filter: invert(100%) !important;
 }
+
+img.content-mask {
+    background-color: lighten(@accent-primary, 10%) !important;
+}
+
 .scrollbar-handle {
-    background-color: @accent-primary-dark !important;
+    background-color: @accent-primary !important;
     border-color: @border-color-primary !important;
 }
 

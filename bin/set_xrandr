@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+USERINFO_FILE="${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO"
+if [ -f "$USERINFO_FILE" ]; then
+   . $USERINFO_FILE
+else
+    XOUTPUT="HDMI1"
+    XPRIORITY=--primary
+    XPOSITION=
+    XOUTPUT2="HDMI2"
+    XPRIORITY2=
+    XPOSITION2=--above "${XOUTPUT}"
+fi
+
+xrandr --output "${XOUTPUT}"  --auto $XPRIORITY  $XPOSITION
+xrandr --output "${XOUTPUT2}" --auto $XPRIORITY2 $XPOSITION2
+
+~/.config/feh/fehbg

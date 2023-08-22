@@ -184,9 +184,12 @@ instructions).
      git clone git@github.com:phdenzel/dotfiles.git
      cd ~/dotfiles
      # dotfiles, binaries, and emacs configuration, and custom themes
-     ./bootstrap.sh -b -e -t
-     #gsettings set org.gnome.desktop.interface gtk-theme phd-dark
+     ./bootstrap.sh -b -e -t --source
    #+end_src
+
+   With the ~-t~ flag, the custom PhD-Ark theme in Iridis/Dark/Light
+   flavor will be bootstrapped for many CLI tools, GTK, QT, and some
+   applications such as Thunderbird and Mailspring.
 
    For XMonad use
    #+begin_src emacs-lisp
@@ -414,7 +417,7 @@ instructions).
 
    Install my favorite terminal, browser and mail client (if needed)
    #+begin_src shell
-     yay -S alacritty-git brave-bin mailspring
+     yay -S alacritty-git brave-bin mailspring thunderbird
    #+end_src
 
    Alacritty uses GPU hardware acceleration, but if no hardware
@@ -423,10 +426,11 @@ instructions).
    replace ~Exec=env LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty~ in
    ~/usr/share/applications/Alacritty.desktop~
 
-   Mailspring needs the ~gnome-keyring~ package for some reason, so to
-   get it working, we will have to install it
+   Mailspring needs libsecret and a keyring implementing the
+   org.freedesktop.secrets standard. so to get it working, we will have
+   to install it
    #+begin_src shell
-     sudo pacman -S gnome-keyring
+     yay -S libsecret pass-secrets-git
    #+end_src
 
    In the subsections are categorized, and are here for completion. I

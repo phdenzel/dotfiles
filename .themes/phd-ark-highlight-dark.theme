@@ -1,0 +1,43 @@
+Description="phd-ark-dark"
+
+-- Highlight theme PhD Ark Dark handcrafted by phdenzel
+
+Categories = {"dark"}
+
+Default        = { Colour="#BDC3CE" }
+Canvas         = { Colour="#1D1D1F" }
+Number         = { Colour="#8787FF" }
+Escape         = { Colour="#F69927" }
+String         = { Colour="#3DAA77" }
+StringPreProc  = { Colour="#00AF87" }
+LineComment    = { Colour="#6D6D6D" }
+BlockComment   = LineComment
+PreProcessor   = { Colour="#A9A1E1" }
+LineNum        = { Colour="#353642" }
+Operator       = { Colour="#5F5FFF" }
+Interpolation  = { Colour="#FDB760" }
+
+Keywords = {
+  { Colour= "#E83A82" },
+  { Colour= "#FFD787" },
+  { Colour= "#46D9FF" },
+  { Colour= "#5F8AF7" },
+  { Colour= "#F69927" },
+  { Colour= "#5F8AF7" },
+}
+
+-- new LSP based elements:
+
+SemanticTokenTypes  = {
+  { Type = 'keyword', Style = Keywords[1] },
+  { Type = 'type', Style = Keywords[2] },
+  { Type = 'function', Style = Keywords[4] },
+  { Type = 'method', Style = Keywords[4] },
+  { Type = 'class', Style =  Keywords[1] },
+  { Type = 'struct', Style = Keywords[2] },
+  { Type = 'parameter', Style = Keywords[6] },
+  { Type = 'variable', Style = Keywords[5] },
+  { Type = 'number', Style = Number },
+  { Type = 'regexp', Style = String },
+  { Type = 'operator', Style = Operator },
+}

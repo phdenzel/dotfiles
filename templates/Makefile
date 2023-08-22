@@ -11,7 +11,7 @@ FLAVOR ?= iridis
 .DEFAULT_GOAL := build
 
 .PHONY: build
-build: alacritty bat btop dircolors dunst emacs fzf git grep mailspring shell sublime thunderbird tofi vim xmonad xresources
+build: alacritty bat btop dircolors dunst emacs fzf git grep highlight mailspring shell sublime thunderbird tofi vim xmonad xresources
 
 .PHONY: install
 install: build
@@ -96,6 +96,13 @@ grep-themes = $(GREPDIR)/phd-ark-iridis.grep \
 							$(GREPDIR)/phd-ark-light.grep
 .PHONY: grep
 grep: $(grep-themes)
+
+HIGHLIGHTDIR = $(BUILD)/.themes
+highlight-themes = $(HIGHLIGHTDIR)/phd-ark-highlight-iridis.theme \
+									 $(HIGHLIGHTDIR)/phd-ark-highlight-dark.theme \
+									 $(HIGHLIGHTDIR)/phd-ark-highlight-light.theme
+.PHONY: highlight
+highlight: $(highlight-themes)
 
 MAILSPRINGDIR = $(BUILDC)/Mailspring/packages
 mailspring-themes = $(MAILSPRINGDIR)/phd-ark-iridis \
@@ -182,6 +189,7 @@ xresources: $(xresources-themes)
 	rm $(xresources-themes)
 
 
+
 SVGDIR = $(BUILD)/imgs/palettes
 svg-themes = $(SVGDIR)/phd-ark-iridis \
 						 $(SVGDIR)/phd-ark-dark \
@@ -195,14 +203,14 @@ $(svg-themes):
 
 
 
-$(alacritty-themes) $(bat-themes) $(btop-themes) $(dircolors-themes) $(dunst-themes) $(emacs-themes) $(fzf-themes) $(git-themes) $(grep-themes) $(shell-themes) $(subl-themes) $(tofi-themes) $(vim-themes) $(xmonad-themes) $(xresources-themes):
+$(alacritty-themes) $(bat-themes) $(btop-themes) $(dircolors-themes) $(dunst-themes) $(emacs-themes) $(fzf-themes) $(git-themes) $(grep-themes) $(highlight-themes) $(shell-themes) $(subl-themes) $(tofi-themes) $(vim-themes) $(xmonad-themes) $(xresources-themes):
 	mkdir -p $(@D)
 	@$(eval template=$(subst Iridis,Template,$(@F)))
-	@$(eval template=$(subst iridis,template,$(template)))
+	@$(eval template=$(subst -iridis,-template,$(template)))
 	@$(eval template=$(subst Dark,Template,$(template)))
-	@$(eval template=$(subst dark,template,$(template)))
+	@$(eval template=$(subst -dark,-template,$(template)))
 	@$(eval template=$(subst Light,Template,$(template)))
-	@$(eval template=$(subst light,template,$(template)))
-	@$(eval template=$(subst all,template,$(template)))
+	@$(eval template=$(subst -light,-template,$(template)))
+	@$(eval template=$(subst -all,-template,$(template)))
 	@echo "$(template)"
 	$(PYEXE) $(GENPY) $(OPT) -i $(template) -o $@

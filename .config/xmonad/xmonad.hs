@@ -126,7 +126,7 @@ myConfigs = def
 myStartupHook :: X()
 myStartupHook = do
   spawn     "killall trayer"
-  spawn     "resolution_2xauto"                -- set screen resolution using xrandr
+  spawn     "set_xrandr"                       -- set screen resolution using xrandr
   spawnOnce "xsetroot -cursor_name left_ptr"   -- set cursor
   spawn     "xset r rate 180 50"               -- increase scroll speed
   spawn     "xrdb -merge ~/.Xresources"        -- load x resources

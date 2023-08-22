@@ -182,8 +182,9 @@ fi;
 # Install my custom theme
 if [[ $DO_THEMES -eq 1 ]]; then
     echo "----------------------------------------------"
-    echo -e "# Installing ${COLOR_BLUE}themes${COLOR_RESET}: phd-ark themes"
-    rsync "-${FLAGS[@]}" --exclude ".themes/phd-dark-highlight.theme" --exclude ".themes/phd-ark-template.tmTheme" .themes/ $HOME/.themes/
+    echo -e "# Building & installing ${COLOR_BLUE}themes${COLOR_RESET}: phd-ark themes"
+    cd templates && make clean && make && make install
+    rsync "-${FLAGS[@]}" .themes/ $HOME/.themes/
     echo -e "\n# Installing icons"
     rsync "-${FLAGS[@]}" .icons/ $HOME/.icons/
     echo -e "\n# Installing GTK configuration"

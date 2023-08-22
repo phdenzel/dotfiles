@@ -25,6 +25,6 @@ xrandr \
 xrandr \
   --output "${XOUTPUT2}" \
   --auto \
-  --right-of "${XOUTPUT}"
+  --above "${XOUTPUT}"
 
 ~/.config/feh/fehbg

@@ -250,7 +250,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
         l = 0.70 -w
 
     spawnRanger  = myTerminal ++ " --class ranger -t Ranger -e ranger"
-    findRanger   = className =? "ranger"
+    findRanger   = appName =? "ranger"
     manageRanger = customFloating $ W.RationalRect l t w h
       where
         h = 0.9

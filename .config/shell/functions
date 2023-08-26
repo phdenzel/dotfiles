@@ -1,5 +1,56 @@
 # -*- mode: Shell-script;-*-
 ####################################################### Shell functions
+append_path() {
+    while [ $# -ge 1 ]; do
+        if [ ! -d "$1" ]; then
+            shift
+        else
+            case ":$PATH:" in
+                *:"$1":*)
+                ;;
+                *)
+                    PATH="${PATH:+$PATH:}$1"
+                    ;;
+            esac
+            shift
+        fi
+    done
+}
+
+prepend_path() {
+    while [ $# -ge 1 ]; do
+        if [ ! -d "$1" ]; then
+            shift
+        else
+            case ":$PATH:" in
+                *:"$1":*)
+                ;;
+                *)
+                    PATH="$1${PATH:+:$PATH}"
+                    ;;
+            esac
+            shift
+        fi
+    done
+}
+
+add_manpath() {
+    while [ $# -ge 1 ]; do
+        if [ ! -d "$1" ]; then
+            shift
+        else
+            case ":$MANPATH:" in
+                *:"$1":*)
+                ;;
+                *)
+                    MANPATH="$1${MANPATH:+:$MANPATH}"
+                    ;;
+            esac
+            shift
+        fi
+    done
+}
+
 # Determine size of a file or total size of a directory
 fs() {
 	if du -b /dev/null > /dev/null 2>&1; then

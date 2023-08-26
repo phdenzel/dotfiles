@@ -19,3 +19,6 @@ export SAVEHIST=$HISTSIZE
 
 # Cache
 # zstyle ':completion:*' cache-path ${XDG_CACHE_HOME}/zsh/zcompcache
+
+# Initialize zoxide
+command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"

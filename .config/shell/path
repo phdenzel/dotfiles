@@ -1,8 +1,16 @@
 # -*- mode: Shell-script;-*-
 ####################################################### Shell path
 # LOCAL BINARIES
-export PATH="$HOME/local/bin:${PATH}"
-export PATH="${PATH}:$HOME/.local/bin"
+append_path "$HOME/local/bin"
+append_path "$HOME/.local/bin"
+
+# SYSTEM BINARIES
+append_path "/usr/local/bin"
+append_path "/usr/local/sbin"
+append_path "/usr/bin"
+append_path "/usr/sbin"
+append_path "/bin"
+append_path "/sbin"
 
 # HOMEBREW
 BREW_BIN="/usr/local/bin/brew"
@@ -12,11 +20,11 @@ fi
 
 if type "${BREW_BIN}" &> /dev/null; then
     export BREW_PREFIX="$("${BREW_BIN}" --prefix)"
-    export PATH=${BREW_PREFIX}/bin:$PATH
-    for bindir in "${BREW_PREFIX}/opt/"*"/libexec/gnubin"; do export PATH=$bindir:$PATH; done
-    for bindir in "${BREW_PREFIX}/opt/"*"/bin"; do export PATH=$bindir:$PATH; done
-    for mandir in "${BREW_PREFIX}/opt/"*"/libexec/gnuman"; do export MANPATH=$mandir:$MANPATH; done
-    for mandir in "${BREW_PREFIX}/opt/"*"/share/man/man1"; do export MANPATH=$mandir:$MANPATH; done
+    prepend_path "${BREW_PREFIX}/bin"
+    prepend_path "${BREW_PREFIX}/opt/"*"/libexec/gnubin"
+    prepend_path "${BREW_PREFIX}/opt/"*"/bin"
+    add_manpath "${BREW_PREFIX}/opt/"*"/libexec/gnuman"
+    add_manpath "${BREW_PREFIX}/opt/"*"/share/man/man1"
 fi
 
 # PYTHON
@@ -38,47 +46,30 @@ export WORKON_HOME="${HOME}/.local/share/virtualenvs"
 
 # Golang
 export GOPATH=$HOME/local/go
-export PATH="${PATH}:$GOPATH/bin"
+append_path "$GOPATH/bin"
 
 # Ruby Gems
 export GEM_HOME="$HOME/.gem"
-if [ -x $GEM_HOME/ruby ]; then
-    for f in $(ls -dr $GEM_HOME/ruby/*/bin); do
-        export PATH="${PATH}:$f"
-    done;
-fi;
+prepend_path "$GEM_HOME/ruby/"*"/bin"
 
 # Node/npm
-export PATH="${PATH}:$HOME/.npm_global/bin"
+append_path "$HOME/.npm_global/bin"
 
 # Rust/cargo env
-case ":${PATH}:" in
-    *:"$HOME/.cargo/bin":*)
-        ;;
-    *)
-        # Prepending path in case a system-installed rustc needs to be overridden
-        export PATH="$HOME/.cargo/bin:$PATH"
-        ;;
-esac
+prepend_path "$HOME/.cargo/bin"
 
 # JAVA
-export PATH="${PATH}:$HOME/.jenv/bin"
+prepend_path "$HOME/.jenv/bin"
+prepend_path "$HOME/.jenv/shims"
 if command -v jenv &> /dev/null; then
-    eval "$(jenv init -)";
+    eval "$(jenv init - | sed 1d)";
     jenv enable-plugin export  &> /dev/null
     jenv enable-plugin gradle  &> /dev/null
     jenv add /usr/lib/jvm/java-20-openjdk/ &> /dev/null
     jenv add /usr/lib/jvm/java-8-openjdk/ &> /dev/null
     jenv rehash &> /dev/null
     export CLASSPATH="$(jenv prefix)"
-    # export CLASSPATH="${CLASSPATH}:$HOME/local/jfreechart-1.0.17/lib/jfreechart-1.0.17.jar:$HOME/local/jfreechart-1.0.17/lib/jcommon-1.0.21.jar"
 fi
 
 # HDF5
-if ls $HOME/local/hdf5 &> /dev/null; then
-    export PATH="${PATH}:$HOME/local/hdf5/bin"
-    #export CFLAGS="$CFLAGS -I$HOME/local/hdf5/include"
-    #export CPPFLAGS="$CPPFLAGS -I$HOME/local/hdf5/include"
-    #export LDFLAGS="$LDFLAGS -L$HOME/local/hdf5/lib"
-fi;
-
+append_path "$HOME/local/hdf5/bin"

@@ -50,7 +50,7 @@ append_path "$GOPATH/bin"
 
 # Ruby Gems
 export GEM_HOME="$HOME/.gem"
-prepend_path "$GEM_HOME/ruby/"*"/bin"
+[ -d "$GEM_HOME/ruby/" ] && prepend_path "$GEM_HOME/ruby/"*"/bin"
 
 # Node/npm
 append_path "$HOME/.npm_global/bin"

@@ -21,6 +21,9 @@ zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
 zsh_add_file "plugins/zsh-syntax-highlighting-config"
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 zsh_add_file "plugins/zsh-autosuggestions-config"
+zsh_add_plugin "zsh-users/zsh-completions"
+
+[ ! -z "$BREW_PREFIX" ] && add_fpath "plugins/$BREW_PREFIX/share/zsh/site-functions"
 
 #################################################### General settings
 ### Expansions & Globbing

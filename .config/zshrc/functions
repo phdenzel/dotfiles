@@ -56,6 +56,23 @@ function zsh_add_plugin() {
     fi
 }
 
+add_fpath() {
+    while [ $# -ge 1 ]; do
+        if [ ! -e "$1" ]; then
+            shift
+        else
+            case ":$FPATH:" in
+                *:"$1":*)
+                ;;
+                *)
+                    FPATH="$1${FPATH:+:$FPATH}"
+                    ;;
+            esac
+            shift
+        fi
+    done
+}
+
 function welcome_screen() {
     echo -n "${magenta}+++++++++++++++++++++++++++++++++${reset}${bold} W E L C O M E ";
     echo "${reset}${magenta}++++++++++++++++++++++++++++++++${reset}\n";

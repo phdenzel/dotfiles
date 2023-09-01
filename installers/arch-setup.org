@@ -1585,7 +1585,12 @@ server {
     Sometimes you simply have to install non-opensource software for work...
     such as Slack, MS Teams, or Webex.
     #+begin_src shell
-      yay -S slack-desktop teams webex-bin openconnect-sso
+      yay -S slack-desktop teams webex-bin
+    #+end_src
+
+    #+begin_src shell
+      python -m venv openconnect
+      openconnect/bin/python -m pip install openconnect-sso pyside6
     #+end_src
 
     #+begin_src shell

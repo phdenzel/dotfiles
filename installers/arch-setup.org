@@ -1480,7 +1480,7 @@ server {
 *** Password utilities
     Pass and enpass are password managers I like most so far
     #+begin_src shell
-      sudo pacman -S pass pass-otp zbar
+      sudo pacman -S pass pass-otp zbar browserpass browserpass-chromium browserpass-firefox
       yay -S enpass-bin
     #+end_src
 

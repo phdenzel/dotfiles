@@ -162,6 +162,7 @@ arch_pkgs=(
     openssl
     isync
     pass pass-otp
+    browserpass browserpass-chromium browserpass-firefox
     zbar
     libnotify
     colordiff

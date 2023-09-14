@@ -103,7 +103,7 @@ arch_pkgs=(
     zsh
     fzf
     bat
-    exa
+    eza
     zoxide
     fd
     ripgrep
@@ -212,7 +212,7 @@ arch_headless_pkgs=(
     zsh
     fzf
     bat
-    exa
+    eza
     zoxide
     fd
     ripgrep

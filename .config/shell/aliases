@@ -3,8 +3,8 @@
 alias sudo='sudo '
 ### set LSCOLORS first
 # `ls` command
-if command -v exa &> /dev/null; then
-    LS="exa"
+if command -v eza &> /dev/null; then
+    LS="eza"
     LSCOLORFLAG=""
 else
     LS="ls"

@@ -457,7 +457,7 @@ instructions).
     RUST-powered command-line program variants
 
     #+begin_src shell
-      sudo pacman -S bat exa zoxide fd ripgrep dust
+      sudo pacman -S bat eza zoxide fd ripgrep dust
     #+end_src
 
     

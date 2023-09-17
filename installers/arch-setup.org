@@ -24,6 +24,7 @@ instructions).
       - [[#optional-gui-for-theming][Optional: GUI for theming]]
   - [[#xmonad--xmobar][XMonad & xmobar]]
     - [[#dmenu][dmenu]]
+      - [[#rofi][rofi]]
     - [[#more-suckless-tools][More suckless tools]]
       - [[#optional-xmobar_wttr---an-xmobar-addon][Optional: xmobar_wttr - an xmobar addon]]
       - [[#optional-licht---hue-lights-controller-applet][Optional: licht - Hue lights controller applet]]
@@ -286,6 +287,21 @@ instructions).
      make
      sudo make install
      cd
+   #+end_src
+
+ 
+**** rofi
+
+   Sometimes, I like to use ~rofi~ instead of ~dmenu~...
+
+   #+begin_src  shell
+     sudo pacman -S rofi
+   #+end_src
+
+   for wayland install instead
+
+   #+begin_src shell
+     yay -S rofi-lbonn-wayland
    #+end_src
 
 

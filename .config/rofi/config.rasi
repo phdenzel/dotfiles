@@ -23,5 +23,6 @@ configuration {
 
   sidebar-mode: true;
   font: "Fira Sans 15";
+  /* font: "JetBrainsMono 13"; */
   
 }

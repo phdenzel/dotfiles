@@ -111,6 +111,7 @@ arch_pkgs=(
     bash-completion
     man-db
     hunspell hunspell-en_us
+    rofi
     xdotool
     xscreensaver
     chrony

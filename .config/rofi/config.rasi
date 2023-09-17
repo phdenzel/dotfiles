@@ -1,0 +1,27 @@
+/*
+*  Rofi configuration
+* 
+*  @author: phdenzel
+*/
+
+/* Load theme */
+@theme "phd-ark-iridis"
+
+/* Main configuration */
+configuration {
+  modi: "run,drun,window";
+  show-icons: true;
+  terminal: "alacritty";
+  drun-display-format: "{icon} {name}";
+  location: 0;
+  disable-history: false;
+  hide-scrollbar: true;
+  display-drun: " Apps";
+  display-run: " Run";
+  display-window: " Windows";
+  display-network: " Network";
+
+  sidebar-mode: true;
+  font: "Fira Sans 15";
+  
+}

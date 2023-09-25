@@ -65,7 +65,7 @@ if command -v jenv &> /dev/null; then
     eval "$(jenv init - | sed 1d)";
     jenv enable-plugin export  &> /dev/null
     jenv enable-plugin gradle  &> /dev/null
-    jenv add /usr/lib/jvm/java-20-openjdk/ &> /dev/null
+    jenv add /usr/lib/jvm/java-21-openjdk/ &> /dev/null
     jenv add /usr/lib/jvm/java-8-openjdk/ &> /dev/null
     jenv rehash &> /dev/null
     export CLASSPATH="$(jenv prefix)"

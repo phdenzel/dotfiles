@@ -1591,6 +1591,14 @@ this will create a buffer with the export which can be saved to file.
 #+end_src
 
 
+**** ox-rst
+
+#+begin_src emacs-lisp
+  (use-package ox-rst
+    :after org)
+#+end_src
+
+
 **** ox-reveal
 
 #+begin_src emacs-lisp

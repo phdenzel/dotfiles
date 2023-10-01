@@ -3,6 +3,7 @@
 PASS_FIELDS=()
 SAVE_TO_CLIPBOARD=1
 PRINT_PASS=0
+DO_ESCAPE=0
 while [[ $# -gt 0 ]]; do
     case $1 in
         -h|--help)
@@ -21,6 +22,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -p|--print)
             PRINT_PASS=1
+            shift
+            ;;
+        -e|--escape)
+            DO_ESCAPE=1
             shift
             ;;
         -*|--*)
@@ -44,7 +49,7 @@ if [ ! -z "$PASS_PIPE" ]; then
         passfield=$(echo "$PASS_PIPE" | grep $f | cut -d':' -f2 | xargs)
         [[ $SAVE_TO_CLIPBOARD -eq 1 ]] && echo "$passfield" | xargs | xclip
         [[ $SAVE_TO_CLIPBOARD -eq 1 ]] && echo "$passfield" | xargs | xclip -sel clip
-        [[ $PRINT_PASS -eq 1 ]] && echo "$passfield"
+        [[ $PRINT_PASS -eq 1 ]] && ( [[ $DO_ESCAPE -eq 1 ]] && printf "\"%q\"\n"  "${passfield}" || echo "$passfield" )
     done
 fi;
 

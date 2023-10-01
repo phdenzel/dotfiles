@@ -1,0 +1,7 @@
+{
+  "name": "PhD Ark Dark theme",
+  "author": "phdenzel",
+  "description": "A simple theme based on PhD Ark Dark's color scheme",
+  "version": 0.1,
+  "files": ["_frss.css","phd_ark_dark.css"]
+}

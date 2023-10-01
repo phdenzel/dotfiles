@@ -1,0 +1,7 @@
+{
+  "name": "PhD Ark Iridis theme",
+  "author": "phdenzel",
+  "description": "A simple theme based on PhD Ark Iridis's color scheme",
+  "version": 0.1,
+  "files": ["_frss.css","phd_ark_iridis.css"]
+}

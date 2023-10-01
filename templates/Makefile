@@ -11,7 +11,7 @@ FLAVOR ?= iridis
 .DEFAULT_GOAL := build
 
 .PHONY: build
-build: alacritty bat btop dircolors dunst emacs fzf git grep highlight mailspring shell sublime thunderbird tofi rofi vim xmonad xresources
+build: alacritty bat btop dircolors dunst emacs fzf freshrss git grep highlight mailspring shell sublime thunderbird tofi rofi vim xmonad xresources
 
 .PHONY: install
 install: build
@@ -72,6 +72,29 @@ emacs-themes = $(EMACSDIR)/phd-ark-theme-all.el
 .PHONY: emacs
 emacs: $(emacs-themes)
 	@if [ -s "$(emacs-themes)" ]; then mv $(emacs-themes) $(EMACSDIR)/phd-ark-theme.el; fi
+
+
+FRESHRSSDIR = $(BUILDC)/freshrss/themes
+freshrss-themes = $(FRESHRSSDIR)/phd-ark-iridis \
+                  $(FRESHRSSDIR)/phd-ark-dark \
+                  $(FRESHRSSDIR)/phd-ark-light
+.PHONY: freshrss
+freshrss: $(freshrss-themes)
+$(freshrss-themes):
+	mkdir -p "$@"
+	cp -r freshrss-phd-ark-theme/icons $@/
+	cp freshrss-phd-ark-theme/LICENSE $@/
+	cp freshrss-phd-ark-theme/loader.gif $@/
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i freshrss-phd-ark-theme/metadata.json -o $@/metadata.json
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i freshrss-phd-ark-theme/README.md -o $@/README.md
+	@$(eval template=$(subst -iridis,-template,$(@F)))
+	@$(eval template=$(subst -dark,-template,$(template)))
+	@$(eval template=$(subst -light,-template,$(template)))
+	@echo "$(template)"
+	$(PYEXE) $(GENPY) $(OPT) -i freshrss-phd-ark-theme/$(template).css -o $@/$(@F).css
+	$(PYEXE) $(GENPY) $(OPT) -i freshrss-phd-ark-theme/$(template).rtl.css -o $@/$(@F).rtl.css
 
 
 FZFDIR = $(BUILDC)/fzf/default_opts

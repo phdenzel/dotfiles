@@ -1,0 +1,7 @@
+{
+  "name": "#phd-ark-capitalize theme",
+  "author": "phdenzel",
+  "description": "A simple theme based on #phd-ark-capitalize's color scheme",
+  "version": 0.1,
+  "files": ["_frss.css","#phd-ark-varname.css"]
+}

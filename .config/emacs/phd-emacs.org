@@ -1358,7 +1358,10 @@ colouring of org-mode src-blocks in exported HTML code.
   (use-package pdf-tools
     :config
     (setq pdf-view-use-scaling t)
-    (pdf-tools-install))
+    (if (file-directory-p "/opt/homebrew/bin")
+        (setq pdf-info-epdfinfo-program "/opt/homebrew/bin/epdfinfo")
+      (pdf-tools-install))
+    )
 #+end_src
 
 
@@ -1830,7 +1833,7 @@ AUCTeX is an integrated environment for writing input files for LaTeX
     :straight nil
     :init
     (if (file-directory-p "/opt/homebrew/Cellar/mu")
-        (add-to-list 'load-path "/opt/homebrew/Cellar/mu/1.10.6/share/emacs/site-lisp/mu/mu4e")
+        (add-to-list 'load-path "/opt/homebrew/Cellar/mu/1.10.8/share/emacs/site-lisp/mu/mu4e")
       (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/"))
     :config
     (if (file-directory-p "/opt/homebrew/opt/mu/bin/mu")

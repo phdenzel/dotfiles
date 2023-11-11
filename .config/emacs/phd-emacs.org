@@ -590,6 +590,16 @@ Hydra-enhanced window manager
 
 * Editing
 
+** Sudo edit
+
+Toggle sudo rights on an already opened file
+
+#+begin_src emacs-lisp
+  (use-package sudo-edit
+    :bind ("C-c C-r" . sudo-edit))
+#+end_src
+
+
 
 ** Comment
 
@@ -2069,25 +2079,26 @@ Binding custom functions and hydras
 
 #+begin_src emacs-lisp
 
-  ;; Modified vertical/horizontal buffer splits
-  (global-set-key (kbd "C-x 2") 'phd/vsplit-last-buffer)
-  (global-set-key (kbd "C-x 3") 'phd/hsplit-last-buffer)
+    ;; Modified vertical/horizontal buffer splits
+    (global-set-key (kbd "C-x 2") 'phd/vsplit-last-buffer)
+    (global-set-key (kbd "C-x 3") 'phd/hsplit-last-buffer)
 
-  ;; Indent the entire buffer
-  (global-set-key (kbd "C-c <tab>") 'phd/iwb)
+    ;; Indent the entire buffer
+    (global-set-key (kbd "C-c <tab>") 'phd/iwb)
 
-  ;; Evaluate/replace lisp code... useful for scratch buffer math
-  (global-set-key (kbd "C-c C-e") 'phd/eval-and-replace)
-  (define-key lisp-interaction-mode-map (kbd "C-c e") 'eval-print-last-sexp)
+    ;; Evaluate/replace lisp code... useful for scratch buffer math
+    (global-set-key (kbd "C-c C-e") 'phd/eval-and-replace)
+    (define-key lisp-interaction-mode-map (kbd "C-c e") 'eval-print-last-sexp)
 
-  ;; Hydra bindings
-  (global-set-key (kbd "C-x h")   'phd/hydra-toggler/body)
-  (global-set-key (kbd "C-x j")   'phd/hydra-goto-mv/body)
-  (global-set-key (kbd "C-x C-j") 'phd/hydra-goto-mv/body)
-  (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
-  (define-key org-mode-map (kbd "C-c r") 'org-ref-citation-hydra/body)
-  (define-key org-mode-map (kbd "C-c C-r") 'org-ref-insert-link-hydra/body)
-  (define-key org-mode-map (kbd "C-c M-r") 'org-ref-bibtex-hydra/body)
+    ;; Hydra bindings
+    (global-set-key (kbd "C-x h")   'phd/hydra-toggler/body)
+    (global-set-key (kbd "C-x j")   'phd/hydra-goto-mv/body)
+    (global-set-key (kbd "C-x C-j") 'phd/hydra-goto-mv/body)
+    (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
+
+    (define-key org-mode-map (kbd "C-c r") 'org-ref-citation-hydra/body)
+    (define-key org-mode-map (kbd "C-c C-r") 'org-ref-insert-link-hydra/body)
+    (define-key org-mode-map (kbd "C-c M-r") 'org-ref-bibtex-hydra/body)
 
 #+end_src
 

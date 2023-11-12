@@ -9,7 +9,7 @@
 
 /* Main configuration */
 configuration {
-  modi: "run,drun,window";
+  modi: "run,drun,window,filebrowser";
   show-icons: true;
   terminal: "alacritty";
   drun-display-format: "{icon} {name}";
@@ -19,7 +19,9 @@ configuration {
   display-drun: " Apps";
   display-run: " Run";
   display-window: " Windows";
-  display-network: " Network";
+  display-filebrowser: " Files";
+  /* display-network: " Network"; */
+  /* display-pass: " Pass"; */
 
   sidebar-mode: true;
   font: "Fira Sans 15";

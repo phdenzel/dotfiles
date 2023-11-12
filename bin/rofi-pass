@@ -206,7 +206,7 @@ parse_password () {
     # fetch the requested field
     if [ -n "${pw_key}" ] && [ "${fields[$pw_key]}" ]; then
         password_field="${fields[$pw_key]}"
-    elif [ "${pw_key}" = 'otp' ] && [ "${fields[otp]}" ]; then
+    elif ([ "${pw_key}" = 'otp' ] && [ "${fields[otp]}" ]) || [ "${fields[otp]}" ]; then
         password_field="$(pass otp ${fields['file']})"
     else
         password_field="${fields['password']}"
@@ -292,7 +292,6 @@ main () {
     password="$(parse_password)"
 
     # copy password to clipboard
-    echo "$"
     copy_password;
 
     unset password_file

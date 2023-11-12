@@ -14,7 +14,7 @@ I started this repo for macOS in order to make it feel more like Linux
 the latest versions). These days however, I'm back on Linux (*Arch*
 and *Pop!_OS*). I am currently (slowly) working on conditionals to
 automatically make everything completely compatible from the 'git-go',
-so to speak... but for now all user-specifics are have to be manually
+so to speak... but for now all user-specifics have to be manually
 modified in `USERINFO` and copied into `~/.config/USERINFO`.
 
 The repository can be cloned wherever you want; a natural place would

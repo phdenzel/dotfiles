@@ -1,6 +1,6 @@
 pw_store_dir="$HOME/.password-store"
 pw_prompt=" "
 clipboard_backend="wl-clipboard"
-clipboard_timeout=15
+clipboard_timeout=30
 clipboard='both'
 notifications=1

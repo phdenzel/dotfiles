@@ -11,8 +11,10 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "       Filter pass output for single field"
             echo ""
-            echo -e "       -h, --help\t Show this help list"
-            echo -e "       -n, --noclip"
+            echo -e "       -h, --help   \tShow this help list"
+            echo -e "       -p, --print  \tPrint the password field"
+            echo -e "       -e, --escape \tEscape special characters"
+            echo -e "       -n, --noclip \tDon't save to clipboard"
             echo ""
             exit 0
             ;;
@@ -46,7 +48,7 @@ fi
 
 if [ ! -z "$PASS_PIPE" ]; then
     for f in ${PASS_FIELDS[@]}; do
-        passfield=$(echo "$PASS_PIPE" | grep $f | cut -d':' -f2 | xargs)
+        passfield=$(echo "$PASS_PIPE" | grep $f | cut -d':' -f2- | xargs)
         [[ $SAVE_TO_CLIPBOARD -eq 1 ]] && echo "$passfield" | xargs | xclip
         [[ $SAVE_TO_CLIPBOARD -eq 1 ]] && echo "$passfield" | xargs | xclip -sel clip
         [[ $PRINT_PASS -eq 1 ]] && ( [[ $DO_ESCAPE -eq 1 ]] && printf "\"%q\"\n"  "${passfield}" || echo "$passfield" )

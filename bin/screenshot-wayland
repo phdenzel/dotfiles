@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# rofi-pass
+# (c) 2023 Philipp Denzel <phdenzel@gmail.com>
+
+screenshot_dir=${SCREENSHOT_DIR:-$HOME/Pictures/screenshots}
+notifications=0
+area=0
+with_satty=0
+fullscreen=
+
+read -r -d '' usage <<-EOF
+Usage: screenshot-wayland [-d|--dir] [-n|--notify] [-r|--region]
+                          [-s|--satty] [-f|--fullscreen]
+                          [-h|--help]
+
+       Screenshot utility script
+
+       -h, --help           Prints this message.
+       -d, --dir PATH       Path to the directory where screenshots are saved.
+       -r, --region         Select an area to screenshot.
+       -s, --satty          Use satty to annotate the screenshot.
+       -f, --fullscreen     Run satty in fullscreen mode.
+       -n, --notify         Send notifications about screenshot creation.
+EOF
+
+
+_generate_name() {
+    printf '%s' "$(date +%Y%m%d-%H%M%S).png"
+}
+
+
+main () {
+    # parse args
+    while [ $# -ge 1 ]; do
+        case "$1" in
+            -h|--help) echo "$usage"; exit 0 ;;
+            -d|--dir) shift; screenshot_dir="$1" ;;
+            -n|--notify) notifications=1 ;;
+            -r|--region) area=1 ;;
+            -s|--satty) with_satty=1 ;;
+            -f|--fullscreen) fullscreen=--fullscreen ;;
+            *) ;;  # unknown option
+        esac
+        shift # past argument or value
+    done
+    # if screenshot directory doesn't exist, create it
+    [ ! -f "$screenshot_dir" ] && mkdir -p "$screenshot_dir"
+    # generate filename
+    filename="$(_generate_name)"
+    filepath="$screenshot_dir/screenshot_$filename"
+    # take screenshot
+    case $area in
+        0) grim "$filepath" && [[ $notifications -eq 1 ]] && notify-send "Screenshot (fullscreen)" "$filepath" ;;
+        1) grim -g "$(slurp)" "$filepath" && [[ $notifications -eq 1 ]] && notify-send "Screenshot (area)" "$filepath" ;;
+    esac
+    [[ -n "$with_satty" ]] && satty $fullscreen --filename "$filepath" --output-filename "$screenshot_dir/annotated_$filename"
+    
+    unset filename
+    unset filepath
+}
+
+main "$@"

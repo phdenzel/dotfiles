@@ -250,7 +250,7 @@ main () {
         case "$1" in
             -h|--help)
                 echo "$usage"
-                exit 1
+                exit 0
                 ;;
             -c|--config)
                 shift

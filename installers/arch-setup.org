@@ -293,17 +293,16 @@ instructions).
 **** rofi
 
    Sometimes, I like to use ~rofi~ instead of ~dmenu~...
+   For wayland support install the ~lbonn~ fork.
 
    #+begin_src  shell
-     sudo pacman -S rofi
-   #+end_src
-
-   for wayland install instead
-
-   #+begin_src shell
      yay -S rofi-lbonn-wayland
    #+end_src
 
+   Otherwise, use the standard ~rofi~ package
+   #+begin_src  shell
+     sudo pacman -S rofi
+   #+end_src
 
 *** More suckless tools
 
@@ -368,13 +367,17 @@ instructions).
    Hyprland is my choice for the Wayland compositor.
    Install Hyprland and the essentials from the archlinux repositories
    #+begin_src shell
-     sudo pacman -S hyprland eww-wayland xdg-desktop-portal-hyprland dunst pipewire wireplumber polkit-kde-agent qt5-wayland qt6-wayland
+     sudo pacman -S hyprland xdg-desktop-portal-hyprland dunst pipewire wireplumber polkit-kde-agent qt5-wayland qt6-wayland
    #+end_src
 
    If you use an nvidia card, you might want to try the package including the nvidia patches instead
    #+begin_src shell
-     sudo pacman -S hyprland-nvidia qt5ct libva
-     yay -S nvidia-vaapi-driver-git
+     sudo pacman -S qt5ct libva
+     yay -S hyprland-nvidia-github
+
+     curl -sS https://github.com/elkowar.gpg | gpg --import -i -
+     curl -sS https://github.com/web-flow.gpg | gpg --import -i -
+     yay -S eww-git
    #+end_src
 
    Most well-known tools used within Xorg will not work on Wayland and
@@ -383,8 +386,7 @@ instructions).
    etc.
    
    #+begin_src shell
-     yay -S swayosd-git hyprpaper nwg-look imv grim slurp hyprpicker
-     #swayosd-git
+     yay -S swayosd-git hyprpaper nwg-look imv grim slurp satty-bin hyprpicker wtype wl-clipboard cliphist swayidle swaylock-effects
    #+end_src
 
    Also, optionally create an entry for hyprland with your display manager

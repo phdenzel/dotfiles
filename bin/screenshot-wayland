@@ -53,7 +53,7 @@ main () {
         0) grim "$filepath" && [[ $notifications -eq 1 ]] && notify-send "Screenshot (fullscreen)" "$filepath" ;;
         1) grim -g "$(slurp)" "$filepath" && [[ $notifications -eq 1 ]] && notify-send "Screenshot (area)" "$filepath" ;;
     esac
-    [[ -n "$with_satty" ]] && satty $fullscreen --filename "$filepath" --output-filename "$screenshot_dir/annotated_$filename"
+    [[ $with_satty -eq 1 ]] && satty $fullscreen --filename "$filepath" --output-filename "$screenshot_dir/annotated_$filename"
     
     unset filename
     unset filepath

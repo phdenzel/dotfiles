@@ -401,7 +401,7 @@ instructions).
 
    I personally don't use a display manager, as I encrypt my drives
    and use xinit on login. If I would use a login manager though, it
-   probably would be ~lightdm~ or ~ly~. So,
+   probably would be ~lightdm~, ~sddm~, or ~ly~. So,
 
    #+begin_src shell
      yay -S ly
@@ -415,8 +415,24 @@ instructions).
      sudo systemctl enable lightdm
    #+end_src
 
+   or
+
+   #+begin_src shell
+     sudo pacman -S sddm
+     yay -S sddm-theme-astronaut
+   #+end_src
+
    If you decided on ~lightdm~, enable its ~web-greeter~
    in ~/etc/lightdm/lightdm.conf~, otherwise it won't work.
+
+   Likewise for ~sddm~ in ~/etc/sddm.conf.d/*.conf~
+
+   Additionally, on personal machines it's also nice to have the
+   display manager pull some information from the user accounts. For
+   this, install
+
+   #+begin_src shell
+     sudo pacman -S accountsservice
 
    Also, you might need to start the accounts service daemon
    #+begin_src shell

@@ -91,7 +91,7 @@ arch_pkgs=(
     lxappearance
     emacs
     pyenv python-pip python-pipenv python-conda
-    lightdm
+    sddm
     accountsservice
     pcmanfm
     gvfs
@@ -325,7 +325,7 @@ aur_headless_pkgs=(
     ffmpeg-compat-57
     ttf-all-the-icons ttf-weather-icons
     ttf-monaco
-    web-greeter
+    sddm-theme-astronaut
 )
 
 xmonad_pkgs=(
@@ -349,9 +349,9 @@ xmonad_pkgs=(
 
 hypr_pkgs=(
     hyprland-nvidia
-    eww-wayland   # status bar
+    eww-git       # status bar
     foot          # alternate terminal
-    tofi          # launch menu
+    rofi-lbonn-wayland-git  # launch menu
     xdg-desktop-portal-hyprland  # application portal, for screensharing
     pipewire wireplumber  # audio/video framework
     polkit-kde-agent  # system privilege control
@@ -360,8 +360,11 @@ hypr_pkgs=(
     dunst         # notification daemon
     wl-clipboard  # clipboard utilities
     cliphist      # clipboard history manager
-    swappy        # screenshot editor
-    #swayosd-git   # on-screen-display
+    wtype         # xdotool for wayland
+    satty-bin     # screenshot editor
+    swayosd-git   # on-screen-display of system actions
+    swayidle      # idle daemon for triggering dpms events
+    swaylock-effects  # screen session locker (for security)
     pavucontrol   # graphical interface for audio
     network-manager-applet  # GUI for network-manager
     blueman       # GUI for bluetoothctl
@@ -370,7 +373,7 @@ hypr_pkgs=(
     slurp         # region selector for grim
     hyprpicker    # color picker for wayland
     nwg-look      # graphical theme picker
-    nwg-displays  # graphical arandr alternative
+    #nwg-displays  # graphical arandr alternative
 )
 
 if [[ $INSTALL_YAY -eq 1 ]]; then

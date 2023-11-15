@@ -107,7 +107,7 @@ program = "/bin/zsh"
 
 [window]
 dynamic_title = true
-opacity = 0.95
+opacity = 0.90
 
 [window.dimensions]
 columns = 80

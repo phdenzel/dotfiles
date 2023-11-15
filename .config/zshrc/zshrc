@@ -8,9 +8,10 @@ mkdir -p "$ZPLUGINDIR"
 
 #################################################### Source the dotfiles
 zsh_add_file -s "functions"
+zsh_add_file -s "exports"
 zsh_add_file "path"
 zsh_add_file "colors"
-zsh_add_file -s "exports" -z "exports"
+zsh_add_file -z "exports"
 zsh_add_file "prompt"
 zsh_add_file "aliases"
 #zsh_add_file xauto  # automatically start xorg-server when logging in

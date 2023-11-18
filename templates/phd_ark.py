@@ -45,7 +45,7 @@ iridis = {
     "base": "#303033",                             "base/t256": 236,
     "mantle": "#2B2B2F",                           "mantle/t256": 235,
     "crust": "#181E26",     "crust/b256": 0,       "crust/t256": 234,
-    "crust/rgb": "24, 30, 38"
+    "crust/rgb": "24,30,38"
 }
 
 dark = {
@@ -95,7 +95,6 @@ dark = {
     "base": "#1D1D1F",                             "base/t256": 234,
     "mantle": "#18181B",                           "mantle/t256": 233,
     "crust": "#090B0E",     "crust/b256": 0,       "crust/t256": 232,
-    "crust/rgb": "9, 11, 14"
 }
 
 light = {
@@ -145,7 +144,6 @@ light = {
     "base": "#EDF3FE",                             "base/t256": 254,
     "mantle": "#DDE3EE",
     "crust": "#BDC3CE",     "crust/b256": 0,       "crust/t256": 251,
-    "crust/rgb": "189, 195, 206"
 }
 
 palettes = {

@@ -1,0 +1,20 @@
+@define-color foreground #phd-ark-text;
+@define-color background #phd-ark-base;
+@define-color cursor #phd-ark-blue;
+
+@define-color color0 #phd-ark-base;
+@define-color color1 #phd-ark-red;
+@define-color color2 #phd-ark-green;
+@define-color color3 #phd-ark-yellow;
+@define-color color4 #phd-ark-blue;
+@define-color color5 #phd-ark-pink;
+@define-color color6 #phd-ark-teal;
+@define-color color7 #phd-ark-subtext0;
+@define-color color8 #phd-ark-surface1;
+@define-color color9 #phd-ark-ruby;
+@define-color color10 #phd-ark-viridis;
+@define-color color11 #phd-ark-sand;
+@define-color color12 #phd-ark-indigo;
+@define-color color13 #phd-ark-magenta;
+@define-color color14 #phd-ark-cyan;
+@define-color color15 #phd-ark-white;

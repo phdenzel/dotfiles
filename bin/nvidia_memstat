@@ -1,6 +1,6 @@
 #!/bin/bash
 MEMSTAT_FILE=/tmp/nvidia_memstat
-
+MEMSTAT_FILE_LINE_LIMIT=10
 APPEND=""
 
 while [[ $# -gt 0 ]]; do
@@ -19,15 +19,21 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
-
-nvidia-smi --query-gpu=utilization.memory,memory.used,memory.total --format=csv,noheader,nounits >> $MEMSTAT_FILE
-echo "$(tail -n 10 $MEMSTAT_FILE)" > $MEMSTAT_FILE
-
-MEMSTAT_VALUE=$(tail -n 1 $MEMSTAT_FILE | cut -d "," -f 1)
-printf -v output "%2d%%" $MEMSTAT_VALUE
-# MEMSTAT_TAIL=$(tail -n 1 $MEMSTAT_FILE)
-# MEMSTAT_VAL1=$(echo $MEMSTAT_TAIL | cut -d "," -f 2)
-# MEMSTAT_VAL2=$(echo $MEMSTAT_TAIL | cut -d "," -f 3)
-# printf -v output "%5d/%5d MB" $MEMSTAT_VAL1 $MEMSTAT_VAL2
-output+=$APPEND
+# if not on NVIDIA system, output nothing
+if ! command -v nvidia-smi &> /dev/null; then
+    output=""
+else
+    # fetch stats from nvidia-smi
+    nvidia-smi --query-gpu=utilization.memory,memory.used,memory.total --format=csv,noheader,nounits >> $MEMSTAT_FILE
+    # to avoid exploding file size, limit lines
+    echo "$(tail -n 10 $MEMSTAT_FILE)" > $MEMSTAT_FILE
+    # fetch most recent entry from file
+    MEMSTAT_VALUE=$(tail -n 1 $MEMSTAT_FILE | cut -d "," -f 1)
+    printf -v output "%2d%%" $MEMSTAT_VALUE
+    # MEMSTAT_TAIL=$(tail -n 1 $MEMSTAT_FILE)
+    # MEMSTAT_VAL1=$(echo $MEMSTAT_TAIL | cut -d "," -f 2)
+    # MEMSTAT_VAL2=$(echo $MEMSTAT_TAIL | cut -d "," -f 3)
+    # printf -v output "%5d/%5d MB" $MEMSTAT_VAL1 $MEMSTAT_VAL2
+    output+=$APPEND
+fi
 echo -n "$output"

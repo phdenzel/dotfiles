@@ -374,6 +374,7 @@ hypr_pkgs=(
     slurp         # region selector for grim
     hyprpicker    # color picker for wayland
     nwg-look      # graphical theme picker
+    wev           # for debugging wayland events
     #nwg-displays  # graphical arandr alternative
 )
 

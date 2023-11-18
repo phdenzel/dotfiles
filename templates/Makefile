@@ -11,7 +11,7 @@ FLAVOR ?= iridis
 .DEFAULT_GOAL := build
 
 .PHONY: build
-build: alacritty bat btop dircolors dunst emacs fzf freshrss git grep highlight mailspring shell sublime thunderbird tofi rofi vim xmonad xresources
+build: alacritty bat btop dircolors dunst emacs fzf freshrss git grep highlight hyprland mailspring shell sublime thunderbird rofi tofi vim waybar wlogout xmonad xresources
 
 .PHONY: install
 install: build
@@ -127,6 +127,13 @@ highlight-themes = $(HIGHLIGHTDIR)/phd-ark-highlight-iridis.theme \
 .PHONY: highlight
 highlight: $(highlight-themes)
 
+HYPRLANDDIR = $(BUILDC)/hypr/themes
+hyprland-themes = $(HYPRLANDDIR)/hyprland-phd-ark-iridis.conf \
+                  $(HYPRLANDDIR)/hyprland-phd-ark-dark.conf \
+                  $(HYPRLANDDIR)/hyprland-phd-ark-light.conf
+.PHONY: hyprland
+hyprland: $(hyprland-themes)
+
 MAILSPRINGDIR = $(BUILDC)/Mailspring/packages
 mailspring-themes = $(MAILSPRINGDIR)/phd-ark-iridis \
                     $(MAILSPRINGDIR)/phd-ark-dark \
@@ -204,6 +211,22 @@ vim-themes = $(VIMCOLODIR)/phd-ark-iridis.vim \
 vim: $(vim-themes)
 
 
+WAYBARDIR = $(BUILDC)/waybar/themes
+waybar-themes = $(WAYBARDIR)/phd-ark-iridis.css \
+                $(WAYBARDIR)/phd-ark-dark.css \
+                $(WAYBARDIR)/phd-ark-light.css
+.PHONY: waybar
+waybar: $(waybar-themes)
+
+
+WLOGOUTDIR = $(BUILDC)/wlogout/themes
+wlogout-themes = $(WLOGOUTDIR)/phd-ark-iridis.css \
+                 $(WLOGOUTDIR)/phd-ark-dark.css \
+                 $(WLOGOUTDIR)/phd-ark-light.css
+.PHONY: wlogout
+wlogout: $(wlogout-themes)
+
+
 XMONADDIR = $(BUILDC)/xmonad/lib/Colors
 xmonad-themes = $(XMONADDIR)/PhDArkIridis.hs \
                 $(XMONADDIR)/PhDArkDark.hs \
@@ -234,7 +257,7 @@ $(svg-themes):
 
 
 
-$(alacritty-themes) $(bat-themes) $(btop-themes) $(dircolors-themes) $(dunst-themes) $(emacs-themes) $(fzf-themes) $(git-themes) $(grep-themes) $(highlight-themes) $(shell-themes) $(subl-themes) $(tofi-themes) $(rofi-themes) $(vim-themes) $(xmonad-themes) $(xresources-themes):
+$(alacritty-themes) $(bat-themes) $(btop-themes) $(dircolors-themes) $(dunst-themes) $(emacs-themes) $(fzf-themes) $(git-themes) $(grep-themes) $(highlight-themes) $(hyprland-themes) $(shell-themes) $(subl-themes) $(tofi-themes) $(rofi-themes) $(vim-themes) $(waybar-themes) $(wlogout-themes) $(xmonad-themes) $(xresources-themes):
 	mkdir -p $(@D)
 	@$(eval template=$(subst Iridis,Template,$(@F)))
 	@$(eval template=$(subst -iridis,-template,$(template)))

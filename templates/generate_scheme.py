@@ -14,6 +14,9 @@ SVG_CIRCLE="""
 </svg>
 """
 
+def hex2rgb(hex_cstr):
+    hex_cstr = hex_cstr.lstrip('#')
+    return '{}'.format(tuple(int(hex_cstr[i:i+2], 16) for i in (0, 2, 4)))
 
 def parse_args():
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
@@ -70,12 +73,16 @@ def generate(args, search_prefix='#phd-ark-'):
     # insert corresponding colors to template
     for cname in color_keys:
         fmtfind = f"{search_prefix}{cname}/strip"
+        rgbfind = f"{search_prefix}{cname}/rgb"
         find = f"{search_prefix}{cname}"
         replace = colors[cname]
         if isinstance(replace, int):
             replace = f"{replace:03d}"
-        content = content.replace(fmtfind, replace.lstrip("0"))
-        content = content.replace(find, replace)
+        if rgbfind in content:
+            content = content.replace(rgbfind, hex2rgb(replace).replace(' ', ''))
+        elif fmtfind in content or find in content:
+            content = content.replace(fmtfind, replace.lstrip("0"))
+            content = content.replace(find, replace)
     if args.save or args.output is not None:
         filename.write_text(content)
     else:

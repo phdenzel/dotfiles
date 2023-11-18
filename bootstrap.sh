@@ -30,8 +30,8 @@ DFLAGS=(
     --exclude=".config/xmobar/"
     --exclude=".config/xmonad/"
     --exclude=".config/hypr/"
-    --exclude=".config/tofi/"
     --exclude=".config/eww/"
+    --exclude=".config/waybar/"
     --exclude=".editorconfig"
     --exclude=".fonts/"
     --exclude=".git*"
@@ -233,16 +233,16 @@ if [[ $DO_HYPR -eq 1 ]]; then
         if command -v colordiff &> /dev/null; then
             diff -ur $CONF_HOME/hypr .config/hypr | colordiff
             diff -ur $CONF_HOME/eww .config/eww | colordiff
-            diff -ur $CONF_HOME/tofi .config/tofi | colordiff
+            diff -ur $CONF_HOME/waybar .config/waybar | colordiff
         else
             diff -ur $CONF_HOME/hypr .config/hypr
             diff -ur $CONF_HOME/eww .config/eww
-            diff -ur $CONF_HOME/tofi .config/tofi
+            diff -ur $CONF_HOME/waybar .config/waybar
         fi;
     else
         rsync "-${FLAGS[@]}" --exclude="icons/" .config/hypr $CONF_HOME/
         rsync "-${FLAGS[@]}" .config/eww $CONF_HOME/
-        rsync "-${FLAGS[@]}" .config/tofi $CONF_HOME/
+        rsync "-${FLAGS[@]}" .config/waybar $CONF_HOME/
     fi;    
 fi;
 # Install my xmonad configuration
@@ -277,14 +277,14 @@ if [[ $DO_SKIP_CONF -ne 1 ]]; then
         if command -v colordiff &> /dev/null; then
             diff -u -x "[A-Z]*" -x "[a-z]*" ~ $BOOTSTRAP_PATH | colordiff
             diff -ur \
-                 -x "xmonad" -x "xmobar" -x "hypr" -x "eww" -x "tofi" \
+                 -x "xmonad" -x "xmobar" -x "hypr" -x "eww" -x "waybar" \
                  -x "emacs" \
                  -x "gtk" -x "qt?ct" \
                  $CONF_HOME .config | colordiff
         else
             diff -ur -x "[A-Z]*" -x "[a-z]*" $BOOTSTRAP_PATH/.*
             diff -ur \
-                 -x "xmonad" -x "xmobar" -x "hypr" -x "eww" -x "tofi" \
+                 -x "xmonad" -x "xmobar" -x "hypr" -x "eww" -x "waybar" \
                  -x "emacs" \
                  -x "gtk" -x "qt?ct" \
                  $CONF_HOME .config

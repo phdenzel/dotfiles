@@ -1,0 +1,33 @@
+{
+    // General settings
+    "layer": "top",
+    "height": 39,
+    "margin-top": 8,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
+
+    // Load modules
+    "include": ["~/.config/waybar/modules.json"],
+
+    // Modules Left
+    "modules-left": ["custom/poweroff", "custom/apps", "custom/clipboard", "hyprland/workspaces"],
+
+    // Modules Center
+    "modules-center": ["clock"],
+
+    // Modules Right
+    "modules-right": ["tray", "group/hardware", "wireplumber", "bluetooth", "network"],
+
+    // Group Hardware
+    "group/hardware": {
+        "orientation": "horizontal",
+        "modules": [
+            "cpu",
+            "custom/gpu",
+            "memory",
+            "disk",
+        ]
+    }
+}

@@ -1,6 +1,6 @@
 #!/bin/bash
 GPUSTAT_FILE=/tmp/nvidia_gpustat
-
+GPUSTAT_FILE_LINE_LIMIT=10
 APPEND=""
 
 while [[ $# -gt 0 ]]; do
@@ -20,10 +20,17 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits >> $GPUSTAT_FILE
-echo "$(tail -n 10 $GPUSTAT_FILE)" > $GPUSTAT_FILE
-
-GPUSTAT_VAL=$(tail -n 1 $GPUSTAT_FILE)
-printf -v output "%2d%%" $GPUSTAT_VAL
-output+=$APPEND
+# if not on NVIDIA system, output nothing
+if ! command -v nvidia-smi &> /dev/null; then
+    output=""
+else
+    # fetch stats from nvidia-smi
+    nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits >> $GPUSTAT_FILE
+    # to avoid exploding file size, limit lines
+    echo "$(tail -n $GPUSTAT_FILE_LINE_LIMIT $GPUSTAT_FILE)" > $GPUSTAT_FILE
+    # fetch most recent entry from file
+    GPUSTAT_VAL=$(tail -n 1 $GPUSTAT_FILE)
+    printf -v output "%2d%%" $GPUSTAT_VAL
+    output+=$APPEND
+fi
 echo -n "$output"

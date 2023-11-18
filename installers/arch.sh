@@ -97,6 +97,7 @@ arch_pkgs=(
     gvfs
     udisks2
     udiskie
+    tumbler
     xarchiver
     ranger ueberzug highlight
     systemd-resolvconf
@@ -349,9 +350,9 @@ xmonad_pkgs=(
 
 hypr_pkgs=(
     hyprland-nvidia
+    waybar        # status bar
     eww-git       # status bar
     foot          # alternate terminal
-    rofi-lbonn-wayland-git  # launch menu
     xdg-desktop-portal-hyprland  # application portal, for screensharing
     pipewire wireplumber  # audio/video framework
     polkit-kde-agent  # system privilege control

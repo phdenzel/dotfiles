@@ -1,0 +1,77 @@
+#!/bin/sh
+# Custom script for better workspace management in Hyprland
+# Move to another workspace on the active monitor (swap with neighboring workspaces)aw
+# Usage: hyprland-movetoworkspace [workspace|relative-workspace]
+# bind = SUPER,6,exec,~/.config/hypr/scripts/hyprland-movetoworkspace 6
+MAX_WS=2147483647
+
+# Usage
+read -r -d '' usage <<-EOF
+Usage: hyprland-movetoworkspace [workspace|relative-workspace]
+
+       Custom script for better workspace management in Hyprland.
+       Move to another workspace on the active monitor (swap with
+       neighboring workspaces).
+EOF
+
+# Read from hyprctl
+monitors=$(hyprctl monitors | tr '\n' '\a')
+focused_monitors=$(grep -Po 'Monitor((?!Monitor).)*?focused: yes' <<< "$monitors" | tr '\a' '\n')
+unfocused_monitors=$(grep -Po 'Monitor((?!Monitor).)*?focused: no' <<< "$monitors" | tr '\a' '\n')
+# Filter out relevant numbers
+activemonitor=$(awk 'NR==1 {print $2}' <<< $focused_monitors)
+activews=$(awk '/active workspace/{print $3}' <<< $focused_monitors | tr '\n' ' ')
+passivemonitors=($(awk '/^Monitor/{print $2}' <<< $unfocused_monitors | tr '\n' ' '))
+n_passivemonitors="${#passivemonitors[@]}"
+passivews=($(awk '/active workspace/{print $3}' <<< $unfocused_monitors | tr '\n' ' '))
+n_passivews="${#passivews[@]}"
+
+# Read input
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            echo "$usage"
+            exit
+            ;;
+        "")
+            workspace="${passivews[0]}"
+            echo "No workspace speficied, use passive monitor workspace: $workspace instead"
+            ;;
+        +*|-*)
+            workspace="$1"
+            workspace=$(($activews$workspace))
+            workspace=$((workspace > 0 ? workspace : 0))
+            workspace=$((workspace < MAX_WS ? workspace : MAX_WS))
+            shift
+            ;;
+        *+|*-)
+            workspace="$1"
+            workspace=$(($workspace$activews))
+            workspace=$((workspace > 0 ? workspace : 0))
+            workspace=$((workspace < MAX_WS ? workspace : MAX_WS))
+            shift
+            ;;
+    esac
+done
+
+# Debug prints
+#echo "Active monitor:" "$activemonitor"
+#echo "Active workspace:" "$activews"
+#echo "Passive monitors ($n_passivemonitors):" "${passivemonitors[@]}"
+#echo "Passive workspace ($n_passivews):" "${passivews[@]}"
+#echo "Workspace: $workspace"
+
+# Swap if necessary
+for i in ${!passivews[@]}; do
+    pmn="${passivemonitors[$i]}"
+    pws="${passivews[$i]}"
+    if [[ $workspace -eq $pws ]] && [[ $activemonitor != $passivemonitors ]]; then
+        hyprctl dispatch swapactiveworkspaces $activemonitor $passivemonitors
+        exit
+    fi
+done
+
+# Otherwise move workspace
+hyprctl dispatch moveworkspacetomonitor $workspace $activemonitor && hyprctl dispatch workspace $workspace
+
+exit 0

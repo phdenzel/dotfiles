@@ -179,6 +179,7 @@ arch_pkgs=(
     zathura zathura-pdf-mupdf
     calibre
     lollypop
+    mpd mpc ymuse
     easytag
     mpv
     celluloid

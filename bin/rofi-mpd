@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+
+LIMIT_ARTIST=100
+LIMIT_SONG=100
+LIMIT_ALBUM=30
+LIMIT_PLAYLIST=30
+
+read -r -d '' usage <<-EOF
+Usage: rofi-mpd [-p|--playlist] [-l|--library] [-a|--album] [-s|--song]
+                [-A|--ask] [-h|--help]
+
+    Rofi interface for MPD.
+
+    Arguments:
+       -h, --help          Prints this message.
+       -p, --playlist      Playlist mode.
+       -l, --library       Library mode (artist -> album).
+       -a, --album         Album mode (select an album).
+       -s, --song          Song mode (select a song).
+       -A, --ask           Choose the mode.
+
+    Bindings:
+       Enter               Play song/album/playlist now
+       Alt+v               Add song/album/playlist to queue
+EOF
+
+
+m() {
+    rofi -dmenu -i "$@" ;
+}
+
+mb() {
+    rofi -dmenu -i -kb-custom-1 "Alt+v" "$@" ;
+}
+
+_artist() {
+    lines="$(mpc list artist | wc -l)"
+    [ $lines -gt $LIMIT_ARTIST ] && lines=$LIMIT_ARTIST
+    mpc list artist | sort -f | m -p "Artists" -l $lines
+}
+
+_artist_album() {
+    artist="$1"
+    lines="$(mpc list album artist "$artist" | wc -l)"
+    [ $lines -gt $LIMIT_ALBUM ] && lines=$LIMIT_ALBUM
+    mpc list album artist "$artist" | sort -f | mb -p "Albums" -l $lines
+}
+
+_album() {
+    lines="$(mpc list album | wc -l)"
+    [ $lines -gt $LIMIT_ALBUM ] && lines=$LIMIT_ALBUM
+    mpc list album | sort -f | mb -p "Album" -l $lines
+}
+
+_song() {
+    lines="$(mpc list title | wc -l)"
+    [ "$lines" -gt $LIMIT_SONG ] && lines=$LIMIT_SONG
+    mpc list title | sort -f | mb -p "Song" -l $lines
+}
+
+_playlist() {
+    lines="$(mpc lsplaylist | wc -l)"
+    [ "$lines" -gt $LIMIT_PLAYLIST ] && lines=$LIMIT_PLAYLIST
+    mpc lsplaylist | grep '[^m3u]$' | sort -f | mb -p "Playlist" -l $lines
+}
+
+
+case "$1" in
+    -c|--clear)
+        mode=Clear
+        ;;
+    -p|--playlist)
+        mode=Playlist
+        ;;
+    -l|--library)
+        mode=Library
+        ;;
+    -a|--album)
+        mode=Album
+        ;;
+    -s|--song)
+        mode=Song
+        ;;
+    -A|--ask)
+        mode=$(printf "Playlist\nLibrary\nAlbum\nSong" | m -p "Choose mode" -l 4)
+        ;;
+    -h | --help)
+        echo "$usage"
+        exit
+        ;;
+esac
+
+[ -z "$mode" ] && mode=$(printf "Playlist\nLibrary\nAlbum\nSong" | m -p "Choose mode" -l 4)
+echo $mode
+
+case "$mode" in
+    Playlist)
+        playlist=$(_playlist)
+        cod=$?
+        [ -z "$playlist" ] && exit
+        [ $cod -eq 10 ] || mpc clear
+        mpc load $playlist && mpc play >/dev/null
+        ;;
+    Library)
+        artist=$(_artist)
+        [ -z "$artist" ] && exit
+        album=$(_artist_album "$artist")
+        cod=$?
+        [ -z "$album" ] && exit
+        [ $cod -eq 10 ] || mpc clear
+        mpc find artist "$artist" album "$album" | mpc add
+        mpc play >/dev/null
+        ;;
+    Song)
+        song=$(_song)
+        cod=$?
+        [ -z "$song" ] && exit
+        [ $cod -eq 10 ] || mpc clear
+        mpc search "(title==\"$song\")" | mpc add
+        mpc play >/dev/null
+        ;;
+    Album)
+        album=$(_album)
+        cod=$?
+        [ -z "$album" ] && exit
+        [ $cod -eq 10 ] || mpc clear
+        mpc find album "$album" | mpc add
+        mpc play >/dev/null
+        ;;
+esac

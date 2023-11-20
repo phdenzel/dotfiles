@@ -28,6 +28,7 @@ window#waybar {
     transition-duration: .5s;
 }
 
+
 /* Workspaces */
 #workspaces {
     background: @workspacesbackground1;
@@ -69,6 +70,7 @@ window#waybar {
     opacity: 0.7;
 }
 
+
 /* -----------------------------------------------------
  * Tooltips
  * ----------------------------------------------------- */
@@ -87,6 +89,7 @@ tooltip label {
     font-weight: lighter;
     font-size: 16px;
 }
+
 
 /* -----------------------------------------------------
  * Window
@@ -122,19 +125,6 @@ window#waybar.empty #window {
 
 
 /* -----------------------------------------------------
- * Custom Quicklinks
- * ----------------------------------------------------- */
-
-#custom-apps, #custom-clipboard {
-    margin-right: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    opacity: 0.8;
-    color: @iconcolor;
-}
-
-
-/* -----------------------------------------------------
  * Custom Logout
  * ----------------------------------------------------- */
 
@@ -147,6 +137,35 @@ window#waybar.empty #window {
     padding: 0px 10px 0px 10px;
     border: 3px solid @bordercolor;
     opacity: 0.8;
+}
+
+
+/* -----------------------------------------------------
+ * Custom Modules
+ * ----------------------------------------------------- */
+
+#custom-apps, #custom-clipboard {
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    opacity: 0.8;
+    color: @iconcolor;
+}
+
+
+/* -----------------------------------------------------
+ * Clock
+ * ----------------------------------------------------- */
+
+#clock {
+    background-color: @backgrounddark;
+    font-size: 16px;
+    color: @textcolorlightbg;
+    border-radius: 15px;
+    padding: 1px 10px 0px 10px;
+    margin: 3px 15px 3px 0px;
+    opacity: 0.8;
+    border:3px solid @bordercolor;   
 }
 
 
@@ -165,23 +184,32 @@ window#waybar.empty #window {
     margin-right: 10px;
 }
 
+
 /* -----------------------------------------------------
- * Clock
+ * MPRIS / MPD
  * ----------------------------------------------------- */
 
-#clock {
-    background-color: @backgrounddark;
+#mpris {
+    padding: 2px;
+    margin: 0px 10px;
     font-size: 16px;
-    color: @textcolorlightbg;
-    border-radius: 15px;
-    padding: 1px 10px 0px 10px;
-    margin: 3px 15px 3px 0px;
-    opacity: 0.8;
-    border:3px solid @bordercolor;   
+    color: @iconcolor;
 }
 
+
+#mpd {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 0px 10px;
+    margin: 5px 10px 5px 0px;
+    opacity: 0.8;
+}
+
+
 /* -----------------------------------------------------
- * Pulseaudio
+ * Audio
  * ----------------------------------------------------- */
 
 #wireplumber {
@@ -191,12 +219,34 @@ window#waybar.empty #window {
     border-radius: 15px;
     padding: 2px 10px 0px 10px;
     margin: 5px 15px 5px 0px;
-    opacity:0.8;
+    opacity: 0.8;
 }
 
-#pulseaudio.muted {
+#wireplumber.muted {
     background-color: @backgrounddark;
     color: @textcolorlightbg;
+}
+
+
+/* -----------------------------------------------------
+ * Bluetooth
+ * ----------------------------------------------------- */
+
+#bluetooth, #bluetooth.on, #bluetooth.connected {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 0px 10px;
+    margin: 5px 15px 5px 0px;
+    opacity: 0.8;
+}
+
+#bluetooth.off {
+    background-color: @backgrounddark;
+    color: @textcolorlightbg;
+    border-color: @textcolorlightbg;
+    
 }
 
 
@@ -224,25 +274,11 @@ window#waybar.empty #window {
     color: @textcolor2;
 }
 
-
-/* -----------------------------------------------------
- * Bluetooth
- * ----------------------------------------------------- */
-
-#bluetooth, #bluetooth.on, #bluetooth.connected {
-    background-color: @backgroundlight;
-    font-size: 16px;
-    color: @textcolor2;
-    border-radius: 15px;
-    padding: 2px 10px 0px 10px;
-    margin: 5px 15px 5px 0px;
-    opacity:0.8;
-}
-
-#bluetooth.off {
-    background-color: transparent;
-    padding: 0px;
-    margin: 0px;
+#network.disabled, #network.disconnected {
+    background: @backgroundlight;
+    background-color: @backgrounddark;
+    color: @textcolorlightbg;
+    border-color: @textcolorlightbg;
 }
 
 
@@ -257,7 +293,7 @@ window#waybar.empty #window {
     border-radius: 15px;
     padding: 2px 15px 0px 10px;
     margin: 5px 15px 5px 0px;
-    opacity:0.8;
+    opacity: 0.8;
 }
 
 #battery.charging, #battery.plugged {
@@ -282,12 +318,19 @@ window#waybar.empty #window {
     animation-direction: alternate;
 }
 
+
 /* -----------------------------------------------------
  * Tray
  * ----------------------------------------------------- */
 
 #tray {
-    background-color: #2980b9;
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 0px 10px;
+    margin: 5px 15px 5px 0px;
+    opacity: 0.8;
 }
 
 #tray > .passive {
@@ -310,12 +353,4 @@ label:focus {
 
 #backlight {
     background-color: #90b1b1;
-}
-
-#network {
-    background-color: #2980b9;
-}
-
-#network.disconnected {
-    background-color: #f53c3c;
 }

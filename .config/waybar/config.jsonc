@@ -18,7 +18,7 @@
     "modules-center": ["clock"],
 
     // Modules Right
-    "modules-right": ["tray", "group/hardware", "wireplumber", "bluetooth", "network"],
+    "modules-right": ["mpris", "mpd", "tray", "group/hardware", "wireplumber", "bluetooth", "network"],
 
     // Group Hardware
     "group/hardware": {

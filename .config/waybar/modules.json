@@ -1,5 +1,4 @@
 {
-    // Workspaces
     "hyprland/workspaces": {
         "on-click": "activate",
         "active-only": false,
@@ -15,14 +14,12 @@
         }
     },
 
-    // System tray
     "tray": {
-        "spacing": 10
+        "spacing": 10,
+        "icon-size": 24
     },
 
-    // Clock
     "clock": {
-        // "timezone": "Europe/Zurich",
         "format": " {:%H:%M  /  %b %d} ",
         "format-alt": "{:%H:%M}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
@@ -38,17 +35,15 @@
                 "weeks": "<span color='#bdc3ce'><b>W{}</b></span>",
                 "weekdays": "<span color='#fdb760'><b>{}</b></span>",
                 "today": "<span color='#e83a82'><b><u>{}</u></b></span>"
-            },
-        },
-    },
-    
-    // CPU
-    "cpu": {
-        "format": " {usage}%",
-        "on-click": "alacritty -e btop",
+            }
+        }
     },
 
-    // GPU
+    "cpu": {
+        "format": " {usage}%",
+        "on-click": "alacritty -e btop"
+    },
+
     "custom/gpu": {
         "exec": "nvidia_gpustat",
         "format": " {}",
@@ -59,77 +54,117 @@
         "tooltip": false
     },
 
-    // Memory
     "memory": {
         "format": " {percentage}%",
-        "on-click": "alacritty -e btop",
+        "on-click": "alacritty -e btop"
     },
 
-    // Drives
     "disk": {
         "interval": 30,
         "format": " {free}",
         "path": "/",
-        "on-click": "alacritty -e btop",
+        "on-click": "alacritty -e btop"
     },
 
-    // Network
     "network": {
         "format": "{ifname}",
         "format-wifi": " {signalStrength}%",
         "format-ethernet": "  {ipaddr}",
-        "format-disconnected": "", // "Not connected"
+        "format-disconnected": "",
         "tooltip-format": " {ifname} via {gwaddri}",
         "tooltip-format-wifi": " {essid} ({signalStrength}%)",
         "tooltip-format-ethernet": " {ifname} ({ipaddr}/{cidr})",
         "tooltip-format-disconnected": "Disconnected",
         "max-length": 50,
-        "on-click": "nm-connection-editor"
+        "on-click": "nm-connection-editor",
+        "on-click-right": "nmcli networking connectivity | grep -q none && nmcli networking on || nmcli networking off"
     },
 
-    // Bluetooth
     "bluetooth": {
         "format-disabled": "",
-        "format-off": "",
+        "format-off": "!",
         "format": " {num_connections}",
         "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
         "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
 	      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
 	      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
         "interval": 30,
-        "on-click": "blueman-manager"
+        "on-click": "blueman-manager",
+        "on-click-right": "bluetoothctl show | grep 'Powered: no' -q && bluetoothctl power on || bluetoothctl power off"
     },
 
-    // Battery
     "battery": {
         "states": {
-            // "good": 95,
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon}   {capacity}%",
+        "format": "{icon}  {capacity}%",
         "format-charging": "  {capacity}%",
         "format-plugged": "  {capacity}%",
         "format-alt": "{icon}  {time}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
         "format-icons": [" ", " ", " ", " ", " "]
     },
 
-    // Audio
     "wireplumber": {
         "format": "{icon} {volume}%",
         "format-muted": "",
         "on-click": "pavucontrol",
-        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
-        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1%+",
-        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1%-",
-        "format-icons": ["", "", ""],
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && command -v swayosd-client &> /dev/null && pgrep -x swayosd-server &> /dev/null && swayosd-client --output-volume=+0",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1%+ && command -v swayosd-client &> /dev/null && pgrep -x swayosd-server &> /dev/null && swayosd-client --output-volume=+0",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1%- && command -v swayosd-client &> /dev/null && pgrep -x swayosd-server &> /dev/null && swayosd-client --output-volume=+0",
+        "format-icons": ["", "", ""]
     },
 
-    // Custom actions
+    "mpris": {
+        "format": "{player_icon} {status_icon} {dynamic}",
+        "player-icons": {
+		        "default": "",
+            "firefox": "",
+            "brave": ""
+	      },
+        "status-icons": {
+            "playing": "",
+		        "paused": "",
+            "stopped": ""
+	      },
+        "ignored-players": ["Lollypop"]
+    },
+
+    "mpd": {
+        "format": "  {stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}[{elapsedTime:%M:%S}/{totalTime:%M:%S}] {artist} / {title}",
+        "format-disconnected": "",
+        "format-stopped": "   {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}",
+        "interval": 10,
+        "max-length": 50,
+        "tooltip-format": "MPD (connected):\n{artist} / {album} / {title} [{elapsedTime:%M:%S}/{totalTime:%M:%S}]\nQueue: {songPosition}/{queueLength}",
+        "tooltip-format-disconnected": "MPD (disconnected)",
+        "consume-icons": {
+            "off": "",
+            "on": " "
+        },
+        "random-icons": {
+            "off": "",
+            "on": " "
+        },
+        "repeat-icons": {
+            "off": "",
+            "on": " "
+        },
+        "single-icons": {
+            "off": "",
+            "on": " "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "on-click": "mpc toggle",
+        "on-click-right": "mpc next",
+        "on-click-middle": "mpc prev"
+    },
+
     "custom/poweroff": {
-        "format": "",  // "",
+        "format": "",
         "on-click": "wlogout",
         "tooltip": false
     },
@@ -144,5 +179,5 @@
         "format": "",
         "on-click": "cliphist list | rofi -dmenu | cliphist decode | wl-copy",
         "tooltip": false
-    },
+    }
 }

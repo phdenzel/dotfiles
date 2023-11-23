@@ -12,13 +12,13 @@
     "include": ["~/.config/waybar/modules.json"],
 
     // Modules Left
-    "modules-left": ["custom/poweroff", "custom/apps", "custom/clipboard", "hyprland/workspaces"],
+    "modules-left": ["custom/poweroff", "custom/apps", "custom/clipboard", "hyprland/workspaces", "wlr/taskbar", "mpris"],
 
     // Modules Center
     "modules-center": ["clock"],
 
     // Modules Right
-    "modules-right": ["mpris", "mpd", "tray", "group/hardware", "wireplumber", "bluetooth", "network"],
+    "modules-right": ["mpd", "tray", "group/hardware", "wireplumber", "bluetooth", "network", "battery"],
 
     // Group Hardware
     "group/hardware": {

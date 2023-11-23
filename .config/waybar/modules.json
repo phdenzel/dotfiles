@@ -14,6 +14,15 @@
         }
     },
 
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 24,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "ignore-list": []
+    },
+
     "tray": {
         "spacing": 10,
         "icon-size": 24
@@ -127,6 +136,7 @@
 		        "paused": "",
             "stopped": ""
 	      },
+        "dynamic-len": 50,
         "ignored-players": ["Lollypop"]
     },
 

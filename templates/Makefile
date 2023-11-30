@@ -181,6 +181,7 @@ thunderbird: $(thunderbird-themes)
 $(thunderbird-themes):
 	mkdir -p $(basename $@)/images
 	cp $(TARGETDIR)/imgs/logos/icon{16,48,128}.png $(basename $@)/images/
+	cp thunderbird-phd-ark-theme/style.css $(basename $@)/style.css
 	$(PYEXE) $(GENPY) $(OPT) \
 		-i thunderbird-phd-ark-theme/manifest.json \
 		-o $(basename $@)/manifest.json

@@ -1,0 +1,47 @@
+/* Shades of blue */
+:host, :root {
+    --color-blue-10: var(--color-blue-10) !important;
+    --color-blue-20: var(--color-blue-20) !important;
+    --color-blue-30: var(--color-blue-30) !important;
+    --color-blue-40: var(--color-blue-40) !important;
+    --color-blue-50: var(--color-blue-50) !important;
+    --color-blue-60: var(--color-blue-60) !important;
+    --color-blue-70: var(--color-blue-70) !important;
+    --color-blue-80: var(--color-blue-80) !important;
+    --color-blue-90: var(--color-blue-90) !important;
+}
+
+/* Icon colors */
+:host, :root {
+    --folder-color-folder: var(--folder-color-folder);
+    --folder-color-inbox: var(--folder-color-inbox);
+    --folder-color-draft: var(--folder-color-draft);
+    --folder-color-template: var(--folder-color-template);
+    --folder-color-sent: var(--folder-color-sent);
+    --folder-color-archive: var(--folder-color-archive);
+    --folder-color-spam: var(--folder-color-spam);
+    --folder-color-trash: var(--folder-color-trash);
+}
+#folderTree li[data-server-type] > .container > .icon {
+    --icon-color: var(--folder-color) !important;
+}
+
+/* New message button */
+.button.button-primary:hover {
+    background-color: var(--button-primary-background-color) !important;
+    filter: brightness(130%) !important;
+}
+
+/* Recipient accents */
+.header-recipient:hover, .header-newsgroup:hover {
+    background-color: var(--button-primary-background-color) !important;
+    color: var(--button-primary-text-color) !important;
+}
+
+/* Left toolbar menu buttons */
+.spaces-toolbar-button.current {
+    background-color: var(--button-primary-background-color) !important;
+    color: var(--button-primary-text-color) !important;
+    border-color: var(--button-primary-border-color) !important;
+}
+

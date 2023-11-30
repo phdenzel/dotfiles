@@ -349,6 +349,13 @@ window#waybar.empty #window {
     opacity: 1.0;
 }
 
+#taskbar.empty {
+    background-color: transparent;
+    min-width: 0px;
+    opacity: 0.0;
+    
+}
+
 
 /* -----------------------------------------------------
  * Tray

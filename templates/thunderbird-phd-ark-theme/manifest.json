@@ -1,10 +1,11 @@
 {
     "manifest_version": 2,
     "name": "#phd-ark-capitalize Thunderbird Theme",
+    "author": "phdenzel",
     "version": "1.0.0",
     "applications": {
         "gecko": {
-            "id": "phdenzel@gmail.com",
+            "id": "phdark@addons.thunderbird.net",
             "strict_min_version": "60.0"
         }
     },
@@ -14,79 +15,13 @@
         "48": "images/icon48.png",
         "128": "images/icon128.png"
     },
-    "theme": {
-        "colors": {
-            "button_background_active": "#phd-ark-indigo",
-            "button_background_hover": "#phd-ark-surface1",
-            "frame": "#phd-ark-base",
-            "frame_inactive": "#phd-ark-base",
-            "icons": "#phd-ark-text",
-            "icons_attention": "#phd-ark-indigo",
-            "tab_text": "#phd-ark-text",
-            "tab_line": "#phd-ark-indigo",
-            "tab_loading": "#phd-ark-indigo",
-            "tab_selected": "#phd-ark-base",
-            "tab_background_text": "#phd-ark-subtext1",
-            "tab_background_separator": "#phd-ark-surface2",
-            "bookmark_text": "#phd-ark-text",
-            "toolbar": "#phd-ark-base",
-            "toolbar_field": "#phd-ark-overlay1",
-            "toolbar_field_text": "#phd-ark-text",
-            "toolbar_field_highlight": "#phd-ark-indigo",
-            "toolbar_field_highlight_text": "#phd-ark-crust",
-            "toolbar_field_border": "#phd-ark-crust",
-            "toolbar_field_focus": "#phd-ark-overlay1",
-            "toolbar_field_text_focus": "#phd-ark-text",
-            "toolbar_field_border_focus": "#phd-ark-indigo",
-            "toolbar_top_separator": "#phd-ark-surface1",
-            "toolbar_bottom_separator": "#phd-ark-surface1",
-            "toolbar_vertical_separator": "#phd-ark-surface1",
-            "sidebar": "#phd-ark-base",
-            "sidebar_text": "#phd-ark-text",
-            "sidebar_highlight": "#phd-ark-indigo",
-            "sidebar_highlight_text": "#phd-ark-crust",
-            "sidebar_border": "#phd-ark-surface1",
-            "popup": "#phd-ark-overlay1",
-            "popup_text": "#phd-ark-text",
-            "popup_border": "#phd-ark-base",
-            "popup_highlight": "#phd-ark-indigo",
-            "popup_highlight_text": "#phd-ark-crust",
-            "ntp_background": "#phd-ark-crust",
-            "ntp_text": "#phd-ark-text",
-            // Experiments
-            "exp_primary": "#phd-ark-indigo",
-            "exp_primary_color": "#phd-ark-indigo",
-            "exp_primary_hover": "#phd-ark-blue",
-            "exp_primary1": "#phd-ark-subtext1",
-            "exp_primary2": "#phd-ark-cyan",
-            "exp_primary3": "#phd-ark-blue",
-            "exp_primary4": "#phd-ark-indigo",
-            "exp_primary5": "#phd-ark-indigo",
-            "exp_primary6": "#phd-ark-indigo",
-            "exp_primary7": "#phd-ark-indigo",
-            "exp_primary8": "#phd-ark-amethyst",
-            "exp_primary9": "#phd-ark-amethyst",
-            "exp_selected_item_text": "#phd-ark-white",
-            "exp_selected_item_background": "#phd-ark-indigo",
-            "exp_button_background": "#phd-ark-indigo",
-            "exp_button_text": "#phd-ark-text",
-            "exp_button_border": "#phd-ark-overlay1",
-            "exp_button_hover": "#phd-ark-base",
-            "exp_btn_bg_hover": "#phd-ark-indigo",
-            "exp_message_bar_background": "#phd-ark-overlay1",
-            "exp_message_bar_text": "#phd-ark-crust",
-            "exp_folder_color_inbox": "#phd-ark-indigo",
-            "exp_folder_color_draft": "#phd-ark-lilac",
-            "exp_folder_color_template": "#phd-ark-white",
-            "exp_folder_color_sent": "#phd-ark-teal",
-            "exp_folder_color_archive": "#phd-ark-sand",
-            "exp_folder_color_spam": "#phd-ark-pink",
-            "exp_folder_color_trash": "#phd-ark-overlay0",
-            "exp_folder_color_folder": "#phd-ark-indigo",
-            "exp_folder_color": "#phd-ark-indigo",
-            "exp_new_message": "#phd-ark-indigo",
-            "exp_in_content_button_primary_background": "#phd-ark-indigo"
-        }
+    "permissions": [
+        "theme",
+        "messagesModify",
+        "messagesRead"
+    ],
+    "background": {
+        "page": "background.html"
     },
     "theme_experiment": {
         "stylesheet": "style.css",
@@ -103,15 +38,11 @@
             "exp_primary7": "--color-blue-70",
             "exp_primary8": "--color-blue-80",
             "exp_primary9": "--color-blue-90",
-            "exp_selected_item_text": "--selected-item-text-color",
-            "exp_selected_item_background": "--selected-item-color",
             "exp_button_background": "--button-primary-background-color",
             "exp_button_text": "--button-primary-text-color",
             "exp_button_border": "--button-primary-border-color",
             "exp_button_hover": "--button-hover-background-color",
             "exp_btn_bg_hover": "--btn-bg-hover",
-            "exp_message_bar_background": "--message-bar-background-color",
-            "exp_message_bar_text": "--message-bar-text-color",
             "exp_folder_color_inbox": "--folder-color-inbox",
             "exp_folder_color_draft": "--folder-color-draft",
             "exp_folder_color_template": "--folder-color-template",
@@ -122,7 +53,7 @@
             "exp_folder_color_folder": "--folder-color-folder",
             "exp_folder_color": "--folder-color",
             "exp_new_message": "--new-message-color",
-            "exp_in_content_button_primary_background": "--in-content-primary-button-background"
+            "exp_unread_count_background": "--folderpane-unread-new-count-background"
         }
     }
 }

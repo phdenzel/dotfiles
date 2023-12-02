@@ -1,41 +1,21 @@
-/* Shades of blue */
+/* Adjust icon colors in side pane to phd-ark color palette */
 :host, :root {
-    --color-blue-10: var(--color-blue-10) !important;
-    --color-blue-20: var(--color-blue-20) !important;
-    --color-blue-30: var(--color-blue-30) !important;
-    --color-blue-40: var(--color-blue-40) !important;
-    --color-blue-50: var(--color-blue-50) !important;
-    --color-blue-60: var(--color-blue-60) !important;
-    --color-blue-70: var(--color-blue-70) !important;
-    --color-blue-80: var(--color-blue-80) !important;
-    --color-blue-90: var(--color-blue-90) !important;
+    --folder-color: var(--folder-color) !important;
 }
 
-/* Icon colors */
-:host, :root {
-    --folder-color-folder: var(--folder-color-folder);
-    --folder-color-inbox: var(--folder-color-inbox);
-    --folder-color-draft: var(--folder-color-draft);
-    --folder-color-template: var(--folder-color-template);
-    --folder-color-sent: var(--folder-color-sent);
-    --folder-color-archive: var(--folder-color-archive);
-    --folder-color-spam: var(--folder-color-spam);
-    --folder-color-trash: var(--folder-color-trash);
-}
 #folderTree li[data-server-type] > .container > .icon {
     --icon-color: var(--folder-color) !important;
 }
 
-/* New message button */
+/* Change new message button hover effect */
 .button.button-primary:hover {
     background-color: var(--button-primary-background-color) !important;
     filter: brightness(130%) !important;
 }
 
-/* Recipient accents */
-.header-recipient:hover, .header-newsgroup:hover {
-    background-color: var(--button-primary-background-color) !important;
-    color: var(--button-primary-text-color) !important;
+/* Force unread count accents */
+.unread > .container > .unread-count {
+    background-color: var(--folderpane-unread-new-count-background) !important;
 }
 
 /* Left toolbar menu buttons */
@@ -44,4 +24,3 @@
     color: var(--button-primary-text-color) !important;
     border-color: var(--button-primary-border-color) !important;
 }
-

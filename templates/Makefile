@@ -181,10 +181,18 @@ thunderbird: $(thunderbird-themes)
 $(thunderbird-themes):
 	mkdir -p $(basename $@)/images
 	cp $(TARGETDIR)/imgs/logos/icon{16,48,128}.png $(basename $@)/images/
-	cp thunderbird-phd-ark-theme/style.css $(basename $@)/style.css
+	cp thunderbird-phd-ark-theme/background.html $(basename $@)/background.html
+	cp thunderbird-phd-ark-theme/compose.css $(basename $@)/compose.css
+	cp thunderbird-phd-ark-theme/compose.js $(basename $@)/compose.js
 	$(PYEXE) $(GENPY) $(OPT) \
 		-i thunderbird-phd-ark-theme/manifest.json \
 		-o $(basename $@)/manifest.json
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i thunderbird-phd-ark-theme/background.js \
+		-o $(basename $@)/background.js
+	$(PYEXE) $(GENPY) $(OPT) \
+		-i thunderbird-phd-ark-theme/style.css \
+		-o $(basename $@)/style.css
 	cd $(basename $@) && zip -r -q -9 ../$(@F) . && cd - && rm -r $(basename $@)
 
 

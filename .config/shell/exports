@@ -73,6 +73,9 @@ export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
 # Python
 export PYTHONIOENCODING='UTF-8'
 
+# Conda
+export CONDARC="${XDG_CONFIG_HOME}/conda/condarc"
+
 # OpenMP
 export GOMP_STACKSIZE=16384
 

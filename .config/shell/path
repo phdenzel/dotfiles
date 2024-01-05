@@ -31,6 +31,9 @@ fi
 export PYTHONPATH="${PYTHONPATH}:$HOME/Documents/pylib"
 export WORKON_HOME="${HOME}/.local/share/virtualenvs"
 
+# CONDA
+[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
+
 # if ls -dr $HOME/local/Python-[0-9]* &> /dev/null; then
 #     for f in $(ls -dr $HOME/local/Python-[0-9]*/bin); do
 # 	      export PATH="$f:${PATH}"

@@ -43,7 +43,8 @@ alias emacsw='/usr/bin/emacs'
 alias emacs='emacs -nw'
 alias e='emacsclient -t --alternate-editor=""'
 alias ew='ew'  # see local/bin for 'ew' emacs lauch script
-alias semacs='sudo /usr/bin/emacs --nw'
+alias se='sudoedit'
+alias sew='SUDO_EDITOR="emacsclient -t --alternate-editor= "'
 ### Servers
 if [ -f ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO ]; then
 	source ${XDG_CONFIG_HOME:=$HOME/.config}/USERINFO

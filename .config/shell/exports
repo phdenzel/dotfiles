@@ -64,6 +64,13 @@ fi;
 # Nextcloud
 export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
 
+# Homebrew
+BREW_BIN="/usr/local/bin/brew"
+if [ -f "/opt/homebrew/bin/brew" ]; then
+    BREW_BIN="/opt/homebrew/bin/brew"
+fi
+export BREW_BIN="$BREW_BIN"
+
 
 ### Programming environments
 # C Compilers
@@ -73,8 +80,12 @@ export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
 # Python
 export PYTHONIOENCODING='UTF-8'
 
+
 # Conda
 export CONDARC="${XDG_CONFIG_HOME}/conda/condarc"
+if type "${BREW_BIN}" &> /dev/null; then
+    export CONDA_ROOT="/opt/homebrew/Caskroom/miniconda"
+fi;
 
 # OpenMP
 export GOMP_STACKSIZE=16384

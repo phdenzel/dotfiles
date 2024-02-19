@@ -16,6 +16,7 @@ application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoff
 application/rtf=libreoffice-writer.desktop
 x-scheme-handler/https=librewolf.desktop
 x-scheme-handler/http=librewolf.desktop
+image/tiff=imv-dir.desktop
 
 [Added Associations]
 application/pdf=org.pwmt.zathura.desktop;
@@ -40,3 +41,4 @@ application/rtf=libreoffice-writer.desktop;
 video/mp2t=mpv.desktop;
 text/javascript=librewolf.desktop;
 image/x-adobe-dng=imv.desktop;
+image/tiff=gimp.desktop;scribus.desktop;imv-dir.desktop;

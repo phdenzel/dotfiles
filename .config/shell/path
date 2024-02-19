@@ -12,11 +12,6 @@ append_path "/usr/sbin"
 append_path "/bin"
 append_path "/sbin"
 
-# HOMEBREW
-BREW_BIN="/usr/local/bin/brew"
-if [ -f "/opt/homebrew/bin/brew" ]; then
-    BREW_BIN="/opt/homebrew/bin/brew"
-fi
 
 if type "${BREW_BIN}" &> /dev/null; then
     export BREW_PREFIX="$("${BREW_BIN}" --prefix)"
@@ -30,9 +25,16 @@ fi
 # PYTHON
 export PYTHONPATH="${PYTHONPATH}:$HOME/Documents/pylib"
 export WORKON_HOME="${HOME}/.local/share/virtualenvs"
+if type "${BREW_BIN}" &> /dev/null; then
+    export WORKON_HOME="/opt/homebrew/Caskroom/miniconda/envs"
+elif command -v conda &> /dev/null; then
+    export WORKON_HOME="/opt/miniconda3/envs"
+fi;
 
 # CONDA
-[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
+if command -v conda &> /dev/null; then
+    eval "$(conda "shell.$(basename "${SHELL}")" hook)"
+fi;
 
 # if ls -dr $HOME/local/Python-[0-9]* &> /dev/null; then
 #     for f in $(ls -dr $HOME/local/Python-[0-9]*/bin); do

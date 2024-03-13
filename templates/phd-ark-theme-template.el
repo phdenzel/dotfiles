@@ -557,6 +557,23 @@ Must be one of `iridis`, `dark`, or `light`."
                (which-key-command-description-face   :foreground ,phd-blue)
                (which-key-local-map-description-face :foreground ,phd-pink)
 
+               ;; LSP
+               (lsp-headerline-breadcrumb-symbols-face :foreground ,phd-teal)
+               (lsp-headerline-breadcrumb-path-face :foreground ,phd-teal)
+               (lsp-headerline-breadcrumb-path-error-face :foreground ,phd-surface1 :style nil)
+               (lsp-headerline-breadcrumb-symbols-error-face :foreground ,phd-surface1 :style nil)
+               (lsp-headerline-breadcrumb-path-warning-face :inherit lsp-headerline-breadcrumb-path-face)
+               (lsp-headerline-breadcrumb-symbols-warning-face :inherit lsp-headerline-breadcrumb-symbols-face)
+               (lsp-headerline-breadcrumb-deprecated-face :foreground ,phd-surface0 :style nil)
+               (lsp-headerline-breadcrumb-path-info-face :foreground ,phd-blue)
+               (lsp-headerline-breadcrumb-symbols-info-face :foreground ,phd-blue)
+               (lsp-headerline-breadcrumb-project-prefix-face :foreground ,phd-blue :weight bold)
+               (lsp-headerline-breadcrumb-unknown-project-prefix-face :foreground ,phd-cyan)
+               (lsp-modeline-code-actions-preferred-face :foreground ,phd-yellow)
+               (lsp-modeline-code-actions-face :foreground ,phd-cyan)
+               (lsp-installation-buffer-face :foreground ,phd-green)
+               (lsp-installation-finished-buffer-face :foreground ,phd-orange)
+
                ;; Flycheck/-make/-spell
                (flycheck-error       nil)
                (flycheck-warning     nil)

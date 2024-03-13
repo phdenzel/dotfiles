@@ -1,0 +1,16 @@
+auto_activate_base: false
+
+channels:
+  - conda-forge
+  - defaults
+channel_priority: strict
+
+envs_dirs:
+  - /opt/miniconda3/envs
+
+pkgs_dirs:
+  - /opt/miniconda3/pkgs
+
+create_default_packages:
+  - pip
+  - ipython

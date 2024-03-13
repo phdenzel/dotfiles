@@ -1,1 +1,1 @@
-("~/dotfiles/" "~/.config/emacs/" "~/phdenzel.github.io/" "~/Documents/PhDCV/" "~/Documents/letters/" "~/local/licht/" "~/local/phd-modeline/" "~/local/phd-mu4e-setup/" "~/local/phd-theme-mailspring/" "~/local/btrsnap/" "~/local/tagr/" "~/skais/")
+("~/dotfiles/" "~/.config/emacs/" "~/zettelkasten/" "~/phdenzel.github.io/" "~/Documents/PhDCV/" "~/Documents/letters/" "~/local/licht/" "~/local/phd-modeline/" "~/local/phd-mu4e-setup/" "~/local/phd-theme-mailspring/" "~/local/btrsnap/" "~/local/tagr/" "~/skais/")

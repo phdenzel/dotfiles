@@ -113,7 +113,7 @@ and checking if they need to be installed at startup, 'use-package' is
 employed to load the packages - if necessary also install them.
 This is done after the initialization, and thus can increase the startup
 substantially.
-Thus all packages should be loaded with 'use-package'.
+All packages should be loaded with 'use-package' (from straight.el).
 
 #+begin_src emacs-lisp
   (straight-use-package 'use-package)
@@ -144,7 +144,7 @@ File system module
 
 ** dash
 
-A modern list library for Emacs (required by the GitHub copilot package)
+A modern list library for Emacs (required by the GitHub copilot package for instance)
 
 #+begin_src emacs-lisp
   (use-package dash)
@@ -408,7 +408,7 @@ uppercase characters for ivy control.
             ("M-i"     . counsel-imenu)
             ("C-c g"   . counsel-git)
             ("C-c j"   . counsel-git-grep)
-            ("C-c l"   . counsel-locate)
+            ;;("C-c l"   . counsel-locate)
             :map ivy-minibuffer-map
             ("J"   . ivy-next-line)
             ("K"   . ivy-previous-line)
@@ -590,6 +590,7 @@ Hydra-enhanced window manager
 
 * Editing
 
+
 ** Sudo edit
 
 Toggle sudo rights on an already opened file
@@ -666,18 +667,6 @@ Modern auto-complete [*Comp*lete-*any*thing]
 
 ** Language modes
 
-#+begin_src emacs-lisp
-
-  (use-package lsp-mode
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :hook (;; add all your lsp enabled languages here
-           (rust-mode . lsp)
-           (lsp-mode . lsp-enable-which-key-integration))
-    :commands (lsp lsp-deferred))
-  
-#+end_src
-
 
 *** Cython
 
@@ -694,6 +683,14 @@ Modern auto-complete [*Comp*lete-*any*thing]
     :interpreter ("ghc" . haskell-mode))
   
 #+end_src
+
+
+*** Nix
+
+#+begin_src emacs-lisp
+  (use-package nix-mode)
+#+end_src
+
 
 
 *** Rust
@@ -785,8 +782,6 @@ For jsdoc, we first need to install a few dependencies
 #+end_src
 
 
-
-
 *** CSS & Co.
 
 #+begin_src emacs-lisp
@@ -816,21 +811,83 @@ For jsdoc, we first need to install a few dependencies
 ** Dev envs
 
 
+*** LSP
+
+#+begin_src emacs-lisp
+    (use-package lsp-mode
+      :straight t
+      :init
+      (setq lsp-keymap-prefix "C-c l")
+      :commands (lsp lsp-deferred)
+      :hook (;; add all your lsp enabled languages here
+             (python-mode . lsp)
+             (nix-mode . lsp-deferred)
+             (rust-mode . lsp)
+             (lsp-mode . lsp-enable-which-key-integration))
+      :config
+      (setq lsp-pylsp-configuration-sources '("ruff")
+            lsp-pylsp-plugins-ruff-enabled t
+            lsp-pylsp-plugins-flake8-enabled nil
+            lsp-pylsp-plugins-pycodestyle-enabled nil
+            lsp-pylsp-rename-backend 'rope)
+      )
+
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :commands lsp-ui-mode
+    :disabled)
+#+end_src
+
+
+#+begin_src emacs-lisp
+  (use-package lsp-treemacs
+    :straight t
+    :after lsp-mode treemacs
+    :commands (lsp-treemacs-errors-list lsp-treemacs-symbols)
+    :bind (:map global-map
+                ("C-M-s-:" . lsp-treemacs-symbols)
+                ("C-M-s-;" . lsp-treemacs-errors-list))
+    :config
+    (lsp-treemacs-sync-mode 1)  ;; sync between treemacs
+    (setq lsp-treemacs-deps-position-params
+          '((side . right)
+            (slot . 1)
+            (window-width . 35)))
+    (setq lsp-treemacs-symbols-position-params
+          '((side . right)
+            (slot . 2)
+            (window-width . 35))))
+#+end_src
+
+
 *** Python
 
 The ~elpy~ configuration will use these quoted variables
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (setq python-shell-completion-native-enable t)
   (setq py-python-command "python3")
   (setq python-shell-interpreter "python3")
 #+end_src
 
 
-**** elpy
+**** pyvenv
 
 #+begin_src emacs-lisp
+  (use-package pyvenv
+    :config
+    (setq pyvenv-workon "lsp")  ; Default virtualenv
+    (pyvenv-workon pyvenv-workon)
+    (when (fboundp 'pyvenv-track-virtualenv)
+      (fmakunbound 'pyvenv-track-virtualenv)))
+#+end_src
 
+
+**** elpy (no tangle)
+
+#+begin_src emacs-lisp :tangle no
   (use-package elpy
     :defer t
     :init
@@ -851,21 +908,17 @@ The ~elpy~ configuration will use these quoted variables
 Switch virtualenvs using ~M-x pyvenv-workon~. This requires exporting
 the ~WORKON_HOME~ environment variable in your ~.bashrc~ (or
 equivalent rc-file). By default, ~pipenv~ installs all its virtualenvs
-in ~~/.local/share/virtualenvs~
+in ~~/.local/share/virtualenvs~ and ~miniconda~ in ~/opt/miniconda3/envs~.
 
 #+begin_src bash :tangle no
-export WORKON_HOME="${HOME}/.local/share/virtualenvs"
+  export WORKON_HOME="/opt/miniconda3/envs"
 #+end_src
 
-Also be sure to install the necessary libraries via ~M-x elpy-config~
-within emacs or via pip in the current virtualenv:
+Also be sure to install the necessary libraries via ~M-x pyvenv-create~
+within emacs or manually via pip in the current virtualenv:
 
 #+begin_src shell :tangle no
-  pip install jedi
-  pip install flake8
-  pip install importmagic
-  pip install autopep8
-  pip instal yapf
+  pip install python-lsp-server[all] pylsp-rope pylsp-mypy python-lsp-black python-lsp-ruff
 #+end_src
 
 

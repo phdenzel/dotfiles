@@ -259,6 +259,22 @@ A few useful functions that can be activated with Meta-x.
 
 #+end_src
 
+#+begin_src emacs-lisp
+  (defun phd/unfill-paragraph ()
+    "Replace newline chars in current paragraph by single spaces.
+  This command does the reverse of `fill-paragraph'."
+    (interactive)
+    (let ((fill-column 90002000))
+      (fill-paragraph nil)))
+
+  (defun phd/unfill-region (start end)
+    "Replace newline chars in region by single spaces.
+  This command does the reverse of `fill-region'."
+    (interactive "r")
+    (let ((fill-column 90002000))
+      (fill-region start end)))
+#+end_src
+
 
 * Hydra, Ivy & Co.
 
@@ -1339,6 +1355,7 @@ colouring of org-mode src-blocks in exported HTML code.
                                            "~/zettelkasten/bib/corr.bib"
                                            "~/zettelkasten/bib/math.bib"
                                            "~/zettelkasten/bib/skach.bib"
+                                           "~/zettelkasten/bib/gen4tng.bib"
                                            "~/zettelkasten/bib/trustworthy_ai.bib")
           bibtex-completion-library-path '("~/zettelkasten/pdf/")
           bibtex-completion-pdf-symbol "⌘"
@@ -1432,6 +1449,7 @@ colouring of org-mode src-blocks in exported HTML code.
           org-roam-db-gc-threshold most-positive-fixnum)
     (unless (file-exists-p org-roam-directory)
       (make-directory org-roam-directory t))
+    ;;(org-roam-completion-everywhere t)
     :bind (("C-c n f" . org-roam-node-find)
            ("C-c n i" . org-roam-node-insert)
            ("C-c n c" . org-roam-capture)

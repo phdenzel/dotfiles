@@ -1005,19 +1005,32 @@ Install dependencies first (s and dash are already installed)
 
 
 #+begin_src emacs-lisp
-
   (use-package copilot
     :straight (:host github
                :repo "zerolfx/copilot.el"
                :files ("dist" "*.el"))
     :hook (prog-mode-hook . copilot-mode)
-    :bind (:map copilot-completion-map
+    :bind (:map copilot-mode-map
                 ("<backtab>" . copilot-accept-completion-by-word)
-                ("C-<tab>" . copilot-accept-completion))
+                ("C-<tab>" . copilot-accept-completion)
+                ("M-C-<next>" . copilot-next-completion)
+                ("M-C-<prior>" . copilot-previous-completion)
+                ("M-C-<right>" . copilot-accept-completion-by-word)
+                ("M-C-<down>" . copilot-accept-completion-by-name))
     :after company
     :config
     (delq 'company-preview-if-just-one-frontend company-frontends))
-  
+#+end_src
+
+
+*** ChatGPT (c3p0)
+
+#+begin_src emacs-lisp
+  (use-package c3po
+    :straight (:host github :repo "d1egoaz/c3po.el")
+    :after password-store
+    :config
+    (setq c3po-api-key (password-store-get-field "openai.com" "api-emacs")))
 #+end_src
 
 
@@ -1591,13 +1604,26 @@ colouring of org-mode src-blocks in exported HTML code.
 
 
 
-**** org-reveal
+**** org-reveal (deprecated)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
   (setq org-reveal-root (concat "file://" (expand-file-name "~/local/reveal.js")))
   (setq org-reveal-mathjax t)
   
+#+end_src
+
+
+**** org-reveal
+
+#+begin_src emacs-lisp
+  (use-package org-re-reveal
+    :after org
+    :config
+    ;; (setq org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+    (setq org-re-reveal-root (concat "file://" (expand-file-name "~/local/reveal.js")))
+    (setq org-re-reveal-mathjax t))
+
 #+end_src
 
 
@@ -1680,16 +1706,6 @@ this will create a buffer with the export which can be saved to file.
 #+begin_src emacs-lisp
   (use-package ox-rst
     :after org)
-#+end_src
-
-
-**** ox-reveal
-
-#+begin_src emacs-lisp
-
-  (use-package ox-reveal
-    :after org)
-  
 #+end_src
 
 
@@ -1934,6 +1950,10 @@ Use UNIX pass instead of authinfo (but keep other methods as backup)
     (auth-source-pass-enable)
     (setq auth-sources '(password-store "~/.authinfo.gpg" "~/.authinfo" "~/.netrc")))
 
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package password-store)
 #+end_src
 
 #+begin_src emacs-lisp
@@ -2360,12 +2380,14 @@ All style settings are defined here...
 
 #+begin_src emacs-lisp
 
+  (set-face-attribute 'default nil :font "JetBrains Mono-14")
+
   (add-hook 'after-make-frame-functions
             (lambda (&optional frame)
               (when (display-graphic-p frame)
                 ;; (set-face-attribute 'default nil :font "Fira Mono-14"))))
                 ;; (set-face-attribute 'default nil :font "Roboto Mono-13"))))
-                ;; (set-face-attribute 'default nil :font "Monaco-13"))))
+                ;; (set-face-attribute 'default nil :font "Monaco-15"))))
                 ;; (set-face-attribute 'default nil :font "Hack-13"))))
                 (set-face-attribute 'default nil :font "JetBrains Mono-14"))))
 

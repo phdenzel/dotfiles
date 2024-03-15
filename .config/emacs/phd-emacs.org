@@ -244,8 +244,8 @@ A few useful functions that can be activated with Meta-x.
           (message "Face: %s" face)
         (message "No face at %d" pos))))
 
-  (defun phd/iwb ()
-    "Indent the whole buffer."
+  (defun phd/iwb (&optional arg)
+    "Indent the whole buffer. ARG for compatibility."
     (interactive "P")
     (delete-trailing-whitespace)
     (indent-region (point-min) (point-max) nil)
@@ -258,6 +258,7 @@ A few useful functions that can be activated with Meta-x.
     (delete-other-windows))
 
 #+end_src
+
 
 #+begin_src emacs-lisp
   (defun phd/unfill-paragraph ()
@@ -697,7 +698,7 @@ Modern auto-complete [*Comp*lete-*any*thing]
 
   (use-package haskell-mode
     :interpreter ("ghc" . haskell-mode))
-  
+
 #+end_src
 
 
@@ -723,7 +724,7 @@ Modern auto-complete [*Comp*lete-*any*thing]
 
   (use-package scala-mode
     :interpreter ("scala" . scala-mode))
-  
+
 #+end_src
 
 
@@ -735,7 +736,7 @@ Modern auto-complete [*Comp*lete-*any*thing]
     :defer t
     :config
     (custom-set-variables '(markdown-command "/usr/bin/pandoc")))
-  
+
 #+end_src
 
 
@@ -745,7 +746,7 @@ Modern auto-complete [*Comp*lete-*any*thing]
 
   (use-package yaml-mode
     :defer t)
-  
+
 #+end_src
 
 
@@ -769,13 +770,14 @@ Modern auto-complete [*Comp*lete-*any*thing]
 #+end_src
 
 
-*** TODO Javascript 
+*** TODO Javascript
+
 #+begin_src emacs-lisp
 
   (use-package js2-mode
     :config
     (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
-  
+
 #+end_src
 
 For jsdoc, we first need to install a few dependencies
@@ -804,7 +806,7 @@ For jsdoc, we first need to install a few dependencies
 
   (use-package less-css-mode
     :defer t)
-  
+
 #+end_src
 
 #+begin_src emacs-lisp
@@ -812,7 +814,7 @@ For jsdoc, we first need to install a few dependencies
   (use-package scss-mode
     :defer t
     :config (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode)))
-  
+
 #+end_src
 
 #+begin_src emacs-lisp
@@ -820,7 +822,7 @@ For jsdoc, we first need to install a few dependencies
   (use-package sass-mode
     :defer t
     :config (add-to-list 'auto-mode-alist '("\\.sass\\'" . sass-mode)))
-  
+
 #+end_src
 
 
@@ -831,7 +833,6 @@ For jsdoc, we first need to install a few dependencies
 
 #+begin_src emacs-lisp
     (use-package lsp-mode
-      :straight t
       :init
       (setq lsp-keymap-prefix "C-c l")
       :commands (lsp lsp-deferred)
@@ -859,7 +860,6 @@ For jsdoc, we first need to install a few dependencies
 
 #+begin_src emacs-lisp
   (use-package lsp-treemacs
-    :straight t
     :after lsp-mode treemacs
     :commands (lsp-treemacs-errors-list lsp-treemacs-symbols)
     :bind (:map global-map
@@ -1005,6 +1005,7 @@ Install dependencies first (s and dash are already installed)
 
 
 #+begin_src emacs-lisp
+
   (use-package copilot
     :straight (:host github
                :repo "zerolfx/copilot.el"
@@ -1020,6 +1021,7 @@ Install dependencies first (s and dash are already installed)
     :after company
     :config
     (delq 'company-preview-if-just-one-frontend company-frontends))
+
 #+end_src
 
 
@@ -1066,14 +1068,18 @@ Install dependencies first (s and dash are already installed)
 *** rainbow-delimiters
 
 #+begin_src emacs-lisp
+
   (use-package rainbow-delimiters)
+
 #+end_src
 
 
 *** rainbow-mode
 
 #+begin_src emacs-lisp
+
   (use-package rainbow-mode)
+
 #+end_src
 
 
@@ -1155,7 +1161,6 @@ command map
 #+begin_src emacs-lisp
 
   (use-package treemacs
-    :straight t
     :bind
     (:map global-map
           ("C-M-:" . treemacs)
@@ -1173,22 +1178,18 @@ command map
                                            "/.cask")
           )
     ;; (treemacs-resize-icons 16)
-
-
     )
 
 #+end_src
 
 #+begin_src emacs-lisp
   (use-package treemacs-magit
-    :straight t
     :after treemacs magit)
 #+end_src
 
 #+begin_src emacs-lisp
 
   (use-package treemacs-projectile
-    :straight t
     :after treemacs projectile)
 
 #+end_src
@@ -1196,7 +1197,6 @@ command map
 #+begin_src emacs-lisp
 
   (use-package treemacs-all-the-icons
-    :straight t
     :after treemacs all-the-icons
     :config
     (treemacs-load-theme "all-the-icons"))
@@ -1217,7 +1217,7 @@ colouring of org-mode src-blocks in exported HTML code.
 
   (use-package htmlize
     :defer t)
-  
+
 #+end_src
 
 
@@ -1242,7 +1242,7 @@ colouring of org-mode src-blocks in exported HTML code.
        (haskell    . t)
        (python     . t)
        (dot        . t))))
-  
+
 #+end_src
 
 
@@ -1255,110 +1255,24 @@ colouring of org-mode src-blocks in exported HTML code.
     :commands (org-bullets-mode)
     :init
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-  
+
 #+end_src
 
 
 **** org-ref
 
 #+begin_src emacs-lisp
-
   (use-package bibtex
     :straight nil)
-
-  (use-package org-ref
-    :bind ("C-c b" . 'org-ref-insert-link)
-    :config
-    (require 'bibtex)
-    (setq bibtex-autokey-year-length 2
-          bibtex-autokey-name-year-separator ""
-          bibtex-autokey-year-title-separator ""
-          bibtex-autokey-titleword-separator ""
-          bibtex-autokey-titlewords 0
-          bibtex-autokey-titlewords-stretch 0
-          bibtex-autokey-titleword-length 0)
-    (defun doi-utils-async-download-pdf ()
-      "Download the PDF for bibtex entry at point asynchronously.
-       It is not fully async, only the download is. Fully async is
-       harder because you need to run `doi-utils-get-pdf-url' async
-       too. "
-      (interactive)
-      (require 'async)
-      (save-excursion
-        (bibtex-beginning-of-entry)
-        (let (;; get doi, removing http://dx.doi.org/ if it is there.
-              (doi (replace-regexp-in-string
-                    "https?://\\(dx.\\)?.doi.org/" ""
-                    (bibtex-autokey-get-field "doi")))
-              (key (cdr (assoc "=key=" (bibtex-parse-entry))))
-              (pdf-url)
-              (pdf-file))
-
-          (setq pdf-file
-                (concat (cond
-                         ((stringp bibtex-completion-library-path)
-                          bibtex-completion-library-path)
-                         ((= 1 (length bibtex-completion-library-path))
-                          (car bibtex-completion-library-path))
-                         (t
-                          (completing-read "Dir: " bibtex-completion-library-path)))
-                        doi ".pdf"))
-
-          (unless doi (error "No DOI found to get a pdf for"))
-
-          (when (file-exists-p pdf-file)
-            (error "%s already exists. Delete to re-download" pdf-file))
-
-          ;; (doi-utils-get-pdf-url "10.1063/1.5019667")
-          ;; If you get here, try getting the pdf file
-          (async-start
-           `(lambda ()
-              (setq package-user-dir ,package-user-dir)
-              (setq pdf-file-dirname (file-name-directory ,pdf-file))
-              (require 'package)
-              (package-initialize)
-              (setq load-path (list ,@load-path))
-              (require 'doi-utils)
-
-              (make-directory pdf-file-dirname)
-              (setq pdf-url (doi-utils-get-pdf-url ,doi))
-              (when pdf-url
-                (url-copy-file pdf-url ,pdf-file t)
-                (let* ((header (with-temp-buffer
-                                 (set-buffer-multibyte nil)
-                                 (insert-file-contents-literally ,pdf-file nil 0 5)
-                                 (buffer-string)))
-                       (valid (and (stringp header)
-                                   (string-equal (encode-coding-string header 'utf-8) "%PDF-"))))
-                  (if valid
-                      (format "%s downloaded" ,pdf-file)
-                    (delete-file ,pdf-file)
-
-                    (require 'browse-url)
-                    (browse-url pdf-url)
-                    (message "Invalid pdf (file deleted). Header = %s" header)))))
-           `(lambda (result)
-              (message "doi-utils-async-download-pdf: %s"  result)))
-          )))
-    )
-
 #+end_src
-
-
-***** Dependencies
-
-#+begin_src 
-  (use-package helm-bibtex)
-#+end_src
-
 
 #+begin_src emacs-lisp
-
   (use-package ivy-bibtex
-    :bind*
-    ("C-c C-b" . ivy-bibtex)
+    :bind
+    (:map org-mode-map
+          ("C-c C-b" . ivy-bibtex))
     :init
-    (autoload 'ivy-bibtex "ivy-bibtex" "" t)
+    ;; (autoload 'ivy-bibtex "ivy-bibtex" "" t)
     (setq ivy-re-builders-alist
           '((ivy-bibtex . ivy--regex-ignore-order)
             (t . ivy--regex-plus)))
@@ -1389,13 +1303,12 @@ colouring of org-mode src-blocks in exported HTML code.
             (rst-mode . bibtex-completion-format-citation-sphinxcontrib-bibtex)
             (default . bibtex-completion-format-citation-default))
           )
-
     (defun bibtex-completion-find-pdf-in-library (key-or-entry &optional find-additional)
       "Searches the directories in `bibtex-completion-library-path' for a PDF whose name is composed of the BibTeX DOI plus `bibtex-completion-pdf-extension'.
-       The path of the first matching PDF is returned.
-       If FIND-ADDITIONAL is non-nil, the paths of all PDFs whose name
-       starts with the BibTeX key and ends with
-       `bibtex-completion-pdf-extension' are returned instead."
+      The path of the first matching PDF is returned.
+      If FIND-ADDITIONAL is non-nil, the paths of all PDFs whose name
+      starts with the BibTeX key and ends with
+      `bibtex-completion-pdf-extension' are returned instead."
       (let* ((key (if (stringp key-or-entry)
                       key-or-entry
                     (bibtex-completion-get-value "=key=" key-or-entry)))
@@ -1421,7 +1334,7 @@ colouring of org-mode src-blocks in exported HTML code.
              (lambda (x y)
                (and (member x main-pdf)
                     (not (member y main-pdf)))))
-          (-flatten (-first 'f-file? main-pdf)))))
+  	      (-flatten (-first 'f-file? main-pdf)))))
 
     (defun bibtex-completion-open-pdf-external (keys &optional fallback-action)
       (let ((bibtex-completion-pdf-open-function
@@ -1434,7 +1347,65 @@ colouring of org-mode src-blocks in exported HTML code.
      'ivy-bibtex
      '(("P" ivy-bibtex-open-pdf-external "Open PDF file in external viewer (if present)")))
     )
+#+end_src
 
+#+begin_src emacs-lisp
+  (use-package org-ref
+    :bind
+    (:map org-mode-map
+          ("C-c b" . 'org-ref-insert-link))
+    :init
+    (require 'bibtex)
+    (setq bibtex-autokey-year-length 2
+          bibtex-autokey-name-year-separator ""
+          bibtex-autokey-year-title-separator ""
+          bibtex-autokey-titleword-separator ""
+          bibtex-autokey-titlewords 0
+          bibtex-autokey-titlewords-stretch 0
+          bibtex-autokey-titleword-length 0)
+    (require 'org-ref-ivy)
+    (require 'org-ref-bibtex)
+    (require 'org-ref-arxiv)
+    (require 'org-ref-isbn)
+    (require 'org-ref-scopus)
+    (require 'doi-utils)
+    ;; (require 'org-ref-wos)
+    )
+
+  (defun phd/bibtex-entry-from-arxiv-doi (doi &optional bibfile)
+    "Insert and clean bibtex entry from a DOI "
+    (interactive
+     (list (read-string
+            "DOI: "
+            ;; now set initial input
+            (doi-utils-maybe-doi-from-region-or-current-kill))))
+    (unless bibfile
+      (setq bibfile (completing-read "Bibfile: " (org-ref-possible-bibfiles))))
+    ;; filter DOI for arxiv id
+    (setq arxiv-id-from-doi
+          (replace-regexp-in-string "[aA][rR][xX][iI][vV][.:]" ""
+                                    (car (last (split-string doi "/")))))
+    ;; add bibtex entry by arXiv ID if DOI is from arXiv, else by DOI
+    (if (and (string-match-p "[aA][rR][xX][iI][vV][.:]" doi)
+            (not (null arxiv-id-from-doi)))
+        (save-window-excursion
+          (with-current-buffer
+              (find-file-noselect bibfile)
+            (goto-char (point-min))
+            (if (re-search-forward (concat arxiv-id-from-doi "\\_>") nil t)
+                (message "arxiv:%s is already in this file" arxiv-id-from-doi)
+              (goto-char (point-max))
+
+              (when (not (looking-back "\n\n" (min 3 (point))))
+                (insert "\n\n"))
+              (arxiv-add-bibtex-entry arxiv-id-from-doi bibfile)
+              (save-buffer))))
+      (doi-add-bibtex-entry doi bibfile))
+    )
+
+  (defhydra+ org-ref-insert-link-hydra (:color red :hint nil)
+    "Add arxiv entry from DOI to `org-ref-insert-link-hydra'."
+    ("ba" phd/bibtex-entry-from-arxiv-doi "Add bibtex entry from arXiv DOI" :column "Bibtex"))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1446,8 +1417,6 @@ colouring of org-mode src-blocks in exported HTML code.
       (pdf-tools-install))
     )
 #+end_src
-
-
 
 
 **** org-roam
@@ -1519,7 +1488,7 @@ colouring of org-mode src-blocks in exported HTML code.
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
-  
+
 #+end_src
 
 
@@ -1610,13 +1579,13 @@ colouring of org-mode src-blocks in exported HTML code.
 
   (setq org-reveal-root (concat "file://" (expand-file-name "~/local/reveal.js")))
   (setq org-reveal-mathjax t)
-  
-#+end_src
 
+#+end_src
 
 **** org-reveal
 
 #+begin_src emacs-lisp
+
   (use-package org-re-reveal
     :after org
     :config
@@ -1638,7 +1607,7 @@ colouring of org-mode src-blocks in exported HTML code.
     ;; :config
     ;; (define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point)
     )
-  
+
 #+end_src
 
 
@@ -1671,7 +1640,7 @@ marked with ~#+ATTR_MD: :language t~
 
   (defun my-md-src-block (src-block contents info)
     "Transcode a SRC-BLOCK element from Org to Markdown.
-    CONTENTS is nil. INFO is a plist used as a communication 
+    CONTENTS is nil. INFO is a plist used as a communication
     channel."
     (if (not (org-export-read-attribute :attr_md src-block :language))
         (org-export-with-backend 'md src-block contents info)
@@ -1721,7 +1690,7 @@ TODO:
   ‘re-search-forward’ and ‘replace-match’ instead.
 
 #+begin_src emacs-lisp :tangle no
-  
+
   (defun org-export-canvas (backend)
     "Replace @canvas{descr|id} to <canvas> html text in current buffer"
     (when (or (equal backend 'html) (equal backend 'reveal))
@@ -1867,7 +1836,7 @@ AUCTeX is an integrated environment for writing input files for LaTeX
     (TeX-global-PDF-mode t)
     (add-to-list 'TeX-view-program-selection
                  '(output-pdf "Zathura")))
-  
+
 #+end_src
 
 
@@ -1953,11 +1922,15 @@ Use UNIX pass instead of authinfo (but keep other methods as backup)
 #+end_src
 
 #+begin_src emacs-lisp
+
   (use-package password-store)
+
 #+end_src
 
 #+begin_src emacs-lisp
+
   (use-package auth-source-xoauth2)
+
 #+end_src
 
 
@@ -1992,7 +1965,7 @@ Settings for a few helping features.
   (use-package which-key
     :diminish which-key-mode
     :config (which-key-mode))
-  
+
 #+end_src
 
 
@@ -2046,7 +2019,9 @@ take global effect.
 *** Dired
 
 #+begin_src emacs-lisp
+
   (put 'dired-find-alternate-file 'disabled nil)
+
 #+end_src
 
 
@@ -2065,7 +2040,7 @@ take global effect.
    (lambda ()
      (setq-local electric-pair-inhibit-predicate
                  `(lambda (c) (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
-  
+
 #+end_src
 
 
@@ -2077,7 +2052,7 @@ take global effect.
         select-enable-primary t
         save-interprogram-paste-before-kill t
         require-final-newline t)
-  
+
 #+end_src
 
 
@@ -2089,7 +2064,7 @@ take global effect.
   (setq-default indent-tabs-mode nil)
   (setq indent-line-function 'insert-tab)
   (electric-indent-mode t)
-  
+
 #+end_src
 
 
@@ -2110,7 +2085,7 @@ take global effect.
 
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 4) ((meta)) ((control)) ))
   (setq mouse-wheel-progressive-speed nil)
-  
+
 #+end_src
 
 
@@ -2121,7 +2096,7 @@ take global effect.
   (defun phd-bell ())
   (setq ring-bell-function 'phd-bell
         visible-bell nil)
-  
+
 #+end_src
 
 
@@ -2165,7 +2140,7 @@ Dired bindings
   ;; change behaviour of Enter -> a (doesn't open in new buffer)
   (define-key dired-mode-map (kbd "<return>") 'dired-find-alternate-file)
   ;; (define-key dired-mode-map "a" 'dired-find-file)
-  
+
 #+end_src
 
 
@@ -2173,26 +2148,27 @@ Binding custom functions and hydras
 
 #+begin_src emacs-lisp
 
-    ;; Modified vertical/horizontal buffer splits
-    (global-set-key (kbd "C-x 2") 'phd/vsplit-last-buffer)
-    (global-set-key (kbd "C-x 3") 'phd/hsplit-last-buffer)
+  ;; Modified vertical/horizontal buffer splits
+  (global-set-key (kbd "C-x 2") 'phd/vsplit-last-buffer)
+  (global-set-key (kbd "C-x 3") 'phd/hsplit-last-buffer)
 
-    ;; Indent the entire buffer
-    (global-set-key (kbd "C-c <tab>") 'phd/iwb)
+  ;; Indent the entire buffer
+  (global-set-key (kbd "C-c <tab>") 'phd/iwb)
 
-    ;; Evaluate/replace lisp code... useful for scratch buffer math
-    (global-set-key (kbd "C-c C-e") 'phd/eval-and-replace)
-    (define-key lisp-interaction-mode-map (kbd "C-c e") 'eval-print-last-sexp)
+  ;; Evaluate/replace lisp code... useful for scratch buffer math
+  (global-set-key (kbd "C-c C-e") 'phd/eval-and-replace)
+  (define-key lisp-interaction-mode-map (kbd "C-c e") 'eval-print-last-sexp)
 
-    ;; Hydra bindings
-    (global-set-key (kbd "C-x h")   'phd/hydra-toggler/body)
-    (global-set-key (kbd "C-x j")   'phd/hydra-goto-mv/body)
-    (global-set-key (kbd "C-x C-j") 'phd/hydra-goto-mv/body)
-    (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
+  ;; Hydra bindings
+  (global-set-key (kbd "C-x h")   'phd/hydra-toggler/body)
+  (global-set-key (kbd "C-x j")   'phd/hydra-goto-mv/body)
+  (global-set-key (kbd "C-x C-j") 'phd/hydra-goto-mv/body)
+  (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
 
-    (define-key org-mode-map (kbd "C-c r") 'org-ref-citation-hydra/body)
-    (define-key org-mode-map (kbd "C-c C-r") 'org-ref-insert-link-hydra/body)
-    (define-key org-mode-map (kbd "C-c M-r") 'org-ref-bibtex-hydra/body)
+  (define-key org-mode-map (kbd "C-c r") 'org-ref-citation-hydra/body)
+  (define-key org-mode-map (kbd "C-c C-r") 'org-ref-insert-link-hydra/body)
+  (define-key bibtex-mode-map (kbd "C-c r") 'org-ref-bibtex-hydra/body)
+  (define-key bibtex-mode-map (kbd "C-c C-r") 'org-ref-insert-link-hydra/body)
 
 #+end_src
 
@@ -2203,13 +2179,13 @@ Prefer UTF-8 encodings
 
 #+begin_src emacs-lisp
 
-    ;; Prefer UTF-8
-    (set-language-environment "UTF-8")
-    (prefer-coding-system 'utf-8)
-    (set-terminal-coding-system 'utf-8)
-    (set-keyboard-coding-system 'utf-8)
-    (set-selection-coding-system 'utf-8)
-    (setq locale-coding-system 'utf-8)
+  ;; Prefer UTF-8
+  (set-language-environment "UTF-8")
+  (prefer-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
 
 #+end_src
 
@@ -2362,7 +2338,7 @@ All style settings are defined here...
 
   (set-frame-parameter (selected-frame) 'alpha '(95 . 50))
   (add-to-list 'default-frame-alist '(alpha . (95 . 50)))
-  
+
 #+end_src
 
 
@@ -2372,7 +2348,7 @@ All style settings are defined here...
 
   (setq default-frame-alist '((screen-gamma . 1.0)))
   (setq initial-frame-alist '((screen-gamma . 1.0)))
-  
+
 #+end_src
 
 

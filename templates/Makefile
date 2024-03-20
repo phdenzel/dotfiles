@@ -133,6 +133,11 @@ hyprland-themes = $(HYPRLANDDIR)/hyprland-phd-ark-iridis.conf \
                   $(HYPRLANDDIR)/hyprland-phd-ark-light.conf
 .PHONY: hyprland
 hyprland: $(hyprland-themes)
+$(hyprland-themes):
+	@$(eval template=$(subst -iridis,-template,$(@F)))
+	@$(eval template=$(subst -dark,-template,$(template)))
+	@$(eval template=$(subst -light,-template,$(template)))
+	$(PYEXE) $(GENPY) $(OPT) --no-hextag -i $(template) -o $@
 
 MAILSPRINGDIR = $(BUILDC)/Mailspring/packages
 mailspring-themes = $(MAILSPRINGDIR)/phd-ark-iridis \
@@ -266,7 +271,7 @@ $(svg-themes):
 
 
 
-$(alacritty-themes) $(bat-themes) $(btop-themes) $(dircolors-themes) $(dunst-themes) $(emacs-themes) $(fzf-themes) $(git-themes) $(grep-themes) $(highlight-themes) $(hyprland-themes) $(shell-themes) $(subl-themes) $(tofi-themes) $(rofi-themes) $(vim-themes) $(waybar-themes) $(wlogout-themes) $(xmonad-themes) $(xresources-themes):
+$(alacritty-themes) $(bat-themes) $(btop-themes) $(dircolors-themes) $(dunst-themes) $(emacs-themes) $(fzf-themes) $(git-themes) $(grep-themes) $(highlight-themes) $(shell-themes) $(subl-themes) $(tofi-themes) $(rofi-themes) $(vim-themes) $(waybar-themes) $(wlogout-themes) $(xmonad-themes) $(xresources-themes):
 	mkdir -p $(@D)
 	@$(eval template=$(subst Iridis,Template,$(@F)))
 	@$(eval template=$(subst -iridis,-template,$(template)))

@@ -31,6 +31,8 @@ def parse_args():
     parser.add_argument('-o', '--output', '--scheme',
                         type=Path,
                         help="Output file for the generated scheme.")
+    parser.add_argument('--no-hextag', action='store_true',
+                        help="Remove # signs, when replacing template color keys.")
     parser.add_argument('--save', action='store_true',
                         help="Output file for the generated scheme.")
     args = parser.parse_args()
@@ -78,6 +80,8 @@ def generate(args, search_prefix='#phd-ark-'):
         replace = colors[cname]
         if isinstance(replace, int):
             replace = f"{replace:03d}"
+        if args.no_hextag:
+            replace = replace.replace('#', '')
         if rgbfind in content:
             content = content.replace(rgbfind, hex2rgb(replace).replace(' ', ''))
         elif fmtfind in content or find in content:

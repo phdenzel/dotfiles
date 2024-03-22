@@ -18,7 +18,8 @@
     "modules-center": ["clock"],
 
     // Modules Right
-    "modules-right": ["mpd", "tray", "group/hardware", "wireplumber", "bluetooth", "network", "battery"],
+    // "modules-right": ["mpd", "tray", "group/hardware", "wireplumber", "bluetooth", "network", "battery"],
+    "modules-right": ["mpd", "tray", "group/hardware", "bluetooth", "network", "battery"],
 
     // Group Hardware
     "group/hardware": {

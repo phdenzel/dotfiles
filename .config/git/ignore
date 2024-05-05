@@ -33,6 +33,7 @@ venv
 *.class
 
 # IDE code workspaces
+.dir-locals.el
 .vscode
 .code-workspace
 .idea

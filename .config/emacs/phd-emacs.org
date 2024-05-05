@@ -878,6 +878,16 @@ For jsdoc, we first need to install a few dependencies
 #+end_src
 
 
+*** DAP-mode (debugging)
+
+#+begin_src emacs-lisp
+  (use-package dap-mode
+    :config
+    (require 'dap-python)
+    (setq dap-python-debugger 'debugpy))
+#+end_src
+
+
 *** Python
 
 The ~elpy~ configuration will use these quoted variables
@@ -894,10 +904,14 @@ The ~elpy~ configuration will use these quoted variables
 #+begin_src emacs-lisp
   (use-package pyvenv
     :config
-    (setq pyvenv-workon "lsp")  ; Default virtualenv
-    (pyvenv-workon pyvenv-workon)
-    (when (fboundp 'pyvenv-track-virtualenv)
-      (fmakunbound 'pyvenv-track-virtualenv)))
+    (setq pyvenv-default-workon "lsp")    ; Default virtualenv
+    (pyvenv-workon pyvenv-default-workon)
+    (pyvenv-mode 1)
+    (pyvenv-tracking-mode 1)
+    ;; (when (fboundp 'pyvenv-track-virtualenv)
+    ;;   (fmakunbound 'pyvenv-track-virtualenv)
+    ;;   )
+    )
 #+end_src
 
 
@@ -1829,13 +1843,14 @@ AUCTeX is an integrated environment for writing input files for LaTeX
 #+begin_src emacs-lisp
 
   (use-package auctex
-    :defer t
+    ;;:defer t
     :defines (TeX-view-program-selection)
     :config
     (require 'tex)
     (TeX-global-PDF-mode t)
     (add-to-list 'TeX-view-program-selection
-                 '(output-pdf "Zathura")))
+                 '(output-pdf "Zathura"))
+    )
 
 #+end_src
 

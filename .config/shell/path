@@ -28,7 +28,11 @@ export WORKON_HOME="${HOME}/.local/share/virtualenvs"
 if type "${BREW_BIN}" &> /dev/null; then
     export WORKON_HOME="/opt/homebrew/Caskroom/miniconda/envs"
 elif command -v conda &> /dev/null; then
-    export WORKON_HOME="/opt/miniconda3/envs"
+    if [ -d "/opt/miniconda3/envs" ]; then
+        export WORKON_HOME="/opt/miniconda3/envs"
+    elif [ -d "${HOME}/local/miniconda3/envs" ]; then
+        export WORKON_HOME="${HOME}/local/miniconda3/envs"
+    fi;
 fi;
 
 # CONDA

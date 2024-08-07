@@ -87,6 +87,22 @@ if type "${BREW_BIN}" &> /dev/null; then
     export CONDA_ROOT="/opt/homebrew/Caskroom/miniconda"
 fi;
 
+
+# CFLAGS, Libraries & Packages
+if type "${BREW_BIN}" &> /dev/null; then
+    if $BREW_BIN ls --versions openblas > /dev/null; then
+        export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/openblas/lib"
+        export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/openblas/include"
+        [ -z "$PKG_CONFIG_PATH" ] && export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig" || export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/homebrew/opt/openblas/lib/pkgconfig"
+    fi;
+    if $BREW_BIN ls --versions lapack > /dev/null; then
+        export LDFLAGS="-L/opt/homebrew/opt/lapack/lib"
+        export CPPFLAGS="-I/opt/homebrew/opt/lapack/include"
+        [ -z "$PKG_CONFIG_PATH" ] && export PKG_CONFIG_PATH="/opt/homebrew/opt/lapack/lib/pkgconfig" || export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/homebrew/opt/lapack/lib/pkgconfig"
+    fi;
+fi;
+
+
 # OpenMP
 export GOMP_STACKSIZE=16384
 

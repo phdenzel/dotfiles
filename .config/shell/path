@@ -23,7 +23,7 @@ if type "${BREW_BIN}" &> /dev/null; then
 fi
 
 # PYTHON
-export PYTHONPATH="${PYTHONPATH}:$HOME/Documents/pylib"
+[ -z "${PYTHONPATH}" ] && export PYTHONPATH="${HOME}/Documents/pylib" || export PYTHONPATH="${PYTHONPATH}:${HOME}/Documents/pylib"
 export WORKON_HOME="${HOME}/.local/share/virtualenvs"
 if type "${BREW_BIN}" &> /dev/null; then
     export WORKON_HOME="/opt/homebrew/Caskroom/miniconda/envs"
@@ -36,18 +36,6 @@ if command -v conda &> /dev/null; then
     [[ " bash fish tcsh xonsh zsh " =~ " $(basename ${SHELL}) " ]] && eval "$(conda "shell.$(basename "${SHELL}")" hook)" || eval "$(conda "shell.bash" hook)"
 fi;
 
-# if ls -dr $HOME/local/Python-[0-9]* &> /dev/null; then
-#     for f in $(ls -dr $HOME/local/Python-[0-9]*/bin); do
-# 	      export PATH="$f:${PATH}"
-#     done;
-# fi;
-
-# PIP
-# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.9/site-packages"
-# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.8/site-packages"
-# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.7/site-packages"
-# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python3.6/site-packages"
-# export PYTHONPATH="$PYTHONPATH:$HOME/.local/lib/python2.7/site-packages"
 
 # Golang
 export GOPATH=$HOME/local/go

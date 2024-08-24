@@ -232,16 +232,16 @@ if [[ $DO_HYPR -eq 1 ]]; then
     if [[ $SHOW_DIFF -eq 1 ]]; then
         if command -v colordiff &> /dev/null; then
             diff -ur $CONF_HOME/hypr .config/hypr | colordiff
-            diff -ur $CONF_HOME/eww .config/eww | colordiff
+            # diff -ur $CONF_HOME/eww .config/eww | colordiff
             diff -ur $CONF_HOME/waybar .config/waybar | colordiff
         else
             diff -ur $CONF_HOME/hypr .config/hypr
-            diff -ur $CONF_HOME/eww .config/eww
+            # diff -ur $CONF_HOME/eww .config/eww
             diff -ur $CONF_HOME/waybar .config/waybar
         fi;
     else
         rsync "-${FLAGS[@]}" --exclude="icons/" .config/hypr $CONF_HOME/
-        rsync "-${FLAGS[@]}" .config/eww $CONF_HOME/
+        # rsync "-${FLAGS[@]}" .config/eww $CONF_HOME/
         rsync "-${FLAGS[@]}" .config/waybar $CONF_HOME/
     fi;    
 fi;

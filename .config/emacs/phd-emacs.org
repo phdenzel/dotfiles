@@ -378,6 +378,134 @@ packages are configured. For more exemplary "hydras", see
       ("s" flycheck-select-checker)
       ("v" (phd/hydra-hint-toggle 'phd/hydra-flycheck 'phd/hydra-flycheck/body) :exit nil)
       ("!" flycheck-verify-setup))
+    ;; LLM/AI hydras
+    (defhydra phd/hydra-ai (:color blue :hint none)
+      "
+      ^
+      ^AI Hydra^
+      ^──────────────^─^────────────^─^──────────────^─^───
+      _a_ Chat        _c_ Code       _t_ Translation
+      _m_ TabbyML     _i_ Improve    _s_ Summarize
+      _p_ Providers   _x_ Context    _s_ Session
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-ai 'phd/hydra-ai/body) :exit nil)
+      ("a" phd/hydra-ai-chat/body)
+      ("c" phd/hydra-ai-code/body)
+      ("t" phd/hydra-ai-translation/body)
+      ("m" phd/hydra-ai-tabby/body)
+      ("i" phd/hydra-ai-improve/body)
+      ("p" ellama-provider-select)
+      ("x" phd/hydra-ai-context/body)
+      ("s" phd/hydra-ai-session/body))
+    (defhydra phd/hydra-ai-chat (:color blue :hint none)
+      "
+      ^
+      ^Ellama Chat^
+      ^───────────^^────────────^^────────────^^─────────
+      _a_ ask      _i_ chat      _l_ line      _s_ region
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-ai-chat 'phd/hydra-ai-chat/body) :exit nil)
+      ("a" ellama-ask-about)
+      ("i" ellama-chat)
+      ("l" ellama-ask-line)
+      ("s" ellama-ask-selection))
+    (defhydra phd/hydra-ai-code (:color blue :hint none)
+      "
+      ^
+      ^Ellama Code   ^
+      ^──────────────^^─────────^^──────────^^─────────────^^────────────^^────────^──
+      _c_ complete    _a_ add    _e_ edit    _i_ improve    _r_ review    _m_ commit
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-ai-code 'phd/hydra-ai-code/body) :exit nil)
+      ("c" ellama-code-complete)
+      ("a" ellama-code-add)
+      ("e" ellama-code-edit)
+      ("i" ellama-code-improve)
+      ("r" ellama-code-review)
+      ("m" ellama-generate-commit-message))
+    (defhydra phd/hydra-ai-tabby (:color blue :hint none)
+      "
+      ^
+      ^TabbyML
+      ^─────────────^^─────────────^^──────────────^─
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-ai-tabby 'phd/hydra-ai-tabby/body) :exit nil))
+    (defhydra phd/hydra-ai-improve (:color blue :hint none)
+      "
+      ^
+      ^Ellama Improve
+      ^─────────────^^─────────────^^──────────────^─
+      _w_ wording    _g_ grammar    _c_ conciseness
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-ai-improve 'phd/hydra-ai-improve/body) :exit nil)
+      ("w" ellama-improve-wording)
+      ("g" ellama-improve-grammar)
+      ("c" ellama-improve-conciseness))
+    (defhydra phd/hydra-ai-translation (:color blue :hint none)
+      "
+      ^
+      ^Ellama Translate^
+      ^────────────────^^─────────────^^───────────────^^─────────────^^──────────^─
+      _t_ translate     _b_ buffer     _c_ complete     _e_ enable     _d_ disable
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-ai-translate 'phd/hydra-ai-translate/body) :exit nil)
+      ("t" ellama-translate)
+      ("b" ellama-translate-buffer)
+      ("c" ellama-complete)
+      ("e" ellama-chat-translation-enable)
+      ("d" ellama-chat-translation-disable))
+    (defhydra phd/hydra-ai-session (:color blue :hint none)
+      "
+      ^
+      ^Ellama Sessions / Summarize^
+      ^──────────^^───────────────^^──────────────^^────────────^^─────────^─
+      Session:   ^^_l_ load        _r_ rename      _d_ delete    _a_ switch
+      Summarize: ^^_s_ summarize   _w_ webpage     _c_ killring ^^ 
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-ai-session 'phd/hydra-ai-session/body) :exit nil)
+      ("l" ellama-load-session)
+      ("r" ellama-session-rename)
+      ("d" ellama-session-remove)
+      ("a" ellama-session-switch)
+      ("s" ellama-summarize)
+      ("w" ellame-summarize-webpage)
+      ("c" ellama-summarize-killring))
+    (defhydra phd/hydra-ai-context (:color blue :hint none)
+      "
+      ^
+      ^Ellama Context^
+      ^────────────^^──────────^^────────────^^───────^─
+      _b_ buffer    _f_ file    _s_ region    _i_ info
+      "
+      ("q" nil)
+      ("Q" nil)
+      ("C-g" nil)
+      ("v" (phd/hydra-hint-toggle 'phd/hydra-ai-context 'phd/hydra-ai-context/body) :exit nil)
+      ("b" ellama-context-add-buffer)
+      ("f" ellama-context-add-file)
+      ("s" ellama-context-add-selection)
+      ("i" ellama-context-add-info-node))
     :config
     (hydra-set-property 'phd/hydra-toggler :verbosity 2)
     (hydra-set-property 'phd/hydra-goto-mv :verbosity 0))
@@ -1009,12 +1137,15 @@ Add support for Dockerfile editing
 #+end_src
 
 
+** AI enhancements
+
 *** GitHub Copilot
 
 Install dependencies first (s and dash are already installed)
 
 #+begin_src emacs-lisp
   (use-package editorconfig)
+  (use-package jsonrpc)
 #+end_src
 
 
@@ -1022,8 +1153,9 @@ Install dependencies first (s and dash are already installed)
 
   (use-package copilot
     :straight (:host github
-               :repo "zerolfx/copilot.el"
-               :files ("dist" "*.el"))
+               :repo "copilot-emacs/copilot.el"
+               :files ("*.el"))
+    :ensure t
     :hook (prog-mode-hook . copilot-mode)
     :bind (:map copilot-mode-map
                 ("<backtab>" . copilot-accept-completion-by-word)
@@ -1039,14 +1171,80 @@ Install dependencies first (s and dash are already installed)
 #+end_src
 
 
-*** ChatGPT (c3p0)
+*** ChatGPT (c3p0) (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package c3po
     :straight (:host github :repo "d1egoaz/c3po.el")
     :after password-store
     :config
     (setq c3po-api-key (password-store-get-field "openai.com" "api-emacs")))
+#+end_src
+
+
+*** Ellama
+
+#+begin_src emacs-lisp
+  (use-package ellama
+    :init
+    (setopt ellama-auto-scroll t)
+    ;;(setopt ellama-keymap-prefix "C-c e")  ;; Using hydras instead
+    (setopt ellama-language "English")
+    (require 'llm-ollama)
+    (setopt ellama-provider
+            (make-llm-ollama
+             :chat-model "gemma2:9b-instruct-q6_K"
+             :embedding-model "nomic-embed-text"))
+    ;; Predefined llm providers for interactive switching
+    (setopt ellama-providers
+            '(("zephyr" . (make-llm-ollama
+  			                   :chat-model "zephyr:7b"
+  			                   :embedding-model "nomic-embed-text"))
+  	          ("mistral" . (make-llm-ollama
+  			                    :chat-model "mistral:7b-instruct-v0.3-q6_K"
+  			                    :embedding-model "nomic-embed-text"))
+              ("mistral-nemo" . (make-llm-ollama
+  			                         :chat-model "mistral-nemo:12b-instruct-2407-q8_0"
+  			                         :embedding-model "nomic-embed-text"))
+  	          ("llama3" . (make-llm-ollama
+  			                   :chat-model "llama3.1:70b-instruct-q4_0"
+  			                   :embedding-model "nomic-embed-text"))
+              ("gemma2-27b" . (make--llm--ollama
+                               :chat-model "gemma2:27b-instruct-q8_0"
+                               :embedding-model "nomic-embed-text"))))
+    ;; Naming new sessions with llm
+    (setopt ellama-naming-provider
+            (make-llm-ollama
+             :chat-model "llama3.1:70b-instruct-q4_0"
+             :embedding-model "nomic-embed-text"))
+    (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
+    ;; Translation llm provider
+    (setopt ellama-translation-provider (make-llm-ollama
+  			                                 :chat-model "llama3.1:70b-instruct-q4_0"
+  			                                 :embedding-model "nomic-embed-text"))
+    )
+#+end_src
+
+
+*** Tabby
+
+Install tabbyML either through a package manager (e.g. brew for macOS) or via the git repository
+
+#+begin_src shell :exports none
+  git clone --recurse-submodules https://github.com/TabbyML/tabby tabbyml
+  cd tabbyml
+  git checkout v0.17.0  # choose a newer release if available
+  cargo build --features cuda --release --package tabby
+#+end_src
+
+
+#+begin_src emacs-lisp
+    (use-package tabby
+      :straight (tabby
+                 :type git
+                 :host github
+                 :files ("*.el" "node_scripts")
+                 :repo "alan-w-255/tabby.el"))
 #+end_src
 
 
@@ -1596,7 +1794,7 @@ colouring of org-mode src-blocks in exported HTML code.
 
 #+end_src
 
-**** org-reveal
+**** org-re-reveal
 
 #+begin_src emacs-lisp
 
@@ -2179,6 +2377,7 @@ Binding custom functions and hydras
   (global-set-key (kbd "C-x j")   'phd/hydra-goto-mv/body)
   (global-set-key (kbd "C-x C-j") 'phd/hydra-goto-mv/body)
   (global-set-key (kbd "C-c f")   'phd/hydra-flycheck/body)
+  (global-set-key (kbd "C-c e") 'phd/hydra-ai/body)
 
   (define-key org-mode-map (kbd "C-c r") 'org-ref-citation-hydra/body)
   (define-key org-mode-map (kbd "C-c C-r") 'org-ref-insert-link-hydra/body)

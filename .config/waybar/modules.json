@@ -31,6 +31,7 @@
     "clock": {
         "format": " {:%H:%M  /  %b %d} ",
         "format-alt": "{:%H:%M}",
+        "timezone": "Europe/Zurich",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "year",
@@ -76,15 +77,17 @@
     },
 
     "network": {
+        "interval": 3,
         "format": "{ifname}",
         "format-wifi": " {signalStrength}%",
-        "format-ethernet": "  {ipaddr}",
+        "format-ethernet": "↑{bandwidthUpBytes} | ↓{bandwidthDownBytes}    {ipaddr}",
         "format-disconnected": "",
         "tooltip-format": " {ifname} via {gwaddri}",
         "tooltip-format-wifi": " {essid} ({signalStrength}%)",
         "tooltip-format-ethernet": " {ifname} ({ipaddr}/{cidr})",
         "tooltip-format-disconnected": "Disconnected",
-        "max-length": 50,
+        "max-length": 34,
+        "min-length": 34,
         "on-click": "nm-connection-editor",
         "on-click-right": "nmcli networking connectivity | grep -q none && nmcli networking on || nmcli networking off"
     },

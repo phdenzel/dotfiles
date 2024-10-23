@@ -422,6 +422,24 @@ Must be one of `iridis`, `dark`, or `light`."
                (font-lock-regexp-grouping-backslash :inherit (bold))
                (font-lock-regexp-grouping-construct :inherit (bold))
 
+               ;; Ansi colors
+               (ansi-color-black           :foreground ,phd-base)
+               (ansi-color-red             :foreground ,phd-red)
+               (ansi-color-green           :foreground ,phd-green)
+               (ansi-color-yellow          :foreground ,phd-yellow)
+               (ansi-color-blue            :foreground ,phd-blue)
+               (ansi-color-magenta         :foreground ,phd-pink)
+               (ansi-color-cyan            :foreground ,phd-teal)
+               (ansi-color-gray            :foreground ,phd-subtext0)
+               (ansi-color-bright-black    :foreground ,phd-surface1)
+               (ansi-color-bright-red      :foreground ,phd-ruby)
+               (ansi-color-bright-green    :foreground ,phd-emerald)
+               (ansi-color-bright-yellow   :foreground ,phd-sand)
+               (ansi-color-bright-blue     :foreground ,phd-indigo)
+               (ansi-color-bright-magenta  :foreground ,phd-magenta)
+               (ansi-color-bright-cyan     :foreground ,phd-cyan)
+               (ansi-color-bright-gray     :foreground ,phd-white)
+
                ;; Org mode
                (org-block               :background ,phd-mantle)
                (org-block-background    :background ,phd-mantle)

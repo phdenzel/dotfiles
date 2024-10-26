@@ -20,7 +20,7 @@ export ALTERNATE_EDITOR=""
 export VISUAL="$EMACSCLIENT -c -s $EMACS_SERVER_FILE -a $EMACS"
 export EDITOR="$EMACSCLIENT -t -s $EMACS_SERVER_FILE"
 export PAGER="less"
-export BROWSER="librewolf"
+export BROWSER="firefox"
 export GVIMINIT='let $MYGVIMRC="$XDG_CONFIG_HOME/vim/gvimrc" | source $MYGVIMRC'
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 

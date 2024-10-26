@@ -3,6 +3,7 @@ auto_activate_base: false
 channels:
   - conda-forge
   - defaults
+ssl_verify: truststore
 channel_priority: strict
 
 envs_dirs:

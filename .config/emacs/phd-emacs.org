@@ -960,22 +960,25 @@ For jsdoc, we first need to install a few dependencies
 *** LSP
 
 #+begin_src emacs-lisp
-    (use-package lsp-mode
-      :init
-      (setq lsp-keymap-prefix "C-c l")
-      :commands (lsp lsp-deferred)
-      :hook (;; add all your lsp enabled languages here
-             (python-mode . lsp)
-             (nix-mode . lsp-deferred)
-             (rust-mode . lsp)
-             (lsp-mode . lsp-enable-which-key-integration))
-      :config
-      (setq lsp-pylsp-configuration-sources '("ruff")
-            lsp-pylsp-plugins-ruff-enabled t
-            lsp-pylsp-plugins-flake8-enabled nil
-            lsp-pylsp-plugins-pycodestyle-enabled nil
-            lsp-pylsp-rename-backend 'rope)
-      )
+  (use-package lsp-mode
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :commands (lsp lsp-deferred)
+    :hook (;; add all your lsp enabled languages here
+           (python-mode . lsp)
+           (nix-mode . lsp-deferred)
+           (rust-mode . lsp)
+           (lsp-mode . lsp-enable-which-key-integration))
+    :config
+    (setq lsp-pylsp-configuration-sources '("ruff")
+          lsp-pylsp-plugins-ruff-enabled t
+          lsp-pylsp-plugins-flake8-enabled nil
+          ;; lsp-pylsp-plugins-jedi-completion-enabled t
+          lsp-pylsp-plugins-pycodestyle-enabled nil
+          ;; lsp-pylsp-plugins-mccabe-enabled nil
+          ;; lsp-pylsp-plugins-mypy-enabled t
+          lsp-pylsp-rename-backend 'rope)
+    )
 
 #+end_src
 
@@ -1198,20 +1201,24 @@ Install dependencies first (s and dash are already installed)
     ;; Predefined llm providers for interactive switching
     (setopt ellama-providers
             '(("zephyr" . (make-llm-ollama
-  			                   :chat-model "zephyr:7b"
-  			                   :embedding-model "nomic-embed-text"))
+                           :chat-model "zephyr:7b"
+                           :embedding-model "nomic-embed-text"))
   	          ("mistral" . (make-llm-ollama
-  			                    :chat-model "mistral:7b-instruct-v0.3-q6_K"
-  			                    :embedding-model "nomic-embed-text"))
+                            :chat-model "mistral:7b-instruct-v0.3-q6_K"
+                            :embedding-model "nomic-embed-text"))
               ("mistral-nemo" . (make-llm-ollama
-  			                         :chat-model "mistral-nemo:12b-instruct-2407-q8_0"
-  			                         :embedding-model "nomic-embed-text"))
-  	          ("llama3" . (make-llm-ollama
-  			                   :chat-model "llama3.1:70b-instruct-q4_0"
-  			                   :embedding-model "nomic-embed-text"))
+                                 :chat-model "mistral-nemo:12b-instruct-2407-q8_0"
+                                 :embedding-model "nomic-embed-text"))
+              ("llama3.1" . (make-llm-ollama
+                             :chat-model "llama3.1:8b-instruct-q8_0"
+                             :embedding-model "nomic-embed-text"))
               ("gemma2-27b" . (make--llm--ollama
                                :chat-model "gemma2:27b-instruct-q8_0"
-                               :embedding-model "nomic-embed-text"))))
+                               :embedding-model "nomic-embed-text"))
+              ("starcoder2" . (make--llm--ollama
+                               :chat-model "starcoder2:instruct"
+                               :embedding-model "nomic-embed-text"))
+              ))
     ;; Naming new sessions with llm
     (setopt ellama-naming-provider
             (make-llm-ollama

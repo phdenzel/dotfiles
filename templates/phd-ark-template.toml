@@ -26,7 +26,7 @@ blue = "#phd-ark-amethyst"
 magenta = "#phd-ark-ruby"
 cyan = "#phd-ark-ocean"
 white = "#phd-ark-subtext1"
-black = "#phd-ark-crust"
+black = "#phd-ark-base"
 
 [colors.primary]
 background = "#phd-ark-base"

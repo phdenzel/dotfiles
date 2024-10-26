@@ -26,7 +26,7 @@ blue = "#3723B7"
 magenta = "#D7005F"
 cyan = "#1F5582"
 white = "#2B2B2F"
-black = "#BDC3CE"
+black = "#EDF3FE"
 
 [colors.primary]
 background = "#EDF3FE"

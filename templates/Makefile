@@ -134,6 +134,7 @@ hyprland-themes = $(HYPRLANDDIR)/hyprland-phd-ark-iridis.conf \
 .PHONY: hyprland
 hyprland: $(hyprland-themes)
 $(hyprland-themes):
+	mkdir -p $(@D)
 	@$(eval template=$(subst -iridis,-template,$(@F)))
 	@$(eval template=$(subst -dark,-template,$(template)))
 	@$(eval template=$(subst -light,-template,$(template)))

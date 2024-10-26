@@ -1,5 +1,5 @@
-import = ["/home/phdenzel/.config/alacritty/themes/phd-ark-iridis.toml",
-          "/home/phdenzel/.config/alacritty/fonts/jetbrains.toml"]
+import = ["~/.config/alacritty/themes/phd-ark-iridis.toml",
+          "~/.config/alacritty/fonts/jetbrains.toml"]
 live_config_reload = true
 
 [bell]
@@ -108,6 +108,7 @@ program = "/bin/zsh"
 [window]
 dynamic_title = true
 opacity = 0.90
+# option_as_alt = "Both"
 
 [window.dimensions]
 columns = 80

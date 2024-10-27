@@ -1,0 +1,14 @@
+[pyprland]
+plugins = [
+  "scratchpads",
+]
+
+[pyprland.variables]
+term_classed = "alacritty --class"
+
+[scratchpads.term]
+animation = "fromTop"
+command = "[term_classed] scratchpad-term"
+class = "scratchpad-term"
+size = "75% 60%"
+max_size = "1920px 100%"

@@ -2052,9 +2052,30 @@ AUCTeX is an integrated environment for writing input files for LaTeX
     :defines (TeX-view-program-selection)
     :config
     (require 'tex)
-    (TeX-global-PDF-mode t)
+    (setq TeX-global-PDF-mode t
+          TeX-auto-save t
+          TeX-parse-self t)
+    (setq-default TeX-master nil
+                  TeX-auto-regexp-list 'LaTeX-auto-minimal-regexp-list
+                  TeX-auto-parse-length 2000)
+    ;; PDF viewer
     (add-to-list 'TeX-view-program-selection
                  '(output-pdf "Zathura"))
+    ;; Compile command
+    (setq TeX-command-default "LatexMk")
+    (add-to-list 'TeX-command-list
+               '("LatexMk Clean" "latexmk -c %s" TeX-run-TeX nil t
+                 :help "Run LatexMk clean"))
+    (add-to-list 'TeX-command-list
+               '("LatexMk" "latexmk -pdf %s" TeX-run-TeX nil t
+                 :help "Run LatexMk on file"))
+    ;; LaTeX section command
+    (setq LaTeX-section-hook
+      '(LaTeX-section-heading
+        LaTeX-section-title
+        LaTeX-section-toc
+        LaTeX-section-section
+        LaTeX-section-label))
     )
 
 #+end_src

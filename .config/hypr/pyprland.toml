@@ -6,9 +6,21 @@ plugins = [
 [pyprland.variables]
 term_classed = "alacritty --class"
 
+
 [scratchpads.term]
-animation = "fromTop"
+animation = ""
+# animation = "fromTop"
 command = "[term_classed] scratchpad-term"
 class = "scratchpad-term"
+position = "50% 5%"
+size = "75% 60%"
+max_size = "1920px 100%"
+
+[scratchpads.ranger]
+animation = ""
+# animation = "fromTop"
+command = "[term_classed] scratchpad-ranger -e ranger"
+class = "scratchpad-ranger"
+position = "50% 5%"
 size = "75% 60%"
 max_size = "1920px 100%"

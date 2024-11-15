@@ -548,7 +548,7 @@ uppercase characters for ivy control.
             ("M-y"     . counsel-yank-pop)
             ("C-x C-f" . counsel-find-file)
             ("C-x b"   . counsel-switch-buffer)
-            ("C-x C-b" . counsel-ibuffer)
+            ("C-x C-b" . ibuffer)
             ("C-c i u" . counsel-unicode-char)
             ("M-i"     . counsel-imenu)
             ("C-c g"   . counsel-git)
@@ -1200,18 +1200,18 @@ Install dependencies first (s and dash are already installed)
              :embedding-model "nomic-embed-text"))
     ;; Predefined llm providers for interactive switching
     (setopt ellama-providers
-            '(("zephyr" . (make-llm-ollama
-                           :chat-model "zephyr:7b"
-                           :embedding-model "nomic-embed-text"))
+  	        '(("zephyr" . (make-llm-ollama
+  			                   :chat-model "zephyr:7b"
+  			                   :embedding-model "nomic-embed-text"))
   	          ("mistral" . (make-llm-ollama
-                            :chat-model "mistral:7b-instruct-v0.3-q6_K"
-                            :embedding-model "nomic-embed-text"))
+  			                    :chat-model "mistral:7b-instruct-v0.3-q6_K"
+  			                    :embedding-model "nomic-embed-text"))
               ("mistral-nemo" . (make-llm-ollama
-                                 :chat-model "mistral-nemo:12b-instruct-2407-q8_0"
-                                 :embedding-model "nomic-embed-text"))
-              ("llama3.1" . (make-llm-ollama
-                             :chat-model "llama3.1:8b-instruct-q8_0"
-                             :embedding-model "nomic-embed-text"))
+  			                         :chat-model "mistral-nemo:12b-instruct-2407-q8_0"
+  			                         :embedding-model "nomic-embed-text"))
+  	          ("llama3.1" . (make-llm-ollama
+  			                     :chat-model "llama3.1:8b-instruct-q8_0"
+  			                     :embedding-model "nomic-embed-text"))
               ("gemma2-27b" . (make--llm--ollama
                                :chat-model "gemma2:27b-instruct-q8_0"
                                :embedding-model "nomic-embed-text"))
@@ -2846,7 +2846,7 @@ customization myself. That's all I need anyways...
     :init
     (require 'phd-mu4e-setup)
     :config
-    (setq phd-modeline-mu4e-unread-query 'phd-mu4e-inbox-query)
+    (setq phd-modeline-mu4e-unread-query phd-mu4e-inbox-query)
     (phd-modeline-column-mode t)
     (phd-modeline-mail-mode t)
     (setq phd-modeline-format
